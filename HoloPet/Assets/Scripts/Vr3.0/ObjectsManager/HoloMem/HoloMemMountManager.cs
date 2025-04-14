@@ -80,21 +80,44 @@ public class HoloMemMountManager : MonoBehaviour, IMountable, IMountingAbility
     public void EnterMount()
     {
         transform.SetParent(myMount.GetTransform());
-        transform.position = myMount.GetMountingPoint();
-        if (myMount.GetMountingDirIsRight())
+        if (transform.root.GetComponent<FaceDirectionVr2>().GetIsFaceRight())
         {
             transform.GetComponent<FaceDirectionVr2>().SetFaceRight();
-        }
+        }        
         else
         {
             transform.GetComponent<FaceDirectionVr2>().SetFaceLeft();
-        }
+        }     
+        transform.position = myMount.GetMountingPoint();  
         myMount.SetIsMounted(true);
+        myMount.SetMounter(transform.GetComponent<IMountingAbility>());
     }
     public void ExitMount()
     {
         transform.SetParent(null);
         myMount.SetIsMounted(false);
+    }
+    public void FollowMountPoint()
+    {
+        transform.position = myMount.GetMountingPoint();
+    }
+    public void LayerChainUp()
+    {
+        //change my main sprite 
+        transform.GetComponent<ILayerManager>().ChangeLayerMain();
+        //change my mounts top sprite
+        myMount.GetTransform().GetComponent<ILayerManager>().ChangeLayerTop();     
+        if (isMounted)
+        {
+            //my mounter will change my top sprite
+            //tell my mounter to layerChainUp
+            myMounter.LayerChainUp();
+        }
+        else
+        {
+            //i am top mounter , change my top
+            transform.GetComponent<ILayerManager>().ChangeLayerTop();
+        }
     }
 
     // moutable
@@ -138,8 +161,18 @@ public class HoloMemMountManager : MonoBehaviour, IMountable, IMountingAbility
     {
         return transform;
     }
-    public bool GetMountingDirIsRight()
+    public void LayerChainUpStart()
     {
-        return transform.GetComponent<FaceDirectionVr2>().GetIsFaceRight();
+        if (isMounted)
+        {
+            //change my main sprite , my mounter will change my top sprite
+            transform.GetComponent<ILayerManager>().ChangeLayerMain();
+            //tell my mounter to layerChainUp
+            myMounter.LayerChainUp();
+        }
+        else
+        {
+            transform.GetComponent<ILayerManager>().ChangeLayerAll();
+        }      
     }   
 }

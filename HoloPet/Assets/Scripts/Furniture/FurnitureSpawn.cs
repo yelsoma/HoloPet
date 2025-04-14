@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FurnitureSpawn : StateBase
 {
-    [SerializeField] private FurnitureStateMachine stateMachine;
+    [SerializeField] private FurnitureStateMachineOld stateMachine;
 
     // < State Base >
     public override void Enter()

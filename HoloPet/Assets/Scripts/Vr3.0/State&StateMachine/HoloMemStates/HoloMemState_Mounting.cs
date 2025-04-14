@@ -14,10 +14,9 @@ public class HoloMemState_Mounting : StateBase
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
         //start
-        stateMachine.mountManager.EnterMount(); 
-        /*
-        stateMachine.mountManager.LayerModifyDown();
-        */   
+        stateMachine.mountManager.EnterMount();
+        transform.root.GetComponent<IMountable>().LayerChainUpStart();
+        
     }
     public override void StateUpdate()
     {
@@ -26,10 +25,11 @@ public class HoloMemState_Mounting : StateBase
             // exit to knockUp
             stateMachine.ChangeState(stateMachine.stateKnockUp);
             return;
-        }
+        }               
     }
     public override void StateLateUpdate()
-    {      
+    {
+        stateMachine.mountManager.FollowMountPoint();
     }
     public override void Exit()
     {

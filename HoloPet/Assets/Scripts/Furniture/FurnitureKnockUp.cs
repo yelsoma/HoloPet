@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FurnitureKnockUp : StateBase
 {
-    [SerializeField] private FurnitureStateMachine stateMachine;
+    [SerializeField] private FurnitureStateMachineOld stateMachine;
     private float knockUpPower;
     [SerializeField] private float knockUpDecrese;
     private float knockUpPowerNow;   

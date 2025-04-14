@@ -49,6 +49,7 @@ public class HoloMemState_Idle : StateBase
     }
     public override void Exit()
     {
+        //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
         stateMachine.interactManager.OnInteractedByTarget -= InteractManager_OnInteractedByTarget;

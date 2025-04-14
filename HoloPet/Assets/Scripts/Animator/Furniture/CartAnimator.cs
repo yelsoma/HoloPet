@@ -6,7 +6,7 @@ public class CartAnimator : MonoBehaviour
 {
     //Reference
     [SerializeField] private Animator animator;
-    [SerializeField] private FurnitureStateMachine stateMachine;
+    [SerializeField] private FurnitureStateMachineOld stateMachine;
 
     //States
     [SerializeField] private FurnitureIdle idle;

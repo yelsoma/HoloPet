@@ -9,7 +9,7 @@ public class HoloMemState_KnockUp : StateBase
     private float knockUpPower;
     [SerializeField] private float knockUpDecrese;
     private float knockUpPowerNow;  
-    private float KnockUpFaceDir;    
+    private float knockUpFaceDir;    
     private bool knockUpRight;
     private float knockBackPower;
     private bool startFall;
@@ -35,8 +35,8 @@ public class HoloMemState_KnockUp : StateBase
         knockBackPower = UnityEngine.Random.Range(0.7f, 2f);
         fallSpeedNow = 0f;
         startFall = false;
-        KnockUpFaceDir = UnityEngine.Random.Range(1f, 0f);
-        if (KnockUpFaceDir <= 0.5)
+        knockUpFaceDir = UnityEngine.Random.Range(1f, 0f);
+        if (knockUpFaceDir <= 0.5)
         {
             knockUpRight = false;
             stateMachine.faceDirection.SetFaceRight();

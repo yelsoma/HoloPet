@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FurnitureStateMachine : StateMachineBase
+public class FurnitureStateMachineOld : StateMachineBase
 {
     //Need Refernce
     [Header("Need Refernce")]

@@ -14,20 +14,13 @@ public class FaceDirectionVr2 : MonoBehaviour
         return isFaceRight;
     }
     public void SetFaceRight()
-    {
-        if (!isFaceRight)
-        {
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
-            isFaceRight = true;
-
-        }        
+    {       
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
+        isFaceRight = true;
     }
     public void SetFaceLeft()
-    {
-        if (isFaceRight)
-        {
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
-            isFaceRight = false;
-        }
+    {       
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+        isFaceRight = false;
     }
 }

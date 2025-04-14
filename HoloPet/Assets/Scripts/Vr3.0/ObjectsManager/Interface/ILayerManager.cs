@@ -5,6 +5,7 @@ using UnityEngine;
 public interface ILayerManager 
 {
     public void ChangeLayerAll();
-    public void ChangeLaterTop();
+    public void ChangeLayerTop();
+    public void ChangeLayerMain();
     public int GetLayerNow();
 }

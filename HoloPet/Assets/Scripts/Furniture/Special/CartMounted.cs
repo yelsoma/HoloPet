@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CartMounted : StateBase
 {
-    [SerializeField] private FurnitureStateMachine stateMachine;
+    [SerializeField] private FurnitureStateMachineOld stateMachine;
     [SerializeField] float speedIncreese;
     [SerializeField] float speedBreak;
     [SerializeField] float speedMax;

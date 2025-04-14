@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FurnitureFall : StateBase
 {
-    [SerializeField] private FurnitureStateMachine stateMachine;
+    [SerializeField] private FurnitureStateMachineOld stateMachine;
     [SerializeField] float fallSpeedIncreese;
     private float fallSpeedNow;
 

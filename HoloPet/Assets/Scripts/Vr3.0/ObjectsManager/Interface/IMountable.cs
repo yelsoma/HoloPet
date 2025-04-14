@@ -10,6 +10,7 @@ public interface IMountable
     public bool GetIsMountable();
     public Transform GetTransform();
     public Vector2 GetMountingPoint();
-    public bool GetMountingDirIsRight();
     public bool GetIsMountableState();
+    public void LayerChainUpStart();
+    public void SetIsMountableState(bool isMountableState);
 }

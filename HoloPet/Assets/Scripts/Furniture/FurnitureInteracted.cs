@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FurnitureInteracted : StateBase
 {
-    [SerializeField] private FurnitureStateMachine stateMachine;
+    [SerializeField] private FurnitureStateMachineOld stateMachine;
     private bool interacterWantKnockUp;
 
     // < State Base >

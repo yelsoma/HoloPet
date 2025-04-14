@@ -39,12 +39,15 @@ public class HoloMemState_Wander : StateBase
     } 
     public override void StateUpdate()
     {
+        //ground check
         if (!stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos())
         {
             //exit to fall
             stateMachine.ChangeState(stateMachine.stateFall);
             return;
         }
+
+        //side check
         if (stateMachine.boundaryManager.CheckIsLeftBounderyAndResetPos())
         {
             wanderRight = true;
@@ -56,6 +59,7 @@ public class HoloMemState_Wander : StateBase
             wanderRight = false;
             stateMachine.faceDirection.SetFaceLeft();
         }
+        //time check
         if (wanderTimer <= 0f)
         {
             //exit to idle

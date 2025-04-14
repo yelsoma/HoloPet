@@ -17,7 +17,7 @@ public class HoloMemState_Spawn : StateBase
 
 
         //event
-        stateMachine.mouseInput.OnDrag += Input_OnDrag;
+        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
         stateMachine.interactManager.OnInteractedByTarget += InteractManager_OnInteractedByTarget;
 
@@ -43,7 +43,7 @@ public class HoloMemState_Spawn : StateBase
         stateMachine.mountManager.SetIsMountableState(true);
 
         //event
-        stateMachine.mouseInput.OnDrag -= Input_OnDrag;
+        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
         stateMachine.interactManager.OnInteractedByTarget -= InteractManager_OnInteractedByTarget;
 
@@ -51,7 +51,7 @@ public class HoloMemState_Spawn : StateBase
 
     // < Events >
 
-    private void Input_OnDrag(object sender, MouseInputVr2.OnDragEventArgs e)
+    private void MouseInput_OnDrag(object sender, MouseInputVr2.OnDragEventArgs e)
     {
         //exit to grab
         stateMachine.ChangeState(stateMachine.stateGrab);

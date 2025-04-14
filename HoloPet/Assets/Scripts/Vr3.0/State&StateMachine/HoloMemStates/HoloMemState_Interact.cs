@@ -22,7 +22,7 @@ public class HoloMemState_Interact : StateBase
         //start     
         interactTimer = interactTime;
         targetExitInteract = false;
-        stateMachine.layerManager.ChangeLayerAll();
+        stateMachine.mountManager.LayerChainUpStart();
 
         // check is there target , set face to target
         if(stateMachine.interactManager.GetTargetIInteractable() != null)
