@@ -11,6 +11,7 @@ public class FurnitureStateMachine : StateMachineBase
     [SerializeField] public FurnitureMountManager mountManager;
     [SerializeField] public FaceDirectionVr2 faceDirection;
     [SerializeField] public FurnitureLayerManager layerManager;
+    [SerializeField] public RaycastManagerVr2 raycastManager;
 
     //States
     [Header("States")]

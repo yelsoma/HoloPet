@@ -6,17 +6,16 @@ public class BoundaryManagerVr2 : MonoBehaviour
 {
     [SerializeField] private float objectHight;
     [SerializeField] private float objectWidth;
-    [SerializeField] private MainBoundary mainBoundary;
     private float leftObjectBoundery;
     private float rightObjectBoundery;
     private float botObjectBoundery;
     private float topObjectBoundery;
     private void Start()
     {
-        leftObjectBoundery = mainBoundary.GetLeftBounderyVectorX() + objectWidth;
-        rightObjectBoundery = mainBoundary.GetRightBounderyVectorX() - objectWidth;
-        botObjectBoundery = mainBoundary.GetBotBounderyVectorY() + objectHight;
-        topObjectBoundery = mainBoundary.GetTopBounderyVectorY() - objectHight;      
+        leftObjectBoundery = MainBoundary.GetLeftBounderyVectorX() + objectWidth;
+        rightObjectBoundery = MainBoundary.GetRightBounderyVectorX() - objectWidth;
+        botObjectBoundery = MainBoundary.GetBotBounderyVectorY() + objectHight;
+        topObjectBoundery = MainBoundary.GetTopBounderyVectorY() - objectHight;      
     }   
     public void CheckAllBouderyAndResetPos()
     {

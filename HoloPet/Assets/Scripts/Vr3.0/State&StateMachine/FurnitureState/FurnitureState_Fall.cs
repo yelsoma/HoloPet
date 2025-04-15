@@ -3,46 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FurnitureState_Idle : StateBase
+public class FurnitureState_Fall : StateBase
 {
     [SerializeField] private FurnitureStateMachine stateMachine;
+    [SerializeField] float fallSpeedIncreese;
+    [SerializeField] float fallSpeedMax;
+    private float fallSpeedNow;
     public override void Enter()
     {
-        //event       
+        //event
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
-
         //start
-        /*
-        stateMachine.data.SetHpToMax();
-        */
+        fallSpeedNow = 0f;
     }
+
     public override void StateUpdate()
     {
-        if (!stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos())
+
+        if (!stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos() && fallSpeedNow < fallSpeedMax)
         {
-            //exit to fall
-            stateMachine.ChangeState(stateMachine.stateFall);
-            return;
-        }
-        if (stateMachine.mountManager.GetIsMounted())
-        {
-            //exit to mounted
-            stateMachine.ChangeState(stateMachine.stateMounted);
+
+            fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
+            //keep fall
         }
     }
     public override void StateLateUpdate()
     {
-        //keep idle
+        stateMachine.movement.MoveDown(fallSpeedNow);
+
+        if (stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos())
+        {
+            stateMachine.boundaryManager.CheckAllBouderyAndResetPos();
+            //exit to idle
+            stateMachine.ChangeState(stateMachine.stateIdle);
+            return;
+        }
     }
     public override void Exit()
     {
         //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-
     }
+
     // < Events >
+
     private void MouseInput_OnDrag(object sender, MouseInputVr2.OnDragEventArgs e)
     {
         //exit to grab
@@ -51,7 +57,7 @@ public class FurnitureState_Idle : StateBase
     }
     private void MouseInput_OnClick(object sender, EventArgs e)
     {
-        //exit to KnockUp
+        //exit to knockUp
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
     }

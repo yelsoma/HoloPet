@@ -5,21 +5,21 @@ using UnityEngine;
 public class FurnitureLayerManager : MonoBehaviour ,ILayerManager
 {
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private LayerCenter layerCenter;
+
     private int layerNow;
     private void Start()
     {
-        layerCenter.OnResetLayer += LayerCenter_OnResetLayer;
+        LayerCenter.OnResetLayer += LayerCenter_OnResetLayer;
     }
     public void ChangeLayerAll()
     {
-        sprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        sprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         layerNow = sprite.sortingOrder;
     }
 
     public void ChangeLayerMain()
     {
-        sprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        sprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         layerNow = sprite.sortingOrder;
     }
 

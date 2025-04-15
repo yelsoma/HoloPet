@@ -2,17 +2,17 @@
 using System;
 using UnityEngine;
 
-public class LayerCenter : MonoBehaviour
+public static class LayerCenter 
 {   
-    public event EventHandler OnResetLayer;   
-    private int layerNow = -32768;
-    public int LayerNowPlusOneAndGet()
+    public static event EventHandler OnResetLayer;   
+    private static int layerNow = -32768;
+    public  static int LayerNowPlusOneAndGet()
     {
         layerNow = layerNow + 1;
         return layerNow;
     }   
-    public void ResetEveryLayer()
+    public static void ResetEveryLayer()
     {
-        OnResetLayer?.Invoke(this,EventArgs.Empty);
+        OnResetLayer?.Invoke(typeof(LayerManagerCenter), EventArgs.Empty);
     }
 }

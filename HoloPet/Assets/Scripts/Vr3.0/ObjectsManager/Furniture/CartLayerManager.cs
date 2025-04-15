@@ -6,28 +6,28 @@ public class CartLayerManager : MonoBehaviour, ILayerManager
 {
     [SerializeField] private SpriteRenderer backSprite;
     [SerializeField] private SpriteRenderer frontSprite;
-    [SerializeField] private LayerCenter layerCenter;
+
     private int layerNow;
     private void Start()
     {
-        layerCenter.OnResetLayer += LayerCenter_OnResetLayer;
+        LayerCenter.OnResetLayer += LayerCenter_OnResetLayer;
     }
     public void ChangeLayerAll()
     {
-        backSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        backSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         layerNow = backSprite.sortingOrder;
-        frontSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        frontSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
     }
 
     public void ChangeLayerMain()
     {
-        backSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        backSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         layerNow = backSprite.sortingOrder;
     }
 
     public void ChangeLayerTop()
     {
-        frontSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        frontSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
     }
 
     public int GetLayerNow()

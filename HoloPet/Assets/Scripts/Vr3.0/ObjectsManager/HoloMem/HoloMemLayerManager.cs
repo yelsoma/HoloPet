@@ -9,29 +9,28 @@ public class HoloMemLayerManager : MonoBehaviour, ILayerManager
     [SerializeField] private SpriteRenderer handSprite;
     [SerializeField] private SpriteRenderer handBackSprit;
     [SerializeField] private SpriteRenderer topSprite;
-    [SerializeField] private LayerCenter layerCenter;
     private int layerNow;
     private void Start()
     {
-        layerCenter.OnResetLayer += LayerCenter_OnResetLayer;
+        LayerCenter.OnResetLayer += LayerCenter_OnResetLayer;
     }
     public void ChangeLayerAll()
     {
-        mainSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        mainSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         layerNow = mainSprite.sortingOrder;
-        handSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        handSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         handBackSprit.sortingOrder = handSprite.sortingOrder;
-        topSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        topSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
     }
     public void ChangeLayerTop()
     {
-        handSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        handSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         handBackSprit.sortingOrder = handSprite.sortingOrder;
-        topSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        topSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
     }
     public void ChangeLayerMain()
     {
-        mainSprite.sortingOrder = layerCenter.LayerNowPlusOneAndGet();
+        mainSprite.sortingOrder = LayerCenter.LayerNowPlusOneAndGet();
         layerNow = mainSprite.sortingOrder;
     }
     public int GetLayerNow()
