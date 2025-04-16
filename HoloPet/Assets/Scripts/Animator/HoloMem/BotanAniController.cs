@@ -28,6 +28,24 @@ public class BotanAniController : MonoBehaviour
         stateFindInteractTarget.OnEnterState += StateFindInteractTarget_OnEnterState;
         stateInteract.OnEnterState += StateInteract_OnEnterState;
         stateMounting.OnEnterState += StateMounting_OnEnterState;
+        stateMounting.OnCartDashMaxSpeed += StateMounting_OnCartDashMaxSpeed;
+        stateMounting.OnCartNormal += StateMounting_OnCartNormal;
+        stateMounting.OnCartJump += StateMounting_OnCartJump;
+    }
+
+    private void StateMounting_OnCartJump(object sender, System.EventArgs e)
+    {
+        animator.Play("BotanFallNew");
+    }
+
+    private void StateMounting_OnCartNormal(object sender, System.EventArgs e)
+    {
+        animator.Play("BotanMounting");
+    }
+
+    private void StateMounting_OnCartDashMaxSpeed(object sender, System.EventArgs e)
+    {
+        animator.Play("BotanCartDashMaxSpeed");
     }
 
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)
