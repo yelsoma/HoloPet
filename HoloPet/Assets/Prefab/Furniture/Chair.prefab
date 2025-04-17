@@ -508,6 +508,7 @@ GameObject:
   - component: {fileID: 5766315107859797287}
   - component: {fileID: 280474268334611678}
   - component: {fileID: 1418076899974248153}
+  - component: {fileID: 2904748984395831079}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Untagged
@@ -725,4 +726,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab3c22710ff2fc43ae79cda2d825c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteLM: {fileID: 0}
+  spriteLM: {fileID: 3498171824134995188}
+--- !u!114 &2904748984395831079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8662295616725666661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a93d3ec85eb66640a110a50f39c6fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mountingPoint: {fileID: 0}

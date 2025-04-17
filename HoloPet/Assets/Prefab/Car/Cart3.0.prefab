@@ -829,8 +829,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 565e05ee96539cf49b8c324d687f5301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateMachine: {fileID: 0}
-  jumpUpPower: 10
+  stateMachine: {fileID: 5440293405995387867}
+  jumpUpPower: 7
   jumpForthPower: 3
   jumpFallDecrese: 14
 --- !u!1 &8309800895186640199

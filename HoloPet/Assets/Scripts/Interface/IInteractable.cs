@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public interface IInteractable
+public interface IInteractable 
 {
     public event EventHandler OnInteractedByTarget;
     public event EventHandler OnTargetExitInteract;
@@ -13,12 +13,13 @@ public interface IInteractable
     public Vector2 GetPosition();
     public void IsInteractedByTarget();
     public void TargetExitInteract();   
-    // public string[] GetInteractOptions();
+    public interactOption[] GetInteractOptions();
     
 }
-//enum interactOption
-//{
-//    hit,
-//    happyChat,
-//    sit
-//}
+public enum interactOption
+{
+    hit,
+    happyChat,
+    sit
+}
+
