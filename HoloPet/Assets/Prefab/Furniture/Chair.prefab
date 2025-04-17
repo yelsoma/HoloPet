@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 601927131724483490}
   - component: {fileID: 5766315107859797287}
   - component: {fileID: 280474268334611678}
+  - component: {fileID: 1418076899974248153}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Untagged
@@ -712,3 +713,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1418076899974248153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8662295616725666661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab3c22710ff2fc43ae79cda2d825c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteLM: {fileID: 0}

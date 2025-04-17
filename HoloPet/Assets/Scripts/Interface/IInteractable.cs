@@ -12,5 +12,13 @@ public interface IInteractable
     public IInteractable GetTargetIInteractable(); 
     public Vector2 GetPosition();
     public void IsInteractedByTarget();
-    public void TargetExitInteract();
+    public void TargetExitInteract();   
+    // public string[] GetInteractOptions();
+    
 }
+//enum interactOption
+//{
+//    hit,
+//    happyChat,
+//    sit
+//}

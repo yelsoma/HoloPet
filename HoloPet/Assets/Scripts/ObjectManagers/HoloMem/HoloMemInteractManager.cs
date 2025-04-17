@@ -10,6 +10,7 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable
 
     // target 
     private IInteractable targetIInteractable;
+    //[SerializeField] private List<interactOption> interactOptionList;
 
     //event
     public event EventHandler OnInteractedByTarget;
@@ -96,5 +97,14 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable
     public void IsInteractedByTarget()
     {
         OnInteractedByTarget?.Invoke(this, EventArgs.Empty);      
-    }  
+    }
+    //public string[] GetInteractOptions()
+    //{
+    //    string[] InteractOptionStrings = new string[interactOptionList.Count];
+    //    for (int i = 0; i > interactOptionList.Count; i++)
+    //    {
+    //        InteractOptionStrings[i] = interactOptionList[i].ToString();
+    //    }
+    //    return InteractOptionStrings;
+    //}
 }

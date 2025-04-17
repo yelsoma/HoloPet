@@ -9,6 +9,7 @@ public class HoloMemState_FindInteractTarget : StateBase
     [SerializeField] private HoloMemStateMachine stateMachine;
     [SerializeField] private float followSpeed;
     [SerializeField] private float interactDistance;
+
     private bool targetIsRight;
     private bool targetIsFar;
     private bool goRightCloseDistance;

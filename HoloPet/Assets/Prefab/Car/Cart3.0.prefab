@@ -111,7 +111,7 @@ MonoBehaviour:
   stateMounted: {fileID: 1532295838718473480}
   stateKnockUp: {fileID: 4424365412651679775}
   stateDashMaxSpeed: {fileID: 5116209051033877970}
-  stateJump: {fileID: 6521492225631295109}
+  stateJump: {fileID: 9109154611615270418}
 --- !u!114 &7842983440069709360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,7 +794,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2892923761159995310}
-  - component: {fileID: 6521492225631295109}
+  - component: {fileID: 9109154611615270418}
   m_Layer: 0
   m_Name: Jump
   m_TagString: Untagged
@@ -817,7 +817,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2181787268523900169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6521492225631295109
+--- !u!114 &9109154611615270418
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -829,8 +829,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 565e05ee96539cf49b8c324d687f5301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateMachine: {fileID: 5440293405995387867}
-  jumpUpPower: 7
+  stateMachine: {fileID: 0}
+  jumpUpPower: 10
   jumpForthPower: 3
   jumpFallDecrese: 14
 --- !u!1 &8309800895186640199
@@ -965,4 +965,4 @@ MonoBehaviour:
   stateMounted: {fileID: 1532295838718473480}
   stateDashMaxSpeed: {fileID: 5116209051033877970}
   stateSpawn: {fileID: 5816171134711133010}
-  stateJump: {fileID: 6521492225631295109}
+  stateJump: {fileID: 9109154611615270418}
