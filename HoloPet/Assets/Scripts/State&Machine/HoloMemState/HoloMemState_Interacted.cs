@@ -3,15 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoloMemState_HappyChat : StateBase 
+public class HoloMemState_Interacted : StateBase
 {
     [SerializeField] private HoloMemStateMachine stateMachine;
-    [SerializeField] float happyChatTime;
-    private bool targetExit;
-    private float happyChatTimer;
     public override void Enter()
     {
-        Debug.Log("enter happy");
         //can do
         stateMachine.interactManager.SetIsInteractable(false);
 
@@ -20,50 +16,40 @@ public class HoloMemState_HappyChat : StateBase
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
         stateMachine.interactManager.OnTargetExitInteract += InteractManager_OnTargetExitInteract;
 
-        //start
-        targetExit = false;
-        happyChatTimer = happyChatTime;
-        stateMachine.mountManager.LayerChainUpStart();
+        //start     
 
         // check is there target , set face to target
-        if (stateMachine.interactManager.GetTargetIInteractable() != null)
-        {
-            if (stateMachine.interactManager.GetIsTargetRight())
-            {
-                stateMachine.faceDirection.SetFaceRight();
-            }
-            else
-            {
-                stateMachine.faceDirection.SetFaceLeft();
-            }
-        }
-        else
+        if (stateMachine.interactManager.GetTargetIInteractable() == null)
         {
             // exit to idle
+            stateMachine.ChangeState(stateMachine.stateIdle);
+            return;
+        }
+        interactOption interactedOp = stateMachine.interactManager.GetInteractedOp();
+        if ( interactedOp == interactOption.Bully)
+        {
+            stateMachine.ChangeState(stateMachine.stateBullied);
+            return;
+        }
+        if(interactedOp == interactOption.happyChat)
+        {
+            stateMachine.ChangeState(stateMachine.stateHappyChat);
+            return;
+        }
+        if(interactedOp == interactOption.sit)
+        {
             stateMachine.ChangeState(stateMachine.stateIdle);
             return;
         }
     }
     public override void StateUpdate()
     {
-
-        if (IsInteractTimeUp() || targetExit)
-        {
-            Debug.Log("i left happytalk" + stateMachine);
-            //exit to idle
-            stateMachine.ChangeState(stateMachine.stateIdle);
-            return;
-        }
-        happyChatTimer -= Time.deltaTime;
     }
     public override void StateLateUpdate()
     {
-
     }
     public override void Exit()
     {
-        //tell target that i exit interact
-        stateMachine.interactManager.GetTargetIInteractable().TargetExitInteract();
         // can do
         stateMachine.interactManager.SetIsInteractable(true);
 
@@ -89,20 +75,7 @@ public class HoloMemState_HappyChat : StateBase
     private void InteractManager_OnTargetExitInteract(object sender, EventArgs e)
     {
         //target has ExitInteract
-        targetExit = true;
+        stateMachine.ChangeState(stateMachine.stateIdle);
         return;
-    }
-
-    // < Package Method >
-    private bool IsInteractTimeUp()
-    {
-        if (happyChatTimer > 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     }
 }

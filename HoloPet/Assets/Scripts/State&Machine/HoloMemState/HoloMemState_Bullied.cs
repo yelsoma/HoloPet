@@ -3,26 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoloMemState_HappyChat : StateBase 
+public class HoloMemState_Bullied : StateBase
 {
     [SerializeField] private HoloMemStateMachine stateMachine;
-    [SerializeField] float happyChatTime;
-    private bool targetExit;
-    private float happyChatTimer;
     public override void Enter()
     {
-        Debug.Log("enter happy");
         //can do
         stateMachine.interactManager.SetIsInteractable(false);
 
         //event     
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
-        stateMachine.interactManager.OnTargetExitInteract += InteractManager_OnTargetExitInteract;
 
-        //start
-        targetExit = false;
-        happyChatTimer = happyChatTime;
+        //start     
         stateMachine.mountManager.LayerChainUpStart();
 
         // check is there target , set face to target
@@ -46,31 +39,22 @@ public class HoloMemState_HappyChat : StateBase
     }
     public override void StateUpdate()
     {
-
-        if (IsInteractTimeUp() || targetExit)
-        {
-            Debug.Log("i left happytalk" + stateMachine);
-            //exit to idle
-            stateMachine.ChangeState(stateMachine.stateIdle);
-            return;
-        }
-        happyChatTimer -= Time.deltaTime;
+       
     }
     public override void StateLateUpdate()
     {
-
+        Debug.Log(stateMachine + "iam bullied");
+        stateMachine.ChangeState(stateMachine.stateKnockUp);
+        return;
     }
     public override void Exit()
     {
-        //tell target that i exit interact
-        stateMachine.interactManager.GetTargetIInteractable().TargetExitInteract();
         // can do
         stateMachine.interactManager.SetIsInteractable(true);
 
         //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-        stateMachine.interactManager.OnTargetExitInteract -= InteractManager_OnTargetExitInteract;
     }
 
     // < Events >
@@ -85,24 +69,5 @@ public class HoloMemState_HappyChat : StateBase
         //exit to knock up
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
-    }
-    private void InteractManager_OnTargetExitInteract(object sender, EventArgs e)
-    {
-        //target has ExitInteract
-        targetExit = true;
-        return;
-    }
-
-    // < Package Method >
-    private bool IsInteractTimeUp()
-    {
-        if (happyChatTimer > 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     }
 }

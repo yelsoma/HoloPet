@@ -58,7 +58,7 @@ public class HoloMemState_ChooseRandom : StateBase
     private void InteractManager_OnInteractedByTarget(object sender, EventArgs e)
     {
         // Exit to interact
-        stateMachine.ChangeState(stateMachine.stateInteract);
+        stateMachine.ChangeState(stateMachine.stateInteracted);
         return;
     }
 }

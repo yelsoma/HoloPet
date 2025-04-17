@@ -25,8 +25,12 @@ public class HoloMemStateMachine : StateMachineBase
     [SerializeField] public StateBase stateKnockUp;
     [SerializeField] public StateBase stateMounting;
     [SerializeField] public StateBase stateSpawn;
-    [SerializeField] public StateBase stateInteract;
-    [SerializeField] public StateBase stateFindInteractTarget;
+    [SerializeField] public StateBase stateThink;
+    [SerializeField] public StateBase stateFollowTarget;
+    [SerializeField] public StateBase stateInteracted;
+    [SerializeField] public StateBase stateHappyChat;
+    [SerializeField] public StateBase stateBully;
+    [SerializeField] public StateBase stateBullied;
     protected override StateBase SetFirstState()
     {
         return stateSpawn;

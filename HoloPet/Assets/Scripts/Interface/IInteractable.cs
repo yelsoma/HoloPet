@@ -14,11 +14,13 @@ public interface IInteractable
     public void IsInteractedByTarget();
     public void TargetExitInteract();   
     public interactOption[] GetInteractOptions();
-    
+    public void SetInteractedOp(interactOption interactedOp);
+    public interactOption GetInteractedOp();
+
 }
 public enum interactOption
 {
-    hit,
+    Bully,
     happyChat,
     sit
 }

@@ -3,12 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoloMemState_Interact : StateBase
+public class HoloMemState_Bully : StateBase
 {
+
     [SerializeField] private HoloMemStateMachine stateMachine;
-    [SerializeField] float interactTime;
-    private float interactTimer;
-    private bool targetExitInteract;
     public override void Enter()
     {
         //can do
@@ -17,15 +15,12 @@ public class HoloMemState_Interact : StateBase
         //event     
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
-        stateMachine.interactManager.OnTargetExitInteract += InteractManager_OnTargetExitInteract;
 
         //start     
-        interactTimer = interactTime;
-        targetExitInteract = false;
         stateMachine.mountManager.LayerChainUpStart();
 
         // check is there target , set face to target
-        if(stateMachine.interactManager.GetTargetIInteractable() != null)
+        if (stateMachine.interactManager.GetTargetIInteractable() != null)
         {
             if (stateMachine.interactManager.GetIsTargetRight())
             {
@@ -45,14 +40,11 @@ public class HoloMemState_Interact : StateBase
     }
     public override void StateUpdate()
     {
-
-        if (IsInteractTimeUp() || targetExitInteract )
-        {
-            //exit to idle
-            stateMachine.ChangeState(stateMachine.stateIdle);
-            return;
-        }
-        interactTimer -= Time.deltaTime;
+        //hit target
+        Debug.Log("hit" + stateMachine.interactManager.GetTargetIInteractable());
+        stateMachine.ChangeState(stateMachine.stateIdle);
+        return;
+     
     }
     public override void StateLateUpdate()
     {
@@ -60,15 +52,12 @@ public class HoloMemState_Interact : StateBase
     }
     public override void Exit()
     {
-        //tell target that i exit interact
-        stateMachine.interactManager.GetTargetIInteractable().TargetExitInteract();       
         // can do
         stateMachine.interactManager.SetIsInteractable(true);
 
         //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-        stateMachine.interactManager.OnTargetExitInteract -= InteractManager_OnTargetExitInteract;
     }
 
     // < Events >
@@ -83,23 +72,5 @@ public class HoloMemState_Interact : StateBase
         //exit to knock up
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
-    }
-    private void InteractManager_OnTargetExitInteract(object sender, EventArgs e)
-    {
-        //target has ExitInteract
-        targetExitInteract = true;
-    }
-
-    // < Package Method >
-    private bool IsInteractTimeUp()
-    {
-        if (interactTimer > 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     }
 }

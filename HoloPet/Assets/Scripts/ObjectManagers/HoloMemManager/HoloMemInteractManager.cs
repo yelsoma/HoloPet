@@ -14,6 +14,7 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable
     //interact option
     [SerializeField] private List<interactOption> interactOptionList;
     private interactOption choosenInteractOp;
+    private interactOption interactedOp;
 
     //event
     public event EventHandler OnInteractedByTarget;
@@ -112,5 +113,15 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable
     public interactOption GetChoosenInteractOp()
     {
         return choosenInteractOp;
+    }
+
+    public void SetInteractedOp(interactOption interactedOp)
+    {
+        this.interactedOp = interactedOp;
+    }
+
+    public interactOption GetInteractedOp()
+    {
+        return interactedOp;
     }
 }

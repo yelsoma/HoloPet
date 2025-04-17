@@ -25,11 +25,15 @@ public class HoloMemState_Think : StateBase
         LayerCenter.ResetAllLayer();
         if (!stateMachine.raycastManager.TrySetRaycastBothSide(10))
         {
-            //exit to find nothing          
+            //exit to find nothing
+            stateMachine.ChangeState(stateMachine.stateIdle);
+            return;
         }
         if (!stateMachine.interactManager.TrySetTargetWihtRaycastHits(stateMachine.raycastManager.GetRaycastHits()))
         {
-            //exit to to find nothing           
+            //exit to to find nothing
+            stateMachine.ChangeState(stateMachine.stateIdle);
+            return;
         }
 
         //interact option
@@ -37,7 +41,12 @@ public class HoloMemState_Think : StateBase
         interactOption[] interactOptions = new interactOption[interactOpLenth];
         int randomOpInt = UnityEngine.Random.Range(0, interactOpLenth);
         interactOption selectedInteractOption = stateMachine.interactManager.GetTargetIInteractable().GetInteractOptions()[randomOpInt];
-        stateMachine.interactManager.SetChoosonInteractOp(selectedInteractOption);       
+        stateMachine.interactManager.SetChoosonInteractOp(selectedInteractOption);
+
+        //exit to to follow target
+        stateMachine.ChangeState(stateMachine.stateFollowTarget);
+        return;
+
     }
 
     public override void StateUpdate()
@@ -75,7 +84,7 @@ public class HoloMemState_Think : StateBase
     private void InteractManager_OnInteractedByTarget(object sender, EventArgs e)
     {
         // Exit to interact
-        stateMachine.ChangeState(stateMachine.stateInteract);
+        stateMachine.ChangeState(stateMachine.stateInteracted);
         return;
     }
 }

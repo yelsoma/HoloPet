@@ -14,10 +14,10 @@ public class BotanAniController : MonoBehaviour
     [SerializeField] private HoloMemState_KnockUp stateKnockUp;
     [SerializeField] private HoloMemState_Wander stateWander;
     [SerializeField] private HoloMemState_Mounting stateMounting;
-    [SerializeField] private HoloMemState_FindInteractTarget stateFindInteractTarget;
+    [SerializeField] private HoloMemState_FollowTarget stateFollowTarget;
     [SerializeField] private HoloMemState_ChooseRandom stateChooseRandom;
-    [SerializeField] private HoloMemState_Interact stateInteract;
     [SerializeField] private HoloMemState_Spawn stateSpawn;
+    [SerializeField] private HoloMemState_HappyChat stateHappyChat;
     private void Awake()
     {
         stateIdle.OnEnterState += StateIdle_OnEnterState;
@@ -25,12 +25,22 @@ public class BotanAniController : MonoBehaviour
         stateGrab.OnEnterState += StateGrab_OnEnterState;
         stateKnockUp.OnEnterState += StateKnockUp_OnEnterState;
         stateWander.OnEnterState += StateWander_OnEnterState;
-        stateFindInteractTarget.OnEnterState += StateFindInteractTarget_OnEnterState;
-        stateInteract.OnEnterState += StateInteract_OnEnterState;
         stateMounting.OnEnterState += StateMounting_OnEnterState;
         stateMounting.OnCartDashMaxSpeed += StateMounting_OnCartDashMaxSpeed;
         stateMounting.OnCartNormal += StateMounting_OnCartNormal;
         stateMounting.OnCartJump += StateMounting_OnCartJump;
+        stateFollowTarget.OnEnterState += StateFollowTarget_OnEnterState;
+        stateHappyChat.OnEnterState += StateHappyChat_OnEnterState;
+    }
+
+    private void StateFollowTarget_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play("BotanFindTarget");
+    }
+
+    private void StateHappyChat_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play("BotanHappyJump");
     }
 
     private void StateMounting_OnCartJump(object sender, System.EventArgs e)
@@ -51,16 +61,6 @@ public class BotanAniController : MonoBehaviour
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)
     {
         animator.Play("BotanMounting");
-    }
-
-    private void StateInteract_OnEnterState(object sender, System.EventArgs e)
-    {
-        animator.Play("BotanHappyJump");
-    }
-
-    private void StateFindInteractTarget_OnEnterState(object sender, System.EventArgs e)
-    {
-        animator.Play("BotanFindTarget");
     }
 
     private void StateWander_OnEnterState(object sender, System.EventArgs e)

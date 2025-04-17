@@ -150,34 +150,31 @@ public class HoloMemState_FollowTarget : StateBase
     private void InteractManager_OnInteractedByTarget(object sender, EventArgs e)
     {
         // Exit to interact
-        stateMachine.ChangeState(stateMachine.stateInteract);
+        stateMachine.ChangeState(stateMachine.stateInteracted);
         return;
     }
-    // < Package Method >    
-    //private void GoToInteractState()
-    //{
-    //    //set interact target to ineract state 
-    //    stateMachine.interactManager.GetTargetIInteractable().SetTarget(stateMachine.transform.GetComponent<IInteractable>());
-    //    stateMachine.interactManager.GetTargetIInteractable().IsInteractedByTarget();
-    //    //exit to interact state
-    //    stateMachine.ChangeState(stateMachine.stateInteract);
-    //}
+
+    // < Package Method >
     private void GoToChoosenInteract()
     {
         interactOption choosenInteractOp = stateMachine.interactManager.GetChoosenInteractOp();
-        if(choosenInteractOp == interactOption.hit)
+        stateMachine.interactManager.GetTargetIInteractable().SetInteractedOp(choosenInteractOp);
+        if(choosenInteractOp == interactOption.Bully)
         {
-            // hit target
+            stateMachine.interactManager.GetTargetIInteractable().IsInteractedByTarget();
+            stateMachine.ChangeState(stateMachine.stateBully);
             return;
         }
         if (choosenInteractOp == interactOption.happyChat)
         {
-            // chat with target
+            stateMachine.interactManager.GetTargetIInteractable().IsInteractedByTarget();
+            stateMachine.ChangeState(stateMachine.stateHappyChat);
             return;
         }
         if (choosenInteractOp == interactOption.sit)
         {
-            // sit on target
+            stateMachine.interactManager.GetTargetIInteractable().IsInteractedByTarget();
+            stateMachine.ChangeState(stateMachine.stateIdle);
             return;
         }
     }
