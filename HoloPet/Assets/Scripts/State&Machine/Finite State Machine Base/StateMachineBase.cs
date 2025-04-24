@@ -8,10 +8,11 @@ public class StateMachineBase : MonoBehaviour
  
     private StateBase currentState;
     private void Start()
-    {        
+    {       
         currentState = SetFirstState();
         if (currentState != null)
         {
+            currentState.EnterStateEvent();
             currentState.Enter();
         }
     }

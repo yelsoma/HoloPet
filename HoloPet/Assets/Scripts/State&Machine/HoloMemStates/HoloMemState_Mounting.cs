@@ -7,6 +7,7 @@ public class HoloMemState_Mounting : StateBase
     public event EventHandler OnCartDashMaxSpeed;
     public event EventHandler OnCartNormal;
     public event EventHandler OnCartJump;
+    public event EventHandler OnExitMounting;
     public override void Enter()
     {
         //cant do
@@ -49,6 +50,7 @@ public class HoloMemState_Mounting : StateBase
     }
     public override void Exit()
     {
+        OnExitMounting?.Invoke(this, EventArgs.Empty);
         stateMachine.mountManager.ExitMount();
         //cant do
         stateMachine.interactManager.SetIsInteractable(true);

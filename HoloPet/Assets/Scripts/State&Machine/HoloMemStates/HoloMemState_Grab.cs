@@ -6,6 +6,7 @@ using UnityEngine;
 public class HoloMemState_Grab : StateBase
 {
     [SerializeField] private HoloMemStateMachine stateMachine;
+    public event EventHandler OnExitGrab;
 
 
     // < State Base >
@@ -37,6 +38,7 @@ public class HoloMemState_Grab : StateBase
     }
     public override void Exit()
     {
+        OnExitGrab?.Invoke(this, EventArgs.Empty);
         //cant do
         stateMachine.interactManager.SetIsInteractable(true);
         stateMachine.mountManager.SetIsMountableState(true);

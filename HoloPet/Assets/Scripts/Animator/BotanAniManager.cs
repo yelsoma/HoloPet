@@ -21,8 +21,14 @@ public class BotanAniManager : MonoBehaviour
         stateMounting.OnCartDashMaxSpeed += StateMounting_OnCartDashMaxSpeed;
         stateMounting.OnCartNormal += StateMounting_OnCartNormal;
         stateMounting.OnCartJump += StateMounting_OnCartJump;
+        stateMounting.OnExitMounting += StateMounting_OnExitMounting;
         stateMachine.stateFollowTarget.OnEnterState += StateFollowTarget_OnEnterState;
         stateMachine.stateHappyChat.OnEnterState += StateHappyChat_OnEnterState;
+    }
+
+    private void StateMounting_OnExitMounting(object sender, System.EventArgs e)
+    {
+        animator.Play("BotanHaveHand", layer: 2);
     }
 
     private void StateFollowTarget_OnEnterState(object sender, System.EventArgs e)
@@ -57,6 +63,7 @@ public class BotanAniManager : MonoBehaviour
     {
         animator.Play("BotanFaceNone", layer: 1);
         animator.Play("BotanMount", layer: 0);
+        animator.Play("BotanHalfHand", layer: 2);
     }
 
     private void StateWander_OnEnterState(object sender, System.EventArgs e)

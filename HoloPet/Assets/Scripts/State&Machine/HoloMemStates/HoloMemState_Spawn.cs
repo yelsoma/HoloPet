@@ -6,11 +6,12 @@ using UnityEngine;
 public class HoloMemState_Spawn : StateBase
 {
     [SerializeField] private HoloMemStateMachine stateMachine;
+    public event EventHandler OnSpawn;
 
     // < State Base >
     public override void Enter()
     {
-
+        OnSpawn?.Invoke(this, EventArgs.Empty);
         //cant do
         stateMachine.interactManager.SetIsInteractable(false);
         stateMachine.mountManager.SetIsMountableState(false);
