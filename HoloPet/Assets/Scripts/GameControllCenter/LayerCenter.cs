@@ -15,11 +15,15 @@ public static class LayerCenter
     {
         layerManagerList.Remove(layerManager);
     }
+    public static void InsertToLayerCenter(int i, SpriteLayerManager layerManager)
+    {
+        layerManagerList.Insert(i, layerManager);
+    }
     public static void ResetAllLayer()
     {
         for (int i = 0; i < layerManagerList.Count; i++)
         {
             layerManagerList[i].ChangeLayer(i);
         }
-    }
+    }  
 }

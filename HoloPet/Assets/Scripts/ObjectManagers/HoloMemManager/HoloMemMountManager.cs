@@ -79,48 +79,26 @@ public class HoloMemMountManager : MonoBehaviour, IMountable, IMountingAbility
     }
     public void EnterMount()
     {
-        transform.SetParent(myMount.GetTransform());
-        if (transform.root.GetComponent<FaceDirectionVr2>().GetIsFaceRight())
+        transform.SetParent(myMount.GetMountPointTansform());
+        if (transform.root.GetComponent<FaceDirection>().GetIsFaceRight())
         {
-            transform.GetComponent<FaceDirectionVr2>().SetFaceRight();
+            transform.GetComponent<FaceDirection>().SetFaceRight();
         }        
         else
         {
-            transform.GetComponent<FaceDirectionVr2>().SetFaceLeft();
+            transform.GetComponent<FaceDirection>().SetFaceLeft();
         }     
-        transform.position = myMount.GetMountingPoint();  
+        transform.position = myMount.GetMountPointTansform().position;
+        SetIsMounting(true);
         myMount.SetIsMounted(true);
         myMount.SetMounter(transform.GetComponent<IMountingAbility>());
     }
     public void ExitMount()
     {
+        SetIsMounting(false);
         transform.SetParent(null);
         myMount.SetIsMounted(false);
-    }
-    public void FollowMountPoint()
-    {
-        transform.position = myMount.GetMountingPoint();
-    }
-    public void LayerChainUp()
-    {
-        //change my bot sprite 
-        transform.GetComponent<ILayerManager>().ResetLayerBot();
-
-        //change my mounts top sprite
-        myMount.GetTransform().GetComponent<ILayerManager>().ResetLayerTop();
-        if (isMounted)
-        {
-            //my mounter will change my top sprite
-            //tell my mounter to layerChainUp
-            myMounter.LayerChainUp();
-        }
-        else
-        {
-            //i am top mounter , change my top
-            transform.GetComponent<ILayerManager>().ResetLayerTop();
-            LayerCenter.ResetAllLayer();
-        }
-    }
+    }  
 
     // moutable
     public bool GetIsMounted()
@@ -155,27 +133,14 @@ public class HoloMemMountManager : MonoBehaviour, IMountable, IMountingAbility
         }
         return false;
     }
-    public Vector2 GetMountingPoint()
-    {
-        return mountingPoint.position;
-    }
+
     public Transform GetTransform()
     {
         return transform;
     }
-    public void LayerChainUpStart()
+
+    public Transform GetMountPointTansform()
     {
-        if (isMounted)
-        {
-            //change my main sprite , my mounter will change my top sprite
-            transform.GetComponent<ILayerManager>().ResetLayerBot();
-            //tell my mounter to layerChainUp
-            myMounter.LayerChainUp();
-        }
-        else
-        {
-            transform.GetComponent<ILayerManager>().ResetLayerAll();
-            LayerCenter.ResetAllLayer();
-        }      
-    }   
+        return mountingPoint;
+    }
 }

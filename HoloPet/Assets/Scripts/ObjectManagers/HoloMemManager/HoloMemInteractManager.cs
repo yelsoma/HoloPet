@@ -124,4 +124,9 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable
     {
         return interactedOp;
     }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 }

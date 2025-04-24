@@ -21,6 +21,7 @@ public class FurnitureMountManager : MonoBehaviour, IMountable
     {
         return isMounted;
     }
+
     public bool GetIsMountableState()
     {
         return isMountableState;
@@ -31,32 +32,10 @@ public class FurnitureMountManager : MonoBehaviour, IMountable
         return myMounter;
     }
 
-    public Vector2 GetMountingPoint()
-    {
-        return mountingPoint.position;
-    }
-
     public Transform GetTransform()
     {
         return transform;
     }
-
-    public void LayerChainUpStart()
-    {
-        if (isMounted)
-        {
-            //change my main sprite , my mounter will change my top sprite
-            transform.GetComponent<ILayerManager>().ResetLayerBot();
-            //tell my mounter to layerChainUp
-            myMounter.LayerChainUp();
-        }
-        else
-        {
-            transform.GetComponent<ILayerManager>().ResetLayerAll();
-            LayerCenter.ResetAllLayer();
-        }
-    }
-
     public void SetIsMounted(bool isMounted)
     {
         this.isMounted = isMounted;
@@ -66,8 +45,14 @@ public class FurnitureMountManager : MonoBehaviour, IMountable
     {
         myMounter = mounter;
     }
+
     public void SetIsMountableState(bool isMountableState)
     {
         this.isMountableState = isMountableState;
+    }
+
+    public Transform GetMountPointTansform()
+    {
+        return mountingPoint;
     }
 }

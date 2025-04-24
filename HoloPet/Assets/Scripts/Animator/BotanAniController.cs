@@ -4,33 +4,24 @@ using UnityEngine;
 
 public class BotanAniController : MonoBehaviour
 {
-    [Header("Need Refernce")]
+
     [SerializeField] private Animator animator;
     [SerializeField] private HoloMemStateMachine stateMachine;
-    [Header("Need Refernce")]
-    [SerializeField] private HoloMemState_Idle stateIdle;
-    [SerializeField] private HoloMemState_Fall stateFall;
-    [SerializeField] private HoloMemState_Grab stateGrab;
-    [SerializeField] private HoloMemState_KnockUp stateKnockUp;
-    [SerializeField] private HoloMemState_Wander stateWander;
+
     [SerializeField] private HoloMemState_Mounting stateMounting;
-    [SerializeField] private HoloMemState_FollowTarget stateFollowTarget;
-    [SerializeField] private HoloMemState_ChooseRandom stateChooseRandom;
-    [SerializeField] private HoloMemState_Spawn stateSpawn;
-    [SerializeField] private HoloMemState_HappyChat stateHappyChat;
     private void Awake()
     {
-        stateIdle.OnEnterState += StateIdle_OnEnterState;
-        stateFall.OnEnterState += StateFall_OnEnterState;
-        stateGrab.OnEnterState += StateGrab_OnEnterState;
-        stateKnockUp.OnEnterState += StateKnockUp_OnEnterState;
-        stateWander.OnEnterState += StateWander_OnEnterState;
-        stateMounting.OnEnterState += StateMounting_OnEnterState;
+        stateMachine.stateIdle.OnEnterState += StateIdle_OnEnterState;
+        stateMachine.stateFall.OnEnterState += StateFall_OnEnterState;
+        stateMachine.stateGrab.OnEnterState += StateGrab_OnEnterState;
+        stateMachine.stateKnockUp.OnEnterState += StateKnockUp_OnEnterState;
+        stateMachine.stateWander.OnEnterState += StateWander_OnEnterState;
+        stateMachine.stateMounting.OnEnterState += StateMounting_OnEnterState;
         stateMounting.OnCartDashMaxSpeed += StateMounting_OnCartDashMaxSpeed;
         stateMounting.OnCartNormal += StateMounting_OnCartNormal;
         stateMounting.OnCartJump += StateMounting_OnCartJump;
-        stateFollowTarget.OnEnterState += StateFollowTarget_OnEnterState;
-        stateHappyChat.OnEnterState += StateHappyChat_OnEnterState;
+        stateMachine.stateFollowTarget.OnEnterState += StateFollowTarget_OnEnterState;
+        stateMachine.stateHappyChat.OnEnterState += StateHappyChat_OnEnterState;
     }
 
     private void StateFollowTarget_OnEnterState(object sender, System.EventArgs e)

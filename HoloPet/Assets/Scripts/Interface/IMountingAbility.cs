@@ -8,5 +8,4 @@ public interface IMountingAbility
     public bool GetIsMounting();
     public void SetMount(IMountable mount);
     public IMountable GetMount();
-    public void LayerChainUp();
 }

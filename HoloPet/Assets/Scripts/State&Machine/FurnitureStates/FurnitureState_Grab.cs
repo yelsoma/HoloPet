@@ -17,15 +17,8 @@ public class FurnitureState_Grab : StateBase
         stateMachine.mouseInput.OnRelease += Input_OnRelease;
 
         //start
-        if (stateMachine.mountManager.GetIsMounted())
-        {
-            stateMachine.mountManager.LayerChainUpStart();
-        }
-        else
-        {
-            stateMachine.layerManager.ResetLayerAll();
-            LayerCenter.ResetAllLayer();
-        }
+        stateMachine.layerManager.PullToTop();
+        LayerCenter.ResetAllLayer();
     }
 
 
@@ -47,7 +40,7 @@ public class FurnitureState_Grab : StateBase
     }
 
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInputVr2.OnDragEventArgs e)
+    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
     {
         //drag  
         stateMachine.transform.position = e.mousePos;

@@ -16,6 +16,7 @@ public interface IInteractable
     public interactOption[] GetInteractOptions();
     public void SetInteractedOp(interactOption interactedOp);
     public interactOption GetInteractedOp();
+    public Transform GetTransform();
 
 }
 public enum interactOption

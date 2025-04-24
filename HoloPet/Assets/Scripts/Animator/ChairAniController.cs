@@ -6,7 +6,6 @@ public class ChairAniController : MonoBehaviour
 {
     [Header("Need Refernce")]
     [SerializeField] private Animator animator;
-    [SerializeField] private FurnitureLayerManager stateMachine;
 
     [Header("States")]
     [SerializeField] public FurnitureState_Spawn stateSpawn;

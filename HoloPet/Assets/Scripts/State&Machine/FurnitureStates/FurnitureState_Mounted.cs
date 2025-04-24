@@ -33,7 +33,7 @@ public class FurnitureState_Mounted : StateBase
 
     }
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInputVr2.OnDragEventArgs e)
+    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
     {
         //exit to grab
         stateMachine.ChangeState(stateMachine.stateGrab);

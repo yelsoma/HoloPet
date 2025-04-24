@@ -18,7 +18,8 @@ public class CartState_Grab : StateBase
         stateMachine.mouseInput.OnRelease += Input_OnRelease;
 
         //start
-        stateMachine.mountManager.LayerChainUpStart();
+        stateMachine.layerManager.PullToTop();
+        LayerCenter.ResetAllLayer();
         if (stateMachine.mountManager.GetIsMounted())
         {
             OnGrabMounted?.Invoke(this, EventArgs.Empty);
@@ -47,7 +48,7 @@ public class CartState_Grab : StateBase
     }
 
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInputVr2.OnDragEventArgs e)
+    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
     {
         //drag  
         stateMachine.transform.position = e.mousePos;

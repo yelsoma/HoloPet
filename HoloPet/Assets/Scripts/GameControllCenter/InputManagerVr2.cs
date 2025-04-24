@@ -9,7 +9,7 @@ public class InputManagerVr2 : MonoBehaviour
     private Vector2 mouseWorldPosition;
     private Vector2 mouseInatialPos;
     private Collider2D[] mousePointColliders = new Collider2D[10];
-    private MouseInputVr2 selectedOb;
+    private MouseInput selectedOb;
     private float clickTime;
     private bool overClickTime;
     private bool overClickPos;
@@ -89,11 +89,11 @@ public class InputManagerVr2 : MonoBehaviour
         int layerNow = -32767;
         foreach (Collider2D collider2D in GetMousePositionCollider2Ds(GetMouseWorldPosition()))
         {           
-            if(collider2D.transform.TryGetComponent(out MouseInputVr2 mouseInput)&& collider2D.transform.TryGetComponent(out ILayerManager layerManager))
+            if(collider2D.transform.TryGetComponent(out MouseInput mouseInput)&& collider2D.transform.TryGetComponent(out ILayerManager layerManager))
             {
-                if(layerManager.GetMainLayer() >= layerNow)
+                if(layerManager.GetObjectLayer() >= layerNow)
                 {
-                    layerNow = layerManager.GetMainLayer();
+                    layerNow = layerManager.GetObjectLayer();
                     selectedOb = mouseInput;
                 }
             }

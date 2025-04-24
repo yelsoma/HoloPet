@@ -5,13 +5,13 @@ using UnityEngine;
 public class FurnitureStateMachine : StateMachineBase
 {
     [Header("Need Refernce")]
-    [SerializeField] public BoundaryManagerVr2 boundaryManager;
-    [SerializeField] public MouseInputVr2 mouseInput;
-    [SerializeField] public MovementVr2 movement;
+    [SerializeField] public BoundaryManager boundaryManager;
+    [SerializeField] public MouseInput mouseInput;
+    [SerializeField] public Movement movement;
     [SerializeField] public FurnitureMountManager mountManager;
-    [SerializeField] public FaceDirectionVr2 faceDirection;
-    [SerializeField] public FurnitureLayerManager layerManager;
-    [SerializeField] public RaycastManagerVr2 raycastManager;
+    [SerializeField] public FaceDirection faceDirection;
+    [SerializeField] public ObjectLayerManager layerManager;
+    [SerializeField] public RaycastManager raycastManager;
 
     //States
     [Header("States")]

@@ -20,7 +20,7 @@ public class FurnitureState_Spawn : StateBase
 
         //start
         stateMachine.faceDirection.SetFaceRight();
-        stateMachine.layerManager.SetLayerAll();
+        stateMachine.layerManager.SetNewLayer();
         LayerCenter.ResetAllLayer();
     }
 
@@ -47,7 +47,7 @@ public class FurnitureState_Spawn : StateBase
 
     // < Events >
 
-    private void Input_OnDrag(object sender, MouseInputVr2.OnDragEventArgs e)
+    private void Input_OnDrag(object sender, MouseInput.OnDragEventArgs e)
     {
         //exit to grab
         stateMachine.ChangeState(stateMachine.stateGrab);
