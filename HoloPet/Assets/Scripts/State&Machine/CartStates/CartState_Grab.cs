@@ -18,8 +18,6 @@ public class CartState_Grab : StateBase
         stateMachine.mouseInput.OnRelease += Input_OnRelease;
 
         //start
-        stateMachine.layerManager.PullToTop();
-        LayerCenter.ResetAllLayer();
         if (stateMachine.mountManager.GetIsMounted())
         {
             OnGrabMounted?.Invoke(this, EventArgs.Empty);

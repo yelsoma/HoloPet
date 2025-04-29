@@ -20,7 +20,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 0.43, z: 0}
+        value: {x: 0, y: 0.40625, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -30,7 +30,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: MountPoint
+    path: BodyParts/Back/MountPoint
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
@@ -38,8 +38,10 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 433098195, guid: 2f4713c31dd554443be0aa2ecafe688b, type: 3}
+    - time: 1
+      value: {fileID: 433098195, guid: 2f4713c31dd554443be0aa2ecafe688b, type: 3}
     attribute: m_Sprite
-    path: Visual/Back
+    path: BodyParts/Back
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -47,8 +49,10 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: -1711278200, guid: 264d6032dbfe6444e8b8329b8d858e68, type: 3}
+    - time: 1
+      value: {fileID: -1711278200, guid: 264d6032dbfe6444e8b8329b8d858e68, type: 3}
     attribute: m_Sprite
-    path: Visual/Front
+    path: BodyParts/Front
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -60,7 +64,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 104753253
+      path: 3491068196
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -69,7 +73,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2079695495
+      path: 2063136912
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -78,7 +82,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 349726389
+      path: 1440933659
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -88,13 +92,15 @@ AnimationClip:
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: 433098195, guid: 2f4713c31dd554443be0aa2ecafe688b, type: 3}
+    - {fileID: 433098195, guid: 2f4713c31dd554443be0aa2ecafe688b, type: 3}
+    - {fileID: -1711278200, guid: 264d6032dbfe6444e8b8329b8d858e68, type: 3}
     - {fileID: -1711278200, guid: 264d6032dbfe6444e8b8329b8d858e68, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 2
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -127,7 +133,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: MountPoint
+    path: BodyParts/Back/MountPoint
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -137,7 +143,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.43
+        value: 0.40625
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -148,7 +154,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: MountPoint
+    path: BodyParts/Back/MountPoint
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -169,7 +175,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: MountPoint
+    path: BodyParts/Back/MountPoint
     classID: 4
     script: {fileID: 0}
     flags: 0

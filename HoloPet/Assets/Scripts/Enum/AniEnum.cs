@@ -40,5 +40,15 @@ public class AniEnum
             BotanFaceTired
         }
     }
+    public class Cart
+    {
+        public enum Main
+        {
+            CartIdle,
+            CartDash,
+            CartDashMaxSpeed,
+            CartMounted
+        }
+    }
 }
 

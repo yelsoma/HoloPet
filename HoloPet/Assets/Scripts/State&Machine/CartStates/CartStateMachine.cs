@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class CartStateMachine : StateMachineBase
 {
-    [Header("Need Refernce")]
+    [Header("Basic Managers")]
     [SerializeField] public BoundaryManager boundaryManager;
     [SerializeField] public FaceDirection faceDirection;
     [SerializeField] public MouseInput mouseInput;
     [SerializeField] public Movement movement;
-    [SerializeField] public ObjectLayerManager layerManager;
     [SerializeField] public RaycastManager raycastManager;
-    [SerializeField] public FurnitureMountManager mountManager;  
-  
+
+    [Header("Cart Managers")]
+    [SerializeField] public CartLayerManager layerManager;
+    [SerializeField] public FurnitureMountManager mountManager;
+
     //States
     [Header("States")]
     [SerializeField] public StateBase stateDash;

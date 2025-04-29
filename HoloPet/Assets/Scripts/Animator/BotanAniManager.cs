@@ -70,7 +70,7 @@ public class BotanAniManager : MonoBehaviour
 
     private void StateMounting_OnCartDashMaxSpeed(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Botan.Face.BotanFaceShock.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Face.BotanFaceExciting.ToString(), layer: 1);
     }
 
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)

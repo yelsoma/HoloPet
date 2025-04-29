@@ -23,8 +23,6 @@ public class CartState_Jump : StateBase
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
         //start
-        stateMachine.layerManager.PullToTop();
-        LayerCenter.ResetAllLayer();
         fallSpeedNow = 0f;
         startFall = false;
         jumpUpPowerNow = jumpUpPower;
