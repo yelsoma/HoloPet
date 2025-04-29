@@ -83,5 +83,9 @@ public class BoundaryManager : MonoBehaviour
         {
             return false;
         }
-    }   
+    } 
+    public void SetToBotBoundary()
+    {
+        transform.position = new Vector2(transform.position.x, botObjectBoundery);
+    }
 }

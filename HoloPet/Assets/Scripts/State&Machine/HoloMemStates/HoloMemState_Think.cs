@@ -17,7 +17,7 @@ public class HoloMemState_Think : StateBase
         //event
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByTarget += InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter += InteractManager_OnInteractedByInteracter;
 
         //start
 
@@ -35,11 +35,7 @@ public class HoloMemState_Think : StateBase
         }
 
         //interact option
-        int interactOpLenth = stateMachine.interactManager.GetTargetIInteractable().GetInteractOptions().Length;
-        interactOption[] interactOptions = new interactOption[interactOpLenth];
-        int randomOpInt = UnityEngine.Random.Range(0, interactOpLenth);
-        interactOption selectedInteractOption = stateMachine.interactManager.GetTargetIInteractable().GetInteractOptions()[randomOpInt];
-        stateMachine.interactManager.SetChoosonInteractOp(selectedInteractOption);
+        stateMachine.interactManager.ChooseAnOption();
 
         //exit to to follow target
         stateMachine.ChangeState(stateMachine.stateFollowTarget);
@@ -61,7 +57,7 @@ public class HoloMemState_Think : StateBase
         //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByTarget -= InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter -= InteractManager_OnInteractedByInteracter;
 
     }
 
@@ -79,10 +75,10 @@ public class HoloMemState_Think : StateBase
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
     }
-    private void InteractManager_OnInteractedByTarget(object sender, EventArgs e)
+    private void InteractManager_OnInteractedByInteracter(object sender, EventArgs e)
     {
         // Exit to interact
-        stateMachine.ChangeState(stateMachine.stateInteracted);
+        stateMachine.interactManager.OnInteractWithOption(stateMachine.interactManager.GetInteracter().GetChoosenOp());
         return;
     }
 }

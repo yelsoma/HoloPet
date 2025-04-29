@@ -22,7 +22,7 @@ public class HoloMemState_FollowTarget : StateBase
         //event
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByTarget += InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter += InteractManager_OnInteractedByInteracter;
 
         //start
         
@@ -132,7 +132,7 @@ public class HoloMemState_FollowTarget : StateBase
     {
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByTarget -= InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter -= InteractManager_OnInteractedByInteracter;
     }
 
     // < Events >
@@ -147,33 +147,31 @@ public class HoloMemState_FollowTarget : StateBase
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
     }
-    private void InteractManager_OnInteractedByTarget(object sender, EventArgs e)
+    private void InteractManager_OnInteractedByInteracter(object sender, EventArgs e)
     {
         // Exit to interact
-        stateMachine.ChangeState(stateMachine.stateInteracted);
+        stateMachine.interactManager.OnInteractWithOption(stateMachine.interactManager.GetInteracter().GetChoosenOp());
         return;
     }
 
     // < Package Method >
     private void GoToChoosenInteract()
     {
-        interactOption choosenInteractOp = stateMachine.interactManager.GetChoosenInteractOp();
-        stateMachine.interactManager.GetTargetIInteractable().SetInteractedOp(choosenInteractOp);
-        if(choosenInteractOp == interactOption.Bully)
+        stateMachine.interactManager.GetTargetIInteractable().SetInteracter(stateMachine.interactManager);
+        stateMachine.interactManager.GetTargetIInteractable().OnInteractWithOption(stateMachine.interactManager.GetChoosenOp());
+        interactOptionE choosenOpE = stateMachine.interactManager.GetChoosenOp().interactOptionEnum;
+        if(choosenOpE == interactOptionE.Bully)
         {
-            stateMachine.interactManager.GetTargetIInteractable().IsInteractedByTarget();
             stateMachine.ChangeState(stateMachine.stateBully);
             return;
         }
-        if (choosenInteractOp == interactOption.happyChat)
+        if (choosenOpE == interactOptionE.happyChat)
         {
-            stateMachine.interactManager.GetTargetIInteractable().IsInteractedByTarget();
             stateMachine.ChangeState(stateMachine.stateHappyChat);
             return;
         }
-        if (choosenInteractOp == interactOption.sit)
+        if (choosenOpE == interactOptionE.sit)
         {
-            stateMachine.interactManager.GetTargetIInteractable().IsInteractedByTarget();
             stateMachine.ChangeState(stateMachine.stateIdle);
             return;
         }

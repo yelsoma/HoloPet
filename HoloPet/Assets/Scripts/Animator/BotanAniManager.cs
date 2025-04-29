@@ -9,6 +9,7 @@ public class BotanAniManager : MonoBehaviour
 
     [Header("states")]
     [SerializeField] private HoloMemState_Mounting stateMounting;
+    [SerializeField] private HoloMemState_KnockUp stateKnockUp;
 
     private void Awake()
     {
@@ -24,75 +25,88 @@ public class BotanAniManager : MonoBehaviour
         stateMounting.OnExitMounting += StateMounting_OnExitMounting;
         stateMachine.stateFollowTarget.OnEnterState += StateFollowTarget_OnEnterState;
         stateMachine.stateHappyChat.OnEnterState += StateHappyChat_OnEnterState;
+        stateKnockUp.OnKnockUpFall += StateKnockUp_OnKnockUpFall;
+        stateMachine.stateHappyChatInteracted.OnEnterState += StateHappyChatInteracted_OnEnterState;
+    }
+
+    private void StateHappyChatInteracted_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Botan.Face.BotanFaceHappy.ToString(), layer: 1);
+    }
+
+    private void StateKnockUp_OnKnockUpFall(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Botan.Face.BotanFaceShock.ToString(), layer: 1);
     }
 
     private void StateMounting_OnExitMounting(object sender, System.EventArgs e)
     {
-        animator.Play("BotanHaveHand", layer: 2);
+        animator.Play(AniEnum.Basic.Hand.HaveHand.ToString(), layer: 2);
     }
 
     private void StateFollowTarget_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceNormal", layer :1) ;
-        animator.Play("BotanRun" ,layer: 0);       
+        animator.Play(AniEnum.Botan.Face.BotanFaceNormal.ToString(), layer :1) ;
+        animator.Play(AniEnum.Botan.Main.BotanRun.ToString() ,layer: 0);       
     }
 
     private void StateHappyChat_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceHappy", layer: 1);      
+        animator.Play(AniEnum.Botan.Main.BotanRun.ToString(), layer: 0);
+        animator.Play(AniEnum.Botan.Face.BotanFaceHappy.ToString(), layer: 1);      
     }
 
     private void StateMounting_OnCartJump(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceShock", layer: 1);
+        animator.Play(AniEnum.Botan.Face.BotanFaceShock.ToString(), layer: 1);
     }
 
     private void StateMounting_OnCartNormal(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceNone", layer: 1);
-        animator.Play("BotanMount", layer: 0);
-        animator.Play("BotanNoHand", layer: 2);
+        animator.Play(AniEnum.Botan.Face.BotanFaceCalm.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanMount.ToString(), layer: 0);
+        animator.Play(AniEnum.Basic.Hand.HalfHand.ToString(), layer: 2);
     }
 
     private void StateMounting_OnCartDashMaxSpeed(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceShock", layer: 1);
+        animator.Play(AniEnum.Botan.Face.BotanFaceShock.ToString(), layer: 1);
     }
 
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceNone", layer: 1);
-        animator.Play("BotanMount", layer: 0);
-        animator.Play("BotanHalfHand", layer: 2);
+        animator.Play(AniEnum.Botan.Face.BotanFaceCalm.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanMount.ToString(), layer: 0);
+        animator.Play(AniEnum.Basic.Hand.HalfHand.ToString(), layer: 2);
     }
 
     private void StateWander_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceNormal", layer: 1);
-        animator.Play("BotanWalk", layer: 0);
+        animator.Play(AniEnum.Botan.Face.BotanFaceNormal.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanWalk.ToString(), layer: 0);
     }
 
     private void StateKnockUp_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceHit", layer: 1);
-        animator.Play("BotanFall", layer: 0);
+        animator.Play(AniEnum.Botan.Face.BotanFaceHit.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanFall.ToString(), layer: 0);
     }
 
     private void StateGrab_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceTired", layer: 1);
-        animator.Play("BotanGrab", layer: 0);
+        animator.Play(AniEnum.Botan.Face.BotanFaceTired.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanGrab.ToString(), layer: 0);
     }
 
     private void StateFall_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceShock", layer: 1);
-        animator.Play("BotanFall", layer: 0);
+        animator.Play(AniEnum.Botan.Face.BotanFaceShock.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanFall.ToString(), layer: 0);
     }
 
     private void StateIdle_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play("BotanFaceNormal", layer: 1);
-        animator.Play("BotanIdle", layer: 0);
+        animator.Play(AniEnum.Botan.Face.BotanFaceNormal.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanIdle.ToString(), layer: 0);
     }
 }

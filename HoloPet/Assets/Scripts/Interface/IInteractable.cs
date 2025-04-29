@@ -5,24 +5,24 @@ using System;
 
 public interface IInteractable 
 {
-    public event EventHandler OnInteractedByTarget;
-    public event EventHandler OnTargetExitInteract;
-    public void SetTarget(IInteractable targetIInteractable);
+    public event EventHandler OnInteractedByInteracter;
+    public event EventHandler OnInteracterExitInteract;
+    public void SetInteracter(IInteractAbility interactAbility);
+    public IInteractAbility GetInteracter();
     public bool GetIsInteractable();
-    public IInteractable GetTargetIInteractable(); 
-    public Vector2 GetPosition();
-    public void IsInteractedByTarget();
-    public void TargetExitInteract();   
-    public interactOption[] GetInteractOptions();
-    public void SetInteractedOp(interactOption interactedOp);
-    public interactOption GetInteractedOp();
+    public void OnInteractWithOption(InteractOption interactOption);
+    public void InteracterExitInteract();   
     public Transform GetTransform();
-
 }
-public enum interactOption
+public enum interactOptionE
 {
     Bully,
     happyChat,
     sit
 }
-
+[System.Serializable]
+public struct InteractOption
+{
+    public interactOptionE interactOptionEnum;
+    [Range(0,1)] public float chance;
+}

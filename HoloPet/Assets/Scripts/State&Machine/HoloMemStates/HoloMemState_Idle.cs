@@ -14,7 +14,7 @@ public class HoloMemState_Idle : StateBase
     public override void Enter()
     {
         //event       
-        stateMachine.interactManager.OnInteractedByTarget += InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter += InteractManager_OnInteractedByInteracter;
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
@@ -52,7 +52,7 @@ public class HoloMemState_Idle : StateBase
         //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByTarget -= InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter -= InteractManager_OnInteractedByInteracter;
     }
 
     // < Events >
@@ -68,10 +68,10 @@ public class HoloMemState_Idle : StateBase
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
     }
-    private void InteractManager_OnInteractedByTarget(object sender, EventArgs e)
+    private void InteractManager_OnInteractedByInteracter(object sender, EventArgs e)
     {
         // Exit to interact
-        stateMachine.ChangeState(stateMachine.stateInteracted);
+        stateMachine.interactManager.OnInteractWithOption(stateMachine.interactManager.GetInteracter().GetChoosenOp());
         return;
     }
     // < Package Method >

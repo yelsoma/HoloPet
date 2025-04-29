@@ -16,7 +16,7 @@ public class HoloMemState_ChooseRandom : StateBase
         //event
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick += MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByTarget += InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter += InteractManager_OnInteractedByInteracter;
         //start
         randomNum = UnityEngine.Random.Range(0, randomStates.Length);       
     }
@@ -39,7 +39,7 @@ public class HoloMemState_ChooseRandom : StateBase
         //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByTarget -= InteractManager_OnInteractedByTarget;
+        stateMachine.interactManager.OnInteractedByInteracter -= InteractManager_OnInteractedByInteracter;
     }
 
     // < Events >
@@ -55,10 +55,10 @@ public class HoloMemState_ChooseRandom : StateBase
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
     }
-    private void InteractManager_OnInteractedByTarget(object sender, EventArgs e)
+    private void InteractManager_OnInteractedByInteracter(object sender, EventArgs e)
     {
         // Exit to interact
-        stateMachine.ChangeState(stateMachine.stateInteracted);
+        stateMachine.interactManager.OnInteractWithOption(stateMachine.interactManager.GetInteracter().GetChoosenOp());
         return;
     }
 }

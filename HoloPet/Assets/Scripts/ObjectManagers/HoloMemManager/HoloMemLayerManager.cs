@@ -11,21 +11,25 @@ public class HoloMemLayerManager : MonoBehaviour ,ILayerManager
     [SerializeField] private SpriteLayer backHandLayer;
     [Header("State")]
     [SerializeField] private HoloMemState_Grab stateGrab;
-    [SerializeField] private HoloMemState_Spawn stateSpawn;
 
 
-    private void Start()
+    private void Awake()
     {
         stateMachine.stateKnockUp.OnEnterState += StateKnockUp_OnEnterState;
         stateMachine.stateGrab.OnEnterState += StateGrab_OnEnterState;
         stateMachine.stateMounting.OnEnterState += StateMounting_OnEnterState;
+        stateMachine.stateSpawn.OnEnterState += StateSpawn_OnEnterState;
         stateGrab.OnExitGrab += StateGrab_OnExitGrab;
-        stateSpawn.OnSpawn += StateSpawn_OnSpawn;
+        stateMachine.stateHappyChatInteracted.OnEnterState += StateHappyChatInteracted_OnEnterState;
     }
 
-    private void StateSpawn_OnSpawn(object sender, System.EventArgs e)
+    private void StateHappyChatInteracted_OnEnterState(object sender, System.EventArgs e)
     {
-        Debug.Log(transform);
+        SpriteLayerCenter.InsertLayersAfterTransform(transform, stateMachine.interactManager.GetInteracter().GetTransform());
+    }
+
+    private void StateSpawn_OnEnterState(object sender, System.EventArgs e)
+    {
         SpriteLayerCenter.AddNewLayers(transform);
     }
 

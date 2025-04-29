@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HoloMemState_KnockUp : StateBase
-{   
+{
+    public event EventHandler OnKnockUpFall;
     [SerializeField] private HoloMemStateMachine stateMachine;
     private float knockUpPower;
     [SerializeField] private float knockUpDecrese;
@@ -63,6 +64,7 @@ public class HoloMemState_KnockUp : StateBase
         else
         {
             startFall = true;
+            OnKnockUpFall?.Invoke(this, EventArgs.Empty);
             //max fall speed
             if(fallSpeedNow <= fallSpeedMax)
             {
