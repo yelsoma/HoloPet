@@ -42,16 +42,9 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbi
         int interactableArrayLength;
         interactableArrayLength = interactablelists.ToArray().Length;
         if (interactableArrayLength > 0)
-        {           
-            RaycastHit2D closestHits = interactablelists[0];
-            for (int i = 0; i < interactableArrayLength; i++)
-            {
-                if (interactablelists[i].distance < closestHits.distance)
-                {
-                    closestHits = interactablelists[i];
-                } 
-            }
-            target = closestHits.transform.GetComponent<IInteractable>();
+        {
+            int randomTargetI = UnityEngine.Random.Range(0, interactableArrayLength);
+            target = interactablelists[randomTargetI].transform.GetComponent<IInteractable>();
         }
         else
         {

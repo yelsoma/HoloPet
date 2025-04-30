@@ -25,4 +25,5 @@ public struct InteractOption
 {
     public interactOptionE interactOptionEnum;
     [Range(0,1)] public float chance;
+    public StateBase stateBase;
 }

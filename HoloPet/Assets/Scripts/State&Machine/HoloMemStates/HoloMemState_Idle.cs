@@ -13,6 +13,7 @@ public class HoloMemState_Idle : StateBase
     // < State Base >
     public override void Enter()
     {
+        stateMachine.eventManager.OnChangeState += EventManager_OnChangeState;
         //event       
         stateMachine.interactManager.OnInteractedByInteracter += InteractManager_OnInteractedByInteracter;
         stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
@@ -49,6 +50,7 @@ public class HoloMemState_Idle : StateBase
     }
     public override void Exit()
     {
+        stateMachine.eventManager.OnChangeState -= EventManager_OnChangeState;
         //event
         stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
         stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
@@ -86,5 +88,10 @@ public class HoloMemState_Idle : StateBase
             return true;
         }
     }
-    
+    private void EventManager_OnChangeState(object sender, HoloMemEventManager.OnChangeStateArgs e)
+    {
+        // Exit to Appoint
+        stateMachine.ChangeState(e.stateBase);
+        return;
+    }
 }

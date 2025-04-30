@@ -91,7 +91,7 @@ public class InputManagerVr2 : MonoBehaviour
         {           
             if(collider2D.transform.TryGetComponent(out MouseInput mouseInput)&& collider2D.transform.TryGetComponent(out ILayerManager layerManager))
             {
-                if(layerManager.GetObjectLayer() >= layerNow)
+                if(layerManager.GetObjectLayer() >= layerNow && mouseInput)
                 {
                     layerNow = layerManager.GetObjectLayer();
                     selectedOb = mouseInput;

@@ -13,6 +13,7 @@ public class HoloMemState_Fall : StateBase
     // < State Base >
     public override void Enter()
     {
+        stateMachine.eventManager.OnChangeState += EventManager_OnChangeState;
         //cant do       
         stateMachine.interactManager.SetIsInteractable(false);      
         stateMachine.mountManager.SetIsMountableState(false); 
@@ -52,6 +53,7 @@ public class HoloMemState_Fall : StateBase
     }
     public override void Exit()
     {
+        stateMachine.eventManager.OnChangeState -= EventManager_OnChangeState;
         //cant do 
         stateMachine.interactManager.SetIsInteractable(true);
         stateMachine.mountManager.SetIsMountableState(true);
@@ -72,5 +74,11 @@ public class HoloMemState_Fall : StateBase
         //exit to knockUp
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
-    }   
+    }
+    private void EventManager_OnChangeState(object sender, HoloMemEventManager.OnChangeStateArgs e)
+    {
+        // Exit to Appoint
+        stateMachine.ChangeState(e.stateBase);
+        return;
+    }
 }
