@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoloMemStateMachine : StateMachineBase
+public class HoloMemStateMachine : StateMachineBase 
 {
     [Header("Basic Managers")]
     [SerializeField] public BoundaryManager boundaryManager;
     [SerializeField] public FaceDirection faceDirection;
-    [SerializeField] public MouseInput mouseInput;
     [SerializeField] public Movement movement;
     [SerializeField] public RaycastManager raycastManager;
 
@@ -15,7 +14,7 @@ public class HoloMemStateMachine : StateMachineBase
     [SerializeField] public HoloMemInteractManager interactManager;
     [SerializeField] public HoloMemMountManager mountManager;
     [SerializeField] public HoloMemLayerManager layerManager;
-    [SerializeField] public HoloMemEventManager eventManager;
+    [SerializeField] public HoloMemInputManager inputManager;
 
 
     [Header("States")]

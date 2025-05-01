@@ -9,14 +9,10 @@ public class CartState_Spawn : StateBase
     // < State Base >
     public override void Enter()
     {
-
         //cant do
         stateMachine.mountManager.SetIsMountableState(false);
 
-
         //event
-        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
         //start
         stateMachine.faceDirection.SetFaceRight();
@@ -38,23 +34,7 @@ public class CartState_Spawn : StateBase
         stateMachine.mountManager.SetIsMountableState(true);
 
         //event
-        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-
     }
 
     // < Events >
-
-    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //exit to grab
-        stateMachine.ChangeState(stateMachine.stateGrab);
-        return;
-    }
-    private void MouseInput_OnClick(object sender, EventArgs e)
-    {
-        //exit to knockUp
-        stateMachine.ChangeState(stateMachine.stateKnockUp);
-        return;
-    }
 }

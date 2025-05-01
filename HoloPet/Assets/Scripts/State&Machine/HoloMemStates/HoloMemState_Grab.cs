@@ -11,82 +11,42 @@ public class HoloMemState_Grab : StateBase
 
     // < State Base >
     public override void Enter()
-    {
-        stateMachine.eventManager.OnChangeState += EventManager_OnChangeState;
-        stateMachine.eventManager.OnMouseRelease += EventManager_OnMouseRelease;
+    {        
         //cant do
         stateMachine.interactManager.SetIsInteractable(false);
         stateMachine.mountManager.SetIsMountableState(false);
-        
 
         //event
-        //stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        //stateMachine.mouseInput.OnRelease += Input_OnRelease;
-
+        stateMachine.inputManager.OnMouseRelease += InputManager_OnMouseRelease;
 
         //start
     }
 
-   
-
     public override void StateUpdate()
-    {     
-        // logic in event
+    {
+        stateMachine.transform.position = stateMachine.inputManager.GetMouseVetor2();
     }
+
     public override void StateLateUpdate()
     {
         stateMachine.boundaryManager.CheckAllBouderyAndResetPos();
     }
+
     public override void Exit()
     {
-        stateMachine.eventManager.OnChangeState -= EventManager_OnChangeState;
-        stateMachine.eventManager.OnMouseRelease += EventManager_OnMouseRelease;
+
         OnExitGrab?.Invoke(this, EventArgs.Empty);
+
         //cant do
         stateMachine.interactManager.SetIsInteractable(true);
         stateMachine.mountManager.SetIsMountableState(true);
+
         //event
-        //stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        //stateMachine.mouseInput.OnRelease -= Input_OnRelease;        
+        stateMachine.inputManager.OnMouseRelease -= InputManager_OnMouseRelease;
     }
 
     // < Events >
-    //private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    //{
-    //    //drag  
-    //    stateMachine.transform.position = e.mousePos;
-    //}
-    //private void Input_OnRelease(object sender, System.EventArgs e)
-    //{
-    //    if(stateMachine.raycastManager.TrySetRaycast(1f, Vector2.down))
-    //    {
-    //        if (stateMachine.mountManager.TrySetMountWithRaycast(stateMachine.raycastManager.GetRaycastHits()))
-    //        {
-    //            stateMachine.raycastManager.ClearHits();
-    //            //exit to  mounting
-    //            stateMachine.ChangeState(stateMachine.stateMounting);
-    //            return;
-    //        }                  
-    //    }
-    //    stateMachine.raycastManager.ClearHits();
-    //    //exit to fall
-    //    stateMachine.ChangeState(stateMachine.stateFall);
-    //    return;      
-    //}
-    private void EventManager_OnChangeState(object sender, HoloMemEventManager.OnChangeStateArgs e)
-    {
-        if(e.stateBase == stateMachine.stateGrab)
-        {
-            stateMachine.transform.position = stateMachine.mouseInput.GetMouseVetor2();
-        }
-        else
-        {
-            // Exit to Appoint
-            stateMachine.ChangeState(e.stateBase);
-            return;
-        }       
-    }
-    private void EventManager_OnMouseRelease(object sender, EventArgs e)
+    private void InputManager_OnMouseRelease(object sender, EventArgs e)
     {
         if (stateMachine.raycastManager.TrySetRaycast(1f, Vector2.down))
         {

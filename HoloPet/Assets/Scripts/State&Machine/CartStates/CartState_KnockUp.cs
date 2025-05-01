@@ -20,8 +20,6 @@ public class CartState_KnockUp : StateBase
     public override void Enter()
     {
         //event
-        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
         //start
         knockUpPower = UnityEngine.Random.Range(7f, 7f);
@@ -99,21 +97,7 @@ public class CartState_KnockUp : StateBase
     public override void Exit()
     {
         //event
-        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
     }
 
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //exit to grab
-        stateMachine.ChangeState(stateMachine.stateGrab);
-        return;
-    }
-    private void MouseInput_OnClick(object sender, EventArgs e)
-    {
-        //exit to knockUp
-        stateMachine.ChangeState(stateMachine.stateKnockUp);
-        return;
-    }
 }

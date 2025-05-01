@@ -9,7 +9,7 @@ public class InputManagerVr2 : MonoBehaviour
     private Vector2 mouseWorldPosition;
     private Vector2 mouseInatialPos;
     private Collider2D[] mousePointColliders = new Collider2D[10];
-    private MouseInput selectedOb;
+    private IClickable selectedClickable;
     private float clickTime;
     private bool overClickTime;
     private bool overClickPos;
@@ -18,7 +18,7 @@ public class InputManagerVr2 : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             SetSelectedOb();
-            if (selectedOb != null)
+            if (selectedClickable != null)
             {
                 GetMouseInatialPos();
                 clickTime = 0f;
@@ -28,11 +28,11 @@ public class InputManagerVr2 : MonoBehaviour
         }
         if (Input.GetMouseButton(0))
         {
-            if (selectedOb != null)
+            if (selectedClickable != null)
             {
                 if (ClickTimeOver() || overClickPos)
                 {
-                    selectedOb.Drag(GetMouseWorldPosition());
+                    selectedClickable.Drag(GetMouseWorldPosition());
                 }
                 if (!overClickPos)
                 {
@@ -43,7 +43,7 @@ public class InputManagerVr2 : MonoBehaviour
                 }
                 if (overClickPos)
                 {
-                    selectedOb.Drag(GetMouseWorldPosition());
+                    selectedClickable.Drag(GetMouseWorldPosition());
                 }
 
             }
@@ -52,14 +52,14 @@ public class InputManagerVr2 : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
 
-            if (selectedOb != null)
+            if (selectedClickable != null)
             {
                 if (!ClickTimeOver())
                 {
-                    selectedOb.Click();
-                    selectedOb.Release();
+                    selectedClickable.Click();
+                    selectedClickable.Release();
                 }
-                selectedOb.Release();
+                selectedClickable.Release();
             }
             ClearSelectedOb();
             ClearMousePointColliders();
@@ -88,20 +88,22 @@ public class InputManagerVr2 : MonoBehaviour
     {
         int layerNow = -32767;
         foreach (Collider2D collider2D in GetMousePositionCollider2Ds(GetMouseWorldPosition()))
-        {           
-            if(collider2D.transform.TryGetComponent(out MouseInput mouseInput)&& collider2D.transform.TryGetComponent(out ILayerManager layerManager))
+        {
+            // get IClickable , check is now clickable
+            if (collider2D.transform.TryGetComponent(out IClickable clickable) && clickable.GetIsNowClickable())
             {
-                if(layerManager.GetObjectLayer() >= layerNow && mouseInput)
+                //get ILayerManager , set the top layer one to selectedClickable
+                if (collider2D.transform.TryGetComponent(out ILayerManager layerManager) && layerManager.GetObjectLayer() >= layerNow)
                 {
                     layerNow = layerManager.GetObjectLayer();
-                    selectedOb = mouseInput;
+                    selectedClickable = clickable;
                 }
             }
         }
     }
     private void ClearSelectedOb()
     {
-        selectedOb = null;
+        selectedClickable = null;
     }
     private bool ClickTimeOver()
     {

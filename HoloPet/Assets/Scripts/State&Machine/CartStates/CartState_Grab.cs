@@ -14,8 +14,6 @@ public class CartState_Grab : StateBase
     public override void Enter()
     {
         //event
-        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        stateMachine.mouseInput.OnRelease += Input_OnRelease;
 
         //start
         if (stateMachine.mountManager.GetIsMounted())
@@ -41,21 +39,7 @@ public class CartState_Grab : StateBase
     public override void Exit()
     {
         //event
-        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        stateMachine.mouseInput.OnRelease -= Input_OnRelease;
     }
 
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //drag  
-        stateMachine.transform.position = e.mousePos;
-    }
-    private void Input_OnRelease(object sender, System.EventArgs e)
-    {        
-        stateMachine.raycastManager.ClearHits();
-        //exit to fall
-        stateMachine.ChangeState(stateMachine.stateFall);
-        return;
-    }
 }

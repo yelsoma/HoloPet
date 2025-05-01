@@ -25,8 +25,6 @@ public class HoloMemState_HappyChat : StateBase
         stateMachine.interactManager.SetIsInteractable(false);
 
         //event     
-        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick += MouseInput_OnClick;
         stateMachine.interactManager.OnTargetExitInteract += InteractManager_OnTargetExitInteract;
 
         //start
@@ -120,27 +118,12 @@ public class HoloMemState_HappyChat : StateBase
         stateMachine.interactManager.SetIsInteractable(true);
 
         //event
-        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
         stateMachine.interactManager.OnTargetExitInteract -= InteractManager_OnTargetExitInteract;
     }
 
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //exit to grab
-        stateMachine.ChangeState(stateMachine.stateGrab);
-        return;
-    }
-    private void MouseInput_OnClick(object sender, EventArgs e)
-    {
-        //exit to knock up
-        stateMachine.ChangeState(stateMachine.stateKnockUp);
-        return;
-    }
     private void InteractManager_OnTargetExitInteract(object sender, EventArgs e)
     {
-        //exit to idle
         targetExitInteract = true; 
     }
 }

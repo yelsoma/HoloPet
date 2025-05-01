@@ -13,11 +13,8 @@ public class HoloMemState_Idle : StateBase
     // < State Base >
     public override void Enter()
     {
-        stateMachine.eventManager.OnChangeState += EventManager_OnChangeState;
+
         //event       
-        stateMachine.interactManager.OnInteractedByInteracter += InteractManager_OnInteractedByInteracter;
-        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
         //start
         /*
@@ -50,32 +47,11 @@ public class HoloMemState_Idle : StateBase
     }
     public override void Exit()
     {
-        stateMachine.eventManager.OnChangeState -= EventManager_OnChangeState;
         //event
-        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-        stateMachine.interactManager.OnInteractedByInteracter -= InteractManager_OnInteractedByInteracter;
     }
 
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //exit to grab
-        stateMachine.ChangeState(stateMachine.stateGrab);
-        return;
-    }
-    private void MouseInput_OnClick(object sender, EventArgs e)
-    {
-        //exit to KnockUp
-        stateMachine.ChangeState(stateMachine.stateKnockUp);
-        return;
-    }
-    private void InteractManager_OnInteractedByInteracter(object sender, EventArgs e)
-    {
-        // Exit to interact
-        stateMachine.interactManager.OnInteractWithOption(stateMachine.interactManager.GetInteracter().GetChoosenOp());
-        return;
-    }
+
     // < Package Method >
     private bool IsIdleTimeUp()
     {
@@ -88,10 +64,5 @@ public class HoloMemState_Idle : StateBase
             return true;
         }
     }
-    private void EventManager_OnChangeState(object sender, HoloMemEventManager.OnChangeStateArgs e)
-    {
-        // Exit to Appoint
-        stateMachine.ChangeState(e.stateBase);
-        return;
-    }
+    
 }

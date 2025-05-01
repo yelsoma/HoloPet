@@ -13,10 +13,7 @@ public class FurnitureState_Spawn : StateBase
         //cant do
         stateMachine.mountManager.SetIsMountableState(false);
 
-
         //event
-        stateMachine.mouseInput.OnDrag += Input_OnDrag;
-        stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
         //start
         stateMachine.faceDirection.SetFaceRight();
@@ -40,23 +37,7 @@ public class FurnitureState_Spawn : StateBase
         stateMachine.mountManager.SetIsMountableState(true);
 
         //event
-        stateMachine.mouseInput.OnDrag -= Input_OnDrag;
-        stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
-
     }
 
     // < Events >
-
-    private void Input_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //exit to grab
-        stateMachine.ChangeState(stateMachine.stateGrab);
-        return;
-    }
-    private void MouseInput_OnClick(object sender, EventArgs e)
-    {
-        //exit to knockUp
-        stateMachine.ChangeState(stateMachine.stateKnockUp);
-        return;
-    }
 }

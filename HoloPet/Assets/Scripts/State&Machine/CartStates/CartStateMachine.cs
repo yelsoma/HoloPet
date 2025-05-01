@@ -7,7 +7,7 @@ public class CartStateMachine : StateMachineBase
     [Header("Basic Managers")]
     [SerializeField] public BoundaryManager boundaryManager;
     [SerializeField] public FaceDirection faceDirection;
-    [SerializeField] public MouseInput mouseInput;
+    //[SerializeField] public MouseInput mouseInput;
     [SerializeField] public Movement movement;
     [SerializeField] public RaycastManager raycastManager;
 

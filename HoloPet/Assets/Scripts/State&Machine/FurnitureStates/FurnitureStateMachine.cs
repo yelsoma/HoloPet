@@ -6,7 +6,7 @@ public class FurnitureStateMachine : StateMachineBase
 {
     [Header("Need Refernce")]
     [SerializeField] public BoundaryManager boundaryManager;
-    [SerializeField] public MouseInput mouseInput;
+    //[SerializeField] public MouseInput mouseInput;
     [SerializeField] public Movement movement;
     [SerializeField] public FurnitureMountManager mountManager;
     [SerializeField] public FaceDirection faceDirection;

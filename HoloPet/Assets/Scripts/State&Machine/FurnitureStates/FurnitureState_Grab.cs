@@ -13,8 +13,6 @@ public class FurnitureState_Grab : StateBase
     public override void Enter()
     {
         //event
-        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        stateMachine.mouseInput.OnRelease += Input_OnRelease;
 
         //start
         stateMachine.layerManager.PullToTop();
@@ -35,21 +33,7 @@ public class FurnitureState_Grab : StateBase
     {
         OnLeaveGrab?.Invoke(this, EventArgs.Empty);
         //event
-        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        stateMachine.mouseInput.OnRelease -= Input_OnRelease;
     }
 
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //drag  
-        stateMachine.transform.position = e.mousePos;
-    }
-    private void Input_OnRelease(object sender, System.EventArgs e)
-    {
-        stateMachine.raycastManager.ClearHits();
-        //exit to fall
-        stateMachine.ChangeState(stateMachine.stateFall);
-        return;
-    }
 }

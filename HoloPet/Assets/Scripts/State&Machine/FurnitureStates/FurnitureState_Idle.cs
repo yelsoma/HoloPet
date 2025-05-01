@@ -9,8 +9,6 @@ public class FurnitureState_Idle : StateBase
     public override void Enter()
     {
         //event       
-        stateMachine.mouseInput.OnDrag += MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick += MouseInput_OnClick;
 
         //start
         /*
@@ -38,21 +36,7 @@ public class FurnitureState_Idle : StateBase
     public override void Exit()
     {
         //event
-        stateMachine.mouseInput.OnDrag -= MouseInput_OnDrag;
-        stateMachine.mouseInput.OnClick -= MouseInput_OnClick;
 
     }
     // < Events >
-    private void MouseInput_OnDrag(object sender, MouseInput.OnDragEventArgs e)
-    {
-        //exit to grab
-        stateMachine.ChangeState(stateMachine.stateGrab);
-        return;
-    }
-    private void MouseInput_OnClick(object sender, EventArgs e)
-    {
-        //exit to KnockUp
-        stateMachine.ChangeState(stateMachine.stateKnockUp);
-        return;
-    }
 }
