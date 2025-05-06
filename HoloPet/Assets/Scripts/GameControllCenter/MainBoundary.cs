@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class MainBoundary 
 {
-    [SerializeField] private static Camera mainCamera;
+    private static Camera mainCamera = Camera.main;
     private static float leftBounderyVectorX;
     private static float rightBounderyVectorX;
     private static float botBounderyVectorY;
@@ -14,13 +14,13 @@ public static class MainBoundary
     
     public static void SetBoudery()
     {
-        screenSize.x = Vector2.Distance(Camera.main.ScreenToWorldPoint(new Vector2(0f, 0f)), Camera.main.ScreenToWorldPoint(new Vector2(UnityEngine.Screen.width, 0f)));
-        screenSize.y = Vector2.Distance(Camera.main.ScreenToWorldPoint(new Vector2(0f, 0f)), Camera.main.ScreenToWorldPoint(new Vector2(0f, UnityEngine.Screen.height)));
-        taskBarHight = Vector2.Distance(Camera.main.ScreenToWorldPoint(new Vector2(0f, System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height)), Camera.main.ScreenToWorldPoint(new Vector2(0f, UnityEngine.Screen.height)));
-        leftBounderyVectorX = Camera.main.transform.position.x - (screenSize.x * 0.5f);
-        rightBounderyVectorX = Camera.main.transform.position.x + (screenSize.x * 0.5f);
-        botBounderyVectorY = Camera.main.transform.position.y - (screenSize.y * 0.5f) + taskBarHight;
-        topBounderyVectorY = Camera.main.transform.position.y + (screenSize.y * 0.5f);
+        screenSize.x = Vector2.Distance(mainCamera.ScreenToWorldPoint(new Vector2(0f, 0f)), mainCamera.ScreenToWorldPoint(new Vector2(UnityEngine.Screen.width, 0f)));
+        screenSize.y = Vector2.Distance(mainCamera.ScreenToWorldPoint(new Vector2(0f, 0f)), mainCamera.ScreenToWorldPoint(new Vector2(0f, UnityEngine.Screen.height)));
+        taskBarHight = Vector2.Distance(mainCamera.ScreenToWorldPoint(new Vector2(0f, System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height)), mainCamera.ScreenToWorldPoint(new Vector2(0f, UnityEngine.Screen.height)));
+        leftBounderyVectorX = mainCamera.transform.position.x - (screenSize.x * 0.5f);
+        rightBounderyVectorX = mainCamera.transform.position.x + (screenSize.x * 0.5f);
+        botBounderyVectorY = mainCamera.transform.position.y - (screenSize.y * 0.5f) + taskBarHight;
+        topBounderyVectorY = mainCamera.transform.position.y + (screenSize.y * 0.5f);
     }
     public static float GetLeftBounderyVectorX()
     {

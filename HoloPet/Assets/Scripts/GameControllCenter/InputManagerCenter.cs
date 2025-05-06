@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManagerVr2 : MonoBehaviour
+public class InputManagerCenter : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
     private Vector2 mouseWorldPosition;
