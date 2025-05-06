@@ -56,5 +56,9 @@ public void ChangeState(StateBase newState){};
 
 目前角色之間的互動系統寫的比較複雜，角色的互動分成執行者和被互動者，執行者的"interactManager"中有可執行的"互動選項"Array，被互動者也有一個可被執行的"互動選項"Array。
 互動選項是透過enum標籤來分類。腳色要執行互動時就會配對雙方的enum標籤來看有沒有能執行的互動。配對成功後，就會去執行雙方互動選項對應的狀態。角色對其他物體執行互動也是同樣。(不確定是否有更好的寫法)
-
+腳本位置
+(Assets/Scripts/Enum/InteractEnumAndStruct)
+(Assets/Scripts/InterFace/IInteractable和IInteractAbility)
+(Assets/Scripts/ObjectManagers/HoloMemInteractManager)
+(Assets/Scripts/ObjectManagers/Cartmanager/CartInteractManager)
 
