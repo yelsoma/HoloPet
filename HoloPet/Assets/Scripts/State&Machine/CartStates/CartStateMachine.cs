@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CartStateMachine : StateMachineBase
 {
+    //Managers
     [Header("Basic Managers")]
     [SerializeField] public BoundaryManager boundaryManager;
     [SerializeField] public FaceDirection faceDirection;
