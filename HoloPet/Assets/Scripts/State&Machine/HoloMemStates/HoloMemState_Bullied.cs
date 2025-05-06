@@ -40,7 +40,6 @@ public class HoloMemState_Bullied : StateBase
     }
     public override void StateLateUpdate()
     {
-        Debug.Log(stateMachine + "iam bullied");
         stateMachine.ChangeState(stateMachine.stateKnockUp);
         return;
     }

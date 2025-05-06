@@ -29,6 +29,7 @@ public class HoloMemStateMachine : StateMachineBase
     [SerializeField] public StateBase stateIdle;
     [SerializeField] public StateBase stateKnockUp;
     [SerializeField] public StateBase stateMounting;
+    [SerializeField] public StateBase stateMountingInteract;
     [SerializeField] public StateBase stateSpawn;
     [SerializeField] public StateBase stateThink;
     [SerializeField] public StateBase stateWander;

@@ -31,12 +31,12 @@ public class CartState_KnockUp : StateBase
         if (knockUpFaceDir <= 0.5)
         {
             knockUpRight = false;
-            stateMachine.faceDirection.SetFaceLeft();
+            stateMachine.faceDirection.SetFaceRight();
         }
         else
         {
             knockUpRight = true;
-            stateMachine.faceDirection.SetFaceRight();
+            stateMachine.faceDirection.SetFaceLeft();
         }
     }
     public override void StateUpdate()

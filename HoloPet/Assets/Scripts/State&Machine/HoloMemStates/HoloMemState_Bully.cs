@@ -38,7 +38,6 @@ public class HoloMemState_Bully : StateBase
     public override void StateUpdate()
     {
         //hit target
-        Debug.Log("hit" + stateMachine.interactManager.GetTargetIInteractable());
         stateMachine.ChangeState(stateMachine.stateIdle);
         return;
      
@@ -56,5 +55,4 @@ public class HoloMemState_Bully : StateBase
     }
 
     // < Events >
-
 }

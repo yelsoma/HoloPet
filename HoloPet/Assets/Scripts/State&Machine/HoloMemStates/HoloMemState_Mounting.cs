@@ -46,6 +46,7 @@ public class HoloMemState_Mounting : StateBase
     public override void StateLateUpdate()
     {
     }
+
     public override void Exit()
     {
         OnExitMounting?.Invoke(this, EventArgs.Empty);

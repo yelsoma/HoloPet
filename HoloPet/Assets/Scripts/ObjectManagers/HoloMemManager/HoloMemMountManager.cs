@@ -25,9 +25,14 @@ public class HoloMemMountManager : MonoBehaviour, IMountable, IMountingAbility
     {
         return myMount;
     }
-    public void SetMount(IMountable mount)
+    public bool TrySetMount(IMountable mount)
     {
-        myMount = mount;
+        if (mount.GetIsMountable())
+        {
+            myMount = mount;
+            return true;
+        }
+        return false;
     }
     public bool TrySetMountWithRaycast(RaycastHit2D[] raycastHit2Ds)
     {

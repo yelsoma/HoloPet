@@ -6,7 +6,6 @@ using System;
 public class HoloMemInputManager : MonoBehaviour ,IClickable
 {
     [SerializeField] HoloMemStateMachine stateMachine;
-    private Vector2 mouseVector2;
     private bool isNowClickable = true;
     //event
     public event EventHandler OnMouseRelease;
@@ -16,12 +15,11 @@ public class HoloMemInputManager : MonoBehaviour ,IClickable
         stateMachine.ChangeState(stateMachine.stateKnockUp);
     }
     public void Drag(Vector2 mouseVector2)
-    {
-        
+    {        
         // if is not grab change to grab
         if(stateMachine.GetStateNow() == stateMachine.stateGrab)
         {
-            this.mouseVector2 = mouseVector2;           
+            stateMachine.transform.position = mouseVector2;
         }
         else
         {
@@ -32,9 +30,10 @@ public class HoloMemInputManager : MonoBehaviour ,IClickable
     {
         OnMouseRelease?.Invoke(this, EventArgs.Empty);
     }
-    public Vector2 GetMouseVetor2()
+
+    public void SetIsNowClickable(bool isNowClickable)
     {
-        return mouseVector2;
+        this.isNowClickable = isNowClickable;
     }
     public bool GetIsNowClickable()
     {

@@ -10,6 +10,7 @@ public class BotanAniManager : MonoBehaviour
     [Header("states")]
     [SerializeField] private HoloMemState_Mounting stateMounting;
     [SerializeField] private HoloMemState_KnockUp stateKnockUp;
+    [SerializeField] private HoloMemState_HappyChatInteracted stateInteracted;
 
     private void Awake()
     {
@@ -25,11 +26,11 @@ public class BotanAniManager : MonoBehaviour
         stateMounting.OnExitMounting += StateMounting_OnExitMounting;
         stateMachine.stateFollowTarget.OnEnterState += StateFollowTarget_OnEnterState;
         stateMachine.stateHappyChat.OnEnterState += StateHappyChat_OnEnterState;
-        stateKnockUp.OnKnockUpFall += StateKnockUp_OnKnockUpFall;
-        stateMachine.stateHappyChatInteracted.OnEnterState += StateHappyChatInteracted_OnEnterState;
+        stateKnockUp.OnKnockUpFall += StateKnockUp_OnKnockUpFall;      
+        stateInteracted.OnStartJump += StateInteracted_OnStartJump;
     }
 
-    private void StateHappyChatInteracted_OnEnterState(object sender, System.EventArgs e)
+    private void StateInteracted_OnStartJump(object sender, System.EventArgs e)
     {
         animator.Play(AniEnum.Botan.Face.BotanFaceHappy.ToString(), layer: 1);
     }

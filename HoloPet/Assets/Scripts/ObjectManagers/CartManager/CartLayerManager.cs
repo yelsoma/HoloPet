@@ -7,7 +7,7 @@ public class CartLayerManager : MonoBehaviour, ILayerManager
     [Header("StateMachine")]
     [SerializeField] private CartStateMachine stateMachine;
     [Header("SpriteLayers")]
-    [SerializeField] private SpriteLayer objectLayer;
+    [SerializeField] private SpriteLayer mainLayer;
 
     private void Awake()
     {
@@ -37,8 +37,8 @@ public class CartLayerManager : MonoBehaviour, ILayerManager
         SpriteLayerCenter.PullRootLayersToTop(transform);
     }
 
-    public int GetObjectLayer()
+    public int GetObjectMainLayer()
     {
-        return objectLayer.GetSpriteLayer();
+        return mainLayer.GetSpriteLayer();
     }
 }

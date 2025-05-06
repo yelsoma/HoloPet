@@ -11,9 +11,7 @@ public class CartState_Idle : StateBase
         //event       
 
         //start
-        /*
-        stateMachine.data.SetHpToMax();
-        */
+        stateMachine.interactManager.SetIsInteractable(true);
     }
     public override void StateUpdate()
     {
@@ -35,6 +33,8 @@ public class CartState_Idle : StateBase
     }
     public override void Exit()
     {
+        stateMachine.interactManager.SetIsInteractable(false);
+
         //event
 
     }

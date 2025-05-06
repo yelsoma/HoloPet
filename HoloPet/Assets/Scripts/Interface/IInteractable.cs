@@ -5,25 +5,13 @@ using System;
 
 public interface IInteractable 
 {
-    public event EventHandler OnInteractedByInteracter;
-    public event EventHandler OnInteracterExitInteract;
+    public event EventHandler OnExitInteracted;
+    public void ExitInteractedEvent();
     public void SetInteracter(IInteractAbility interactAbility);
     public IInteractAbility GetInteracter();
     public bool GetIsInteractable();
-    public void OnInteractWithOption(InteractOption interactOption);
-    public void InteracterExitInteract();   
+    public void SetIsInteractable(bool isInteractable);
+    public List<InteractedOption> GetInteractedOptions();
+    public void GoToChoosenInteracedState();
     public Transform GetTransform();
-}
-public enum interactOptionE
-{
-    Bully,
-    happyChat,
-    sit
-}
-[System.Serializable]
-public struct InteractOption
-{
-    public interactOptionE interactOptionEnum;
-    [Range(0,1)] public float chance;
-    public StateBase stateBase;
 }

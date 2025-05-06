@@ -12,7 +12,7 @@ public class InputManagerVr2 : MonoBehaviour
     private IClickable selectedClickable;
     private float clickTime;
     private bool overClickTime;
-    private bool overClickPos;
+    private bool dragOverPos;
     public void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -22,7 +22,7 @@ public class InputManagerVr2 : MonoBehaviour
             {
                 GetMouseInatialPos();
                 clickTime = 0f;
-                overClickPos = false;
+                dragOverPos = false;
             }
 
         }
@@ -30,22 +30,17 @@ public class InputManagerVr2 : MonoBehaviour
         {
             if (selectedClickable != null)
             {
-                if (ClickTimeOver() || overClickPos)
+                if (ClickTimeOver() || dragOverPos)
                 {
                     selectedClickable.Drag(GetMouseWorldPosition());
-                }
-                if (!overClickPos)
+                }                      
+                if (!dragOverPos)
                 {
                     if (Vector2.Distance(mouseInatialPos, GetMouseWorldPosition()) >= 0.3f)
                     {
-                        overClickPos = true;
+                        dragOverPos = true;
                     }
                 }
-                if (overClickPos)
-                {
-                    selectedClickable.Drag(GetMouseWorldPosition());
-                }
-
             }
 
         }
@@ -54,10 +49,9 @@ public class InputManagerVr2 : MonoBehaviour
 
             if (selectedClickable != null)
             {
-                if (!ClickTimeOver())
+                if (!ClickTimeOver() && dragOverPos == false)
                 {
                     selectedClickable.Click();
-                    selectedClickable.Release();
                 }
                 selectedClickable.Release();
             }
@@ -93,9 +87,9 @@ public class InputManagerVr2 : MonoBehaviour
             if (collider2D.transform.TryGetComponent(out IClickable clickable) && clickable.GetIsNowClickable())
             {
                 //get ILayerManager , set the top layer one to selectedClickable
-                if (collider2D.transform.TryGetComponent(out ILayerManager layerManager) && layerManager.GetObjectLayer() >= layerNow)
+                if (collider2D.transform.TryGetComponent(out ILayerManager layerManager) && layerManager.GetObjectMainLayer() >= layerNow)
                 {
-                    layerNow = layerManager.GetObjectLayer();
+                    layerNow = layerManager.GetObjectMainLayer();
                     selectedClickable = clickable;
                 }
             }

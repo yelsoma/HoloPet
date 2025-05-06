@@ -5,8 +5,9 @@ using System;
 
 public interface IInteractAbility 
 {
-    public InteractOption GetChoosenOp();
+    public event EventHandler OnExitInteracting;
+    public void ExitInteractingEvent();
+    public BothInteractOption GetBothInteractOption();
     public IInteractable GetTargetIInteractable();
     public Transform GetTransform();
-    public void InteractTargetExitInteract();
 }

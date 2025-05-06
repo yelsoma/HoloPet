@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbility
 {
@@ -14,13 +15,13 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbi
     private IInteractAbility interacter;
 
     //interact option
-    [SerializeField] private List<InteractOption> interactOptionList;
-    private InteractOption choosenInteractOp;
+    [SerializeField] private List<InteracterOption> interacterOptionList;
+    [SerializeField] private List<InteractedOption> interactedOptionList;
+    private BothInteractOption choosenBothInteractOption;
 
     //event
-    public event EventHandler OnInteractedByInteracter;
-    public event EventHandler OnInteracterExitInteract;
-    public event EventHandler OnTargetExitInteract;
+    public event EventHandler OnExitInteracted;
+    public event EventHandler OnExitInteracting;
 
 
     //interact Ability
@@ -54,30 +55,47 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbi
         //there is something interactable
         return true;
     }
-    public void ChooseAnOption()
+    public bool TryMatchOptionsChooseWithBothChance()
     {
-        float chance = UnityEngine.Random.Range(0f, 1f);
-        float chanceAdd = 0;
-        foreach (InteractOption interactOp in interactOptionList)
+        //creat a both side option list
+        List<BothInteractOption> bothInteractOptionsList = new List<BothInteractOption>();
+        //get target InteractedOption list
+        List<InteractedOption> targetInteractedOpionList = target.GetInteractedOptions();
+        //cycle through both side options see if option enum match ,add them to  both side op list
+        foreach (InteracterOption interacterOption in interacterOptionList)
         {
-            chanceAdd += interactOp.chance;
-            if(chanceAdd >= chance)
+            foreach(InteractedOption interactedOption in targetInteractedOpionList)
             {
-                choosenInteractOp = interactOp;
-            }
+                if(interacterOption.interacterOptionEnum == interactedOption.interactedOptionEnum)
+                {
+                    BothInteractOption bothInteracterOption = new BothInteractOption();
+                    bothInteracterOption.SetInteracterOption(interacterOption);
+                    bothInteracterOption.SetInteractedOption(interactedOption);
+                    bothInteractOptionsList.Add(bothInteracterOption);
+                }
+            }           
         }
+        //random one fron list
+        if(bothInteractOptionsList.Count > 0)
+        {
+            int i = UnityEngine.Random.Range(0, bothInteractOptionsList.Count);
+            choosenBothInteractOption = bothInteractOptionsList[i];
+            return true;
+        }
+        //there is nothing in list
+        return false;
     }
-    public InteractOption GetChoosenOp()
+    public BothInteractOption GetBothInteractOption()
     {
-        return choosenInteractOp;
+        return choosenBothInteractOption;
     }
     public IInteractable GetTargetIInteractable()
     {
         return target;
     }
-    public void InteractTargetExitInteract()
+    public void ExitInteractingEvent()
     {
-        OnTargetExitInteract?.Invoke(this, EventArgs.Empty);
+        OnExitInteracting?.Invoke(this, EventArgs.Empty);
     }
 
 
@@ -98,39 +116,21 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbi
     {
         return interacter;
     }
-    public void OnInteractWithOption(InteractOption interactOption)
+    public List<InteractedOption> GetInteractedOptions()
     {
-        if (stateMachine.interactManager.GetInteracter() == null)
-        {
-            // exit to idle
-            stateMachine.ChangeState(stateMachine.stateIdle);
-            return;
-        }
-        InteractOption interactedOp = stateMachine.interactManager.GetInteracter().GetChoosenOp();
-        if (interactedOp.interactOptionEnum == interactOptionE.Bully)
-        {
-            stateMachine.ChangeState(stateMachine.stateBullied);
-            return;
-        }
-        if (interactedOp.interactOptionEnum == interactOptionE.happyChat)
-        {
-            stateMachine.ChangeState(stateMachine.stateHappyChatInteracted);
-            return;
-        }
-        if (interactedOp.interactOptionEnum == interactOptionE.sit)
-        {
-            stateMachine.ChangeState(stateMachine.stateIdle);
-            return;
-        }
-        OnInteractedByInteracter?.Invoke(this, EventArgs.Empty);
+        return interactedOptionList;
     }
-    public void InteracterExitInteract()
-    {
-        OnInteracterExitInteract?.Invoke(this, EventArgs.Empty);
+    public void GoToChoosenInteracedState()
+    {    
+        // if choosen option have state goto that state else do nothing
+        if (interacter.GetBothInteractOption().GetInteractedOption().optionState != null)
+        {
+            stateMachine.ChangeState(interacter.GetBothInteractOption().GetInteractedOption().optionState);
+        }
     }
-    public Vector2 GetPosition()
+    public void ExitInteractedEvent()
     {
-        return transform.position;
+        OnExitInteracted?.Invoke(this, EventArgs.Empty);
     }
     public Transform GetTransform()
     {

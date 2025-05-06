@@ -136,22 +136,7 @@ public class HoloMemState_FollowTarget : StateBase
     private void GoToChoosenInteract()
     {
         stateMachine.interactManager.GetTargetIInteractable().SetInteracter(stateMachine.interactManager);
-        stateMachine.interactManager.GetTargetIInteractable().OnInteractWithOption(stateMachine.interactManager.GetChoosenOp());
-        interactOptionE choosenOpE = stateMachine.interactManager.GetChoosenOp().interactOptionEnum;
-        if(choosenOpE == interactOptionE.Bully)
-        {
-            stateMachine.ChangeState(stateMachine.stateBully);
-            return;
-        }
-        if (choosenOpE == interactOptionE.happyChat)
-        {
-            stateMachine.ChangeState(stateMachine.stateHappyChat);
-            return;
-        }
-        if (choosenOpE == interactOptionE.sit)
-        {
-            stateMachine.ChangeState(stateMachine.stateIdle);
-            return;
-        }
+        stateMachine.interactManager.GetTargetIInteractable().GoToChoosenInteracedState();
+        stateMachine.ChangeState(stateMachine.interactManager.GetBothInteractOption().GetInteracterOption().optionState);
     }
 }

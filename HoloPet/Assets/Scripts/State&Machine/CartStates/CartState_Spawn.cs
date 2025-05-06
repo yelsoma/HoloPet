@@ -11,7 +11,7 @@ public class CartState_Spawn : StateBase
     {
         //cant do
         stateMachine.mountManager.SetIsMountableState(false);
-
+        stateMachine.interactManager.SetIsInteractable(false);
         //event
 
         //start
@@ -32,7 +32,7 @@ public class CartState_Spawn : StateBase
     {
         //cant do
         stateMachine.mountManager.SetIsMountableState(true);
-
+        stateMachine.interactManager.SetIsInteractable(true);
         //event
     }
 

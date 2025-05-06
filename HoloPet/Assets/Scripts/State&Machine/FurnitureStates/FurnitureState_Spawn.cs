@@ -9,7 +9,6 @@ public class FurnitureState_Spawn : StateBase
     // < State Base >
     public override void Enter()
     {
-
         //cant do
         stateMachine.mountManager.SetIsMountableState(false);
 

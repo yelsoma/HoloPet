@@ -23,8 +23,7 @@ public class HoloMemState_Grab : StateBase
     }
 
     public override void StateUpdate()
-    {
-        stateMachine.transform.position = stateMachine.inputManager.GetMouseVetor2();
+    {     
     }
 
     public override void StateLateUpdate()

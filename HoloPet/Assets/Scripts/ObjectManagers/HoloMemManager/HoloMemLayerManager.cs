@@ -7,7 +7,7 @@ public class HoloMemLayerManager : MonoBehaviour ,ILayerManager
     [Header("StateMachine")]
     [SerializeField] private HoloMemStateMachine stateMachine;
     [Header("SpriteLayers")]
-    [SerializeField] private SpriteLayer objectLayer;
+    [SerializeField] private SpriteLayer mainLayer;
     [SerializeField] private SpriteLayer backHandLayer;
     [Header("State")]
     [SerializeField] private HoloMemState_Grab stateGrab;
@@ -40,7 +40,7 @@ public class HoloMemLayerManager : MonoBehaviour ,ILayerManager
 
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.PullRootLayersToTop(transform);
+        SpriteLayerCenter.InsertLayersToParent(transform);
     }
 
     private void StateGrab_OnEnterState(object sender, System.EventArgs e)
@@ -54,8 +54,8 @@ public class HoloMemLayerManager : MonoBehaviour ,ILayerManager
         SpriteLayerCenter.PullRootLayersToTop(transform);
     }
 
-    public int GetObjectLayer()
+    public int GetObjectMainLayer()
     {
-        return objectLayer.GetSpriteLayer();
+        return mainLayer.GetSpriteLayer();
     }
 }

@@ -30,12 +30,16 @@ public class HoloMemState_Think : StateBase
         }
 
         //interact option
-        stateMachine.interactManager.ChooseAnOption();
+        if (stateMachine.interactManager.TryMatchOptionsChooseWithBothChance())
+        {
+            //exit to to follow target
+            stateMachine.ChangeState(stateMachine.stateFollowTarget);
+            return;
+        }
 
-        //exit to to follow target
-        stateMachine.ChangeState(stateMachine.stateFollowTarget);
+        //exit to to idle
+        stateMachine.ChangeState(stateMachine.stateIdle);
         return;
-
     }
 
     public override void StateUpdate()

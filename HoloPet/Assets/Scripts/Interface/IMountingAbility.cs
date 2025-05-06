@@ -6,6 +6,6 @@ public interface IMountingAbility
 {
     public void SetIsMounting(bool isMounting);
     public bool GetIsMounting();
-    public void SetMount(IMountable mount);
+    public bool TrySetMount(IMountable mount);
     public IMountable GetMount();
 }
