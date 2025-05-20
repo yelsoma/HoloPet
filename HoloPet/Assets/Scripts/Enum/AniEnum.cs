@@ -40,6 +40,32 @@ public class AniEnum
             BotanFaceTired
         }
     }
+    public class Watame
+    {
+        public enum Main
+        {
+            WatameFall,
+            WatameGrab,
+            WatameIdle,
+            WatameMount,
+            WatameRun,
+            WatameSleepy,
+            WatameWalk
+        }
+        public enum Face
+        {
+            WatameFaceCalm,
+            WatameFaceExciting,
+            WatameFaceHappy,
+            WatameFaceHit,
+            WatameFaceNormal,
+            WatameFaceRoar,
+            WatameFaceSad,
+            WatameFaceShock,
+            WatameFaceSleepy,
+            WatameFaceTired
+        }
+    }
     public class Cart
     {
         public enum Main
