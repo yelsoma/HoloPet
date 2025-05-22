@@ -11,14 +11,12 @@ public class HoloMemState_HappyChatInteracted : StateBase
     [SerializeField] private float jumpUpDecrese;
     [SerializeField] private int jumpCount;
     private float jumpUpPowerNow;
-    private bool startFall;
     private float fallSpeedIncreese = 6.5f;
     private float fallSpeedMax = 9f;
     private float fallSpeedNow;
     private float jumpCountLeft;
     [SerializeField] private float startJumpDelay;
-    private float startJumpDelayNow;
-    private bool startJump;
+    private Coroutine jumpCoroutine;
 
     public override void Enter()
     {        
@@ -28,14 +26,9 @@ public class HoloMemState_HappyChatInteracted : StateBase
         //event     
         stateMachine.interactManager.GetInteracter().OnExitInteracting += HoloMemState_HappyChatInteracted_OnExitInteracting;
         //start
-        startJump = false;
-        fallSpeedNow = 0f;
-        startFall = false;
-        jumpUpPowerNow = jumpUpPower;
-        jumpCountLeft = jumpCount;
-        startJumpDelayNow = startJumpDelay;
+
         
-        // check is there target , set face to target ,and set interacter to parent
+        // check is there target , set face to target
         if (stateMachine.interactManager.GetInteracter() != null)
         {
             if (stateMachine.interactManager.GetIsInteracterRight())
@@ -46,6 +39,7 @@ public class HoloMemState_HappyChatInteracted : StateBase
             {
                 stateMachine.faceDirection.SetFaceLeft();
             }
+            jumpCoroutine = StartCoroutine(CoJumpStart());
         }
         else
         {
@@ -56,69 +50,15 @@ public class HoloMemState_HappyChatInteracted : StateBase
     } 
 
     public override void StateUpdate()
-    {
-        if(startJumpDelayNow >= 0 && startJump == false)
-        {
-            startJumpDelayNow -= Time.deltaTime;
-        }
-        else
-        {
-            startJump = true;
-            OnStartJump?.Invoke(this, EventArgs.Empty);
-        }
-        if (startJump)
-        {
-            if (jumpCountLeft <= 0)
-            {
-                stateMachine.boundaryManager.SetToBotBoundary();
-                //exit to idle
-                stateMachine.ChangeState(stateMachine.stateIdle);
-                return;
-            }
-            if (jumpUpPowerNow >= 0f)
-            {
-                jumpUpPowerNow -= jumpUpDecrese * Time.deltaTime;
-                if (stateMachine.boundaryManager.CheckIsTopBounderyAndResetPos())
-                {
-                    jumpUpPowerNow = -1f;
-                }
-                //keep jump          
-            }
-            else
-            {
-                startFall = true;
-                //max fall speed
-                if (fallSpeedNow <= fallSpeedMax)
-                {
-                    fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
-                }
-                if (stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos())
-                {
-                    jumpCountLeft -= 1;
-                    jumpUpPowerNow = jumpUpPower;
-                    fallSpeedNow = 0;
-                    startFall = false;
-                }
-            }
-        }       
+    {          
     }
     public override void StateLateUpdate()
-    {
-        if (startJump)
-        {
-            if (!startFall)
-            {
-                stateMachine.movement.MoveUp(jumpUpPowerNow);
-            }
-            if (startFall)
-            {
-                stateMachine.movement.MoveDown(fallSpeedNow);
-            }
-        }       
+    {     
     }
 
     public override void Exit()
     {
+        StopCoroutine(jumpCoroutine);
         //tell interacter that i exit interact
         stateMachine.interactManager.ExitInteractedEvent();
         // can do
@@ -132,6 +72,40 @@ public class HoloMemState_HappyChatInteracted : StateBase
     private void HoloMemState_HappyChatInteracted_OnExitInteracting(object sender, EventArgs e)
     {
         jumpCountLeft = 1;
+    }
+
+    //corutine
+    private IEnumerator CoJumpStart()
+    {
+        yield return new WaitForSeconds(startJumpDelay);
+        jumpCountLeft = jumpCount;
+        jumpUpPowerNow = jumpUpPower;
+        fallSpeedNow = 0f;
+        OnStartJump?.Invoke(this, EventArgs.Empty);
+        while (jumpCountLeft > 0)
+        {
+            if(jumpUpPowerNow > 0)
+            {
+                stateMachine.movement.MoveUp(jumpUpPowerNow);
+                jumpUpPowerNow -= jumpUpDecrese * Time.deltaTime;
+            }
+            else
+            {
+                stateMachine.movement.MoveDown(fallSpeedNow);
+                if(fallSpeedNow <= fallSpeedMax)
+                {
+                    fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
+                }                
+                if (stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos())
+                {
+                    jumpCountLeft--;
+                    jumpUpPowerNow = jumpUpPower;
+                    fallSpeedNow = 0f;
+                }
+            }
+            yield return null;
+        }
+        stateMachine.ChangeState(stateMachine.stateIdle);
     }
 }
 

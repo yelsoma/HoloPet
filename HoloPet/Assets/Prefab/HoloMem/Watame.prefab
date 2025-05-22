@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 2185676140201452658}
-  followSpeed: 0.5
   interactDistance: 0.75
+  followTargetSpeed: 0.5
 --- !u!1 &2251676917595202361
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 7001377925654342187}
   - component: {fileID: 3313692468052906915}
   - component: {fileID: 1984039880422140586}
+  - component: {fileID: 6084033966035026683}
   m_Layer: 0
   m_Name: Watame
   m_TagString: Untagged
@@ -157,6 +158,7 @@ MonoBehaviour:
   mountManager: {fileID: 6194335700434077043}
   layerManager: {fileID: 1196613556240592183}
   inputManager: {fileID: 3313692468052906915}
+  baseData: {fileID: 6084033966035026683}
   stateBullied: {fileID: 10962062438807547}
   stateBully: {fileID: 2406451100836085103}
   stateChooseARandom: {fileID: 7142613118572645230}
@@ -164,7 +166,7 @@ MonoBehaviour:
   stateFollowTarget: {fileID: 2225113920447369729}
   stateGrab: {fileID: 5084008114882339417}
   stateHappyChat: {fileID: 6205991358785933997}
-  stateHappyChatInteracted: {fileID: 733313752024106211}
+  stateHappyChatInteracted: {fileID: 8613718438547582807}
   stateIdle: {fileID: 5631653172433429105}
   stateKnockUp: {fileID: 4220026599578604433}
   stateMounting: {fileID: 7325443811634968665}
@@ -245,15 +247,23 @@ MonoBehaviour:
     interacterOptionEnum: 2
     chance: 1
     optionState: {fileID: 7848208128305029245}
+  - interacterOptionName: Bully
+    interacterOptionEnum: 0
+    chance: 1
+    optionState: {fileID: 2406451100836085103}
   interactedOptionList:
   - interactedOptionName: happy chat interacted
     interactedOptionEnum: 1
     chance: 1
-    optionState: {fileID: 733313752024106211}
+    optionState: {fileID: 8613718438547582807}
   - interactedOptionName: mounted
     interactedOptionEnum: 2
     chance: 1
     optionState: {fileID: 0}
+  - interactedOptionName: Bullied
+    interactedOptionEnum: 0
+    chance: 1
+    optionState: {fileID: 10962062438807547}
 --- !u!114 &6194335700434077043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +343,22 @@ MonoBehaviour:
   stateMachine: {fileID: 2185676140201452658}
   stateMounting: {fileID: 7325443811634968665}
   stateKnockUp: {fileID: 4220026599578604433}
-  stateHappyChatInteracted: {fileID: 733313752024106211}
+  stateHappyChatInteracted: {fileID: 8613718438547582807}
+  stateBullied: {fileID: 10962062438807547}
+--- !u!114 &6084033966035026683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2251676917595202361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430f3c873003ec5488eb781dfb830208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectName: 1
+  ObjectType: 0
 --- !u!1 &2666257198307941952
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +368,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3086274022592084378}
-  - component: {fileID: 733313752024106211}
+  - component: {fileID: 8613718438547582807}
   m_Layer: 0
   m_Name: HappyChatInteracted
   m_TagString: Untagged
@@ -366,7 +391,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3805930469746056658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &733313752024106211
+--- !u!114 &8613718438547582807
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -375,14 +400,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2666257198307941952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76685760b5427484f9a80f5a12418a94, type: 3}
+  m_Script: {fileID: 11500000, guid: 73f19d943be228240ba1c25f6f08f051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 2185676140201452658}
   jumpUpPower: 3
   jumpUpDecrese: 14
   jumpCount: 3
-  startJumpDelay: 0.125
+  startJumpDelay: 0.06
 --- !u!1 &3002464206763089033
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642bc1e28f44c684390a0ac673682855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallSpeedIncreese: 6.5
+  fallSpeedIncrease: 6.5
   fallSpeedMax: 9
   stateMachine: {fileID: 2185676140201452658}
 --- !u!1 &3883842990321513581
@@ -853,6 +878,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 2185676140201452658}
+  knockUpPower: 4
+  KnockUpDecrease: 8
+  knockBackPower: 1
+  panicTime: 2.5
+  panicRunSpeed: 0.5
 --- !u!1 &4784655307615211270
 GameObject:
   m_ObjectHideFlags: 0

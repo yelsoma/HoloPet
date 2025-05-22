@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HoloMemState_HappyChat : StateBase 
@@ -11,11 +10,11 @@ public class HoloMemState_HappyChat : StateBase
     [SerializeField] private float jumpUpDecrese;
     [SerializeField] private int jumpCount;
     private float jumpUpPowerNow;
-    private bool startFall;
     private float fallSpeedIncreese = 6.5f;
     private float fallSpeedMax = 9f;
     private float fallSpeedNow;
     private float jumpCountLeft;
+    private Coroutine jumpCoroutine;
     public override void Enter()
     {
         //can do
@@ -25,12 +24,8 @@ public class HoloMemState_HappyChat : StateBase
         stateMachine.interactManager.GetTargetIInteractable().OnExitInteracted += HoloMemState_HappyChat_OnExitInteracted;
 
         //start
-        fallSpeedNow = 0f;
-        startFall = false;
-        jumpUpPowerNow = jumpUpPower;
-        jumpCountLeft = jumpCount;
 
-        // check is there target , set face to target ,and set target to child
+        // check is there target , set face to target 
         if (stateMachine.interactManager.GetTargetIInteractable() != null)
         {
             if (stateMachine.interactManager.GetIsTargetRight())
@@ -41,8 +36,8 @@ public class HoloMemState_HappyChat : StateBase
             {
                 stateMachine.faceDirection.SetFaceLeft();
             }
-            //stateMachine.interactManager.GetBothInteractOption().GetInteractedOption.
-            //stateMachine.interactManager.GetTargetIInteractable().GetTransform().SetParent(stateMachine.transform);
+            //start jump
+            jumpCoroutine = StartCoroutine(CoStartJump());
         }
         else
         {
@@ -54,54 +49,13 @@ public class HoloMemState_HappyChat : StateBase
 
     public override void StateUpdate()
     {
-        if (jumpCountLeft <= 0)
-        {
-            stateMachine.boundaryManager.SetToBotBoundary();
-            //exit to idle
-            stateMachine.ChangeState(stateMachine.stateIdle);
-            return;
-        }
-        if (jumpUpPowerNow >= 0f)
-        {
-            jumpUpPowerNow -= jumpUpDecrese * Time.deltaTime;
-            if (stateMachine.boundaryManager.CheckIsTopBounderyAndResetPos())
-            {
-                jumpUpPowerNow = -1f;
-            }
-            //keep jump          
-        }
-        else
-        {
-            startFall = true;
-            //max fall speed
-            if (fallSpeedNow <= fallSpeedMax)
-            {
-                fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
-            }
-            if (stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos())
-            {
-                jumpCountLeft -= 1;
-                jumpUpPowerNow = jumpUpPower;
-                fallSpeedNow = 0;
-                startFall = false;
-            }
-        }
     }
     public override void StateLateUpdate()
-    {
-        if (!startFall)
-        {
-            stateMachine.movement.MoveUp(jumpUpPowerNow);
-        }
-        if (startFall)
-        {
-            stateMachine.movement.MoveDown(fallSpeedNow);
-        }
+    {     
     }
     public override void Exit()
     {
-        // set target parant to null
-        //stateMachine.interactManager.GetTargetIInteractable().GetTransform().SetParent(null);
+        StopCoroutine(jumpCoroutine);
         //tell target that i exit interact
         stateMachine.interactManager.ExitInteractingEvent();
         // can do
@@ -115,5 +69,37 @@ public class HoloMemState_HappyChat : StateBase
     private void HoloMemState_HappyChat_OnExitInteracted(object sender, EventArgs e)
     {
         jumpCountLeft = 1;
+    }
+
+    //coroutine
+    private IEnumerator CoStartJump()
+    {
+        jumpCountLeft = jumpCount;
+        jumpUpPowerNow = jumpUpPower;
+        fallSpeedNow = 0f;
+        while (jumpCountLeft > 0)
+        {
+            if (jumpUpPowerNow > 0)
+            {
+                stateMachine.movement.MoveUp(jumpUpPowerNow);
+                jumpUpPowerNow -= jumpUpDecrese * Time.deltaTime;
+            }
+            else
+            {
+                stateMachine.movement.MoveDown(fallSpeedNow);
+                if (fallSpeedNow <= fallSpeedMax)
+                {
+                    fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
+                }
+                if (stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos())
+                {
+                    jumpCountLeft--;
+                    jumpUpPowerNow = jumpUpPower;
+                    fallSpeedNow = 0f;
+                }
+            }
+            yield return null;
+        }
+        stateMachine.ChangeState(stateMachine.stateIdle);
     }
 }

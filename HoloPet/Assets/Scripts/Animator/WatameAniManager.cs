@@ -11,6 +11,7 @@ public class WatameAniManager : MonoBehaviour
     [SerializeField] private HoloMemState_Mounting stateMounting;
     [SerializeField] private HoloMemState_KnockUp stateKnockUp;
     [SerializeField] private HoloMemState_HappyChatInteracted stateHappyChatInteracted;
+    [SerializeField] private HoloMemState_Bullied stateBullied;
 
     private void Awake()
     {
@@ -28,6 +29,34 @@ public class WatameAniManager : MonoBehaviour
         stateMachine.stateHappyChat.OnEnterState += StateHappyChat_OnEnterState;
         stateKnockUp.OnKnockUpFall += StateKnockUp_OnKnockUpFall;      
         stateHappyChatInteracted.OnStartJump += StateInteracted_OnStartJump;
+        stateMachine.stateHappyChatInteracted.OnEnterState += StateHappyChatInteracted_OnEnterState;
+        stateBullied.OnHit += StateBullied_OnHit;
+        stateBullied.OnFall += StateBullied_OnFall;
+        stateBullied.OnPanic += StateBullied_OnPanic;
+    }
+
+    private void StateBullied_OnPanic(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Watame.Face.WatameFaceShock.ToString(), layer: 1);
+        animator.Play(AniEnum.Watame.Main.WatameRun.ToString(), layer: 0);
+    }
+
+    private void StateBullied_OnFall(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Watame.Face.WatameFaceShock.ToString(), layer: 1);
+        animator.Play(AniEnum.Watame.Main.WatameFall.ToString(), layer: 0);
+    }
+
+    private void StateBullied_OnHit(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Watame.Face.WatameFaceHit.ToString(), layer: 1);
+        animator.Play(AniEnum.Watame.Main.WatameFall.ToString(), layer: 0);
+    }
+
+    private void StateHappyChatInteracted_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Watame.Face.WatameFaceCalm.ToString(), layer: 1);
+        animator.Play(AniEnum.Watame.Main.WatameIdle.ToString(), layer: 0);
     }
 
     private void StateInteracted_OnStartJump(object sender, System.EventArgs e)

@@ -15,6 +15,7 @@ public class HoloMemStateMachine : StateMachineBase
     [SerializeField] public HoloMemMountManager mountManager;
     [SerializeField] public HoloMemLayerManager layerManager;
     [SerializeField] public HoloMemInputManager inputManager;
+    [SerializeField] public ObjectBaseData baseData;
 
 
     [Header("States")]

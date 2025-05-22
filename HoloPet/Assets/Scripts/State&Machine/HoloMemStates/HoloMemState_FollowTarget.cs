@@ -6,8 +6,8 @@ using UnityEngine;
 public class HoloMemState_FollowTarget : StateBase
 {
     [SerializeField] private HoloMemStateMachine stateMachine;
-    [SerializeField] private float followSpeed;
     [SerializeField] private float interactDistance;
+    [SerializeField] private float followTargetSpeed;
 
     private bool targetIsRight;
     private bool targetIsFar;
@@ -71,7 +71,7 @@ public class HoloMemState_FollowTarget : StateBase
         {
             if (stateMachine.interactManager.GetIsTargetFar(interactDistance))
             {
-                stateMachine.movement.MoveRight(followSpeed);
+                stateMachine.movement.MoveRight(followTargetSpeed);
             }
             else
             {
@@ -84,7 +84,7 @@ public class HoloMemState_FollowTarget : StateBase
         {
             if (stateMachine.interactManager.GetIsTargetFar(interactDistance))
             {
-                stateMachine.movement.MoveLeft(followSpeed);
+                stateMachine.movement.MoveLeft(followTargetSpeed);
             }
             else
             {
@@ -97,7 +97,7 @@ public class HoloMemState_FollowTarget : StateBase
         {
             if (!stateMachine.interactManager.GetIsTargetFar(interactDistance))
             {
-                stateMachine.movement.MoveLeft(followSpeed);
+                stateMachine.movement.MoveLeft(followTargetSpeed);
             }
             else
             {
@@ -110,7 +110,7 @@ public class HoloMemState_FollowTarget : StateBase
         {
             if (!stateMachine.interactManager.GetIsTargetFar(interactDistance))
             {
-                stateMachine.movement.MoveRight(followSpeed);
+                stateMachine.movement.MoveRight(followTargetSpeed);
             }
             else
             {

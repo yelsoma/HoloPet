@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class HoloMemState_Fall : StateBase
 {
-    [SerializeField] float fallSpeedIncreese;
-    [SerializeField] float fallSpeedMax;
     private float fallSpeedNow;
+    [SerializeField] private float fallSpeedIncrease;
+    [SerializeField] private float fallSpeedMax;
     [SerializeField] private HoloMemStateMachine stateMachine;
 
     // < State Base >
@@ -30,7 +30,7 @@ public class HoloMemState_Fall : StateBase
         if (!stateMachine.boundaryManager.CheckIsBotBounderyAndResetPos() && fallSpeedNow < fallSpeedMax)
         {
 
-            fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
+            fallSpeedNow += fallSpeedIncrease * Time.deltaTime;
             //keep fall
         }     
     }

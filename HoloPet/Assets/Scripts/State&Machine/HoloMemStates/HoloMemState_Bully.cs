@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class HoloMemState_Bully : StateBase
 {
-
     [SerializeField] private HoloMemStateMachine stateMachine;
     public override void Enter()
     {
@@ -26,7 +25,7 @@ public class HoloMemState_Bully : StateBase
             else
             {
                 stateMachine.faceDirection.SetFaceLeft();
-            }
+            }           
         }
         else
         {
@@ -37,14 +36,13 @@ public class HoloMemState_Bully : StateBase
     }
     public override void StateUpdate()
     {
-        //hit target
+        // exit to idle
         stateMachine.ChangeState(stateMachine.stateIdle);
         return;
-     
     }
     public override void StateLateUpdate()
     {
-
+       
     }
     public override void Exit()
     {

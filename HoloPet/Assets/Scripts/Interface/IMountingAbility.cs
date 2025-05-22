@@ -8,4 +8,5 @@ public interface IMountingAbility
     public bool GetIsMounting();
     public bool TrySetMount(IMountable mount);
     public IMountable GetMount();
+    public Transform GetTransform();
 }
