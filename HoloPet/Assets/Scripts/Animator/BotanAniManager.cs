@@ -33,6 +33,13 @@ public class BotanAniManager : MonoBehaviour
         stateBullied.OnHit += StateBullied_OnHit;
         stateBullied.OnFall += StateBullied_OnFall;
         stateBullied.OnPanic += StateBullied_OnPanic;
+        stateMachine.stateBully.OnEnterState += StateBully_OnEnterState;
+    }
+
+    private void StateBully_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Botan.Face.BotanFaceRoar.ToString(), layer: 1);
+        animator.Play(AniEnum.Botan.Main.BotanPunch.ToString(), layer: 0);
     }
 
     private void StateBullied_OnPanic(object sender, System.EventArgs e)
@@ -82,7 +89,7 @@ public class BotanAniManager : MonoBehaviour
 
     private void StateHappyChat_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Botan.Main.BotanRun.ToString(), layer: 0);
+        animator.Play(AniEnum.Botan.Main.BotanIdle.ToString(), layer: 0);
         animator.Play(AniEnum.Botan.Face.BotanFaceHappy.ToString(), layer: 1);      
     }
 

@@ -13,8 +13,6 @@ public class HoloMemState_Wander : StateBase
     private float randomDir;
     private bool wanderRight;
 
-
-    // < State Base >
     public override void Enter()
     {
         //event

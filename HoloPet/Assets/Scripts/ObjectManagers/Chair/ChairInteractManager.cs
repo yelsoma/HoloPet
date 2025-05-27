@@ -39,9 +39,9 @@ public class ChairInteractManager : MonoBehaviour, IInteractable
 
     public void GoToChoosenInteracedState()
     {
-        if (interacter.GetBothInteractOption().GetInteractedOption().optionState != null)
+        if (interacter.GetBothInteractOption().GetInteractedOption().GetOptionState != null)
         {
-            stateMachine.ChangeState(interacter.GetBothInteractOption().GetInteractedOption().optionState);
+            stateMachine.ChangeState(interacter.GetBothInteractOption().GetInteractedOption().GetOptionState);
         }
     }
 

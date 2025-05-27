@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using Random = UnityEngine.Random;
 
 public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbility
 {
@@ -46,17 +47,15 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbi
         {
             int randomTargetI = UnityEngine.Random.Range(0, interactableArrayLength);
             target = interactablelists[randomTargetI].transform.GetComponent<IInteractable>();
+            //there is something interactable
+            return true;
         }
-        else
-        {
-            //there is nothing interactable
-            return false;
-        }
-        //there is something interactable
-        return true;
+        //there is nothing interactable
+        return false;
     }
     public bool TryMatchOptionsChooseWithBothChance()
     {
+        float totalChance = 0;
         //creat a both side option list
         List<BothInteractOption> bothInteractOptionsList = new List<BothInteractOption>();
         //get target InteractedOption list
@@ -66,22 +65,35 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbi
         {
             foreach(InteractedOption interactedOption in targetInteractedOpionList)
             {
-                if(interacterOption.interacterOptionEnum == interactedOption.interactedOptionEnum)
+                if(interacterOption.GetInteracterOptionEnum == interactedOption.GetInteractedOptionEnum)
                 {
-                    BothInteractOption bothInteracterOption = new BothInteractOption();
-                    bothInteracterOption.SetInteracterOption(interacterOption);
-                    bothInteracterOption.SetInteractedOption(interactedOption);
-                    bothInteractOptionsList.Add(bothInteracterOption);
+                    BothInteractOption bothInteractOption = new BothInteractOption();
+                    bothInteractOption.SetInteracterOption(interacterOption);
+                    bothInteractOption.SetInteractedOption(interactedOption);
+                    float addedChance = interacterOption.GetChance * interactedOption.GetChance;
+                    bothInteractOption.SetAddedChance(addedChance);
+                    bothInteractOptionsList.Add(bothInteractOption);                   
+                    totalChance += addedChance;                    
                 }
             }           
         }
-        //random one fron list
-        if(bothInteractOptionsList.Count > 0)
+        //there is nothing in list
+        if (totalChance == 0)
         {
-            int i = UnityEngine.Random.Range(0, bothInteractOptionsList.Count);
-            choosenBothInteractOption = bothInteractOptionsList[i];
-            return true;
+            return false;
         }
+        //random one fron list , add the chace of each option until it match random chance
+        float randomChance = Random.Range(0, totalChance);
+        float chanceAddedNow = 0f;
+        foreach(BothInteractOption bothInteractOption in bothInteractOptionsList)
+        {
+            chanceAddedNow += bothInteractOption.GetAddedChance();
+            if (chanceAddedNow >= randomChance)
+            {
+                choosenBothInteractOption = bothInteractOption;
+                return true;
+            }
+        }        
         //there is nothing in list
         return false;
     }
@@ -123,9 +135,9 @@ public class HoloMemInteractManager : MonoBehaviour ,IInteractable ,IInteractAbi
     public void GoToChoosenInteracedState()
     {    
         // if choosen option have state goto that state else do nothing
-        if (interacter.GetBothInteractOption().GetInteractedOption().optionState != null)
+        if (interacter.GetBothInteractOption().GetInteractedOption().GetOptionState != null)
         {
-            stateMachine.ChangeState(interacter.GetBothInteractOption().GetInteractedOption().optionState);
+            stateMachine.ChangeState(interacter.GetBothInteractOption().GetInteractedOption().GetOptionState);
         }
     }
     public void ExitInteractedEvent()

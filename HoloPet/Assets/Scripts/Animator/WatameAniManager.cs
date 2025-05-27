@@ -33,6 +33,13 @@ public class WatameAniManager : MonoBehaviour
         stateBullied.OnHit += StateBullied_OnHit;
         stateBullied.OnFall += StateBullied_OnFall;
         stateBullied.OnPanic += StateBullied_OnPanic;
+        stateMachine.stateBully.OnEnterState += StateBully_OnEnterState;
+    }
+
+    private void StateBully_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Watame.Face.WatameFaceRoar.ToString(), layer: 1);
+        animator.Play(AniEnum.Watame.Main.WatamePunch.ToString(), layer: 0);
     }
 
     private void StateBullied_OnPanic(object sender, System.EventArgs e)
@@ -82,7 +89,7 @@ public class WatameAniManager : MonoBehaviour
 
     private void StateHappyChat_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Watame.Main.WatameRun.ToString(), layer: 0);
+        animator.Play(AniEnum.Watame.Main.WatameIdle.ToString(), layer: 0);
         animator.Play(AniEnum.Watame.Face.WatameFaceHappy.ToString(), layer: 1);      
     }
 

@@ -24,7 +24,8 @@ public class AniEnum
             BotanMount,
             BotanRun,
             BotanSleepy,
-            BotanWalk
+            BotanWalk,
+            BotanPunch
         }
         public enum Face
         {
@@ -37,7 +38,7 @@ public class AniEnum
             BotanFaceSad,
             BotanFaceShock,
             BotanFaceSleepy,
-            BotanFaceTired
+            BotanFaceTired,           
         }
     }
     public class Watame
@@ -50,7 +51,8 @@ public class AniEnum
             WatameMount,
             WatameRun,
             WatameSleepy,
-            WatameWalk
+            WatameWalk,
+            WatamePunch
         }
         public enum Face
         {

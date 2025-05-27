@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class HoloMemStateMachine : StateMachineBase 
 {
-    [Header("Basic Managers")]
-    [SerializeField] public BoundaryManager boundaryManager;
-    [SerializeField] public FaceDirection faceDirection;
-    [SerializeField] public Movement movement;
-    [SerializeField] public RaycastManager raycastManager;
+    [Header("Basic")]
+    [SerializeField] private BoundaryManager boundaryManager;
+    [SerializeField] private FaceDirection faceDirection;
+    [SerializeField] private Movement movement;
+    [SerializeField] private RaycastManager raycastManager;
+    [SerializeField] private ObjectBaseData baseData;
+
+    public BoundaryManager BoundaryManager => boundaryManager;
+    public FaceDirection FaceDirection => faceDirection;
+    public Movement Movement => movement;
+    public RaycastManager RaycastManager => raycastManager;
+    public ObjectBaseData BaseData => baseData;
 
     [Header("HoloMem Managers")] 
     [SerializeField] public HoloMemInteractManager interactManager;
     [SerializeField] public HoloMemMountManager mountManager;
     [SerializeField] public HoloMemLayerManager layerManager;
     [SerializeField] public HoloMemInputManager inputManager;
-    [SerializeField] public ObjectBaseData baseData;
+    
 
 
     [Header("States")]
@@ -34,6 +42,7 @@ public class HoloMemStateMachine : StateMachineBase
     [SerializeField] public StateBase stateSpawn;
     [SerializeField] public StateBase stateThink;
     [SerializeField] public StateBase stateWander;
+
 
     protected override StateBase SetFirstState()
     {

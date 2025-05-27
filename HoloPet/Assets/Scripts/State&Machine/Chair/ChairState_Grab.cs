@@ -13,6 +13,7 @@ public class ChairState_Grab : StateBase
         //event
 
         //start
+        stateMachine.interactManager.SetIsInteractable(false);
     }
 
     public override void StateUpdate()
@@ -25,6 +26,7 @@ public class ChairState_Grab : StateBase
     }
     public override void Exit()
     {
+        stateMachine.interactManager.SetIsInteractable(true);
         //event
     }
 

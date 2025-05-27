@@ -10,6 +10,7 @@ public class ChairState_Fall : StateBase
     private float fallSpeedNow;
     public override void Enter()
     {
+        stateMachine.interactManager.SetIsInteractable(false);
         //event
 
         //start
@@ -40,6 +41,7 @@ public class ChairState_Fall : StateBase
     }
     public override void Exit()
     {
+        stateMachine.interactManager.SetIsInteractable(true);
         //event
     }
 

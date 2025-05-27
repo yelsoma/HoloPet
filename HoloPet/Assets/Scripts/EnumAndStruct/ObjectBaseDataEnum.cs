@@ -14,3 +14,9 @@ public enum ObjectTypeEnum
     Cart,
     Furniture
 }
+public enum ObjectGangEnum
+{
+    Player,
+    Enemy,
+    Neutral
+}

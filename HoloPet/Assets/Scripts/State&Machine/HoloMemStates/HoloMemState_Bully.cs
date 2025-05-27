@@ -6,6 +6,8 @@ using UnityEngine;
 public class HoloMemState_Bully : StateBase
 {
     [SerializeField] private HoloMemStateMachine stateMachine;
+    [SerializeField] private float waitTime;
+    private Coroutine waitPunchAni;
     public override void Enter()
     {
         //can do
@@ -33,12 +35,12 @@ public class HoloMemState_Bully : StateBase
             stateMachine.ChangeState(stateMachine.stateIdle);
             return;
         }
+
+        waitPunchAni = StartCoroutine(CoWaitAni());
     }
     public override void StateUpdate()
     {
-        // exit to idle
-        stateMachine.ChangeState(stateMachine.stateIdle);
-        return;
+        
     }
     public override void StateLateUpdate()
     {
@@ -46,6 +48,7 @@ public class HoloMemState_Bully : StateBase
     }
     public override void Exit()
     {
+        StopCoroutine(waitPunchAni);
         // can do
         stateMachine.interactManager.SetIsInteractable(true);
 
@@ -53,4 +56,11 @@ public class HoloMemState_Bully : StateBase
     }
 
     // < Events >
+    //Coroutine
+    private IEnumerator CoWaitAni()
+    {
+        yield return new WaitForSeconds(waitTime);
+        // exit to idle
+        stateMachine.ChangeState(stateMachine.stateIdle);
+    }
 }

@@ -18,6 +18,8 @@ public class ChairState_KnockUp : StateBase
     // < State Base >
     public override void Enter()
     {
+        //cantdo
+        stateMachine.interactManager.SetIsInteractable(false);
         //event
 
         //start
@@ -95,6 +97,7 @@ public class ChairState_KnockUp : StateBase
     }
     public override void Exit()
     {
+        stateMachine.interactManager.SetIsInteractable(true);
         //event
     }
 

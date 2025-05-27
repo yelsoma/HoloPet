@@ -6,6 +6,7 @@ public class ObjectBaseData : MonoBehaviour
 {
     [SerializeField] private ObjectNameEnum objectName;
     [SerializeField] private ObjectTypeEnum ObjectType;
+    [SerializeField] private ObjectGangEnum ObjectGang;
 
     public ObjectNameEnum GetObjectName()
     {
@@ -15,4 +16,8 @@ public class ObjectBaseData : MonoBehaviour
     {
         return ObjectType;
     }  
+    public ObjectGangEnum GetObjectGang()
+    {
+        return ObjectGang;
+    }
 }

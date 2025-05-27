@@ -137,6 +137,6 @@ public class HoloMemState_FollowTarget : StateBase
     {
         stateMachine.interactManager.GetTargetIInteractable().SetInteracter(stateMachine.interactManager);
         stateMachine.interactManager.GetTargetIInteractable().GoToChoosenInteracedState();
-        stateMachine.ChangeState(stateMachine.interactManager.GetBothInteractOption().GetInteracterOption().optionState);
+        stateMachine.ChangeState(stateMachine.interactManager.GetBothInteractOption().GetInteracterOption().GetOptionState);
     }
 }

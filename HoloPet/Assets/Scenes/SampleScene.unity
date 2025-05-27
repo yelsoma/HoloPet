@@ -1414,6 +1414,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 760866900}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &834430136 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6334675916933852366, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+  m_PrefabInstance: {fileID: 6621374837373911171}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f203612d1fd3454d97ff1bdd8cabb0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &835904983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8356081805885311127, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+  m_PrefabInstance: {fileID: 6621374837373911171}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f19d943be228240ba1c25f6f08f051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &845152869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,7 +1564,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 922026451}
-  interactedOptions: []
+  interactedOptions:
+  - interactedOptionName: Mounted
+    interactedOptionEnum: 2
+    chance: 9
+    optionState: {fileID: 0}
+  - interactedOptionName: hit
+    interactedOptionEnum: 0
+    chance: 1
+    optionState: {fileID: 807232554}
 --- !u!114 &922026445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1821,6 +1851,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5e92fc89c67f8468c072c4f6cc4e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1100781698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100781699}
+  m_Layer: 0
+  m_Name: Zombie
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1100781699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100781698}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.33680227, y: 1.1558584, z: 0.08556039}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1141894045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,6 +1989,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 1731515880}
+--- !u!114 &1180364141 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3776206751276191257, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+  m_PrefabInstance: {fileID: 4008539492015813554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8899ed6f42631449de0cc1741372dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1189269312 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4242895877347046363, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
@@ -1969,6 +2041,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 136415702}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1305854245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1305854246}
+  m_Layer: 0
+  m_Name: EnemySystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1305854246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305854245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.33680227, y: 1.1558584, z: 0.08556039}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1315922395
 GameObject:
@@ -2078,6 +2181,17 @@ Transform:
   - {fileID: 1595905310}
   m_Father: {fileID: 1687089420}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1588258172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3625673077548080479, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+  m_PrefabInstance: {fileID: 6621374837373911171}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc0b828e7130bd43986f950ec57c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1595905308
 GameObject:
   m_ObjectHideFlags: 0
@@ -2443,7 +2557,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 1654847284}
-  interactedOptions: []
+  interactedOptions:
+  - interactedOptionName: hit
+    interactedOptionEnum: 0
+    chance: 0
+    optionState: {fileID: 0}
 --- !u!114 &1654847278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2572,6 +2690,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 531e138925d986144917443fb7bea1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1671003721 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3810343941534065460, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+  m_PrefabInstance: {fileID: 6621374837373911171}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8899ed6f42631449de0cc1741372dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1680330928
@@ -2882,10 +3011,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateMachine: {fileID: 1687089418}
   interactedOptions:
-  - interactedOptionName: mouted
+  - interactedOptionName: mounted
     interactedOptionEnum: 2
-    chance: 1
+    chance: 9
     optionState: {fileID: 0}
+  - interactedOptionName: 
+    interactedOptionEnum: 0
+    chance: 1
+    optionState: {fileID: 3267044}
 --- !u!1 &1731515871
 GameObject:
   m_ObjectHideFlags: 0
@@ -3539,7 +3672,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 10962062438807547, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: panicTime
-      value: 2.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 10962062438807547, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: knockUpPower
@@ -3547,7 +3680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10962062438807547, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: panicRunSpeed
-      value: 0.5
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 10962062438807547, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: knockBackPower
@@ -3564,6 +3697,14 @@ PrefabInstance:
     - target: {fileID: 2251676917595202361, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: m_Name
       value: Watame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2251676917595202361, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2406451100836085103, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+      propertyPath: waitTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4044523633574316997, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3605,6 +3746,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7142613118572645230, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+      propertyPath: randomStates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7142613118572645230, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+      propertyPath: randomStates.Array.data[1]
+      value: 
+      objectReference: {fileID: 1180364141}
     - target: {fileID: 8117857675042125627, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: interactedOptionList.Array.size
       value: 3
@@ -3614,7 +3763,19 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8117857675042125627, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+      propertyPath: interactedOptionList.Array.data[1].chance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117857675042125627, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
       propertyPath: interactedOptionList.Array.data[2].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117857675042125627, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+      propertyPath: interacterOptionList.Array.data[0].chance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117857675042125627, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
+      propertyPath: interacterOptionList.Array.data[1].chance
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8117857675042125627, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
@@ -3663,9 +3824,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2995083912916213666, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: randomStates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2995083912916213666, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: randomStates.Array.data[0]
       value: 
       objectReference: {fileID: 1075294475}
+    - target: {fileID: 2995083912916213666, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: randomStates.Array.data[1]
+      value: 
+      objectReference: {fileID: 1671003721}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: stateMachine
+      value: 
+      objectReference: {fileID: 834430136}
     - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: interactedOptionList.Array.size
       value: 3
@@ -3675,28 +3848,96 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[1].chance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: interactedOptionList.Array.data[2].chance
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
-      propertyPath: interacterOptionList.Array.data[2].chance
+      propertyPath: interacterOptionList.Array.data[0].chance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interacterOptionList.Array.data[1].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interacterOptionList.Array.data[2].chance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[0].optionState
+      value: 
+      objectReference: {fileID: 835904983}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[1].optionState
+      value: 
+      objectReference: {fileID: 835904983}
     - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: interactedOptionList.Array.data[2].optionState
       value: 
       objectReference: {fileID: 1856254628}
     - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interacterOptionList.Array.data[1].optionState
+      value: 
+      objectReference: {fileID: 1588258172}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: interacterOptionList.Array.data[2].optionState
       value: 
       objectReference: {fileID: 1189269312}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[0].interactedOptionEnum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[0].interactedOptionName
+      value: HappyChated
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[1].interactedOptionEnum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[1].interactedOptionName
+      value: Sitted
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interactedOptionList.Array.data[2].interactedOptionEnum
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: interactedOptionList.Array.data[2].interactedOptionName
       value: Bullied
       objectReference: {fileID: 0}
     - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interacterOptionList.Array.data[0].interacterOptionName
+      value: HappyChat
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interacterOptionList.Array.data[1].interacterOptionEnum
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interacterOptionList.Array.data[1].interacterOptionName
+      value: Sit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: interacterOptionList.Array.data[2].interacterOptionEnum
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424351486711460318, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: interacterOptionList.Array.data[2].interacterOptionName
       value: Bully
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242895877347046363, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
+      propertyPath: waitTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5262584682689790836, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: stateBullied
@@ -3704,7 +3945,7 @@ PrefabInstance:
       objectReference: {fileID: 1856254628}
     - target: {fileID: 6353654367264009933, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: panicTime
-      value: 2.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6353654367264009933, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: knockUpPower
@@ -3712,7 +3953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6353654367264009933, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: panicRunSpeed
-      value: 0.5
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6353654367264009933, guid: 93a8e929088bbcd4e919fa15ef703ce5, type: 3}
       propertyPath: knockBackPower
@@ -3788,3 +4029,5 @@ SceneRoots:
   - {fileID: 922026452}
   - {fileID: 1654847285}
   - {fileID: 1731515881}
+  - {fileID: 1100781699}
+  - {fileID: 1305854246}
