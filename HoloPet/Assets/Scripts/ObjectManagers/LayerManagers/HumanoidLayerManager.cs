@@ -40,32 +40,33 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
             basicSM.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
 
         if (basicSM.StateGrabbed != null)
-            basicSM.StateGrabbed.OnExitGrab += StateGrab_OnExitGrab;
+            basicSM.StateGrabbed.OnExitState += StateGrabbed_OnExitState;
     }
 
-    private void StateGrab_OnExitGrab(object sender, System.EventArgs e)
+    private void StateGrabbed_OnExitState(object sender, System.EventArgs e)
     {
-        throw new System.NotImplementedException();
+        backHandLayer.SortingOrderPlus(-2);
     }
 
     private void StateSpawn_OnEnterState(object sender, System.EventArgs e)
     {
-        throw new System.NotImplementedException();
+        SpriteLayerCenter.AddNewLayers(transform);
     }
 
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)
     {
-        throw new System.NotImplementedException();
+        SpriteLayerCenter.InsertLayersToParent(transform);
     }
 
     private void StateGrabbed_OnEnterState(object sender, System.EventArgs e)
     {
-        throw new System.NotImplementedException();
+        SpriteLayerCenter.PullRootLayersToTop(transform);
+        backHandLayer.SortingOrderPlus(2);
     }
 
     private void StateClicked_OnEnterState(object sender, System.EventArgs e)
     {
-        throw new System.NotImplementedException();
+        SpriteLayerCenter.PullRootLayersToTop(transform);
     }
 
     public int GetObjectMainLayer()
