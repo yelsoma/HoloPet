@@ -15,8 +15,8 @@ public class FurnitureState_Grab : StateBase
         //event
 
         //start
-        stateMachine.layerManager.PullToTop();
-        LayerCenter.ResetAllLayer();
+       // stateMachine.layerManager.PullToTop();
+       // LayerCenter.ResetAllLayer();
     }
 
 

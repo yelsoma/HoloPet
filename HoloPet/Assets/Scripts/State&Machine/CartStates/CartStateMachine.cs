@@ -12,7 +12,7 @@ public class CartStateMachine : StateMachineBase
     [SerializeField] public RaycastManager raycastManager;
 
     [Header("Cart Managers")]
-    [SerializeField] public CartInputManager inputManager;
+    //[SerializeField] public CartInputManager inputManager;
     [SerializeField] public CartLayerManager layerManager;
     [SerializeField] public CartInteractManager interactManager;
     [SerializeField] public FurnitureMountManager mountManager;

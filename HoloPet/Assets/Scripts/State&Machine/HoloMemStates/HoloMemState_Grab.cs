@@ -17,7 +17,7 @@ public class HoloMemState_Grab : StateBase
         stateMachine.mountManager.SetIsMountableState(false);
 
         //event
-        stateMachine.inputManager.OnMouseRelease += InputManager_OnMouseRelease;
+     //   stateMachine.inputManager.OnMouseRelease += InputManager_OnMouseRelease;
 
         //start
     }
@@ -28,7 +28,7 @@ public class HoloMemState_Grab : StateBase
 
     public override void StateLateUpdate()
     {
-        stateMachine.boundaryManager.CheckAllBouderyAndResetPos();
+ //       stateMachine.boundaryManager.CheckAllBouderyAndResetPos();
     }
 
     public override void Exit()
@@ -41,7 +41,7 @@ public class HoloMemState_Grab : StateBase
         stateMachine.mountManager.SetIsMountableState(true);
 
         //event
-        stateMachine.inputManager.OnMouseRelease -= InputManager_OnMouseRelease;
+ //       stateMachine.inputManager.OnMouseRelease -= InputManager_OnMouseRelease;
     }
 
     // < Events >

@@ -10,7 +10,7 @@ public class FurnitureStateMachine : StateMachineBase
     [SerializeField] public Movement movement;
     [SerializeField] public FurnitureMountManager mountManager;
     [SerializeField] public FaceDirection faceDirection;
-    [SerializeField] public ObjectLayerManager layerManager;
+    //[SerializeField] public ObjectLayerManager layerManager;
     [SerializeField] public RaycastManager raycastManager;
 
     //States

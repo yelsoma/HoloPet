@@ -22,8 +22,8 @@ public class FurnitureState_KnockUp : StateBase
         //event
 
         //start
-        stateMachine.layerManager.PullToTop();
-        LayerCenter.ResetAllLayer();
+      //  stateMachine.layerManager.PullToTop();
+      //  LayerCenter.ResetAllLayer();
         knockUpPower = UnityEngine.Random.Range(7f, 7f);
         knockBackPower = UnityEngine.Random.Range(0.7f, 2f);
         fallSpeedNow = 0f;

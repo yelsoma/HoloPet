@@ -12,11 +12,15 @@ public class BoundaryManager : MonoBehaviour
     private float topObjectBoundery;
     private void Start()
     {
+        SetToMainBoudery(); 
+    }
+    public void SetToMainBoudery()
+    {
         leftObjectBoundery = MainBoundary.GetLeftBounderyVectorX() + objectWidth;
         rightObjectBoundery = MainBoundary.GetRightBounderyVectorX() - objectWidth;
         botObjectBoundery = MainBoundary.GetBotBounderyVectorY() + objectHight;
-        topObjectBoundery = MainBoundary.GetTopBounderyVectorY() - objectHight;      
-    }   
+        topObjectBoundery = MainBoundary.GetTopBounderyVectorY() - objectHight;
+    }
     public void CheckAllBouderyAndResetPos()
     {
         if (CheckIsLeftBounderyAndResetPos())

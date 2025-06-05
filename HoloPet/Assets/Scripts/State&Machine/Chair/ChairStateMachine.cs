@@ -10,7 +10,7 @@ public class ChairStateMachine : StateMachineBase
     [SerializeField] public Movement movement;
     [SerializeField] public FurnitureMountManager mountManager;
     [SerializeField] public FaceDirection faceDirection;
-    [SerializeField] public ChairInputManager inputManager;
+    //[SerializeField] public ChairInputManager inputManager;
     [SerializeField] public ChairInteractManager interactManager;
 
     //States

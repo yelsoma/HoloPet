@@ -16,8 +16,8 @@ public class FurnitureState_Spawn : StateBase
 
         //start
         stateMachine.faceDirection.SetFaceRight();
-        stateMachine.layerManager.SetNewLayer();
-        LayerCenter.ResetAllLayer();
+     //   stateMachine.layerManager.SetNewLayer();
+      //  LayerCenter.ResetAllLayer();
     }
 
     public override void StateUpdate()

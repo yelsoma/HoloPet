@@ -6,11 +6,11 @@ using UnityEngine;
 public class HoloMemStateMachine : StateMachineBase 
 {
     [Header("Basic")]
-    [SerializeField] private BoundaryManager boundaryManager;
-    [SerializeField] private FaceDirection faceDirection;
-    [SerializeField] private Movement movement;
-    [SerializeField] private RaycastManager raycastManager;
-    [SerializeField] private ObjectBaseData baseData;
+    [SerializeField] public BoundaryManager boundaryManager;
+    [SerializeField] public FaceDirection faceDirection;
+    [SerializeField] public Movement movement;
+    [SerializeField] public RaycastManager raycastManager;
+    [SerializeField] public ObjectBaseData baseData;
 
     public BoundaryManager BoundaryManager => boundaryManager;
     public FaceDirection FaceDirection => faceDirection;
@@ -22,7 +22,7 @@ public class HoloMemStateMachine : StateMachineBase
     [SerializeField] public HoloMemInteractManager interactManager;
     [SerializeField] public HoloMemMountManager mountManager;
     [SerializeField] public HoloMemLayerManager layerManager;
-    [SerializeField] public HoloMemInputManager inputManager;
+    //[SerializeField] public HoloMemInputManager inputManager;
     
 
 
