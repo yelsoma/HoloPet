@@ -11,8 +11,6 @@ public class CreatureState_Idle : StateBase
     [SerializeField] private float idleTimeMin;
     private Coroutine idleTimeCoroutine;
     private float idleTime;
-    [SerializeField] private StateBase[] randomStates;
-    private int randomStateInt;
 
     private void Awake()
     {
@@ -31,7 +29,7 @@ public class CreatureState_Idle : StateBase
         creatureSM = GetComponentInParent<ICreatureSM>();
         if (creatureSM == null)
         {
-            Debug.LogError($"{transform} ¡X no ICreatureSM found in parent.");
+            Debug.LogError($"{transform} ¡X no ICreatureSM found in parent.");          
         }
     }
     #region StateBase
@@ -67,15 +65,7 @@ public class CreatureState_Idle : StateBase
     {
         yield return new WaitForSeconds(idleTime);
         // exit to StateRandomMove
-        if (randomStates.Length > 0)
-        {
-            randomStateInt = UnityEngine.Random.Range(0, randomStates.Length);
-            stateMachine.ChangeState(randomStates[randomStateInt]);
-        }
-        else
-        {
-            stateMachine.ChangeState(basicSM.StateIdle);
-        }       
+        stateMachine.ChangeState(creatureSM.StateWander);
     }
     #endregion
 }

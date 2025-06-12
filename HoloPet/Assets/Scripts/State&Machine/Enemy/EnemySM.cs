@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbilitySM ,IInteractAbilitySM ,IInteractableSM ,ICreatureSM
 {
     #region Basic
     [Header("Basic Manager")]
-    [SerializeField] private BoundaryManager boundaryManager;
-    [SerializeField] private FaceDirection faceDirection;
-    [SerializeField] private Movement movement;
-    [SerializeField] private RaycastManager raycastManager;
-    [SerializeField] private ObjectBaseData baseData;
-    [SerializeField] private ClickableManager clickableManager;
-
+    private BoundaryManager boundaryManager;
+    private FaceDirection faceDirection;
+    private Movement movement;
+    private RaycastManager raycastManager;
+    private ObjectBaseData baseData;
+    private ClickableManager clickableManager;
     private ILayerManager layerManager;
 
     public BoundaryManager BoundaryManager => boundaryManager;
@@ -84,8 +84,29 @@ public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbili
 
     private void Awake()
     {
+        #region Basic
+        boundaryManager = GetComponentInChildren<BoundaryManager>();
+        if(boundaryManager == null ) Debug.LogError($"{name} ¡X boundaryManager not found in children.");
+
+        faceDirection = GetComponentInChildren<FaceDirection>();
+        if (faceDirection == null) Debug.LogError($"{name} ¡X faceDirection not found in children.");
+
         layerManager = GetComponentInChildren<ILayerManager>();
         if (layerManager == null) Debug.LogError($"{name} ¡X ILayerManager not found in children.");
+
+        movement = GetComponentInChildren<Movement>();
+        if (movement == null) Debug.LogError($"{name} ¡X movement not found in children.");       
+
+        raycastManager = GetComponentInChildren<RaycastManager>();
+        if (raycastManager == null) Debug.LogError($"{name} ¡X raycastManager not found in children.");
+
+        baseData = GetComponentInChildren<ObjectBaseData>();
+        if (baseData == null) Debug.LogError($"{name} ¡X baseData not found in children.");
+
+        clickableManager = GetComponentInChildren<ClickableManager>();
+        if (clickableManager == null) Debug.LogError($"{name} ¡X clickableManager not found in children.");
+
+        #endregion
 
         mountable = GetComponentInChildren<IMountable>();
        // if (mountable == null) Debug.LogError($"{name} ¡X IMountable not found in children.");
@@ -94,9 +115,10 @@ public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbili
        // if (mountingAbility == null) Debug.LogError($"{name} ¡X IMountingAbility not found in children.");
 
         interactAbiliy = GetComponentInChildren<IInteractAbility>();
-      //  if (interactAbiliy == null) Debug.LogError($"{name} ¡X IInteractAbility not found in children.");
+       // if (interactAbiliy == null) Debug.LogError($"{name} ¡X IInteractAbility not found in children.");
 
         interactable = GetComponentInChildren<IInteractable>();
-       // if (interactable == null) Debug.LogError($"{name} ¡X IInteractable not found in children.");
+        // if (interactable == null) Debug.LogError($"{name} ¡X IInteractable not found in children.");
+
     }
 }

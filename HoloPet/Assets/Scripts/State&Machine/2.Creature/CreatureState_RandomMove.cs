@@ -5,6 +5,7 @@ using UnityEngine;
 public class CreatureState_RandomMove : StateBase
 {
     private StateMachineBase stateMachine;
+    private IBasicSM basicSM;
     private ICreatureSM creatureSM;
     [SerializeField] private StateBase[] randomStates;
     private int randomStateInt;
@@ -29,22 +30,25 @@ public class CreatureState_RandomMove : StateBase
             Debug.LogError($"{transform} ¡X no ICreatureSM found in parent.");
         }
     }
+
     #region StateBase
-    //StateBase
     public override void Enter()
     {
-        idleTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
-        idleTimeCoroutine = StartCoroutine(CoIdleTime());
-
+        if(randomStates.Length > 0)
+        {
+            randomStateInt = UnityEngine.Random.Range(0, randomStates.Length);
+            // state change to idle
+            stateMachine.ChangeState(randomStates[randomStateInt]);
+        }
+        else
+        {
+            stateMachine.ChangeState(basicSM.StateIdle);
+        }
     }
 
     public override void StateUpdate()
     {
-        if (!basicSM.BoundaryManager.CheckIsBotBounderyAndResetPos())
-        {
-            // exit to StateInAir
-            stateMachine.ChangeState(basicSM.StateInAir);
-        }
+
     }
 
     public override void StateLateUpdate()
@@ -53,24 +57,7 @@ public class CreatureState_RandomMove : StateBase
 
     public override void Exit()
     {
-        StopCoroutine(idleTimeCoroutine);
-    }
-    #endregion
-    #region Coroutine
-    //Coroutine
-    private IEnumerator CoIdleTime()
-    {
-        yield return new WaitForSeconds(idleTime);
-        // exit to StateRandomMove
-        if (randomStates.Length > 0)
-        {
-            randomStateInt = UnityEngine.Random.Range(0, randomStates.Length);
-            stateMachine.ChangeState(randomStates[randomStateInt]);
-        }
-        else
-        {
-            stateMachine.ChangeState(basicSM.StateIdle);
-        }
+
     }
     #endregion
 }
