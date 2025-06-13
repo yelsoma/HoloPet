@@ -6,7 +6,7 @@ public class CreatureState_Idle : StateBase
 {
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
-    private ICreatureSM creatureSM;
+    private IRandomMoveSM creatureSM;
     [SerializeField] private float idleTimeMax;
     [SerializeField] private float idleTimeMin;
     private Coroutine idleTimeCoroutine;
@@ -26,7 +26,7 @@ public class CreatureState_Idle : StateBase
             Debug.LogError($"{transform} ¡X no basicSM found in parent.");
         }
 
-        creatureSM = GetComponentInParent<ICreatureSM>();
+        creatureSM = GetComponentInParent<IRandomMoveSM>();
         if (creatureSM == null)
         {
             Debug.LogError($"{transform} ¡X no ICreatureSM found in parent.");          
