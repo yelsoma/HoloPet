@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbilitySM ,IInteractAbilitySM ,IInteractableSM ,ICreatureSM
+public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbilitySM ,IInteractAbilitySM ,IInteractableSM ,IRandomMoveSM
 {
     #region Basic
     [Header("Basic Manager")]
