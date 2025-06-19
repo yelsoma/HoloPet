@@ -1433,7 +1433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ea4024b4d6a514792060603f43222e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactDistance: 1
+  interactDistance: 0.75
   followTargetSpeed: 0.5
 --- !u!1 &5811529107527445575
 GameObject:
