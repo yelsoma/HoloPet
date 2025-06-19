@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
+[CustomEditor(typeof(GameObject))]
 public class HoloMemSM : StateMachineBase , IBasicSM ,IRandomMoveSM ,IMountableSM , IMountingAbilitySM ,IInteractableSM ,IInteractAbilitySM
 {
     #region Basic
