@@ -9,9 +9,11 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
     private IBasicSM stateMachine;
     [Header("SpriteLayers")]
     [SerializeField] private SpriteLayer mainLayer;
+    private Transform stateMachineTransform;
 
     private void Awake()
     {
+        stateMachineTransform = transform.root;
         stateMachine = GetComponentInParent<IBasicSM>();
         if (stateMachine == null)
         {
@@ -24,17 +26,17 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
 
     private void StateSpawn_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.AddNewLayers(transform);
+        SpriteLayerCenter.AddNewLayers(stateMachineTransform);
     }
 
     private void StateGrabbed_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.PullRootLayersToTop(transform);
+        SpriteLayerCenter.PullRootLayersToTop(stateMachineTransform);
     }
 
     private void StateClicked_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.PullRootLayersToTop(transform);
+        SpriteLayerCenter.PullRootLayersToTop(stateMachineTransform);
     }
 
     public int GetObjectMainLayer()

@@ -10,9 +10,11 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
 
     private IBasicSM basicSM;
     private IMountingAbilitySM mountingAbilitySM;
+    private Transform stateMachineTransform;
 
     private void Awake()
     {
+        stateMachineTransform = transform.root;
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
@@ -20,12 +22,12 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
             return;
         }
 
-        //mountingAbilitySM = GetComponentInParent<IMountingAbilitySM>();
-        //if (mountingAbilitySM == null)
-        //{
-        //    Debug.LogError($"{name} ¡X IMountingAbilitySM not found in parent.");
-        //    return;
-        //}
+        mountingAbilitySM = GetComponentInParent<IMountingAbilitySM>();
+        if (mountingAbilitySM == null)
+        {
+            Debug.LogError($"{name} ¡X IMountingAbilitySM not found in parent.");
+            return;
+        }
 
         if (basicSM.StateClicked != null)
             basicSM.StateClicked.OnEnterState += StateClicked_OnEnterState;
@@ -33,8 +35,8 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
         if (basicSM.StateGrabbed != null)
             basicSM.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
 
-        //if (mountingAbilitySM.StateMounting != null)
-        //    mountingAbilitySM.StateMounting.OnEnterState += StateMounting_OnEnterState;
+        if (mountingAbilitySM.StateMounting != null)
+            mountingAbilitySM.StateMounting.OnEnterState += StateMounting_OnEnterState;
 
         if (basicSM.StateSpawn != null)
             basicSM.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
@@ -50,23 +52,23 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
 
     private void StateSpawn_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.AddNewLayers(transform);
+        SpriteLayerCenter.AddNewLayers(stateMachineTransform);
     }
 
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.InsertLayersToParent(transform);
+        SpriteLayerCenter.InsertLayersToParent(stateMachineTransform);
     }
 
     private void StateGrabbed_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.PullRootLayersToTop(transform);
+        SpriteLayerCenter.PullRootLayersToTop(stateMachineTransform);
         backHandLayer.SortingOrderPlus(2);
     }
 
     private void StateClicked_OnEnterState(object sender, System.EventArgs e)
     {
-        SpriteLayerCenter.PullRootLayersToTop(transform);
+        SpriteLayerCenter.PullRootLayersToTop(stateMachineTransform);
     }
 
     public int GetObjectMainLayer()

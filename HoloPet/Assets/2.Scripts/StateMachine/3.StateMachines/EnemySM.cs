@@ -49,7 +49,7 @@ public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbili
     #endregion
 
     #region RandomMove
-    public RandomMoveManager MyRandomMoveManager { get; private set; }
+    public RandomMoveManager RandomMoveMg { get; private set; }
     #endregion
 
     // Uncomment these if implemented
@@ -85,8 +85,8 @@ public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbili
         #endregion
         
         #region RandomMove Managers Set
-        MyRandomMoveManager = GetComponentInChildren<RandomMoveManager>();
-        if (MyRandomMoveManager == null) Debug.LogError($"{name} ¡X RandomMoveManager not found in children.");
+        RandomMoveMg = GetComponentInChildren<RandomMoveManager>();
+        if (RandomMoveMg == null) Debug.LogError($"{name} ¡X RandomMoveManager not found in children.");
         #endregion
 
         #region Mounting Managers Set
