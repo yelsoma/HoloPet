@@ -2200,6 +2200,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b19ed9b18e454382870049999d97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &880253823 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3722938064163915458, guid: 442f6da34f113634588c9180a782cda1, type: 3}
+  m_PrefabInstance: {fileID: 8035933115559725914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c6eaae71c42639458dba1733989f0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &914360002 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6318273881346577128, guid: 59415838faf8dcc4d839277782f2fd7b, type: 3}
@@ -2590,6 +2601,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unClickableStates: []
+--- !u!114 &955932891 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5994869765563166716, guid: 59415838faf8dcc4d839277782f2fd7b, type: 3}
+  m_PrefabInstance: {fileID: 8697321134431210572}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c6eaae71c42639458dba1733989f0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &965481042 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 10962062438807547, guid: dea0d1c692d90b146ad8fa16a440a2e3, type: 3}
@@ -5920,6 +5942,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3061281238417933828, guid: 442f6da34f113634588c9180a782cda1, type: 3}
+      propertyPath: randomMoveChanceStructs.Array.data[1].randomChance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5311936434302926588, guid: 442f6da34f113634588c9180a782cda1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.42
@@ -5964,6 +5990,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Watame
       objectReference: {fileID: 0}
+    - target: {fileID: 5968770063855360935, guid: 442f6da34f113634588c9180a782cda1, type: 3}
+      propertyPath: unInteractableState.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5968770063855360935, guid: 442f6da34f113634588c9180a782cda1, type: 3}
+      propertyPath: unInteractableState.Array.data[5]
+      value: 
+      objectReference: {fileID: 880253823}
     - target: {fileID: 6626389252681226866, guid: 442f6da34f113634588c9180a782cda1, type: 3}
       propertyPath: layerMg
       value: 
@@ -6033,6 +6067,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Botan
       objectReference: {fileID: 0}
+    - target: {fileID: 6209193935058074083, guid: 59415838faf8dcc4d839277782f2fd7b, type: 3}
+      propertyPath: unInteractableState.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6209193935058074083, guid: 59415838faf8dcc4d839277782f2fd7b, type: 3}
+      propertyPath: unInteractableState.Array.data[5]
+      value: 
+      objectReference: {fileID: 955932891}
     - target: {fileID: 7457964850615174228, guid: 59415838faf8dcc4d839277782f2fd7b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

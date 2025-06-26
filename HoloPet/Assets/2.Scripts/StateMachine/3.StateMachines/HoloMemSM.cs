@@ -52,6 +52,7 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     #endregion
 
     protected override StateBase SetFirstState()
+
     {
         return stateSpawn;
     }
