@@ -12,7 +12,17 @@ public class StateMachineAutoFill : MonoBehaviour
 {
     [SerializeField] private StateMachineBase targetSM;
 
-    [ContextMenu("Make the StateMachine now !!!")]
+    private string BoundaryPrefabS = "BoundaryMg";
+    private string FaceDirectionPrefabS = "FaceDirection";
+    [SerializeField] private GameObject statesFolder;
+    [SerializeField] private GameObject managerFolder;
+    [ContextMenu("Generate Object Basic")]
+    private void GenerateStatesAndManagers()
+    {
+        statesFolder= CreateChildIfMissing("States");
+        managerFolder = CreateChildIfMissing("Managers");
+    }   
+    [ContextMenu("Auto Fill")]
     private void AutoFill()
     {
         int mgCount = 0;
@@ -38,15 +48,31 @@ public class StateMachineAutoFill : MonoBehaviour
         {
             mgCount++;
             BoundaryManager[] boundaryManagers = targetSM.GetComponentsInChildren<BoundaryManager>(true);
+
             if (boundaryManagers.Length == 0)
             {
-                Debug.LogWarning("Missing Basic BoundaryMg");
+                GameObject prefab = FindPrefabByName(BoundaryPrefabS);
+                if (prefab != null)
+                {
+                    GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                    instance.transform.SetParent(managerFolder.transform, false);
+                    Debug.Log($"BoundaryManager prefab instantiated and assigned");
+                }
+                else
+                {
+                    Debug.LogWarning("Missing Basic BoundaryMg ¡X no prefab found to instantiate.");
+                }
             }
-            else if (boundaryManagers.Length > 1)
+
+            // Re-scan after possible prefab instantiation
+            boundaryManagers = targetSM.GetComponentsInChildren<BoundaryManager>(true);
+
+            if (boundaryManagers.Length > 1)
             {
                 Debug.LogWarning("Multiple Basic BoundaryMg");
             }
-            else
+
+            if (boundaryManagers.Length == 1)
             {
                 BoundaryManager boundaryInChild = boundaryManagers[0];
                 object currentValue = boundaryMgField.GetValue(targetSM);
@@ -406,4 +432,57 @@ public class StateMachineAutoFill : MonoBehaviour
         clearMethod?.Invoke(null, null);
     }
 
+    private GameObject FindPrefabByName(string prefabName)
+    {
+        string[] guids = AssetDatabase.FindAssets($"{prefabName} t:Prefab");
+
+        if (guids.Length == 0)
+        {
+            Debug.LogWarning($"No prefab found with name containing '{prefabName}'.");
+            return null;
+        }
+        else if (guids.Length > 1)
+        {
+            Debug.LogWarning($"Multiple prefabs found whose names contain '{prefabName}':");
+            foreach (var guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                Debug.Log($" ¡÷ {path}");
+            }
+            return null;
+        }
+        else
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab == null)
+            {
+                Debug.LogWarning($"Asset at path {path} could not be loaded as a prefab.");
+                return null;
+            }
+            if (prefab.name != prefabName)
+            {
+                Debug.LogWarning($"Similar prefab found, but name does not exactly match '{prefabName}'. Found prefab name: '{prefab.name}' at path: {path}");
+                return null;
+            }
+            return prefab;
+        }
+    }
+    private GameObject CreateChildIfMissing(string childName)
+    {
+        Transform existing = transform.Find(childName);
+        if (existing == null)
+        {
+            GameObject child = new GameObject(childName);
+            child.transform.SetParent(transform);
+            child.transform.localPosition = Vector3.zero;
+            Debug.Log($"Created child object: {childName}");
+            return child;
+        }
+        else
+        {
+            Debug.Log($"Child \"{childName}\" already exists, skipped.");
+            return null;
+        }
+    }
 }
