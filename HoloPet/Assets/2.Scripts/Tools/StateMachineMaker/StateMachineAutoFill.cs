@@ -135,6 +135,8 @@ public class StateMachineAutoFill : MonoBehaviour
     [ContextMenu("States Check")]
     private void StatesCheck()
     {
+        ClearConsole();
+
         #region StatesCheck
         Debug.Log("<color=yellow>States</color>");
         Type targetType = targetSM.GetType();

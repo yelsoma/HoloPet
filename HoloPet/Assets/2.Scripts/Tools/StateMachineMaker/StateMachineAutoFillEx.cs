@@ -2,13 +2,15 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
+using System.Drawing;
+using Unity.VisualScripting;
 
 public class StateMachineAutoFillEx : MonoBehaviour
 {
     [SerializeField] private StateMachineBase targetSM;
     [SerializeField] private GameObject statesFolder;
     [SerializeField] private GameObject managerFolder;
-    [SerializeField] private bool RGB = true; // 🌈 Switch between normal & rainbow logs
+    [SerializeField] private bool RGB = true;
 
     private int mgCount;
     private int mgAssigned;
@@ -41,11 +43,11 @@ public class StateMachineAutoFillEx : MonoBehaviour
         }
 
         Type targetType = targetSM.GetType();
-        Log($"Setting {targetType.Name} For {targetSM.transform.name}");
+        Debug.Log($"<color=#D080FF>Setting {targetType.Name} For {targetSM.transform.name}</color>");
 
         CreateFolderIfMissing();
 
-        Log("Setting Managers");
+        Debug.Log("<color=yellow>Setting Managers</color>");
 
         #region Managers
         TryManager<BoundaryManager>("BoundaryMg", targetType, "boundaryMg");
@@ -67,13 +69,16 @@ public class StateMachineAutoFillEx : MonoBehaviour
         }
         #endregion
 
-        Log($"Managers set ({mgAssigned}/{mgCount})");
+        Debug.Log($"<color=yellow> ({mgAssigned}/{mgCount})</color>");
     }
 
     [ContextMenu("States Check")]
     private void StatesCheck()
     {
-        Log("States Check");
+        ClearConsole();
+
+        #region StatesCheck
+        Debug.Log("<color=yellow>States Check</color>");
         Type targetType = targetSM.GetType();
         FieldInfo[] fields = targetType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -96,8 +101,15 @@ public class StateMachineAutoFillEx : MonoBehaviour
                 }
             }
         }
+        Debug.Log($"<color=yellow> ({stateAssigned}/{stateCount})</color>");
+        #endregion
+    }
+    [ContextMenu("Basic States Fill")]
+    private void BasicStatesFill()
+    {
+        ClearConsole();
 
-        Log($"States set ({stateAssigned}/{stateCount})");
+
     }
 
     private void ClearConsole()
@@ -147,6 +159,10 @@ public class StateMachineAutoFillEx : MonoBehaviour
         }
     }
 
+    private void GenerateStateAndAssign(string prefabName, FieldInfo field)
+    {
+        GameObject prefab = FindPrefabByName(prefabName);
+    }
     private void GenerateManagerAndAssign<T>(string prefabName, FieldInfo field) where T : Component
     {
         mgCount++;
@@ -264,8 +280,8 @@ public class StateMachineAutoFillEx : MonoBehaviour
         }
         else
         {
-            if (warn)
-                Debug.LogWarning(message);
+            if (warn)               
+                Debug.LogWarning($"<color=#FF8080>{message}</color>");
             else
                 Debug.Log(message);
         }
