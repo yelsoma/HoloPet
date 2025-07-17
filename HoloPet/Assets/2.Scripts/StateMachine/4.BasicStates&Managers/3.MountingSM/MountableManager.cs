@@ -14,7 +14,6 @@ public class MountableManager : MonoBehaviour
     private void Awake()
     {
         stateMachineTransform = transform.root;
-
         foreach (StateBase unmountableState in UnMountableStates)
         {
             unmountableState.OnEnterState += UnmountableState_OnEnterState;

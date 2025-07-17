@@ -18,5 +18,6 @@ public interface IBasicSM
     public StateBase StateInAir { get; }
     public StateBase StateGrabbed { get; }
     public StateBase StateClicked { get; }
+    public StateBase StateReleased { get; }
     public StateBase StateSpawn { get; }
 }

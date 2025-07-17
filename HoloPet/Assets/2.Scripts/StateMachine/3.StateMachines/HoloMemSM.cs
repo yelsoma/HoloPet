@@ -13,12 +13,15 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     [SerializeField] private StateBase stateInAir;
     [SerializeField] private StateBase stateGrabbed;
     [SerializeField] private StateBase stateClicked;
+    [SerializeField] private StateBase stateReleased;
     [SerializeField] private StateBase stateSpawn;
+
 
     public StateBase StateIdle => stateIdle;
     public StateBase StateInAir => stateInAir;
     public StateBase StateGrabbed => stateGrabbed;
     public StateBase StateClicked => stateClicked;
+    public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
     #endregion
 

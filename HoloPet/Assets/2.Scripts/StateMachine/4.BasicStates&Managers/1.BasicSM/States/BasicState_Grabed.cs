@@ -45,14 +45,7 @@ public class BasicState_Grabed : StateBase
 
     private void ClickableManager_OnRelease(object sender, System.EventArgs e)
     {
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
-        {
-            stateMachine.ChangeState(basicSM.StateIdle);
-        }
-        else
-        {
-            stateMachine.ChangeState(basicSM.StateInAir);
-        }
+        stateMachine.ChangeState(basicSM.StateReleased);
     }
 
     private void ClickableManager_OnGrab(object sender, ClickableManager.GrabEventArgs e)

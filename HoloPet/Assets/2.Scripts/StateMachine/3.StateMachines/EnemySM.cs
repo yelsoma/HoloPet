@@ -10,12 +10,14 @@ public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbili
     [SerializeField] private StateBase stateInAir;
     [SerializeField] private StateBase stateGrabbed;
     [SerializeField] private StateBase stateClicked;
+    [SerializeField] private StateBase stateReleased;
     [SerializeField] private StateBase stateSpawn;
 
     public StateBase StateIdle => stateIdle;
     public StateBase StateInAir => stateInAir;
     public StateBase StateGrabbed => stateGrabbed;
     public StateBase StateClicked => stateClicked;
+    public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
 
     //need managers
@@ -25,7 +27,7 @@ public class EnemySM : StateMachineBase , IBasicSM ,IMountableSM, IMountingAbili
     public RaycastManager RaycastMg { get; private set; }
     public BaseDataManager BaseDataMg { get; private set; }
     public ClickableManager ClickableMg { get; private set; }
-    public ILayerManager LayerMg { get; private set; }    
+    public ILayerManager LayerMg { get; private set; }
     #endregion
 
     #region Mounting
