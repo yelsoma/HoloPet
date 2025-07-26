@@ -34,7 +34,7 @@ public class HoloMem_Bully : StateBase
     #region StateBase
     public override void Enter()
     {
-      //  interactAbilitySM.InteractAbilityMg.GetTargetIInteractable().OnExitInteracted += InteractTarget_OnExitInteract;
+        //interactAbilitySM.InteractAbilityMg.GetTargetIInteractable().OnExitInteracted += InteractTarget_OnExitInteract;
         if (interactAbilitySM.InteractAbilityMg.GetTargetIInteractable() != null)
         {
             if (interactAbilitySM.InteractAbilityMg.GetIsTargetRight())

@@ -5,6 +5,17 @@ using System;
 
 public class InteractableManager : MonoBehaviour
 {
+
+    public class ChangeLayerEventArgs : EventArgs
+    {
+        public Transform Transform { get; }
+
+        public ChangeLayerEventArgs(Transform transform)
+        {
+            Transform = transform;
+        }
+    }
+    public event EventHandler<ChangeLayerEventArgs> OnEnterInteractedChangeLayer;
     public event EventHandler OnExitInteracted;
     [SerializeField] private StateMachineBase stateMachine;
     [SerializeField] private List<InteractedOption> interactedOptions;
@@ -79,6 +90,8 @@ public class InteractableManager : MonoBehaviour
     {
         if (interacter.GetBothInteractOption().GetInteractedOption().GetOptionState != null)
         {
+            ChangeLayerEventArgs args = new ChangeLayerEventArgs(interacter.GetStateMachineTransform()); 
+            OnEnterInteractedChangeLayer?.Invoke(this, args);
             stateMachine.ChangeState(interacter.GetBothInteractOption().GetInteractedOption().GetOptionState);
         }
     }

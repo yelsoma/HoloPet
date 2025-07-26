@@ -166,6 +166,14 @@ public class InteracterState_FindInteracts : StateBase
                 return;
             }
         }
+        if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+        {
+            stateMachine.ChangeState(basicSM.StateIdle);
+        }
+        if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+        {
+            stateMachine.ChangeState(basicSM.StateIdle);
+        }
     }
     public override void StateLateUpdate()
     {
