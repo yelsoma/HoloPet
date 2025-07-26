@@ -3306,8 +3306,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 323776348}
+  - component: {fileID: 323776349}
   m_Layer: 0
-  m_Name: Bully_Interacter
+  m_Name: Interacter_Bully
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3328,6 +3329,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 623701086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &323776349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323776347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122cf016dae08074daea0d24e9da0cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &324766464
 GameObject:
   m_ObjectHideFlags: 0
@@ -20450,6 +20463,10 @@ MonoBehaviour:
     interactedOptionEnum: 1
     chance: 1
     optionState: {fileID: 5432871181189890250}
+  - interactedOptionName: Bullied
+    interactedOptionEnum: 0
+    chance: 1
+    optionState: {fileID: 1974331270}
   unInteractableState:
   - {fileID: 3895117570768023939}
   - {fileID: 5432871181189890250}
@@ -22027,6 +22044,10 @@ MonoBehaviour:
     interacterOptionEnum: 1
     chance: 1
     optionState: {fileID: 8747411256237988585}
+  - interacterOptionName: bully
+    interacterOptionEnum: 0
+    chance: 1
+    optionState: {fileID: 323776349}
 --- !u!4 &4363155987219540594
 Transform:
   m_ObjectHideFlags: 0
