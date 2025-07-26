@@ -8,16 +8,27 @@ public class MountableManager : MonoBehaviour
     private bool isMounted = false;
     private MountingAbilityManager myMounter;
     [SerializeField] Transform mountingPoint;
-    [SerializeField] StateBase[] UnMountableStates;
+    [SerializeField] StateBase[] unMountableStates;
     private Transform stateMachineTransform;
 
     private void Awake()
     {
         stateMachineTransform = transform.root;
-        foreach (StateBase unmountableState in UnMountableStates)
+        if(unMountableStates.Length > 0)
         {
-            unmountableState.OnEnterState += UnmountableState_OnEnterState;
-            unmountableState.OnExitState += UnmountableState_OnExitState;
+            foreach (StateBase unmountableState in unMountableStates)
+            {
+                unmountableState.OnEnterState += UnmountableState_OnEnterState;
+                unmountableState.OnExitState += UnmountableState_OnExitState;
+            }
+        }
+        else
+        {
+            Debug.LogWarning(stateMachineTransform.name + "'s " + "MountableMg unMountableState is 0");
+        }
+        if(mountingPoint == null)
+        {
+            Debug.LogError(stateMachineTransform.name + "'s " + "MountableMg MountPoint not set");
         }
     }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 public class BasicLayerManager : MonoBehaviour ,ILayerManager
 {
     [Header("StateMachine")]
-    private IBasicSM stateMachine;
+    private IBasicSM basicStateMachine;
     [Header("SpriteLayers")]
     [SerializeField] private SpriteLayer mainLayer;
     private Transform stateMachineTransform;
@@ -14,14 +14,14 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
     private void Awake()
     {
         stateMachineTransform = transform.root;
-        stateMachine = GetComponentInParent<IBasicSM>();
-        if (stateMachine == null)
+        basicStateMachine = GetComponentInParent<IBasicSM>();
+        if (basicStateMachine == null)
         {
             Debug.Log(transform + "no IBasicSM for BasicLayerManager");
         }
-        stateMachine.StateClicked.OnEnterState += StateClicked_OnEnterState;
-        stateMachine.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
-        stateMachine.StateSpawn.OnEnterState += StateSpawn_OnEnterState;      
+        basicStateMachine.StateClicked.OnEnterState += StateClicked_OnEnterState;
+        basicStateMachine.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
+        basicStateMachine.StateSpawn.OnEnterState += StateSpawn_OnEnterState;      
     }
 
     private void StateSpawn_OnEnterState(object sender, System.EventArgs e)

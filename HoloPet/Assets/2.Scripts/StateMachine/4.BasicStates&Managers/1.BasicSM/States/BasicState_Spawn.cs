@@ -24,8 +24,18 @@ public class BasicState_Spawn : StateBase
 
     public override void Enter()
     {
+        // If call BoundaryManager here will have bug because of code order. BoundaryManager is also  set on start
+    }
+
+    public override void StateUpdate()
+    {    
+    }
+
+    public override void StateLateUpdate()
+    {
         if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
+            Debug.Log("shit i float" + stateMachine.ToString());
             // Exit to StateIdle
             stateMachine.ChangeState(basicSM.StateIdle);
         }
@@ -34,14 +44,6 @@ public class BasicState_Spawn : StateBase
             // Exit to StateInAir
             stateMachine.ChangeState(basicSM.StateInAir);
         }
-    }
-
-    public override void StateUpdate()
-    {
-    }
-
-    public override void StateLateUpdate()
-    {
     }
 
     public override void Exit()

@@ -13,7 +13,7 @@ public class BoundaryManager : MonoBehaviour
     private float topObjectBoundery;
     private void Awake()
     {
-        objectTransform = transform.root;       
+        objectTransform = transform.root;
     }
     private void Start()
     {

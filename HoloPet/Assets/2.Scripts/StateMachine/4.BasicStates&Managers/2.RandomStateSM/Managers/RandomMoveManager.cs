@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RandomMoveManager : MonoBehaviour
 {
-    [SerializeField] private StateBase StartState;
+    [SerializeField] private StateBase startState;
     [SerializeField] private RandomMoveChanceStruct[] randomMoveChanceStructs;
     [SerializeField] private float MaxWaitTime;
     [SerializeField] private float MinWaitTime;
@@ -13,12 +13,25 @@ public class RandomMoveManager : MonoBehaviour
 
     private void Awake()
     {
-        StartState.OnEnterState += StartState_OnEnterState;
-        StartState.OnExitState += StartState_OnExitState;
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
             Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+        }
+
+        if (startState!= null)
+        {
+            startState.OnEnterState += StartState_OnEnterState;
+            startState.OnExitState += StartState_OnExitState;
+        }
+        else
+        {
+            Debug.LogError(stateMachine.transform.name + "'s RandomMoveMg startState is not set");
+        }   
+        
+        if(randomMoveChanceStructs.Length == 0)
+        {
+            Debug.LogError(stateMachine.transform.name + "'s RandomMoveMg randomMoveChanceStructs is not set");
         }
     }
 

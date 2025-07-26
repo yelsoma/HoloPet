@@ -7,7 +7,6 @@ public class InteractableManager : MonoBehaviour
 {
     public event EventHandler OnExitInteracted;
     [SerializeField] private StateMachineBase stateMachine;
-    private IInteractableSM interactableSM;
     [SerializeField] private List<InteractedOption> interactedOptions;
     private InteractAbilityManager interacter;
     private bool isInteractable = true;
@@ -15,16 +14,30 @@ public class InteractableManager : MonoBehaviour
 
     private void Awake()
     {
-        interactableSM = transform.root.GetComponent<IInteractableSM>();
-        if(interactableSM == null)
+        stateMachine = GetComponentInParent<StateMachineBase>();
+        if (stateMachine == null)
         {
-            Debug.Log(transform + "no IInteractableSM for InteractableManager");
+            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
         }
-
-        foreach (StateBase unInteractableState in unInteractableState)
+        if(unInteractableState.Length > 0)
         {
-            unInteractableState.OnEnterState += UnInteractableState_OnEnterState;
-            unInteractableState.OnExitState += UnInteractableState_OnExitState;
+            foreach (StateBase unInteractableState in unInteractableState)
+            {
+                if(unInteractableState == null)
+                {
+                    Debug.LogError(stateMachine.transform.name +"'s "+ "InteractableMg is not set correctly");
+                }
+                unInteractableState.OnEnterState += UnInteractableState_OnEnterState;
+                unInteractableState.OnExitState += UnInteractableState_OnExitState;
+            }
+        }
+        else
+        {
+            Debug.LogWarning(stateMachine.transform.name + "'s " + "InteractableMg unInteractableState is 0");
+        }
+        if (interactedOptions.Count == 0)
+        {
+            Debug.LogWarning(stateMachine.transform.name + "'s " + "InteractableMg interacted option is 0");
         }
     }
 

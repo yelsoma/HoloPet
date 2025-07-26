@@ -6,7 +6,6 @@ using System;
 public class InteractAbilityManager : MonoBehaviour
 {
     [SerializeField] StateMachineBase stateMachine;
-    IInteractAbilitySM interactAbilitySM;
     private InteractableManager target;
     [SerializeField] private List<InteracterOption> interacterOptionList;
     private BothInteractOption choosenBothInteractOption;
@@ -14,10 +13,14 @@ public class InteractAbilityManager : MonoBehaviour
 
     private void Awake()
     {
-        interactAbilitySM = transform.root.GetComponent<IInteractAbilitySM>();
-        if (interactAbilitySM == null)
+        stateMachine = GetComponentInParent<StateMachineBase>();
+        if (stateMachine == null)
         {
-            Debug.Log(transform + "no interactAbilitySM for InteractAbilityManager");
+            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+        }
+        if (interacterOptionList.Count == 0)
+        {
+            Debug.LogWarning(stateMachine.transform.name + "'s " + "InteractAbilityMg interacter option is 0");
         }
     }
 

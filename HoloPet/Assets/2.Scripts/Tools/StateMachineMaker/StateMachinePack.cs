@@ -39,6 +39,10 @@ public class StateMachinePack
     #endregion
 
     // RandomMove
+    #region RandomMove States
+    [SerializeField] private StateBase stateWander;
+    public StateBase StateWander => stateWander;
+    #endregion
     #region RandomMove Manager
     [SerializeField] private RandomMoveManager randomMoveMg;
     public RandomMoveManager RandomMoveMg => randomMoveMg;

@@ -2,7 +2,6 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEditor;
-using System.Drawing;
 using Unity.VisualScripting;
 
 public class StateMachineAutoFillEx : MonoBehaviour
@@ -10,7 +9,7 @@ public class StateMachineAutoFillEx : MonoBehaviour
     [SerializeField] private StateMachineBase targetSM;
     [SerializeField] private GameObject statesFolder;
     [SerializeField] private GameObject managerFolder;
-    [SerializeField] private bool RGB = true;
+    [SerializeField] private bool RGB = false;
 
     private int mgCount;
     private int mgAssigned;
@@ -50,17 +49,17 @@ public class StateMachineAutoFillEx : MonoBehaviour
         Debug.Log("<color=yellow>Setting Managers</color>");
 
         #region Managers
-        TryManager<BoundaryManager>("BoundaryMg", targetType, "boundaryMg");
-        TryManager<FaceDirectionManager>("FaceDirectionMg", targetType, "faceDirectionMg");
-        TryManager<MovementManager>("MovementMg", targetType, "movementMg");
-        TryManager<RaycastManager>("RaycastMg", targetType, "raycastMg");
-        TryManager<BaseDataManager>("BaseDataMg", targetType, "baseDataMg");
-        TryManager<ClickableManager>("ClickableMg", targetType, "clickableMg");
-        TryManager<RandomMoveManager>("RandomMoveMg", targetType, "randomMoveMg");
-        TryManager<MountableManager>("MountableMg", targetType, "mountableMg");
-        TryManager<MountingAbilityManager>("MountingAbilityMg", targetType, "mountingAbilityMg");
-        TryManager<InteractableManager>("InteractableMg", targetType, "interactableMg");
-        TryManager<InteractAbilityManager>("InteractAbilityMg", targetType, "interactAbilityMg");
+        TrySetManagerField<BoundaryManager>("BoundaryMg", targetType, "boundaryMg");
+        TrySetManagerField<FaceDirectionManager>("FaceDirectionMg", targetType, "faceDirectionMg");
+        TrySetManagerField<MovementManager>("MovementMg", targetType, "movementMg");
+        TrySetManagerField<RaycastManager>("RaycastMg", targetType, "raycastMg");
+        TrySetManagerField<BaseDataManager>("BaseDataMg", targetType, "baseDataMg");
+        TrySetManagerField<ClickableManager>("ClickableMg", targetType, "clickableMg");
+        TrySetManagerField<RandomMoveManager>("RandomMoveMg", targetType, "randomMoveMg");
+        TrySetManagerField<MountableManager>("MountableMg", targetType, "mountableMg");
+        TrySetManagerField<MountingAbilityManager>("MountingAbilityMg", targetType, "mountingAbilityMg");
+        TrySetManagerField<InteractableManager>("InteractableMg", targetType, "interactableMg");
+        TrySetManagerField<InteractAbilityManager>("InteractAbilityMg", targetType, "interactAbilityMg");
 
         FieldInfo layerMgField = targetType.GetField("layerMg", BindingFlags.NonPublic | BindingFlags.Instance);
         if (layerMgField != null)
@@ -107,9 +106,18 @@ public class StateMachineAutoFillEx : MonoBehaviour
     [ContextMenu("Basic States Fill")]
     private void BasicStatesFill()
     {
+        StateMachineBase targetStateMachineBase = GetComponent<StateMachineBase>();
+        if (targetSM != targetStateMachineBase)
+        {
+            targetSM = targetStateMachineBase;
+        }
+
+        Type targetType = targetSM.GetType();
         ClearConsole();
 
-
+        #region Managers
+        TryFindStateField("StateIdle", targetType, "stateIdle");
+        #endregion
     }
 
     private void ClearConsole()
@@ -150,19 +158,53 @@ public class StateMachineAutoFillEx : MonoBehaviour
         }
     }
 
-    private void TryManager<T>(string prefabName, Type type, string fieldName) where T : Component
+    private bool TrySetManagerField<T>(string prefabName, Type type, string fieldName) where T : Component
     {
         FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
         if (field != null)
         {
             GenerateManagerAndAssign<T>(prefabName, field);
+            return true;
         }
+        return false;
     }
+
+    private bool TryFindStateField(string prefabName, Type type, string fieldName) 
+    {
+        FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+        if (field != null)
+        {
+            GenerateStateAndAssign(prefabName, field);
+            return true;
+        }
+        return false;
+    }
+
 
     private void GenerateStateAndAssign(string prefabName, FieldInfo field)
     {
         GameObject prefab = FindPrefabByName(prefabName);
+        if (prefab != null)
+        {
+            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            instance.transform.SetParent(statesFolder.transform, false);
+            Log($"{prefabName} prefab instantiated.");
+            StateBase found = instance.GetComponent<StateBase>();
+            object currentValue = field.GetValue(targetSM);
+            if (found!= null && (object)found != currentValue)
+            {
+                field.SetValue(targetSM, found);
+                Log($"{found} auto-filled with {found.name}");
+            }
+            
+        }
+        else
+        {
+            Log($"Missing {prefabName} and no prefab found.", warn: true);
+        }
     }
+
+    //checks muitiple component
     private void GenerateManagerAndAssign<T>(string prefabName, FieldInfo field) where T : Component
     {
         mgCount++;

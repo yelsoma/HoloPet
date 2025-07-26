@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicState_Idle : StateBase
+public class BasicState_Grabbed : StateBase
 {
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
@@ -24,18 +24,33 @@ public class BasicState_Idle : StateBase
 
     public override void Enter()
     {
+        basicSM.ClickableMg.OnRelease += ClickableManager_OnRelease;
+        basicSM.ClickableMg.OnGrab += ClickableManager_OnGrab;
     }
 
     public override void StateUpdate()
     {
-
     }
 
     public override void StateLateUpdate()
     {
+        basicSM.BoundaryMg.CheckAllBouderyAndResetPos();
     }
 
     public override void Exit()
     {
+        basicSM.ClickableMg.OnRelease -= ClickableManager_OnRelease;
+        basicSM.ClickableMg.OnGrab -= ClickableManager_OnGrab;
+    }
+
+    private void ClickableManager_OnRelease(object sender, System.EventArgs e)
+    {
+        stateMachine.ChangeState(basicSM.StateReleased);
+    }
+
+    private void ClickableManager_OnGrab(object sender, ClickableManager.GrabEventArgs e)
+    {
+        stateMachine.transform.position = e.MousePosition;
     }
 }
+
