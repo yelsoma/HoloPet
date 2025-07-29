@@ -46,8 +46,8 @@ public class InteractedStates_HappyChatted : StateBase
     #region StateBase
     public override void Enter()
     {
-        interactableSM.InteractableMg.GetInteracter().OnExitInteracting += Interacter_OnExitInteract;
-        if (interactableSM.InteractableMg.GetInteracter() != null)
+        interactableSM.InteractableMg.GetInteracterManager().OnExitInteracting += Interacter_OnExitInteract;
+        if (interactableSM.InteractableMg.GetInteracterManager() != null)
         {
             if (interactableSM.InteractableMg.GetIsInteracterRight())
             {
@@ -76,7 +76,7 @@ public class InteractedStates_HappyChatted : StateBase
     public override void Exit()
     {
         StopCoroutine(jumpCoroutine);
-        interactableSM.InteractableMg.GetInteracter().OnExitInteracting -= Interacter_OnExitInteract;
+        interactableSM.InteractableMg.GetInteracterManager().OnExitInteracting -= Interacter_OnExitInteract;
         interactableSM.InteractableMg.ExitInteractedEvent();
     }
     #endregion

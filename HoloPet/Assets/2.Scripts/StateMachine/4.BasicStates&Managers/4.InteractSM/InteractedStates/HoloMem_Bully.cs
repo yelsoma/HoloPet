@@ -7,6 +7,10 @@ public class HoloMem_Bully : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IInteractAbilitySM interactAbilitySM;
+    private InteractAbilityManager myInteractAbilityMg;
+    private InteractableManager interactTargetMg;
+    [SerializeField] private float punchCountDown;
+    private float punchCountDownNow;
 
     #region AutoSetRef
     private void Awake()
@@ -34,10 +38,11 @@ public class HoloMem_Bully : StateBase
     #region StateBase
     public override void Enter()
     {
-        //interactAbilitySM.InteractAbilityMg.GetTargetIInteractable().OnExitInteracted += InteractTarget_OnExitInteract;
-        if (interactAbilitySM.InteractAbilityMg.GetTargetIInteractable() != null)
+        myInteractAbilityMg = interactAbilitySM.InteractAbilityMg;
+        interactTargetMg = myInteractAbilityMg.GetTargetIInteractable();
+        if (interactTargetMg != null)
         {
-            if (interactAbilitySM.InteractAbilityMg.GetIsTargetRight())
+            if (myInteractAbilityMg.GetIsTargetRight())
             {
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
@@ -51,16 +56,32 @@ public class HoloMem_Bully : StateBase
             // exit to idle
             stateMachine.ChangeState(basicSM.StateIdle);
             return;
-        }
+        }   
+        interactTargetMg.OnExitInteracted += HoloMem_Bully_OnExitInteracted;
+        punchCountDownNow = punchCountDown;
     }
     public override void StateUpdate()
     {
+        punchCountDownNow -= 1;
+        if (punchCountDownNow <= 0)
+        {
+            myInteractAbilityMg.TriggerInteractingEvent();
+            stateMachine.ChangeState(basicSM.StateIdle);
+        }
     }
     public override void StateLateUpdate()
     {
     }
     public override void Exit()
     {
+        interactTargetMg.OnExitInteracted -= HoloMem_Bully_OnExitInteracted;
+        myInteractAbilityMg.ExitInteractingEvent();
+        interactTargetMg = null;
     }
     #endregion
+
+    private void HoloMem_Bully_OnExitInteracted(object sender, System.EventArgs e)
+    {
+        stateMachine.ChangeState(basicSM.StateIdle);
+    }
 }

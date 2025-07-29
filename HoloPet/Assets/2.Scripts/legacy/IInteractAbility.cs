@@ -5,7 +5,7 @@ using System;
 
 public interface IInteractAbility 
 {
-    public event EventHandler OnExitInteracting;
+    public event EventHandler OnExitInteracting;   
     public void ExitInteractingEvent();
     public BothInteractOption GetBothInteractOption();
     public IInteractable GetTargetIInteractable();

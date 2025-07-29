@@ -9,6 +9,7 @@ public class InteractAbilityManager : MonoBehaviour
     private InteractableManager target;
     [SerializeField] private List<InteracterOption> interacterOptionList;
     private BothInteractOption choosenBothInteractOption;
+    public event EventHandler OnTriggerInteracting;
     public event EventHandler OnExitInteracting;
 
     private void Awake()
@@ -102,6 +103,10 @@ public class InteractAbilityManager : MonoBehaviour
     public InteractableManager GetTargetIInteractable()
     {
         return target;
+    }
+    public void TriggerInteractingEvent()
+    {
+        OnTriggerInteracting?.Invoke(this, EventArgs.Empty);
     }
     public void ExitInteractingEvent()
     {

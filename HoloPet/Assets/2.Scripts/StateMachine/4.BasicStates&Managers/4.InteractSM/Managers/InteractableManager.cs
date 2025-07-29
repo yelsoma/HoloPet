@@ -19,7 +19,7 @@ public class InteractableManager : MonoBehaviour
     public event EventHandler OnExitInteracted;
     [SerializeField] private StateMachineBase stateMachine;
     [SerializeField] private List<InteractedOption> interactedOptions;
-    private InteractAbilityManager interacter;
+    private InteractAbilityManager interacterMg;
     private bool isInteractable = true;
     [SerializeField] private StateBase[] unInteractableState;
 
@@ -67,9 +67,9 @@ public class InteractableManager : MonoBehaviour
         return interactedOptions;
     }
 
-    public InteractAbilityManager GetInteracter()
+    public InteractAbilityManager GetInteracterManager()
     {
-        return interacter;
+        return interacterMg;
     }
 
     public bool GetIsInteractable()
@@ -88,17 +88,17 @@ public class InteractableManager : MonoBehaviour
 
     public void GoToChoosenInteracedState()
     {
-        if (interacter.GetBothInteractOption().GetInteractedOption().GetOptionState != null)
+        if (interacterMg.GetBothInteractOption().GetInteractedOption().GetOptionState != null)
         {
-            ChangeLayerEventArgs args = new ChangeLayerEventArgs(interacter.GetStateMachineTransform()); 
+            ChangeLayerEventArgs args = new ChangeLayerEventArgs(interacterMg.GetStateMachineTransform()); 
             OnEnterInteractedChangeLayer?.Invoke(this, args);
-            stateMachine.ChangeState(interacter.GetBothInteractOption().GetInteractedOption().GetOptionState);
+            stateMachine.ChangeState(interacterMg.GetBothInteractOption().GetInteractedOption().GetOptionState);
         }
     }
 
     public void SetInteracter(InteractAbilityManager interactAbility)
     {
-        interacter = interactAbility;
+        interacterMg = interactAbility;
     }
 
     public void ExitInteractedEvent()
@@ -107,7 +107,7 @@ public class InteractableManager : MonoBehaviour
     }
     public bool GetIsInteracterRight()
     {
-        if (interacter.GetStateMachineTransform().position.x - stateMachine.transform.position.x >= 0)
+        if (interacterMg.GetStateMachineTransform().position.x - stateMachine.transform.position.x >= 0)
         {
             return true;
         }
