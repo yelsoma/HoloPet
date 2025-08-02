@@ -17,10 +17,10 @@ public class CartAniManager : MonoBehaviour
         stateMachine.stateJump.OnEnterState += StateJump_OnEnterState;
         stateMachine.stateKnockUp.OnEnterState += StateKnockUp_OnEnterState;
         stateMachine.stateMounted.OnEnterState += StateMounted_OnEnterState;
-        stateGrab.OnGrabMounted += StateGrab_OnGrabMounted;
-        stateGrab.OnGrabNormal += StateGrab_OnGrabNormal;
-        stateFall.OnFallMounted += StateFall_OnFallMounted;
-        stateFall.OnFallNormal += StateFall_OnFallNormal;
+        //stateGrab.OnGrabMounted += StateGrab_OnGrabMounted;
+        //stateGrab.OnGrabNormal += StateGrab_OnGrabNormal;
+        //stateFall.OnFallMounted += StateFall_OnFallMounted;
+        //stateFall.OnFallNormal += StateFall_OnFallNormal;
     }
 
     private void StateFall_OnFallNormal(object sender, System.EventArgs e)

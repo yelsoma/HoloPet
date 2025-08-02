@@ -20,7 +20,7 @@ public class HoloMemStateMachine : StateMachineBase
 
     [Header("HoloMem Managers")] 
     [SerializeField] public HoloMemInteractManager interactManager;
-    [SerializeField] public HoloMemMountManager mountManager;
+    //[SerializeField] public HoloMemMountManager mountManager;
     [SerializeField] public HoloMemLayerManager layerManager;
     //[SerializeField] public HoloMemInputManager inputManager;
     

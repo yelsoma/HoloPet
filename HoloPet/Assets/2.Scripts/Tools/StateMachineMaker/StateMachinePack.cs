@@ -72,8 +72,12 @@ public class StateMachinePack
 
     // InteractAbility
     #region InteractAbility State 
-    [SerializeField] private StateBase stateFollowTarget;
-    public StateBase StateFollowTarget => stateFollowTarget;
+    [SerializeField] private StateBase stateInteractThink;
+    [SerializeField] private StateBase stateInteractFollowX;
+    [SerializeField] private StateBase stateInteractFollowY;
+    public StateBase StateInteractThink => stateInteractThink;
+    public StateBase StateInteractFollowX => stateInteractFollowX;
+    public StateBase StateInteractFollowY => stateInteractFollowY;
     #endregion
     #region InteractAbility Manager 
     [SerializeField] private InteractAbilityManager interactAbilityMg;

@@ -15,7 +15,7 @@ public class HoloMemState_Fall : StateBase
     {
         //cant do       
         stateMachine.interactManager.SetIsInteractable(false);      
-        stateMachine.mountManager.SetIsMountableState(false);
+        //stateMachine.mountManager.SetIsMountableState(false);
 
         //event
 
@@ -51,7 +51,7 @@ public class HoloMemState_Fall : StateBase
     {
         //cant do 
         stateMachine.interactManager.SetIsInteractable(true);
-        stateMachine.mountManager.SetIsMountableState(true);
+        //stateMachine.mountManager.SetIsMountableState(true);
         //event    
     }
 

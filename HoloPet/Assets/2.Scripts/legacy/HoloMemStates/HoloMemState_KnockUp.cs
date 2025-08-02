@@ -23,7 +23,7 @@ public class HoloMemState_KnockUp : StateBase
     {
         //cant do       
         stateMachine.interactManager.SetIsInteractable(false);      
-        stateMachine.mountManager.SetIsMountableState(false);
+        //stateMachine.mountManager.SetIsMountableState(false);
 
         //event
 
@@ -106,7 +106,7 @@ public class HoloMemState_KnockUp : StateBase
     {
         //cant do
         stateMachine.interactManager.SetIsInteractable(true);
-        stateMachine.mountManager.SetIsMountableState(true);
+        //stateMachine.mountManager.SetIsMountableState(true);
         //event    
     }
 

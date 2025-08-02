@@ -21,11 +21,11 @@ public class CartState_Idle : StateBase
             stateMachine.ChangeState(stateMachine.stateFall);
             return;
         }
-        if (stateMachine.mountManager.GetIsMounted())
-        {
-            //exit to mounted
-            stateMachine.ChangeState(stateMachine.stateMounted);
-        }
+        //if (stateMachine.mountManager.GetIsMounted())
+        //{
+        //    //exit to mounted
+        //    stateMachine.ChangeState(stateMachine.stateMounted);
+        //}
     }
     public override void StateLateUpdate()
     {

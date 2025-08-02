@@ -4,9 +4,33 @@ using UnityEngine;
 
 public class AniEnum
 {
-    //holomem
-    public class Basic
+    public class Humanoid
     {
+        public enum Main
+        {
+            Fall,
+            Grab,
+            Idle,
+            Mount,
+            Run,
+            Sleepy,
+            Walk,
+            Punch
+        }
+        public enum Face
+        {
+            FaceCalm,
+            FaceExciting,
+            FaceHappy,
+            FaceHit,
+            FaceNormal,
+            FaceRoar,
+            FaceSad,
+            FaceShock,
+            FaceSleepy,
+            FaceTired,
+            FaceSmile
+        }
         public enum Hand
         {
             HalfHand,
@@ -16,57 +40,9 @@ public class AniEnum
     }
     public class Botan
     {
-        public enum Main
-        {
-            BotanFall,
-            BotanGrab,
-            BotanIdle,
-            BotanMount,
-            BotanRun,
-            BotanSleepy,
-            BotanWalk,
-            BotanPunch
-        }
-        public enum Face
-        {
-            BotanFaceCalm,
-            BotanFaceExciting,
-            BotanFaceHappy,
-            BotanFaceHit,
-            BotanFaceNormal,
-            BotanFaceRoar,
-            BotanFaceSad,
-            BotanFaceShock,
-            BotanFaceSleepy,
-            BotanFaceTired,           
-        }
     }
     public class Watame
     {
-        public enum Main
-        {
-            WatameFall,
-            WatameGrab,
-            WatameIdle,
-            WatameMount,
-            WatameRun,
-            WatameSleepy,
-            WatameWalk,
-            WatamePunch
-        }
-        public enum Face
-        {
-            WatameFaceCalm,
-            WatameFaceExciting,
-            WatameFaceHappy,
-            WatameFaceHit,
-            WatameFaceNormal,
-            WatameFaceRoar,
-            WatameFaceSad,
-            WatameFaceShock,
-            WatameFaceSleepy,
-            WatameFaceTired
-        }
     }
     public class Cart
     {

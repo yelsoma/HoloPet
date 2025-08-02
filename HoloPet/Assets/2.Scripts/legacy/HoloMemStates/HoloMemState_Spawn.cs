@@ -12,7 +12,7 @@ public class HoloMemState_Spawn : StateBase
     {
         //cant do
         stateMachine.interactManager.SetIsInteractable(false);
-        stateMachine.mountManager.SetIsMountableState(false);
+        //stateMachine.mountManager.SetIsMountableState(false);
 
 
         //event
@@ -35,7 +35,7 @@ public class HoloMemState_Spawn : StateBase
     {
         //cant do
         stateMachine.interactManager.SetIsInteractable(true);
-        stateMachine.mountManager.SetIsMountableState(true);
+        //stateMachine.mountManager.SetIsMountableState(true);
 
         //event
     }

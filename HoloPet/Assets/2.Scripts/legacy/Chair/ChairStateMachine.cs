@@ -8,7 +8,7 @@ public class ChairStateMachine : StateMachineBase
     [SerializeField] public BoundaryManager boundaryManager;
     [SerializeField] public ChairLayerManager layerManager;
     [SerializeField] public MovementManager movement;
-    [SerializeField] public FurnitureMountManager mountManager;
+    //[SerializeField] public FurnitureMountManager mountManager;
     [SerializeField] public FaceDirectionManager faceDirection;
     //[SerializeField] public ChairInputManager inputManager;
     [SerializeField] public ChairInteractManager interactManager;

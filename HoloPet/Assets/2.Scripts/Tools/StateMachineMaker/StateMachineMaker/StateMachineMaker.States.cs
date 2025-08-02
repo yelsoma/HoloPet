@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Reflection;
 using UnityEditor;
@@ -15,7 +16,9 @@ public partial class StateMachineMaker : MonoBehaviour
         TryFindStateField("Spawn_Nor", targetType, "stateSpawn");
         TryFindStateField("Wander_Nor", targetType, "stateWander");
         TryFindStateField("Mounting_Nor", targetType, "stateMounting");
-        TryFindStateField("FollowTarget_Nor", targetType, "stateFollowTarget");
+        TryFindStateField("InteractThink_Nor", targetType, "stateInteractThink");
+        TryFindStateField("InteractFollowY_Nor", targetType, "stateInteractFollowY");
+        TryFindStateField("InteractFollowX_Nor", targetType, "stateInteractFollowX");
     }
     private bool TryFindStateField(string prefabName, Type type, string fieldName)
     {
@@ -55,3 +58,4 @@ public partial class StateMachineMaker : MonoBehaviour
         }
     }
 }
+#endif

@@ -8,7 +8,7 @@ public class FurnitureStateMachine : StateMachineBase
     [SerializeField] public BoundaryManager boundaryManager;
     //[SerializeField] public MouseInput mouseInput;
     [SerializeField] public MovementManager movement;
-    [SerializeField] public FurnitureMountManager mountManager;
+    //[SerializeField] public FurnitureMountManager mountManager;
     [SerializeField] public FaceDirectionManager faceDirection;
     //[SerializeField] public ObjectLayerManager layerManager;
     [SerializeField] public RaycastManager raycastManager;

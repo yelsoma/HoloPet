@@ -10,7 +10,7 @@ public class FurnitureState_Spawn : StateBase
     public override void Enter()
     {
         //cant do
-        stateMachine.mountManager.SetIsMountableState(false);
+        //stateMachine.mountManager.SetIsMountableState(false);
 
         //event
 
@@ -33,7 +33,7 @@ public class FurnitureState_Spawn : StateBase
     public override void Exit()
     {
         //cant do
-        stateMachine.mountManager.SetIsMountableState(true);
+        //stateMachine.mountManager.SetIsMountableState(true);
 
         //event
     }

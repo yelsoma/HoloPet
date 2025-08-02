@@ -6,8 +6,8 @@ using System;
 public class CartState_Grab : StateBase
 {
     [SerializeField] private CartStateMachine stateMachine;
-    public event EventHandler OnGrabMounted;
-    public event EventHandler OnGrabNormal;
+    //public event EventHandler OnGrabMounted;
+    //public event EventHandler OnGrabNormal;
 
 
     // < State Base >
@@ -16,14 +16,14 @@ public class CartState_Grab : StateBase
         //event
 
         //start
-        if (stateMachine.mountManager.GetIsMounted())
-        {
-            OnGrabMounted?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            OnGrabNormal?.Invoke(this, EventArgs.Empty);
-        }
+        //if (stateMachine.mountManager.GetIsMounted())
+        //{
+        //    OnGrabMounted?.Invoke(this, EventArgs.Empty);
+        //}
+        //else
+        //{
+        //    OnGrabNormal?.Invoke(this, EventArgs.Empty);
+        //}
     }
 
 

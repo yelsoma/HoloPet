@@ -15,12 +15,12 @@ public class HoloMemState_MountingInteract : StateBase
         //event
 
         //start
-        if (stateMachine.mountManager.TrySetMount(stateMachine.interactManager.GetTargetIInteractable().GetTransform().GetComponent<IMountable>()))
-        {
-            //exit to Mounting
-            stateMachine.ChangeState(stateMachine.stateMounting);
-            return;
-        }
+        //if (stateMachine.mountManager.TrySetMount(stateMachine.interactManager.GetTargetIInteractable().GetTransform().GetComponent<IMountable>()))
+        //{
+        //    //exit to Mounting
+        //    stateMachine.ChangeState(stateMachine.stateMounting);
+        //    return;
+        //}
         //exit to idle
         stateMachine.ChangeState(stateMachine.stateIdle);
         return;

@@ -38,10 +38,10 @@ public class CartState_Dash : StateBase
             stateMachine.ChangeState(stateMachine.stateFall);
             return;
         }
-        if (!stateMachine.mountManager.GetIsMounted())
-        {
-            stateMachine.ChangeState(stateMachine.stateIdle);
-        }
+        //if (!stateMachine.mountManager.GetIsMounted())
+        //{
+        //    stateMachine.ChangeState(stateMachine.stateIdle);
+        //}
         //side ckeck
         if (stateMachine.boundaryManager.CheckIsLeftBounderyAndResetPos())
         {

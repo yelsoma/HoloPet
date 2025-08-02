@@ -15,7 +15,7 @@ public class CartStateMachine : StateMachineBase
     //[SerializeField] public CartInputManager inputManager;
     [SerializeField] public CartLayerManager layerManager;
     [SerializeField] public CartInteractManager interactManager;
-    [SerializeField] public FurnitureMountManager mountManager;
+    //[SerializeField] public FurnitureMountManager mountManager;
 
     //States
     [Header("States")]

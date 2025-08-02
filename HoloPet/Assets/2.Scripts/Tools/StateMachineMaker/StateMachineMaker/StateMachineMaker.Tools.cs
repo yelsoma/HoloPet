@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Reflection;
 using UnityEditor;
@@ -14,20 +15,6 @@ public partial class StateMachineMaker : MonoBehaviour
 
     private void CreateFolderIfMissing()
     {
-        Transform statesTf = transform.Find("States");
-        if (statesTf == null)
-        {
-            GameObject child = new GameObject("States");
-            child.transform.SetParent(transform);
-            child.transform.localPosition = Vector3.zero;
-            statesFolder = child;
-            Log("Created child object: States");
-        }
-        else
-        {
-            statesFolder = statesTf.gameObject;
-        }
-
         Transform mgTf = transform.Find("Managers");
         if (mgTf == null)
         {
@@ -40,6 +27,20 @@ public partial class StateMachineMaker : MonoBehaviour
         else
         {
             managerFolder = mgTf.gameObject;
+        }
+
+        Transform statesTf = transform.Find("States");
+        if (statesTf == null)
+        {
+            GameObject child = new GameObject("States");
+            child.transform.SetParent(transform);
+            child.transform.localPosition = Vector3.zero;
+            statesFolder = child;
+            Log("Created child object: States");
+        }
+        else
+        {
+            statesFolder = statesTf.gameObject;
         }
     }
 
@@ -96,3 +97,4 @@ public partial class StateMachineMaker : MonoBehaviour
         }
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Reflection;
 using UnityEditor;
@@ -23,7 +24,8 @@ public partial class StateMachineMaker : MonoBehaviour
         "#4CFFFF", "#4C4CFF", "#B44CFF", "#FF4CA3"
     };
 
-    [ContextMenu("Auto Fill Everything")]
+
+    [ContextMenu("Magic Button (¡ä^o^)>-¡¸~)))")]
     private void AutoFill()
     {
         ClearConsole();
@@ -38,6 +40,7 @@ public partial class StateMachineMaker : MonoBehaviour
             targetSM = targetStateMachineBase;
 
         Type targetType = targetSM.GetType();
+        Debug.Log("<color=White>(¡ä ¢X ¡¾¢X)> <( ^£s^ ¡ä)</color>");
         Debug.Log($"<color=yellow>Setting {targetType.Name} For {targetSM.transform.name}</color>");
 
         CreateFolderIfMissing();
@@ -78,4 +81,6 @@ public partial class StateMachineMaker : MonoBehaviour
         Debug.Log($"<color=White> ) </color>");
         Debug.Log($"<color=yellow> States ({stateAssigned}/{stateCount})</color>");
     }
+
 }
+#endif

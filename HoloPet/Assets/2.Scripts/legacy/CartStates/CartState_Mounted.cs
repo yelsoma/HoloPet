@@ -14,17 +14,17 @@ public class CartState_Mounted : StateBase
         /*
         stateMachine.data.SetHpToMax();
         */
-        if(stateMachine.mountManager.GetMounter().GetTransform().GetComponent<BaseDataManager>().GetObjectName() == ObjectNameEnum.Botan)
-        {
-            stateMachine.ChangeState(stateMachine.stateDash);
-        }       
+        //if(stateMachine.mountManager.GetMounter().GetTransform().GetComponent<BaseDataManager>().GetObjectName() == ObjectNameEnum.Botan)
+        //{
+        //    stateMachine.ChangeState(stateMachine.stateDash);
+        //}       
     }
     public override void StateUpdate()
     {
-        if (!stateMachine.mountManager.GetIsMounted())
-        {
-            stateMachine.ChangeState(stateMachine.stateIdle);
-        }
+        //if (!stateMachine.mountManager.GetIsMounted())
+        //{
+        //    stateMachine.ChangeState(stateMachine.stateIdle);
+        //}
     }
     public override void StateLateUpdate()
     {

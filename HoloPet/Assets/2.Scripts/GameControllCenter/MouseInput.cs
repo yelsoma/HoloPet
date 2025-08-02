@@ -12,7 +12,7 @@ public class MouseInput : MonoBehaviour
     private ClickableManager selectedClickable;
     private float clickTime;
     private bool overClickTime;
-    private bool dragOverPos;
+    private bool grabTriggered;
     public void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -22,7 +22,7 @@ public class MouseInput : MonoBehaviour
             {
                 GetMouseInatialPos();
                 clickTime = 0f;
-                dragOverPos = false;
+                grabTriggered = false;
             }
 
         }
@@ -30,17 +30,19 @@ public class MouseInput : MonoBehaviour
         {
             if (selectedClickable != null)
             {
-                if (ClickTimeOver() || dragOverPos)
+                if (ClickTimeOver() || DragPosOver())
                 {
-                    selectedClickable.Grab(GetMouseWorldPosition());
-                }                      
-                if (!dragOverPos)
-                {
-                    if (Vector2.Distance(mouseInatialPos, GetMouseWorldPosition()) >= 0.3f)
+                    if (!grabTriggered)
                     {
-                        dragOverPos = true;
+                        selectedClickable.Grab();
+                        selectedClickable.GrabMousePos(GetMouseWorldPosition());
+                        grabTriggered = true;
                     }
-                }
+                    else
+                    {
+                        selectedClickable.GrabMousePos(GetMouseWorldPosition());
+                    }                   
+                }                      
             }
 
         }
@@ -49,7 +51,7 @@ public class MouseInput : MonoBehaviour
 
             if (selectedClickable != null)
             {
-                if (!ClickTimeOver() && dragOverPos == false)
+                if (!ClickTimeOver() && !DragPosOver())
                 {
                     selectedClickable.Click();
                 }
@@ -113,5 +115,13 @@ public class MouseInput : MonoBehaviour
         }
         overClickTime = true;
         return overClickTime;
+    }
+    private bool DragPosOver()
+    {
+        if (Vector2.Distance(mouseInatialPos, GetMouseWorldPosition()) >= 0.3f)
+        {
+            return true;
+        }
+        return false;
     }
 }

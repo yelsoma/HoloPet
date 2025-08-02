@@ -9,8 +9,8 @@ public class CartState_Fall : StateBase
     [SerializeField] float fallSpeedIncreese;
     [SerializeField] float fallSpeedMax;
     private float fallSpeedNow;
-    public event EventHandler OnFallMounted;
-    public event EventHandler OnFallNormal;
+    // public event EventHandler OnFallMounted;
+    //public event EventHandler OnFallNormal;
     // < State Base >
     public override void Enter()
     {
@@ -18,14 +18,14 @@ public class CartState_Fall : StateBase
 
         //start
         fallSpeedNow = 0f;
-        if (stateMachine.mountManager.GetIsMounted())
-        {
-            OnFallMounted?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            OnFallNormal?.Invoke(this, EventArgs.Empty);
-        }
+        //if (stateMachine.mountManager.GetIsMounted())
+        //{
+        //    OnFallMounted?.Invoke(this, EventArgs.Empty);
+        //}
+        //else
+        //{
+        //    OnFallNormal?.Invoke(this, EventArgs.Empty);
+        //}
     }
 
     public override void StateUpdate()

@@ -10,7 +10,7 @@ public class CartState_Spawn : StateBase
     public override void Enter()
     {
         //cant do
-        stateMachine.mountManager.SetIsMountableState(false);
+        //stateMachine.mountManager.SetIsMountableState(false);
         stateMachine.interactManager.SetIsInteractable(false);
         //event
 
@@ -31,7 +31,7 @@ public class CartState_Spawn : StateBase
     public override void Exit()
     {
         //cant do
-        stateMachine.mountManager.SetIsMountableState(true);
+        //stateMachine.mountManager.SetIsMountableState(true);
         stateMachine.interactManager.SetIsInteractable(true);
         //event
     }

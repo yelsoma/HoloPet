@@ -28,12 +28,12 @@ public class CartState_Jump : StateBase
     }
     public override void StateUpdate()
     {
-        if (!stateMachine.mountManager.GetIsMounted())
-        {
-            //exit to fall
-            stateMachine.ChangeState(stateMachine.stateFall);
-            return;
-        }
+        //if (!stateMachine.mountManager.GetIsMounted())
+        //{
+        //    //exit to fall
+        //    stateMachine.ChangeState(stateMachine.stateFall);
+        //    return;
+        //}
         if (jumpUpPowerNow >= 0f)
         {
             jumpUpPowerNow -= jumpFallDecrese * Time.deltaTime;
