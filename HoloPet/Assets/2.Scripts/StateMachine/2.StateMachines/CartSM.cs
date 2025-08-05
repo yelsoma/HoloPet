@@ -45,6 +45,17 @@ public class CartSM : StateMachineBase, IBasicSM, IMountableSM
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
     #endregion
+    #region Dash 
+    [SerializeField] private StateBase stateDrive;
+    [SerializeField] private StateBase stateDirveMax;
+    [SerializeField] private StateBase stateDirveJump;
+    [SerializeField] private StateBase stateClickedNor;
+
+    public StateBase StateDrive => stateDrive;
+    public StateBase StateDirveMax => stateDirveMax;
+    public StateBase StateDirveJump => stateDirveJump;
+    public StateBase StateClickedNor => stateClickedNor;
+    #endregion
 
     protected override StateBase SetFirstState()
     {
