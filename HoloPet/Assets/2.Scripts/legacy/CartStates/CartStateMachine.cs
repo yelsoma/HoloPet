@@ -13,7 +13,7 @@ public class CartStateMachine : StateMachineBase
 
     [Header("Cart Managers")]
     //[SerializeField] public CartInputManager inputManager;
-    [SerializeField] public CartLayerManager layerManager;
+    //[SerializeField] public CartLayerManager layerManager;
     [SerializeField] public CartInteractManager interactManager;
     //[SerializeField] public FurnitureMountManager mountManager;
 

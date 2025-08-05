@@ -25,6 +25,7 @@ public class Spawn_Nor : StateBase
     public override void Enter()
     {
         // If call BoundaryManager here will have bug because of code order. BoundaryManager is also  set on start
+        //So call it at lateupdate
     }
 
     public override void StateUpdate()
@@ -35,7 +36,6 @@ public class Spawn_Nor : StateBase
     {
         if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            Debug.Log("shit i float" + stateMachine.ToString());
             // Exit to StateIdle
             stateMachine.ChangeState(basicSM.StateIdle);
         }

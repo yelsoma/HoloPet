@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MountableManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class MountableManager : MonoBehaviour
     [SerializeField] Transform mountingPoint;
     [SerializeField] StateBase[] unMountableStates;
     private Transform stateMachineTransform;
+    public event EventHandler OnChangeMounting;
 
     private void Awake()
     {
@@ -67,6 +69,7 @@ public class MountableManager : MonoBehaviour
 
     public void SetIsMounted(bool isMounted)
     {
+        OnChangeMounting?.Invoke(this, EventArgs.Empty);
         this.isMounted = isMounted;
     }
 
@@ -89,6 +92,4 @@ public class MountableManager : MonoBehaviour
     {
         return stateMachineTransform;
     }
-
-  
 }
