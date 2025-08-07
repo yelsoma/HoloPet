@@ -9,6 +9,7 @@ public class Clicked_Nor : StateBase
     private IBasicSM basicSM;
 
     public event EventHandler OnKnockUpFall;
+    private bool FallEventTriggered;
 
     private float knockUpPower;
     private float knockUpPowerNow;
@@ -45,6 +46,7 @@ public class Clicked_Nor : StateBase
 
         fallSpeedNow = 0f;
         knockUpPowerNow = knockUpPower;
+        FallEventTriggered = false;
 
         if (knockUpFaceDir <= 0.5f)
         {
@@ -61,7 +63,7 @@ public class Clicked_Nor : StateBase
     public override void StateUpdate()
     {
         if (knockUpPowerNow >= 0f)
-        {
+        {           
             knockUpPowerNow -= knockUpDecrese * Time.deltaTime;
 
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
@@ -73,7 +75,11 @@ public class Clicked_Nor : StateBase
         }
         else
         {
-            OnKnockUpFall?.Invoke(this, EventArgs.Empty);
+            if (!FallEventTriggered)
+            {
+                OnKnockUpFall?.Invoke(this, EventArgs.Empty);
+                FallEventTriggered = true;
+            }        
 
             if (fallSpeedNow <= fallSpeedMax)
             {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Drive_Cart : StateBase
 {
@@ -12,6 +13,9 @@ public class Drive_Cart : StateBase
     [SerializeField] private float speedMax;
     [SerializeField] private float speedPlus;
     private float speedNow;
+
+    public event EventHandler OnMountLeft;
+    public bool mountLeftTrigger;
 
     private void Awake()
     {
@@ -43,11 +47,13 @@ public class Drive_Cart : StateBase
     public override void Enter()
     {
         speedNow = 0f;
+        mountLeftTrigger = false;
     }
 
     public override void StateUpdate()
     {
-        if (mountableSM.MountableMg.GetIsMounted())
+        bool isMounted = mountableSM.MountableMg.GetIsMounted();
+        if (isMounted)
         {
             if (speedNow <= speedMax)
             {
@@ -60,13 +66,27 @@ public class Drive_Cart : StateBase
         }
         else
         {
+            if (!mountLeftTrigger)
+            {
+                OnMountLeft?.Invoke(this, EventArgs.Empty);
+                mountLeftTrigger = true;
+            }
+
             if (speedNow >= 0f)
             {
-                speedNow -= speedPlus * Time.deltaTime;
+                speedNow -= speedPlus *2f* Time.deltaTime;
             }
             else
             {
                 stateMachine.ChangeState(cartSM.StateIdle);
+            }
+        }
+
+        if (mountLeftTrigger)
+        {
+            if (isMounted)
+            {
+                stateMachine.ChangeState(cartSM.StateDrive);
             }
         }
 

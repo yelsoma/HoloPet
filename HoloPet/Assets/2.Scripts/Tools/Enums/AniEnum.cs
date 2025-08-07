@@ -48,10 +48,10 @@ public class AniEnum
     {
         public enum Main
         {
-            CartIdle,
-            CartDash,
-            CartDashMaxSpeed,
-            CartMounted
+            Idle,
+            Dash,
+            DashMaxSpeed,
+            Mounted
         }
     }
 }

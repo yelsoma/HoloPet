@@ -1,16 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DriveMax_Cart : StateBase
 {
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
+    private IAttackAbilitySM attackAbilitySM;
     private CartSM cartSM;
     [SerializeField] private float speedMax;
     [SerializeField] private float speedPlus;
     private float speedNow;
+    [SerializeField] private float knockUpDistance;
+    [SerializeField] private float knockBackPower;
+
+    public event EventHandler OnMountLeft;
+    public bool mountLeftTrigger;
 
     private void Awake()
     {
@@ -37,24 +44,45 @@ public class DriveMax_Cart : StateBase
         {
             Debug.LogError($"{transform} ¡X no cartSM found in parent.");
         }
+
+        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
+        if (attackAbilitySM == null)
+        {
+            Debug.LogError($"{transform} ¡X no attackAbilitySM found in parent.");
+        }
     }
 
     public override void Enter()
     {
         speedNow = speedMax;
+        mountLeftTrigger = false;       
     }
 
     public override void StateUpdate()
     {
-        if (!mountableSM.MountableMg.GetIsMounted())
+        bool isMounted = mountableSM.MountableMg.GetIsMounted();
+        if (!isMounted)
         {
+            if (!mountLeftTrigger)
+            {
+                OnMountLeft?.Invoke(this, EventArgs.Empty);
+                mountLeftTrigger = true;
+            }          
             if (speedNow >= 0f)
             {
-                speedNow -= speedPlus * Time.deltaTime;
+                speedNow -= speedPlus *2f* Time.deltaTime;
             }
             else
             {
                 stateMachine.ChangeState(cartSM.StateIdle);
+            }
+        }
+
+        if (mountLeftTrigger)
+        {
+            if (isMounted)
+            {
+                stateMachine.ChangeState(cartSM.StateDrive);
             }
         }
 
@@ -65,6 +93,13 @@ public class DriveMax_Cart : StateBase
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
             }
+            if(basicSM.RaycastMg.TrySetRaycast(knockUpDistance, Vector2.right) && isMounted)
+            {
+                if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
+                {
+                    attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBackRight(true,knockBackPower);
+                }
+            }
         }
         else
         {
@@ -73,7 +108,15 @@ public class DriveMax_Cart : StateBase
             {
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
-        }
+            if (basicSM.RaycastMg.TrySetRaycast(knockUpDistance, Vector2.left) && isMounted)
+            {
+                if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
+                {
+                    attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBackRight(false, knockBackPower);
+                }
+            }
+        } 
+               
     }
 
     public override void StateLateUpdate()
@@ -82,5 +125,10 @@ public class DriveMax_Cart : StateBase
 
     public override void Exit()
     {
+    }
+
+    private void SetAttackableKnockUp()
+    {
+        
     }
 }

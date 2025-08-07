@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM
+public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM
 {
     [Header(" Managers")]
 
@@ -26,30 +26,33 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
     #endregion
-
     #region RandomMove Manager
     [SerializeField] private RandomMoveManager randomMoveMg;
     public RandomMoveManager RandomMoveMg => randomMoveMg;
     #endregion
-
     #region Mountable Manager
     [SerializeField] private MountableManager mountableMg;
     public MountableManager MountableMg => mountableMg;
     #endregion
-
     #region MountingAbility Manager
     [SerializeField] private MountingAbilityManager mountingAbilityMg;
     public MountingAbilityManager MountingAbilityMg => mountingAbilityMg;
     #endregion
-
     #region Interactable Manager
     [SerializeField] private InteractableManager interactableMg;
     public InteractableManager InteractableMg => interactableMg;
     #endregion
-
     #region InteractAbility Manager 
     [SerializeField] private InteractAbilityManager interactAbilityMg;
     public InteractAbilityManager InteractAbilityMg => interactAbilityMg;
+    #endregion
+    #region Attackable Manager 
+    [SerializeField] private AttackableManager attackableMg;
+    public AttackableManager AttackableMg => attackableMg;
+    #endregion
+    #region AttackAbility Manager 
+    [SerializeField] private AttackAbilityManager attackAbilityMg;
+    public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
     #endregion
 
     [Header(" States")]
@@ -70,17 +73,14 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
     #endregion
-
     #region RandomMove States
     [SerializeField] private StateBase stateWander;
     public StateBase StateWander => stateWander;
     #endregion
-
     #region MountingAbility States
     [SerializeField] private StateBase stateMounting;
     public StateBase StateMounting => stateMounting;
     #endregion
-
     #region InteractAbility State 
     [SerializeField] private StateBase stateInteractThink;
     [SerializeField] private StateBase stateInteractFollowX;
@@ -89,7 +89,12 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     public StateBase StateInteractFollowX => stateInteractFollowX;
     public StateBase StateInteractFollowY => stateInteractFollowY;
     #endregion
-
+    #region Attackable State 
+    [SerializeField] private StateBase stateHpZero;
+    [SerializeField] private StateBase stateKnockBack;
+    public StateBase StateHpZero => stateHpZero;
+    public StateBase StateKnockBack => stateKnockBack;
+    #endregion
 
     protected override StateBase SetFirstState()
     {

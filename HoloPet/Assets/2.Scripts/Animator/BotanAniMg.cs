@@ -10,11 +10,13 @@ public class BotanAniMg : MonoBehaviour
     private IMountingAbilitySM mountingAbilitySM;
     private IInteractAbilitySM interactAbilitySM;
     [Header("states")]
+    [SerializeField] private Clicked_Nor clicked;
     [SerializeField] private Wander_Nor wander;
     [SerializeField] private HappyChat_Nor happyChat;
     [SerializeField] private HappyChatted_Nor happyChatted;
     [SerializeField] private Bully_Nor bully;
     [SerializeField] private Bullied_Nor bullied;
+    [SerializeField] private AttackedKnockBack_Nor attackedKnockBack;
 
     private void Awake()
     {
@@ -24,7 +26,10 @@ public class BotanAniMg : MonoBehaviour
         basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
         basicSM.StateInAir.OnEnterState += InAir_OnEnterState;
         basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
+        clicked.OnKnockUpFall += Clicked_OnKnockUpFall;
         basicSM.StateClicked.OnEnterState += Clicked_OnEnterState;
+        attackedKnockBack.OnEnterState += AttackedKnockBack_OnEnterState;
+        attackedKnockBack.OnKnockUpFall += AttackedKnockBack_OnKnockUpFall;
         wander.OnEnterState += Wander_OnEnterState;
         mountingAbilitySM.StateMounting.OnEnterState += Mounting_OnEnterState;
         mountingAbilitySM.StateMounting.OnExitState += Mounting_OnExitState;
@@ -36,6 +41,20 @@ public class BotanAniMg : MonoBehaviour
         bullied.OnEnterState += Bullied_OnEnterState;
         bullied.OnHit += Bullied_OnHit;
         bullied.OnPanic += Bullied_OnPanic;
+    }
+
+
+
+    private void AttackedKnockBack_OnKnockUpFall(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceShock.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Fall.ToString(), layer: 0);
+    }
+
+    private void AttackedKnockBack_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceHit.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Fall.ToString(), layer: 0);
     }
 
     private void Bullied_OnPanic(object sender, System.EventArgs e)
@@ -52,7 +71,6 @@ public class BotanAniMg : MonoBehaviour
 
     private void Bullied_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Face.FaceNormal.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
     }
 
@@ -104,6 +122,11 @@ public class BotanAniMg : MonoBehaviour
     private void Clicked_OnEnterState(object sender, System.EventArgs e)
     {
         animator.Play(AniEnum.Humanoid.Face.FaceHit.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Fall.ToString(), layer: 0);
+    }
+    private void Clicked_OnKnockUpFall(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceShock.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Fall.ToString(), layer: 0);
     }
     private void Wander_OnEnterState(object sender, System.EventArgs e)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartSM : StateMachineBase, IBasicSM, IMountableSM
+public class CartSM : StateMachineBase, IBasicSM, IMountableSM, IAttackAbilitySM,IAttackableSM,IDriveSM
 {
     [Header(" Managers")]
     #region Basic Manager
@@ -27,6 +27,14 @@ public class CartSM : StateMachineBase, IBasicSM, IMountableSM
     [SerializeField] private MountableManager mountableMg;
     public MountableManager MountableMg => mountableMg;
     #endregion
+    #region Attackable Manager 
+    [SerializeField] private AttackableManager attackableMg;
+    public AttackableManager AttackableMg => attackableMg;
+    #endregion
+    #region AttackAbility Manager 
+    [SerializeField] private AttackAbilityManager attackAbilityMg;
+    public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
+    #endregion
 
     [Header(" States")]
     #region Basic State
@@ -45,7 +53,7 @@ public class CartSM : StateMachineBase, IBasicSM, IMountableSM
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
     #endregion
-    #region Dash 
+    #region Drive State
     [SerializeField] private StateBase stateDrive;
     [SerializeField] private StateBase stateDirveMax;
     [SerializeField] private StateBase stateDirveJump;
@@ -55,6 +63,12 @@ public class CartSM : StateMachineBase, IBasicSM, IMountableSM
     public StateBase StateDirveMax => stateDirveMax;
     public StateBase StateDirveJump => stateDirveJump;
     public StateBase StateClickedNor => stateClickedNor;
+    #endregion
+    #region Attackable State 
+    [SerializeField] private StateBase stateHpZero;
+    [SerializeField] private StateBase stateKnockBack;
+    public StateBase StateHpZero => stateHpZero;
+    public StateBase StateKnockBack => stateKnockBack;
     #endregion
 
     protected override StateBase SetFirstState()

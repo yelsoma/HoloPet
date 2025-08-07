@@ -83,4 +83,35 @@ public class StateMachinePack
     [SerializeField] private InteractAbilityManager interactAbilityMg;
     public InteractAbilityManager InteractAbilityMg => interactAbilityMg;
     #endregion
+
+    //Attackable
+    #region Attackable Manager 
+    [SerializeField] private AttackableManager attackableMg;
+    public AttackableManager AttackableMg  => attackableMg;
+    #endregion
+    #region Attackable State 
+    [SerializeField] private StateBase stateHpZero;
+    [SerializeField] private StateBase stateKnockBack;
+    public StateBase StateHpZero => stateHpZero;
+    public StateBase StateKnockBack => stateKnockBack;
+    #endregion
+
+    //AttackAbility
+    #region AttackAbility Manager 
+    [SerializeField] private AttackAbilityManager attackAbilityMg;
+    public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
+    #endregion
+
+    //Drive
+    #region Drive State
+    [SerializeField] private StateBase stateDrive;
+    [SerializeField] private StateBase stateDirveMax;
+    [SerializeField] private StateBase stateDirveJump;
+    [SerializeField] private StateBase stateClickedNor;
+
+    public StateBase StateDrive => stateDrive;
+    public StateBase StateDirveMax => stateDirveMax;
+    public StateBase StateDirveJump => stateDirveJump;
+    public StateBase StateClickedNor => stateClickedNor;
+    #endregion
 }

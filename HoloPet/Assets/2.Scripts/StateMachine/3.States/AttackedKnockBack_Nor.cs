@@ -1,25 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static AniEnum;
 using System;
 
-public class DriveJump_Cart : StateBase
+public class AttackedKnockBack_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
-    private CartSM cartSM;
-    [SerializeField] private float jumpPower;
-    [SerializeField] private float jumpDecrease;
-    [SerializeField] private float jumpForward;
-    private float jumpPowerNow;
-    private bool jumpRight;
+    private IAttackableSM attackableSM;
+    [SerializeField] private float knockUpPower;
+    [SerializeField] private float knockUpDecrease;
+    private float knockBackPower;
+    private float knockUpPowerNow;
+    private bool knockBackRight;
     private float fallSpeedNow;
     private float fallSpeedIncreese = 6.5f;
     private float fallSpeedMax = 9f;
-
-    public event EventHandler OnMountLeft;
-
+    public event EventHandler OnKnockUpFall;
+    private bool FallEventTriggered;
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
@@ -40,42 +40,49 @@ public class DriveJump_Cart : StateBase
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
-        cartSM = GetComponentInParent<CartSM>();
-        if (cartSM == null)
+        attackableSM = GetComponentInParent<IAttackableSM>();
+        if (attackableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no cartSM found in parent.");
+            Debug.LogError($"{transform} ¡X no attackableSM found in parent.");
         }
     }
 
     public override void Enter()
     {
-        jumpPowerNow = jumpPower;
+        knockUpPowerNow = knockUpPower;
         fallSpeedNow = 0f;
-        if (basicSM.FaceDirectionMg.GetIsFaceRight())
+        if (attackableSM.AttackableMg.GetIsKnockRight())
         {
-            jumpRight = true;
+            knockBackRight = true;
         }
         else
         {
-            jumpRight = false;
+            knockBackRight = false;
         }
+        knockBackPower = attackableSM.AttackableMg.GetKnockBackPower();
+        FallEventTriggered = false;
     }
 
     public override void StateUpdate()
     {
-        if(jumpPowerNow >= 0)
+        if (knockUpPowerNow >= 0)
         {
-            jumpPowerNow -= jumpDecrease * Time.deltaTime;
-            basicSM.MovementMg.MoveUp(jumpPowerNow);
+            knockUpPowerNow -= knockUpDecrease * Time.deltaTime;
+            basicSM.MovementMg.MoveUp(knockUpPowerNow);
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                jumpPowerNow = 0f;  
+                knockUpPowerNow = 0f;
             }
         }
         else
         {
+            if(FallEventTriggered == false)
+            {
+                OnKnockUpFall?.Invoke(this, EventArgs.Empty);
+                FallEventTriggered = true;
+            }          
             basicSM.MovementMg.MoveDown(fallSpeedNow);
-            if(fallSpeedNow< fallSpeedMax)
+            if (fallSpeedNow < fallSpeedMax)
             {
                 fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
             }
@@ -85,31 +92,27 @@ public class DriveJump_Cart : StateBase
             }
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(cartSM.StateDirveMax);
+                stateMachine.ChangeState(basicSM.StateIdle);
                 return;
             }
         }
-        if (jumpRight)
+        if (knockBackRight)
         {
-            basicSM.MovementMg.MoveRight(jumpForward);
+            basicSM.MovementMg.MoveRight(knockBackPower);
             if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
-                jumpRight = false;
+                knockBackRight = false;
                 basicSM.FaceDirectionMg.SetFaceLeft();
             }
         }
         else
         {
-            basicSM.MovementMg.MoveLeft(jumpForward);
+            basicSM.MovementMg.MoveLeft(knockBackPower);
             if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
-                jumpRight = true;
+                knockBackRight = true;
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
-        }
-        if (!mountableSM.MountableMg.GetIsMounted())
-        {
-            OnMountLeft?.Invoke(this, EventArgs.Empty);
         }
     }
 
