@@ -51,7 +51,8 @@ public class AniEnum
             Idle,
             Dash,
             DashMaxSpeed,
-            Mounted
+            Mounted,
+            Break
         }
     }
 }

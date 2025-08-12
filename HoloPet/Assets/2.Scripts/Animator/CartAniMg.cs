@@ -14,8 +14,8 @@ public class CartAniMg : MonoBehaviour
         basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
         basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
         basicSM.StateGrabbed.OnTriggerAni1 += Grabbed_OnMountedGrabbed;
-        basicSM.StateInAir.OnEnterState += InAir_OnEnterState;
-        basicSM.StateReleased.OnEnterState += Released_OnEnterState;
+        basicSM.StateInAir.OnTriggerAni1 += StateInAir_MountedFall;
+        basicSM.StateInAir.OnTriggerAni2 += StateInAir_NormalFall;
         driveSM = GetComponent<IDriveSM>();
         driveSM.StateClickedNor.OnEnterState += ClickedNor_OnEnterState;
         driveSM.StateDirveJump.OnEnterState += DirveJump_OnEnterState;
@@ -28,6 +28,16 @@ public class CartAniMg : MonoBehaviour
         attackableSM.StateKnockBack.OnEnterState += StateKnockBack_OnEnterState;
     }
 
+    private void StateInAir_NormalFall(object sender, System.EventArgs e)
+    {
+        Idle();
+    }
+
+    private void StateInAir_MountedFall(object sender, System.EventArgs e)
+    {
+        Mounted();
+    }
+
     private void StateKnockBack_OnEnterState(object sender, System.EventArgs e)
     {
         Idle();
@@ -35,12 +45,12 @@ public class CartAniMg : MonoBehaviour
 
     private void Drive_OnMountLeft(object sender, System.EventArgs e)
     {
-        Idle();
+        Break();
     }
 
     private void DriveMax_OnMountLeft(object sender, System.EventArgs e)
     {
-        Idle();
+        Break();
     }
 
     private void DriveJump_OnMountLeft(object sender, System.EventArgs e)
@@ -50,7 +60,7 @@ public class CartAniMg : MonoBehaviour
 
     private void Grabbed_OnMountedGrabbed(object sender, System.EventArgs e)
     {
-        Idle();
+        Mounted();
     }
 
     private void Drive_OnEnterState(object sender, System.EventArgs e)
@@ -69,16 +79,9 @@ public class CartAniMg : MonoBehaviour
     {
         Idle();
     }
-    private void Released_OnEnterState(object sender, System.EventArgs e)
-    {
-        Idle();
-    }
-    private void InAir_OnEnterState(object sender, System.EventArgs e)
-    {
-        Idle();
-    }
     private void Grabbed_OnEnterState(object sender, System.EventArgs e)
     {
+        Debug.Log("yy");
         Idle();
     }
     private void Idle_OnEnterState(object sender, System.EventArgs e)
@@ -101,5 +104,9 @@ public class CartAniMg : MonoBehaviour
     private void Mounted()
     {
         animator.Play(AniEnum.Cart.Main.Mounted.ToString());
+    }
+    private void Break()
+    {
+        animator.Play(AniEnum.Cart.Main.Break.ToString());
     }
 }

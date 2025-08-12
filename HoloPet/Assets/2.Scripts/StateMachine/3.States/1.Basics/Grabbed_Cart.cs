@@ -8,6 +8,7 @@ public class Grabbed_Cart : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
+    private bool mountedAniTrigger;
 
     private void Awake()
     {
@@ -27,21 +28,26 @@ public class Grabbed_Cart : StateBase
         if (mountableSM == null)
         {
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
-        }
+        }       
     }
 
     public override void Enter()
     {
         basicSM.ClickableMg.OnRelease += ClickableManager_OnRelease;
         basicSM.ClickableMg.OnGrabMousePos += ClickableManager_OnGrabMousePos;
-        if (mountableSM.MountableMg.GetIsMounted())
-        {
-            TriggerAni1(); // mountedGrab ani
-        }
+        mountedAniTrigger = false;
     }
 
     public override void StateUpdate()
     {
+        if (mountableSM.MountableMg.GetIsMounted())
+        {
+            if (!mountedAniTrigger)
+            {
+                TriggerAni1(); // mountedGrab ani
+                mountedAniTrigger = true;
+            }            
+        }      
     }
 
     public override void StateLateUpdate()
