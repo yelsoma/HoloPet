@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class HappyChatted_Nor : StateBase
 {
-    public event EventHandler OnStartJumpAni;
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IInteractableSM interactableSM;
@@ -93,7 +92,7 @@ public class HappyChatted_Nor : StateBase
         jumpCountLeft = jumpCount;
         jumpUpPowerNow = jumpUpPower;
         fallSpeedNow = 0f;
-        OnStartJumpAni?.Invoke(this, EventArgs.Empty);
+        TriggerAni1();// happy ani
         while (jumpCountLeft > 0)
         {
             if (jumpUpPowerNow > 0)

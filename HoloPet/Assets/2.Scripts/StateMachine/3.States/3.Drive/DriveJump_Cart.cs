@@ -18,7 +18,7 @@ public class DriveJump_Cart : StateBase
     private float fallSpeedIncreese = 6.5f;
     private float fallSpeedMax = 9f;
 
-    public event EventHandler OnMountLeft;
+    private bool mountLeftAniTriggered;
 
     private void Awake()
     {
@@ -59,6 +59,7 @@ public class DriveJump_Cart : StateBase
         {
             jumpRight = false;
         }
+        mountLeftAniTriggered = false;
     }
 
     public override void StateUpdate()
@@ -109,7 +110,11 @@ public class DriveJump_Cart : StateBase
         }
         if (!mountableSM.MountableMg.GetIsMounted())
         {
-            OnMountLeft?.Invoke(this, EventArgs.Empty);
+            if(mountLeftAniTriggered == false)
+            {
+                TriggerAni1(); // mountleft ani trigger
+                mountLeftAniTriggered = true;
+            }
         }
     }
 

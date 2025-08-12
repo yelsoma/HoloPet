@@ -8,8 +8,7 @@ public class Clicked_Nor : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
 
-    public event EventHandler OnKnockUpFall;
-    private bool FallEventTriggered;
+    private bool fallAniTriggered;
 
     private float knockUpPower;
     private float knockUpPowerNow;
@@ -46,7 +45,7 @@ public class Clicked_Nor : StateBase
 
         fallSpeedNow = 0f;
         knockUpPowerNow = knockUpPower;
-        FallEventTriggered = false;
+        fallAniTriggered = false;
 
         if (knockUpFaceDir <= 0.5f)
         {
@@ -75,10 +74,10 @@ public class Clicked_Nor : StateBase
         }
         else
         {
-            if (!FallEventTriggered)
-            {
-                OnKnockUpFall?.Invoke(this, EventArgs.Empty);
-                FallEventTriggered = true;
+            if (!fallAniTriggered)
+            {               
+                TriggerAni1(); //Trigger fall ani
+                fallAniTriggered = true;
             }        
 
             if (fallSpeedNow <= fallSpeedMax)

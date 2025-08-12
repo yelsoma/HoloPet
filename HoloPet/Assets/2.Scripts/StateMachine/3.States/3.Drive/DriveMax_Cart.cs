@@ -16,8 +16,7 @@ public class DriveMax_Cart : StateBase
     [SerializeField] private float knockUpDistance;
     [SerializeField] private float knockBackPower;
 
-    public event EventHandler OnMountLeft;
-    public bool mountLeftTrigger;
+    public bool mountLeftAniTrigger;
 
     private void Awake()
     {
@@ -55,7 +54,7 @@ public class DriveMax_Cart : StateBase
     public override void Enter()
     {
         speedNow = speedMax;
-        mountLeftTrigger = false;       
+        mountLeftAniTrigger = false;       
     }
 
     public override void StateUpdate()
@@ -63,10 +62,10 @@ public class DriveMax_Cart : StateBase
         bool isMounted = mountableSM.MountableMg.GetIsMounted();
         if (!isMounted)
         {
-            if (!mountLeftTrigger)
+            if (!mountLeftAniTrigger)
             {
-                OnMountLeft?.Invoke(this, EventArgs.Empty);
-                mountLeftTrigger = true;
+                TriggerAni1();// mountLeft ani
+                mountLeftAniTrigger = true;
             }          
             if (speedNow >= 0f)
             {
@@ -78,7 +77,7 @@ public class DriveMax_Cart : StateBase
             }
         }
 
-        if (mountLeftTrigger)
+        if (mountLeftAniTrigger)
         {
             if (isMounted)
             {

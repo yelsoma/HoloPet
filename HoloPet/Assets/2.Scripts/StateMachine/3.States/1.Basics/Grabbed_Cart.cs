@@ -9,8 +9,6 @@ public class Grabbed_Cart : StateBase
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
 
-    public event EventHandler OnMountedGrabbed;
-
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
@@ -38,7 +36,7 @@ public class Grabbed_Cart : StateBase
         basicSM.ClickableMg.OnGrabMousePos += ClickableManager_OnGrabMousePos;
         if (mountableSM.MountableMg.GetIsMounted())
         {
-            OnMountedGrabbed?.Invoke(this, EventArgs.Empty);
+            TriggerAni1(); // mountedGrab ani
         }
     }
 

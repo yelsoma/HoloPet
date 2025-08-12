@@ -7,8 +7,23 @@ public class StateBase : MonoBehaviour
 {
     public event EventHandler OnEnterState;
     public event EventHandler OnExitState;
+    public event EventHandler OnTriggerAni1;
     public event EventHandler OnTrigger1;
-    public event EventHandler OnTrigger2;
+    protected void TriggerAni1()
+    {
+        OnTriggerAni1?.Invoke(this, EventArgs.Empty);
+    }
+    public event EventHandler OnTriggerAni2;
+    protected void TriggerAni2()
+    {
+        OnTriggerAni2?.Invoke(this, EventArgs.Empty);
+    }
+    public event EventHandler OnTriggerAni3;
+    protected void TriggerAni3()
+    {
+        OnTriggerAni3?.Invoke(this, EventArgs.Empty);
+    }
+
     public virtual void Enter() { }
     public virtual void StateUpdate() { }
     public virtual void StateLateUpdate() { }

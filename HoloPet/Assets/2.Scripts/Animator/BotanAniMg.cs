@@ -9,41 +9,40 @@ public class BotanAniMg : MonoBehaviour
     private IBasicSM basicSM;
     private IMountingAbilitySM mountingAbilitySM;
     private IInteractAbilitySM interactAbilitySM;
-    [Header("states")]
-    [SerializeField] private Clicked_Nor clicked;
-    [SerializeField] private Wander_Nor wander;
-    [SerializeField] private HappyChat_Nor happyChat;
-    [SerializeField] private HappyChatted_Nor happyChatted;
-    [SerializeField] private Bully_Nor bully;
-    [SerializeField] private Bullied_Nor bullied;
-    [SerializeField] private AttackedKnockBack_Nor attackedKnockBack;
+    private IAttackableSM attackableSM;
+    private ICreatureSM creatureSM;
+    [SerializeField] private StateBase happyChat;
+    [SerializeField] private StateBase happyChatted;
+    [SerializeField] private StateBase bully;
+    [SerializeField] private StateBase bullied;
 
     private void Awake()
     {
         basicSM = GetComponent<IBasicSM>();
-        mountingAbilitySM = GetComponent<IMountingAbilitySM>();
-        interactAbilitySM = GetComponent<IInteractAbilitySM>();
         basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
         basicSM.StateInAir.OnEnterState += InAir_OnEnterState;
         basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
-        clicked.OnKnockUpFall += Clicked_OnKnockUpFall;
+        basicSM.StateClicked.OnTriggerAni1 += Clicked_OnKnockUpFall;
         basicSM.StateClicked.OnEnterState += Clicked_OnEnterState;
-        attackedKnockBack.OnEnterState += AttackedKnockBack_OnEnterState;
-        attackedKnockBack.OnKnockUpFall += AttackedKnockBack_OnKnockUpFall;
-        wander.OnEnterState += Wander_OnEnterState;
+        attackableSM = GetComponent<IAttackableSM>();
+        attackableSM.StateKnockBack.OnEnterState += AttackedKnockBack_OnEnterState;
+        attackableSM.StateKnockBack.OnTriggerAni1 += AttackedKnockBack_OnKnockUpFall;
+        creatureSM = GetComponent<ICreatureSM>();
+        creatureSM.StateWander.OnEnterState += Wander_OnEnterState;
+        mountingAbilitySM = GetComponent<IMountingAbilitySM>();
         mountingAbilitySM.StateMounting.OnEnterState += Mounting_OnEnterState;
         mountingAbilitySM.StateMounting.OnExitState += Mounting_OnExitState;
-        happyChat.OnEnterState += HappyChat_OnEnterState;
-        happyChatted.OnEnterState += HappyChatted_OnEnterState;
+        interactAbilitySM = GetComponent<IInteractAbilitySM>();
         interactAbilitySM.StateInteractFollowX.OnEnterState += FollowInteractX_OnEnterState;
         interactAbilitySM.StateInteractFollowY.OnEnterState += InteractFollowY_OnEnterState;
+        happyChat.OnEnterState += HappyChat_OnEnterState;
+        happyChatted.OnEnterState += HappyChatted_OnEnterState;
+        happyChatted.OnTriggerAni1 += HappyChatted_OnHappyJump;
         bully.OnEnterState += Bully_OnEnterState;
         bullied.OnEnterState += Bullied_OnEnterState;
-        bullied.OnHit += Bullied_OnHit;
-        bullied.OnPanic += Bullied_OnPanic;
+        bullied.OnTriggerAni1 += Bullied_OnHit;
+        bullied.OnTriggerAni2 += Bullied_OnPanic;
     }
-
-
 
     private void AttackedKnockBack_OnKnockUpFall(object sender, System.EventArgs e)
     {
@@ -99,6 +98,12 @@ public class BotanAniMg : MonoBehaviour
     }
 
     private void HappyChat_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceCalm.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
+    }
+
+    private void HappyChatted_OnHappyJump(object sender, System.EventArgs e)
     {
         animator.Play(AniEnum.Humanoid.Face.FaceHappy.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);

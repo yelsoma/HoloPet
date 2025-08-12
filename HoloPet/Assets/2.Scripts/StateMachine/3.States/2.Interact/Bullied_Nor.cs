@@ -14,8 +14,8 @@ public class Bullied_Nor : StateBase
     private bool isPanicRun;
 
     //ani
-    public event EventHandler OnHit;
-    public event EventHandler OnPanic;
+    private bool isHitTriggered;
+    private bool isPanicTriggered;
 
     //KnockBack
     private float knockUpPower = 6f;
@@ -81,17 +81,27 @@ public class Bullied_Nor : StateBase
         interacterMg.OnExitInteracting += ExitInteracting;
         isKnockUp = false;
         isPanicRun = false;
+        isHitTriggered = false;
+        isPanicTriggered = false;
 }
     public override void StateUpdate()
     {
         if (isKnockUp && !isPanicRun)
         {
-            OnHit?.Invoke(this, EventArgs.Empty);
+            if(isHitTriggered == false)
+            {
+                TriggerAni1(); // hit ani
+                isHitTriggered = true;
+            }
             KnockBack();
         }
         if (isPanicRun)
         {
-            OnPanic?.Invoke(this, EventArgs.Empty);
+            if (isPanicTriggered == false)
+            {
+                TriggerAni2(); // run ani
+                isPanicTriggered = true;
+            }
             PanicRun();
         }
     }

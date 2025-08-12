@@ -13,9 +13,7 @@ public class Drive_Cart : StateBase
     [SerializeField] private float speedMax;
     [SerializeField] private float speedPlus;
     private float speedNow;
-
-    public event EventHandler OnMountLeft;
-    public bool mountLeftTrigger;
+    public bool mountLeftAniTrigger;
 
     private void Awake()
     {
@@ -47,7 +45,7 @@ public class Drive_Cart : StateBase
     public override void Enter()
     {
         speedNow = 0f;
-        mountLeftTrigger = false;
+        mountLeftAniTrigger = false;
     }
 
     public override void StateUpdate()
@@ -66,10 +64,10 @@ public class Drive_Cart : StateBase
         }
         else
         {
-            if (!mountLeftTrigger)
+            if (!mountLeftAniTrigger)
             {
-                OnMountLeft?.Invoke(this, EventArgs.Empty);
-                mountLeftTrigger = true;
+                TriggerAni1(); // mountLeft Ani
+                mountLeftAniTrigger = true;
             }
 
             if (speedNow >= 0f)
@@ -82,7 +80,7 @@ public class Drive_Cart : StateBase
             }
         }
 
-        if (mountLeftTrigger)
+        if (mountLeftAniTrigger)
         {
             if (isMounted)
             {

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM
+public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM, ICreatureSM
 {
     [Header(" Managers")]
 
@@ -73,10 +73,6 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
     #endregion
-    #region RandomMove States
-    [SerializeField] private StateBase stateWander;
-    public StateBase StateWander => stateWander;
-    #endregion
     #region MountingAbility States
     [SerializeField] private StateBase stateMounting;
     public StateBase StateMounting => stateMounting;
@@ -94,6 +90,10 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     [SerializeField] private StateBase stateKnockBack;
     public StateBase StateHpZero => stateHpZero;
     public StateBase StateKnockBack => stateKnockBack;
+    #endregion
+    #region Creature State 
+    [SerializeField] private StateBase stateWander;
+    public StateBase StateWander => stateWander;
     #endregion
 
     protected override StateBase SetFirstState()

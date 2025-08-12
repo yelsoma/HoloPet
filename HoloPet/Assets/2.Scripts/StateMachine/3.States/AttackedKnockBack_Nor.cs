@@ -18,7 +18,6 @@ public class AttackedKnockBack_Nor : StateBase
     private float fallSpeedNow;
     private float fallSpeedIncreese = 6.5f;
     private float fallSpeedMax = 9f;
-    public event EventHandler OnKnockUpFall;
     private bool FallEventTriggered;
     private void Awake()
     {
@@ -78,7 +77,7 @@ public class AttackedKnockBack_Nor : StateBase
         {
             if(FallEventTriggered == false)
             {
-                OnKnockUpFall?.Invoke(this, EventArgs.Empty);
+                TriggerAni1();// fall ani
                 FallEventTriggered = true;
             }          
             basicSM.MovementMg.MoveDown(fallSpeedNow);

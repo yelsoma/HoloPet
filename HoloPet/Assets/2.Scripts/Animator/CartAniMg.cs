@@ -7,27 +7,23 @@ public class CartAniMg : MonoBehaviour
     [SerializeField] private Animator animator;
     private IBasicSM basicSM;
     private IDriveSM driveSM;
-    [SerializeField] private DriveJump_Cart driveJump;
-    [SerializeField] private DriveMax_Cart driveMax;
-    [SerializeField] private Drive_Cart drive;
-    [SerializeField] private Grabbed_Cart grabbed;
     private IAttackableSM attackableSM;
     private void Awake()
     {
         basicSM = GetComponent<IBasicSM>();
         basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
-        grabbed.OnEnterState += Grabbed_OnEnterState;
-        grabbed.OnMountedGrabbed += Grabbed_OnMountedGrabbed;
+        basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
+        basicSM.StateGrabbed.OnTriggerAni1 += Grabbed_OnMountedGrabbed;
         basicSM.StateInAir.OnEnterState += InAir_OnEnterState;
         basicSM.StateReleased.OnEnterState += Released_OnEnterState;
         driveSM = GetComponent<IDriveSM>();
         driveSM.StateClickedNor.OnEnterState += ClickedNor_OnEnterState;
-        driveJump.OnEnterState += DirveJump_OnEnterState;
-        driveJump.OnMountLeft += DriveJump_OnMountLeft;
-        driveMax.OnEnterState += DirveMax_OnEnterState;
-        driveMax.OnMountLeft += DriveMax_OnMountLeft;
-        drive.OnEnterState += Drive_OnEnterState;
-        drive.OnMountLeft += Drive_OnMountLeft;
+        driveSM.StateDirveJump.OnEnterState += DirveJump_OnEnterState;
+        driveSM.StateDirveJump.OnTriggerAni1 += DriveJump_OnMountLeft;
+        driveSM.StateDirveMax.OnEnterState += DirveMax_OnEnterState;
+        driveSM.StateDirveMax.OnTriggerAni1 += DriveMax_OnMountLeft;
+        driveSM.StateDrive.OnEnterState += Drive_OnEnterState;
+        driveSM.StateDrive.OnTriggerAni1 += Drive_OnMountLeft;
         attackableSM = GetComponent<IAttackableSM>();
         attackableSM.StateKnockBack.OnEnterState += StateKnockBack_OnEnterState;
     }
