@@ -9,16 +9,17 @@ public partial class StateMachineMaker : MonoBehaviour
     private void AssignStates(Type targetType)
     {
         TryFindStateField("Idle_Nor", targetType, "stateIdle");
-        TryFindStateField("InAir_Nor", targetType, "stateInAir");
+        TryFindStateField("Fall_Nor", targetType, "stateInAir");
         TryFindStateField("Grabbed_Nor", targetType, "stateGrabbed");
-        TryFindStateField("Clicked_Nor", targetType, "stateClicked");
-        TryFindStateField("InAir_Nor", targetType, "stateReleased");
+        TryFindStateField("KnockUp_Nor", targetType, "stateClicked");
+        TryFindStateField("Fall_Nor", targetType, "stateReleased");
         TryFindStateField("Spawn_Nor", targetType, "stateSpawn");
         TryFindStateField("Wander_Nor", targetType, "stateWander");
         TryFindStateField("Mounting_Nor", targetType, "stateMounting");
         TryFindStateField("InteractThink_Nor", targetType, "stateInteractThink");
         TryFindStateField("InteractFollowY_Nor", targetType, "stateInteractFollowY");
         TryFindStateField("InteractFollowX_Nor", targetType, "stateInteractFollowX");
+        TryFindStateField("AttackedKnockback_Nor", targetType, "stateKnockBack");
     }
     private bool TryFindStateField(string prefabName, Type type, string fieldName)
     {

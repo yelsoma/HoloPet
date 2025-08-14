@@ -7,7 +7,7 @@ public class Idle_Cart : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
-    private CartSM cartSM;
+    private IDriveSM DriveSM;
 
     private void Awake()
     {
@@ -29,27 +29,25 @@ public class Idle_Cart : StateBase
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
-        cartSM = GetComponentInParent<CartSM>();
-        if (cartSM == null)
+        DriveSM = GetComponentInParent<IDriveSM>();
+        if (DriveSM == null)
         {
-            Debug.LogError($"{transform} ¡X no cartSM found in parent.");
-        }
+            Debug.LogError($"{transform} ¡X no IDriveSM found in parent.");
+        }        
     }
 
     public override void Enter()
     {
-    }
+        if (mountableSM.MountableMg.GetIsMounted())
+        {
+            stateMachine.ChangeState(DriveSM.StateDrive);
+            return;
+        }
+        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+    }    
 
     public override void StateUpdate()
     {
-        if (mountableSM.MountableMg.GetIsMounted())
-        {
-            stateMachine.ChangeState(cartSM.StateDrive);           
-        }
-        else
-        {
-            //keep idle
-        }
     }
 
     public override void StateLateUpdate()
@@ -58,5 +56,14 @@ public class Idle_Cart : StateBase
 
     public override void Exit()
     {
+        mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
+    }
+
+    private void MountableMg_OnChangeMounted(object sender, System.EventArgs e)
+    {
+        if (mountableSM.MountableMg.GetIsMounted())
+        {
+            stateMachine.ChangeState(DriveSM.StateDrive);
+        }        
     }
 }

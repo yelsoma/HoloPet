@@ -7,7 +7,7 @@ public class Clicked_Cart : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
-    private CartSM cartSM;
+    private IDriveSM driveSM;
 
     private void Awake()
     {
@@ -29,10 +29,10 @@ public class Clicked_Cart : StateBase
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
-        cartSM = GetComponentInParent<CartSM>();
-        if (cartSM == null)
+        driveSM = GetComponentInParent<IDriveSM>();
+        if (driveSM == null)
         {
-            Debug.LogError($"{transform} ¡X no cartSM found in parent.");
+            Debug.LogError($"{transform} ¡X no IDriveSM found in parent.");
         }
     }
 
@@ -40,11 +40,11 @@ public class Clicked_Cart : StateBase
     {
         if (mountableSM.MountableMg.GetIsMounted())
         {
-            stateMachine.ChangeState(cartSM.StateDirveJump);
+            stateMachine.ChangeState(driveSM.StateDirveJump);
         }
         else
         {
-            stateMachine.ChangeState(cartSM.StateClickedNor);
+            stateMachine.ChangeState(driveSM.StateClickedNor);
         }
     }
 

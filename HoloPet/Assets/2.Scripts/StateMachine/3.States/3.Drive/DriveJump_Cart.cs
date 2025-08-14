@@ -8,7 +8,7 @@ public class DriveJump_Cart : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
-    private CartSM cartSM;
+    private IDriveSM driveSM;
     [SerializeField] private float jumpPower;
     [SerializeField] private float jumpDecrease;
     [SerializeField] private float jumpForward;
@@ -17,8 +17,7 @@ public class DriveJump_Cart : StateBase
     private float fallSpeedNow;
     private float fallSpeedIncreese = 6.5f;
     private float fallSpeedMax = 9f;
-
-    private bool mountLeftAniTriggered;
+    private bool isMounted;
 
     private void Awake()
     {
@@ -40,8 +39,8 @@ public class DriveJump_Cart : StateBase
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
-        cartSM = GetComponentInParent<CartSM>();
-        if (cartSM == null)
+        driveSM = GetComponentInParent<IDriveSM>();
+        if (driveSM == null)
         {
             Debug.LogError($"{transform} ¡X no cartSM found in parent.");
         }
@@ -59,7 +58,8 @@ public class DriveJump_Cart : StateBase
         {
             jumpRight = false;
         }
-        mountLeftAniTriggered = false;
+        isMounted = mountableSM.MountableMg.GetIsMounted();
+        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
     }
 
     public override void StateUpdate()
@@ -86,8 +86,16 @@ public class DriveJump_Cart : StateBase
             }
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(cartSM.StateDirveMax);
-                return;
+                if (isMounted)
+                {
+                    stateMachine.ChangeState(driveSM.StateDirveMax);
+                    return;
+                }
+                else
+                {
+                    stateMachine.ChangeState(basicSM.StateIdle);
+                    return;
+                }
             }
         }
         if (jumpRight)
@@ -108,14 +116,6 @@ public class DriveJump_Cart : StateBase
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
         }
-        if (!mountableSM.MountableMg.GetIsMounted())
-        {
-            if(mountLeftAniTriggered == false)
-            {
-                TriggerAni1(); // mountleft ani trigger
-                mountLeftAniTriggered = true;
-            }
-        }
     }
 
     public override void StateLateUpdate()
@@ -124,5 +124,11 @@ public class DriveJump_Cart : StateBase
 
     public override void Exit()
     {
+        mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
+    }
+
+    private void MountableMg_OnChangeMounted(object sender, EventArgs e)
+    {
+        isMounted = mountableSM.MountableMg.GetIsMounted();
     }
 }

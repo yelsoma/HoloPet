@@ -9,14 +9,13 @@ public class DriveMax_Cart : StateBase
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
     private IAttackAbilitySM attackAbilitySM;
-    private CartSM cartSM;
+    private IDriveSM driveSM;
     [SerializeField] private float speedMax;
     [SerializeField] private float speedPlus;
     private float speedNow;
     [SerializeField] private float knockUpDistance;
     [SerializeField] private float knockBackPower;
-
-    public bool mountLeftAniTrigger;
+    private bool isMounted;
 
     private void Awake()
     {
@@ -38,8 +37,8 @@ public class DriveMax_Cart : StateBase
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
-        cartSM = GetComponentInParent<CartSM>();
-        if (cartSM == null)
+        driveSM = GetComponentInParent<IDriveSM>();
+        if (driveSM == null)
         {
             Debug.LogError($"{transform} ¡X no cartSM found in parent.");
         }
@@ -53,35 +52,34 @@ public class DriveMax_Cart : StateBase
 
     public override void Enter()
     {
-        speedNow = speedMax;
-        mountLeftAniTrigger = false;       
+        speedNow = speedMax;  
+        isMounted = mountableSM.MountableMg.GetIsMounted();
+        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
     }
 
     public override void StateUpdate()
     {
-        bool isMounted = mountableSM.MountableMg.GetIsMounted();
-        if (!isMounted)
+        if (isMounted)
         {
-            if (!mountLeftAniTrigger)
+            if (speedNow < speedMax)
             {
-                TriggerAni1();// mountLeft ani
-                mountLeftAniTrigger = true;
-            }          
+                speedNow += speedPlus * Time.deltaTime;
+            }
+            else
+            {
+                speedNow = speedMax;
+            }
+        }
+        else
+        {   
+            //breaking
             if (speedNow >= 0f)
             {
                 speedNow -= speedPlus *2f* Time.deltaTime;
             }
             else
             {
-                stateMachine.ChangeState(cartSM.StateIdle);
-            }
-        }
-
-        if (mountLeftAniTrigger)
-        {
-            if (isMounted)
-            {
-                stateMachine.ChangeState(cartSM.StateDrive);
+                stateMachine.ChangeState(basicSM.StateIdle);
             }
         }
 
@@ -92,13 +90,10 @@ public class DriveMax_Cart : StateBase
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
             }
-            if(basicSM.RaycastMg.TrySetRaycast(knockUpDistance, Vector2.right) && isMounted)
+            if(speedNow >= speedMax)
             {
-                if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
-                {
-                    attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBackRight(true,knockBackPower);
-                }
-            }
+                SetAttackablesKnockRight(true);
+            }           
         }
         else
         {
@@ -107,15 +102,11 @@ public class DriveMax_Cart : StateBase
             {
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
-            if (basicSM.RaycastMg.TrySetRaycast(knockUpDistance, Vector2.left) && isMounted)
+            if (speedNow >= speedMax)
             {
-                if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
-                {
-                    attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBackRight(false, knockBackPower);
-                }
+                SetAttackablesKnockRight(false);
             }
-        } 
-               
+        }             
     }
 
     public override void StateLateUpdate()
@@ -124,10 +115,22 @@ public class DriveMax_Cart : StateBase
 
     public override void Exit()
     {
+        mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
     }
 
-    private void SetAttackableKnockUp()
+    private void SetAttackablesKnockRight(bool isAttackRight)
     {
-        
+        if (basicSM.RaycastMg.TrySetRaycast(knockUpDistance, Vector2.left))
+        {
+            if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
+            {
+                attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBackRight(isAttackRight, knockBackPower);
+            }
+        }
+    }
+
+    private void MountableMg_OnChangeMounted(object sender, EventArgs e)
+    {
+        isMounted = mountableSM.MountableMg.GetIsMounted();
     }
 }

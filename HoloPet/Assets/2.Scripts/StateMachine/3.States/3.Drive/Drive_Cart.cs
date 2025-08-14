@@ -8,12 +8,12 @@ public class Drive_Cart : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
-    private CartSM cartSM;
+    private IDriveSM driveSM;
 
     [SerializeField] private float speedMax;
     [SerializeField] private float speedPlus;
     private float speedNow;
-    public bool mountLeftAniTrigger;
+    private bool isMounted;
 
     private void Awake()
     {
@@ -35,8 +35,8 @@ public class Drive_Cart : StateBase
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
-        cartSM = GetComponentInParent<CartSM>();
-        if (cartSM == null)
+        driveSM = GetComponentInParent<IDriveSM>();
+        if (driveSM == null)
         {
             Debug.LogError($"{transform} ¡X no cartSM found in parent.");
         }
@@ -45,47 +45,29 @@ public class Drive_Cart : StateBase
     public override void Enter()
     {
         speedNow = 0f;
-        mountLeftAniTrigger = false;
+        isMounted = mountableSM.MountableMg.GetIsMounted();
+        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
     }
 
     public override void StateUpdate()
     {
-        bool isMounted = mountableSM.MountableMg.GetIsMounted();
         if (isMounted)
         {
-            if (speedNow <= speedMax)
-            {
-                speedNow += speedPlus * Time.deltaTime;
-            }
-            else
-            {
-                stateMachine.ChangeState(cartSM.StateDirveMax);
-            }
+            speedNow += speedPlus * Time.deltaTime;
         }
         else
         {
-            if (!mountLeftAniTrigger)
-            {
-                TriggerAni1(); // mountLeft Ani
-                mountLeftAniTrigger = true;
-            }
-
-            if (speedNow >= 0f)
-            {
-                speedNow -= speedPlus *2f* Time.deltaTime;
-            }
-            else
-            {
-                stateMachine.ChangeState(cartSM.StateIdle);
-            }
+            speedNow -= speedPlus * 2f * Time.deltaTime;
         }
 
-        if (mountLeftAniTrigger)
+        if(speedNow <= 0)
         {
-            if (isMounted)
-            {
-                stateMachine.ChangeState(cartSM.StateDrive);
-            }
+            stateMachine.ChangeState(basicSM.StateIdle);
+        }
+
+        if(speedNow >= speedMax)
+        {
+            stateMachine.ChangeState(driveSM.StateDirveMax);
         }
 
         if (basicSM.FaceDirectionMg.GetIsFaceRight())
@@ -112,5 +94,11 @@ public class Drive_Cart : StateBase
 
     public override void Exit()
     {
+        mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
+    }
+
+    private void MountableMg_OnChangeMounted(object sender, EventArgs e)
+    {
+        isMounted = mountableSM.MountableMg.GetIsMounted();
     }
 }

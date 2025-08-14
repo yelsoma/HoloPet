@@ -11,6 +11,7 @@ public class MountableManager : MonoBehaviour
     [SerializeField] Transform mountingPoint;
     [SerializeField] StateBase[] unMountableStates;
     private Transform stateMachineTransform;
+    public event EventHandler OnChangeMounted;
 
     private void Awake()
     {
@@ -89,5 +90,10 @@ public class MountableManager : MonoBehaviour
     public Transform GetStateMachineTransform()
     {
         return stateMachineTransform;
+    }
+
+    public void TriggerMountedChange()
+    {
+        OnChangeMounted?.Invoke(this, EventArgs.Empty);
     }
 }

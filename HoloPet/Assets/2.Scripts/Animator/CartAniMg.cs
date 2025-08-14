@@ -5,64 +5,87 @@ using UnityEngine;
 public class CartAniMg : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IDriveSM driveSM;
     private IAttackableSM attackableSM;
+    private IMountableSM mountableSM;
     private void Awake()
     {
         basicSM = GetComponent<IBasicSM>();
         basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
         basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
-        basicSM.StateGrabbed.OnTriggerAni1 += Grabbed_OnMountedGrabbed;
-        basicSM.StateInAir.OnTriggerAni1 += StateInAir_MountedFall;
-        basicSM.StateInAir.OnTriggerAni2 += StateInAir_NormalFall;
+        basicSM.StateInAir.OnEnterState += StateInAir_OnEnterState;
         driveSM = GetComponent<IDriveSM>();
         driveSM.StateClickedNor.OnEnterState += ClickedNor_OnEnterState;
         driveSM.StateDirveJump.OnEnterState += DirveJump_OnEnterState;
-        driveSM.StateDirveJump.OnTriggerAni1 += DriveJump_OnMountLeft;
         driveSM.StateDirveMax.OnEnterState += DirveMax_OnEnterState;
-        driveSM.StateDirveMax.OnTriggerAni1 += DriveMax_OnMountLeft;
         driveSM.StateDrive.OnEnterState += Drive_OnEnterState;
-        driveSM.StateDrive.OnTriggerAni1 += Drive_OnMountLeft;
         attackableSM = GetComponent<IAttackableSM>();
         attackableSM.StateKnockBack.OnEnterState += StateKnockBack_OnEnterState;
+        //mounted change
+        stateMachine = GetComponent<StateMachineBase>();
+        mountableSM = GetComponent<IMountableSM>();
+        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        
     }
 
-    private void StateInAir_NormalFall(object sender, System.EventArgs e)
+    private void MountableMg_OnChangeMounted(object sender, System.EventArgs e)
     {
-        Idle();
+        bool isMounted = mountableSM.MountableMg.GetIsMounted();
+        if (stateMachine.GetStateNow() == driveSM.StateDrive)
+        {
+            if (isMounted)
+            {
+                Drive();
+                return;
+            }
+            else
+            {
+                Break();
+                return;
+            }
+        }
+        if(stateMachine.GetStateNow() == driveSM.StateDirveMax)
+        {
+            if (isMounted)
+            {
+                DriveMax();
+                return;
+            }
+            else
+            {
+                Break();
+                return;
+            }
+        }
+        if(isMounted)
+        {
+            Mounted();
+            return;
+        }
+        else
+        {
+            Idle();
+            return;
+        }
     }
 
-    private void StateInAir_MountedFall(object sender, System.EventArgs e)
+    private void StateInAir_OnEnterState(object sender, System.EventArgs e)
     {
-        Mounted();
-    }
-
+        if (mountableSM.MountableMg.GetIsMounted())
+        {
+            Mounted();
+        }
+        else
+        {
+            Idle();
+        }
+    }  
     private void StateKnockBack_OnEnterState(object sender, System.EventArgs e)
     {
         Idle();
     }
-
-    private void Drive_OnMountLeft(object sender, System.EventArgs e)
-    {
-        Break();
-    }
-
-    private void DriveMax_OnMountLeft(object sender, System.EventArgs e)
-    {
-        Break();
-    }
-
-    private void DriveJump_OnMountLeft(object sender, System.EventArgs e)
-    {
-        Idle();
-    }
-
-    private void Grabbed_OnMountedGrabbed(object sender, System.EventArgs e)
-    {
-        Mounted();
-    }
-
     private void Drive_OnEnterState(object sender, System.EventArgs e)
     {
         Drive();
@@ -81,14 +104,23 @@ public class CartAniMg : MonoBehaviour
     }
     private void Grabbed_OnEnterState(object sender, System.EventArgs e)
     {
-        Debug.Log("yy");
-        Idle();
+        if (mountableSM.MountableMg.GetIsMounted())
+        {
+            Mounted();
+            return;
+        }
+        else
+        {
+            Idle();
+            return;
+        }
     }
     private void Idle_OnEnterState(object sender, System.EventArgs e)
     {
         Idle();
     }
 
+    //animations
     private void Idle()
     {
         animator.Play(AniEnum.Cart.Main.Idle.ToString());

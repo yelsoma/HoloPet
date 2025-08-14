@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MountingAbilityManager : MonoBehaviour
 {
@@ -80,11 +81,13 @@ public class MountingAbilityManager : MonoBehaviour
         SetIsMounting(true);
         myMount.SetIsMounted(true);
         myMount.SetMounter(transform.GetComponent<MountingAbilityManager>());
+        myMount.TriggerMountedChange();
     }
     public void ExitMount()
     {
         SetIsMounting(false);
         stateMachineTransform.SetParent(null);
         myMount.SetIsMounted(false);
+        myMount.TriggerMountedChange();
     }
 }
