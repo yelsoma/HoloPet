@@ -89,7 +89,7 @@ public class StateMachinePack
     //Attackable
     #region Attackable Manager 
     [SerializeField] private AttackableManager attackableMg;
-    public AttackableManager AttackableMg  => attackableMg;
+    public AttackableManager AttackableMg => attackableMg;
     #endregion
     #region Attackable State 
     [SerializeField] private StateBase stateHpZero;

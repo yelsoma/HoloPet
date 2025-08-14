@@ -125,6 +125,7 @@ public class DriveMax_Cart : StateBase
             if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
             {
                 attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBackRight(isAttackRight, knockBackPower);
+                attackAbilitySM.AttackAbilityMg.ModifyAttackablesHp(-3);
             }
         }
     }

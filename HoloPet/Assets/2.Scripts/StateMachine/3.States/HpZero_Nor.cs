@@ -2,17 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HpZero_Nor : MonoBehaviour
+public class HpZero_Nor : StateBase
 {
-    // Start is called before the first frame update
-    void Start()
+    private StateMachineBase stateMachine;
+    private IBasicSM basicSM;
+    [SerializeField] private float deathTime;
+    private float deathTimeNow;
+
+    private void Awake()
     {
-        
+        stateMachine = GetComponentInParent<StateMachineBase>();
+        if (stateMachine == null)
+        {
+            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+        }
+
+        basicSM = GetComponentInParent<IBasicSM>();
+        if (basicSM == null)
+        {
+            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        deathTimeNow = deathTime;
+    }
+
+    public override void StateUpdate()
+    {
+        deathTimeNow -=Time.deltaTime;
+        if(deathTimeNow <= 0 )
+        {
+            Destroy(stateMachine.gameObject);           
+        }
+    }
+
+    public override void StateLateUpdate()
+    {
+    }
+
+    public override void Exit()
+    {
     }
 }
