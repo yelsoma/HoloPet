@@ -55,13 +55,6 @@ public class InteractMounted_Cart : StateBase
         Transform interacterTransform = myInteractableMg.GetInteracterManager().GetStateMachineTransform();
         StateMachineBase interacterSM = interacterTransform.GetComponent<StateMachineBase>();
         IBasicSM interacterBasicSM = interacterTransform.GetComponent<IBasicSM>();
-        //IInteractAbilitySM interacterInteractAbilitySM = interacterTransform.GetComponent<IInteractAbilitySM>();
-        //if (mountableSM.MountableMg.GetIsMounted())
-        //{
-        //    interacterSM.ChangeState(interacterInteractAbilitySM.StateInteractFailed);
-        //    stateMachine.ChangeState(basicSM.StateIdle);
-        //    return;
-        //}
         if (interacterTransform.TryGetComponent<IMountingAbilitySM>(out IMountingAbilitySM MounterMountingAbilitySM) && MounterMountingAbilitySM.MountingAbilityMg.TrySetMount(mountableSM.MountableMg))
         {
             //sucsses set mounter
@@ -74,7 +67,8 @@ public class InteractMounted_Cart : StateBase
                 return;
             }
         }
-        stateMachine.ChangeState(basicSM.StateIdle);
+        //fail
+        stateMachine.ChangeState(basicSM.StateInAir);
     }
     public override void StateLateUpdate()
     {

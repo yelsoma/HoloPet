@@ -47,18 +47,12 @@ public class InteractMounted_Nor : StateBase
         myInteractableMg = interactableSM.InteractableMg;
         Transform interacterTransform = myInteractableMg.GetInteracterManager().GetStateMachineTransform();
         StateMachineBase interacterSM = interacterTransform.GetComponent<StateMachineBase>();
-        IInteractAbilitySM interacterInteractAbilitySM = interacterTransform.GetComponent<IInteractAbilitySM>();
-        if (mountableSM.MountableMg.GetIsMounted())
-        {
-            interacterSM.ChangeState(interacterInteractAbilitySM.StateInteractFailed);
-            stateMachine.ChangeState(basicSM.StateIdle);
-            return;
-        }
         if (interacterTransform.TryGetComponent<IMountingAbilitySM>(out IMountingAbilitySM MounterMountingAbilitySM) && MounterMountingAbilitySM.MountingAbilityMg.TrySetMount(mountableSM.MountableMg))
         {
             //sucsses set mounter
             interacterSM.ChangeState(MounterMountingAbilitySM.StateMounting);
         }
+        //fail
         stateMachine.ChangeState(basicSM.StateIdle);
     }
     public override void StateLateUpdate()

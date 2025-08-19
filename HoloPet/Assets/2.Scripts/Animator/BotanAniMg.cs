@@ -40,6 +40,7 @@ public class BotanAniMg : MonoBehaviour
         interactAbilitySM = GetComponent<IInteractAbilitySM>();
         interactAbilitySM.StateInteractFollowX.OnEnterState += FollowInteractX_OnEnterState;
         interactAbilitySM.StateInteractFollowY.OnEnterState += InteractFollowY_OnEnterState;
+        interactAbilitySM.StateInteractFailed.OnEnterState += StateInteractFailed_OnEnterState;
         happyChat.OnEnterState += HappyChat_OnEnterState;
         happyChatted.OnEnterState += HappyChatted_OnEnterState;
         happyChatted.OnTriggerAni1 += HappyChatted_OnHappyJump;
@@ -47,6 +48,12 @@ public class BotanAniMg : MonoBehaviour
         bullied.OnEnterState += Bullied_OnEnterState;
         bullied.OnTriggerAni1 += Bullied_OnHit;
         bullied.OnTriggerAni2 += Bullied_OnPanic;
+    }
+
+    private void StateInteractFailed_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceNormal.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
     }
 
     private void StateMounting_CartIsMaxSpeed(object sender, System.EventArgs e)

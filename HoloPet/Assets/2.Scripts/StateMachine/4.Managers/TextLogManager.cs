@@ -13,6 +13,7 @@ public class TextLogManager : MonoBehaviour
     private float targetScale = 1f;
     [SerializeField] private Image iconImage;
     [SerializeField] private Sprite[] sadAni;
+    [SerializeField] private Sprite happyFace;
     [SerializeField] private float sadEmojiframeTime = 0.75f;
 
     private Coroutine sadAniRoutine;
@@ -29,6 +30,16 @@ public class TextLogManager : MonoBehaviour
     {
         iconImage.sprite = targetIcon;
         
+        iconBubbleTransform.gameObject.SetActive(true);
+        if (bubbleRoutine == null)
+        {
+            bubbleRoutine = StartCoroutine(CoShowBubble(duration));
+        }
+    }
+    public void PopUpHappyFace(float duration)
+    {
+        iconImage.sprite = happyFace;
+
         iconBubbleTransform.gameObject.SetActive(true);
         if (bubbleRoutine == null)
         {

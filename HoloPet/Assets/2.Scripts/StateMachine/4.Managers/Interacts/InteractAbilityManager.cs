@@ -76,6 +76,20 @@ public class InteractAbilityManager : MonoBehaviour
         //there is nothing interactable
         return false;
     }
+    public bool TryMatchLockedTargetWithRaycastHits(RaycastHit2D[] raycastHit2Ds)
+    {
+        foreach( RaycastHit2D raycastHit2D in raycastHit2Ds)
+        {
+            if (raycastHit2D.transform.TryGetComponent(out IInteractableSM interactableSM))
+            {
+                if (interactableSM.InteractableMg == target)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public bool TryMatchOptionsChooseWithBothChance()
     {
         float totalChance = 0;

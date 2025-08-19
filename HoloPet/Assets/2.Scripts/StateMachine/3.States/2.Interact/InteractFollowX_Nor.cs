@@ -136,22 +136,21 @@ public class InteractFollowX_Nor : StateBase
 
     private void GoToChoosenInteract()
     {
-        Debug.Log(interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().GetIsInteractable());
-        if (!interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().GetIsInteractable())
-        {
-            //exit to idle
-            stateMachine.ChangeState(interactAbilitySM.StateInteractFailed);
-            return;
-        }
         if (targetInteractMg.GetIsInteractable())
         {
-            interactAbilitySM.InteractAbilityMg.SetIsTargetLocked(false);
+            interactAbilitySM.TextLogMg.PopUpHappyFace(1f);
+            myInteractMg.SetIsTargetLocked(false);
             targetInteractMg.SetInteracter(myInteractMg);
             targetInteractMg.GoToChoosenInteracedState();
             if (myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState != null)
             {
                 stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
             }
+        }
+        else
+        {
+            //exit to idle
+            stateMachine.ChangeState(interactAbilitySM.StateInteractFailed);
         }
     }    
 }

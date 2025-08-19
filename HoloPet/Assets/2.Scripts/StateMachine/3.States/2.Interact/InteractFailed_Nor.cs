@@ -49,6 +49,14 @@ public class InteractFailed_Nor : StateBase
     {
         sadTimeNow = failTime;
         interactAbilitySM.TextLogMg.PopUpSadEmoji(sadBubbleTime);
+        if (interactAbilitySM.InteractAbilityMg.GetIsTargetRight())
+        {
+            basicSM.FaceDirectionMg.SetFaceRight();
+        }
+        else
+        {
+            basicSM.FaceDirectionMg.SetFaceLeft();
+        }
     }
     public override void StateUpdate()
     {

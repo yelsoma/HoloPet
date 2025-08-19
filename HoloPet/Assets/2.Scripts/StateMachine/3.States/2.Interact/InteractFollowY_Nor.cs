@@ -119,15 +119,21 @@ public class InteractFollowY_Nor : StateBase
 
     private void GoToChoosenInteract()
     {
-        if (!interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().GetIsInteractable())
+        if (targetInteractMg.GetIsInteractable())
+        {
+            interactAbilitySM.TextLogMg.PopUpHappyFace(1f);
+            myInteractMg.SetIsTargetLocked(false);
+            targetInteractMg.SetInteracter(myInteractMg);
+            targetInteractMg.GoToChoosenInteracedState();
+            if (myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState != null)
+            {
+                stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
+            }
+        }
+        else
         {
             //exit to idle
             stateMachine.ChangeState(interactAbilitySM.StateInteractFailed);
-            return;
         }
-        interactAbilitySM.InteractAbilityMg.SetIsTargetLocked(false);
-        targetInteractMg.SetInteracter(myInteractMg);
-        targetInteractMg.GoToChoosenInteracedState();
-        stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
     }
 }

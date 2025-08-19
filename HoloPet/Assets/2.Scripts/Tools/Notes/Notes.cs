@@ -25,11 +25,7 @@ public class Notes
     //add punch click fx *
     //add kanata
     //add Chair and sleepy State and get down chair auto
-    //add interact matched fail
     //**
     //the interact logic is easy to fail beacous no mathch
-    //check all states remove change state on enter
-    //remake fail ani add want target
-    //give cart a mounted state
-
+    //cart float problem
 }
