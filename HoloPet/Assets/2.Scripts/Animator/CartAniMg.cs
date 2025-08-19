@@ -23,6 +23,7 @@ public class CartAniMg : MonoBehaviour
         driveSM.StateDrive.OnEnterState += Drive_OnEnterState;
         attackableSM = GetComponent<IAttackableSM>();
         attackableSM.StateKnockBack.OnEnterState += StateKnockBack_OnEnterState;
+        attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
         //mounted change
         stateMachine = GetComponent<StateMachineBase>();
         mountableSM = GetComponent<IMountableSM>();
@@ -30,6 +31,37 @@ public class CartAniMg : MonoBehaviour
         
     }
 
+    private void StateHpZero_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play("CartDeadFlash");
+    }
+    
+    private void StateKnockBack_OnEnterState(object sender, System.EventArgs e)
+    {
+        Idle();
+    }
+    private void Drive_OnEnterState(object sender, System.EventArgs e)
+    {
+        Drive();
+    }
+    private void DirveMax_OnEnterState(object sender, System.EventArgs e)
+    {
+        DriveMax();
+    }
+    private void DirveJump_OnEnterState(object sender, System.EventArgs e)
+    {
+        Mounted();
+    }
+    private void ClickedNor_OnEnterState(object sender, System.EventArgs e)
+    {
+        Idle();
+    }
+   
+    private void Idle_OnEnterState(object sender, System.EventArgs e)
+    {
+        Idle();
+    }
+    //mounted OnChange
     private void MountableMg_OnChangeMounted(object sender, System.EventArgs e)
     {
         bool isMounted = mountableSM.MountableMg.GetIsMounted();
@@ -46,7 +78,7 @@ public class CartAniMg : MonoBehaviour
                 return;
             }
         }
-        if(stateMachine.GetStateNow() == driveSM.StateDirveMax)
+        if (stateMachine.GetStateNow() == driveSM.StateDirveMax)
         {
             if (isMounted)
             {
@@ -59,7 +91,7 @@ public class CartAniMg : MonoBehaviour
                 return;
             }
         }
-        if(isMounted)
+        if (isMounted)
         {
             Mounted();
             return;
@@ -81,26 +113,6 @@ public class CartAniMg : MonoBehaviour
         {
             Idle();
         }
-    }  
-    private void StateKnockBack_OnEnterState(object sender, System.EventArgs e)
-    {
-        Idle();
-    }
-    private void Drive_OnEnterState(object sender, System.EventArgs e)
-    {
-        Drive();
-    }
-    private void DirveMax_OnEnterState(object sender, System.EventArgs e)
-    {
-        DriveMax();
-    }
-    private void DirveJump_OnEnterState(object sender, System.EventArgs e)
-    {
-        Mounted();
-    }
-    private void ClickedNor_OnEnterState(object sender, System.EventArgs e)
-    {
-        Idle();
     }
     private void Grabbed_OnEnterState(object sender, System.EventArgs e)
     {
@@ -114,10 +126,6 @@ public class CartAniMg : MonoBehaviour
             Idle();
             return;
         }
-    }
-    private void Idle_OnEnterState(object sender, System.EventArgs e)
-    {
-        Idle();
     }
 
     //animations
@@ -141,4 +149,5 @@ public class CartAniMg : MonoBehaviour
     {
         animator.Play(AniEnum.Cart.Main.Break.ToString());
     }
+    
 }

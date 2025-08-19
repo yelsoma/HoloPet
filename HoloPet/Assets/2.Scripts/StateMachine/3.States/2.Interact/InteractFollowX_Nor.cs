@@ -41,17 +41,10 @@ public class InteractFollowX_Nor : StateBase
     public override void Enter()
     {
         myInteractMg = interactAbilitySM.InteractAbilityMg;
-        targetInteractMg = myInteractMg.GetTargetIInteractable();
+        targetInteractMg = myInteractMg.GetTargetInteractableMg();
     }
     public override void StateUpdate()
     {
-        // if target is no longer Interactable  , exit to idle
-        if (!interactAbilitySM.InteractAbilityMg.GetTargetIInteractable().GetIsInteractable())
-        {
-            //exit to idle
-            stateMachine.ChangeState(basicSM.StateInAir);
-            return;
-        }
         targetIsRight = myInteractMg.GetIsTargetRight();
         targetIsFarX = myInteractMg.GetIsTargetFarX(interactDistance);
         targetIsFarY = myInteractMg.GetIsTargetFarY(interactDistance);
@@ -123,7 +116,7 @@ public class InteractFollowX_Nor : StateBase
                     return;
                 }
             }
-        }       
+        }
         if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
         {
             stateMachine.ChangeState(basicSM.StateInAir);
@@ -143,8 +136,22 @@ public class InteractFollowX_Nor : StateBase
 
     private void GoToChoosenInteract()
     {
-        targetInteractMg.SetInteracter(myInteractMg);
-        targetInteractMg.GoToChoosenInteracedState();
-        stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
+        Debug.Log(interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().GetIsInteractable());
+        if (!interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().GetIsInteractable())
+        {
+            //exit to idle
+            stateMachine.ChangeState(interactAbilitySM.StateInteractFailed);
+            return;
+        }
+        if (targetInteractMg.GetIsInteractable())
+        {
+            interactAbilitySM.InteractAbilityMg.SetIsTargetLocked(false);
+            targetInteractMg.SetInteracter(myInteractMg);
+            targetInteractMg.GoToChoosenInteracedState();
+            if (myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState != null)
+            {
+                stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
+            }
+        }
     }    
 }

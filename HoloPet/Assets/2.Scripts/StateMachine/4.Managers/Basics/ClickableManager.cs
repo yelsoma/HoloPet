@@ -14,6 +14,7 @@ public class ClickableManager : MonoBehaviour
 
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
+    private bool isClickable;
 
     private void Awake()
     {
@@ -30,6 +31,10 @@ public class ClickableManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SetIsClickable(true);
+    }
     public void Click()
     {
         // go to state Clicked
@@ -52,18 +57,30 @@ public class ClickableManager : MonoBehaviour
         OnRelease?.Invoke(this, EventArgs.Empty);
     }
 
-    public bool GetIsNowClickable()
-    {
-        if (unClickableStates == null || unClickableStates.Length == 0)
-            return true;
-
+    public bool GetIsClickable()
+    {       
+        bool isClickableState = true;
         StateBase currentState = stateMachine.GetStateNow();
-        foreach (StateBase state in unClickableStates)
+        if (unClickableStates.Length >= 0)
         {
-            if (currentState == state)
-                return false;
+            foreach (StateBase state in unClickableStates)
+            {
+                if (currentState == state)
+                {
+                    isClickableState = false;
+                    break;
+                }
+            }
+        }       
+        if(isClickableState && isClickable)
+        {
+            return true;
         }
+        return false;
+    }
 
-        return true;
+    public void SetIsClickable(bool isClickable)
+    {
+        this.isClickable = isClickable;
     }
 }

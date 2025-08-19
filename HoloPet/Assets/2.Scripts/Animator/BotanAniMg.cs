@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BotanAniMg : MonoBehaviour
 {
+
     [SerializeField] private Animator animator;
     private IBasicSM basicSM;
     private IMountingAbilitySM mountingAbilitySM;
@@ -26,11 +27,16 @@ public class BotanAniMg : MonoBehaviour
         attackableSM = GetComponent<IAttackableSM>();
         attackableSM.StateKnockBack.OnEnterState += AttackedKnockBack_OnEnterState;
         attackableSM.StateKnockBack.OnTriggerAni1 += AttackedKnockBack_OnKnockUpFall;
+        attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
+        attackableSM.StateHpZero.OnExitState += StateHpZero_OnExitState;
         creatureSM = GetComponent<ICreatureSM>();
         creatureSM.StateWander.OnEnterState += Wander_OnEnterState;
         mountingAbilitySM = GetComponent<IMountingAbilitySM>();
         mountingAbilitySM.StateMounting.OnEnterState += Mounting_OnEnterState;
         mountingAbilitySM.StateMounting.OnExitState += Mounting_OnExitState;
+        //botan cart mount
+        mountingAbilitySM.StateMounting.OnTriggerAni1 += StateMounting_CartIsDashing;
+        mountingAbilitySM.StateMounting.OnTriggerAni2 += StateMounting_CartIsMaxSpeed;
         interactAbilitySM = GetComponent<IInteractAbilitySM>();
         interactAbilitySM.StateInteractFollowX.OnEnterState += FollowInteractX_OnEnterState;
         interactAbilitySM.StateInteractFollowY.OnEnterState += InteractFollowY_OnEnterState;
@@ -41,6 +47,29 @@ public class BotanAniMg : MonoBehaviour
         bullied.OnEnterState += Bullied_OnEnterState;
         bullied.OnTriggerAni1 += Bullied_OnHit;
         bullied.OnTriggerAni2 += Bullied_OnPanic;
+    }
+
+    private void StateMounting_CartIsMaxSpeed(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceExciting.ToString(), layer: 1);
+    }
+
+    private void StateMounting_CartIsDashing(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceRoar.ToString(), layer: 1);
+    }
+
+    private void StateHpZero_OnExitState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Hand.HaveHand.ToString(), layer: 2);
+    }
+
+    private void StateHpZero_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Main.Dead.ToString(), layer: 0);
+        animator.Play(AniEnum.Humanoid.Face.FaceDead.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Hand.NoHand.ToString(), layer: 2);
+        animator.Play(AniEnum.Humanoid.Fx.DeadFlash.ToString(), layer: 3);
     }
 
     private void AttackedKnockBack_OnKnockUpFall(object sender, System.EventArgs e)
@@ -92,13 +121,13 @@ public class BotanAniMg : MonoBehaviour
 
     private void HappyChatted_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Face.FaceHappy.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Face.FaceCalm.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
     }
 
     private void HappyChat_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Face.FaceCalm.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Face.FaceHappy.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
     }
 

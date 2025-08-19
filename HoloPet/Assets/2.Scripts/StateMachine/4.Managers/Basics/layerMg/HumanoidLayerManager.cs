@@ -12,7 +12,7 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
     private IMountingAbilitySM mountingAbilitySM;
     private Transform stateMachineTransform;
     private IInteractableSM interactableManager;
-
+    private IAttackableSM attackableSM;
     private void Awake()
     {
         stateMachineTransform = transform.root;
@@ -41,6 +41,11 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
         {
             Debug.LogError($"{name} ¡X IInteractableSM not found in parent.");
         }
+        attackableSM = GetComponentInParent<IAttackableSM>();
+        if (attackableSM == null)
+        {
+            Debug.LogError($"{name} ¡X attackableSM not found in parent.");
+        }
 
         basicSM.StateClicked.OnEnterState += StateClicked_OnEnterState;
         basicSM.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
@@ -48,7 +53,18 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
         basicSM.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
         basicSM.StateGrabbed.OnExitState += StateGrabbed_OnExitState;
         interactableManager.InteractableMg.OnEnterInteractedChangeLayer += InteractableMg_OnEnterInteractedChangeLayer;
+        attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
+        basicSM.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
+    }
 
+    private void StateDeSpawn_OnEnterState(object sender, System.EventArgs e)
+    {
+        SpriteLayerCenter.RemoveLayers(stateMachineTransform);
+    }
+
+    private void StateHpZero_OnEnterState(object sender, System.EventArgs e)
+    {
+        SpriteLayerCenter.PullRootLayersToTop(stateMachineTransform);
     }
 
     private void InteractableMg_OnEnterInteractedChangeLayer(object sender, InteractableManager.ChangeLayerEventArgs e)

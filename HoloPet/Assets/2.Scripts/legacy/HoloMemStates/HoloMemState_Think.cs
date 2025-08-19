@@ -16,7 +16,7 @@ public class HoloMemState_Think : StateBase
 
         //start
 
-        if (!stateMachine.raycastManager.TrySetRaycastBothSide(10))
+        if (!stateMachine.raycastManager.TrySetRaycastBothSide(20))
         {
             //exit to find nothing
             stateMachine.ChangeState(stateMachine.stateIdle);

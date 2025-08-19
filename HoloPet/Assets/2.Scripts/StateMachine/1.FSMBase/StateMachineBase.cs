@@ -12,8 +12,8 @@ public class StateMachineBase : MonoBehaviour
         currentState = SetFirstState();
         if (currentState != null)
         {
-            currentState.EnterStateEvent();
             currentState.Enter();
+            currentState.EnterStateEvent();
         }
     }
     private void Update()

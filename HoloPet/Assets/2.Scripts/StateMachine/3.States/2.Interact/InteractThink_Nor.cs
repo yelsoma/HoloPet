@@ -12,6 +12,11 @@ public class InteractThink_Nor : StateBase
     private InteractableManager targetInteractMg;
     private bool targetIsFarX;
     private bool targetIsFarY;
+    [SerializeField] private float waitTime;
+    private float waitTimeNow;
+    [SerializeField] private float bubbleTime;
+    private bool exitToIdle;
+    private bool haveATarget;
     #region AutoSetRef
     private void Awake()
     {
@@ -38,38 +43,67 @@ public class InteractThink_Nor : StateBase
     #region StateBase
     public override void Enter()
     {
-        if (!basicSM.RaycastMg.TrySetRaycastBothSide(10))
+        haveATarget = interactAbilitySM.InteractAbilityMg.GetIsTargetLocked();
+        if (!haveATarget)
         {
-            //no Raycas hit
-            stateMachine.ChangeState(basicSM.StateIdle);
-            return;
-        }
-        if (!interactAbilitySM.InteractAbilityMg.TrySetTargetWihtRaycastHits(basicSM.RaycastMg.GetRaycastHits()))
-        {
-            //no Interactable
-            stateMachine.ChangeState(basicSM.StateIdle);
-            return;
-        }
-        if (!interactAbilitySM.InteractAbilityMg.TryMatchOptionsChooseWithBothChance())
-        {
-            //no Interact option match
-            stateMachine.ChangeState(basicSM.StateIdle);
-            return;
-        }
+            if (!basicSM.RaycastMg.TrySetRaycastBothSide(20))
+            {
+                //no Raycas hit
+                exitToIdle = true;
+                return; ;
+            }
+            if (!interactAbilitySM.InteractAbilityMg.TrySetTargetWihtRaycastHits(basicSM.RaycastMg.GetRaycastHits()))
+            {
+                //no Interactable
+                exitToIdle = true;
+                return;
+            }
+            if (!interactAbilitySM.InteractAbilityMg.TryMatchOptionsChooseWithBothChance())
+            {
+                //no Interact option match
+                exitToIdle = true;
+                return;
+            }
+            interactAbilitySM.InteractAbilityMg.SetIsTargetLocked(true);
+        }       
         myInteractMg = interactAbilitySM.InteractAbilityMg;
-        targetInteractMg = myInteractMg.GetTargetIInteractable();
+        targetInteractMg = myInteractMg.GetTargetInteractableMg();
         targetIsFarX = myInteractMg.GetIsTargetFarX(interactDistance);
         targetIsFarY = myInteractMg.GetIsTargetFarY(interactDistance);
+        IBasicSM targetBasicSM = targetInteractMg.GetStateMachineTransform().GetComponent<IBasicSM>();
+        interactAbilitySM.TextLogMg.PopUpTargetIcon(targetBasicSM.BaseDataMg.GetIconSprite(), bubbleTime);
+        waitTimeNow = waitTime;
+        exitToIdle = false;
     }
     public override void StateUpdate()
     {
-        if (targetIsFarX == false && targetIsFarY == true)
+        if (exitToIdle)
         {
-            stateMachine.ChangeState(interactAbilitySM.StateInteractFollowY);
+            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            {
+                stateMachine.ChangeState(basicSM.StateIdle);
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(basicSM.StateInAir);
+                return;
+            }
+        }
+        if (waitTimeNow >= 0)
+        {
+            waitTimeNow -= Time.deltaTime;
         }
         else
         {
-            stateMachine.ChangeState(interactAbilitySM.StateInteractFollowX);
+            if (targetIsFarX == false && targetIsFarY == true)
+            {
+                stateMachine.ChangeState(interactAbilitySM.StateInteractFollowY);
+            }
+            else
+            {
+                stateMachine.ChangeState(interactAbilitySM.StateInteractFollowX);
+            }
         }
     }
     public override void StateLateUpdate()

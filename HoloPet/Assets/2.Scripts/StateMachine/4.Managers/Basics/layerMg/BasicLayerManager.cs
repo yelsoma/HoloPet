@@ -7,22 +7,27 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
 {
     [Header("SpriteLayers")]
     [SerializeField] private SpriteLayer mainLayer;
-    private IBasicSM basicStateMachine;
+    private IBasicSM basicSM;
     private Transform stateMachineTransform;
 
     private void Awake()
     {
         stateMachineTransform = transform.root;
-        basicStateMachine = GetComponentInParent<IBasicSM>();
-        if (basicStateMachine == null)
+        basicSM = GetComponentInParent<IBasicSM>();
+        if (basicSM == null)
         {
             Debug.Log(transform + "no IBasicSM for BasicLayerManager");
         }
-        basicStateMachine.StateClicked.OnEnterState += StateClicked_OnEnterState;
-        basicStateMachine.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
-        basicStateMachine.StateSpawn.OnEnterState += StateSpawn_OnEnterState;      
+        basicSM.StateClicked.OnEnterState += StateClicked_OnEnterState;
+        basicSM.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
+        basicSM.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
+        basicSM.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
     }
 
+    private void StateDeSpawn_OnEnterState(object sender, System.EventArgs e)
+    {
+        SpriteLayerCenter.RemoveLayers(stateMachineTransform);
+    }
     private void StateSpawn_OnEnterState(object sender, System.EventArgs e)
     {
         SpriteLayerCenter.AddNewLayers(stateMachineTransform);

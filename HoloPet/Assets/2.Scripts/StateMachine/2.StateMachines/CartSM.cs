@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartSM : StateMachineBase, IBasicSM, IMountableSM, IAttackAbilitySM,IAttackableSM,IDriveSM
+public class CartSM : StateMachineBase, IBasicSM, IMountableSM, IAttackAbilitySM,IAttackableSM,IDriveSM,IInteractableSM
 {
     [Header(" Managers")]
     #region Basic Manager
@@ -35,6 +35,10 @@ public class CartSM : StateMachineBase, IBasicSM, IMountableSM, IAttackAbilitySM
     [SerializeField] private AttackAbilityManager attackAbilityMg;
     public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
     #endregion
+    #region Interactable Manager
+    [SerializeField] private InteractableManager interactableMg;
+    public InteractableManager InteractableMg => interactableMg;
+    #endregion
 
     [Header(" States")]
     #region Basic State
@@ -44,6 +48,7 @@ public class CartSM : StateMachineBase, IBasicSM, IMountableSM, IAttackAbilitySM
     [SerializeField] private StateBase stateClicked;
     [SerializeField] private StateBase stateReleased;
     [SerializeField] private StateBase stateSpawn;
+    [SerializeField] private StateBase stateDestroy;
 
 
     public StateBase StateIdle => stateIdle;
@@ -52,6 +57,7 @@ public class CartSM : StateMachineBase, IBasicSM, IMountableSM, IAttackAbilitySM
     public StateBase StateClicked => stateClicked;
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
+    public StateBase StateDestroy => stateDestroy;
     #endregion
     #region Drive State
     [SerializeField] private StateBase stateDrive;

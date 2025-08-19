@@ -14,6 +14,7 @@ public class Bully_Nor : StateBase
     private bool punched;
     private float fallSpeedNow;
     private float fallSpeedIncrease;
+    private bool exitToIdle;
     #region AutoSetRef
     private void Awake()
     {
@@ -41,7 +42,7 @@ public class Bully_Nor : StateBase
     public override void Enter()
     {
         myInteractAbilityMg = interactAbilitySM.InteractAbilityMg;
-        interactTargetMg = myInteractAbilityMg.GetTargetIInteractable();
+        interactTargetMg = myInteractAbilityMg.GetTargetInteractableMg();
         if (interactTargetMg != null)
         {
             if (myInteractAbilityMg.GetIsTargetRight())
@@ -52,21 +53,34 @@ public class Bully_Nor : StateBase
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
             }
+            interactTargetMg.OnExitInteracted += HoloMem_Bully_OnExitInteracted;
+            punchCountDownNow = 0.15f;
+            punched = false;
+            fallSpeedNow = 0;
+            fallSpeedIncrease = 6.5f;
+            exitToIdle = false;
         }
         else
         {
             // exit to idle
-            stateMachine.ChangeState(basicSM.StateInAir);
-            return;
-        }   
-        interactTargetMg.OnExitInteracted += HoloMem_Bully_OnExitInteracted;
-        punchCountDownNow = 0.15f;
-        punched = false;
-        fallSpeedNow = 0;
-        fallSpeedIncrease = 6.5f;
+            exitToIdle = true;
+        }          
     }
     public override void StateUpdate()
     {
+        if (exitToIdle)
+        {
+            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            {
+                stateMachine.ChangeState(basicSM.StateIdle);
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(basicSM.StateInAir);
+                return;
+            }
+        }
         punchCountDownNow -= 1*Time.deltaTime;
         if (punchCountDownNow <= 0 && punched ==false)
         {           

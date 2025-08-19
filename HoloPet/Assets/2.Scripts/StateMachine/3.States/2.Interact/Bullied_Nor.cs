@@ -12,6 +12,7 @@ public class Bullied_Nor : StateBase
     private InteractAbilityManager interacterMg;
     private bool isKnockUp;
     private bool isPanicRun;
+    private bool exitToIdle;
 
     //ani
     private bool isHitTriggered;
@@ -70,22 +71,35 @@ public class Bullied_Nor : StateBase
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
             }
+            interacterMg.OnTriggerInteracting += TriggerInteracting;
+            interacterMg.OnExitInteracting += ExitInteracting;
+            isKnockUp = false;
+            isPanicRun = false;
+            isHitTriggered = false;
+            isPanicTriggered = false;
+            exitToIdle = false; 
         }
         else
         {
-            // exit to idle
-            stateMachine.ChangeState(basicSM.StateInAir);
-            return;
-        }
-        interacterMg.OnTriggerInteracting += TriggerInteracting;
-        interacterMg.OnExitInteracting += ExitInteracting;
-        isKnockUp = false;
-        isPanicRun = false;
-        isHitTriggered = false;
-        isPanicTriggered = false;
+            // exit to idle or fall
+            exitToIdle = true;           
+        }       
 }
     public override void StateUpdate()
     {
+        if (exitToIdle)
+        {
+            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            {
+                stateMachine.ChangeState(basicSM.StateIdle);
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(basicSM.StateInAir);
+                return;
+            }
+        }
         if (isKnockUp && !isPanicRun)
         {
             if(isHitTriggered == false)

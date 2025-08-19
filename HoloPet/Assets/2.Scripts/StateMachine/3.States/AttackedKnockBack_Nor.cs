@@ -60,6 +60,11 @@ public class AttackedKnockBack_Nor : StateBase
         }
         knockBackPower = attackableSM.AttackableMg.GetKnockBackPower();
         FallEventTriggered = false;
+        basicSM.MovementMg.MoveUp(knockUpPowerNow);
+        if(attackableSM.AttackableMg.GetHp() == 0)
+        {
+            attackableSM.AttackableMg.SetDeath(true);
+        }
     }
 
     public override void StateUpdate()

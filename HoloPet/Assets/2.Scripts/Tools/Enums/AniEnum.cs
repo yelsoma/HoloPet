@@ -15,7 +15,8 @@ public class AniEnum
             Run,
             Sleepy,
             Walk,
-            Punch
+            Punch,
+            Dead
         }
         public enum Face
         {
@@ -29,13 +30,18 @@ public class AniEnum
             FaceShock,
             FaceSleepy,
             FaceTired,
-            FaceSmile
+            FaceSmile,
+            FaceDead
         }
         public enum Hand
         {
             HalfHand,
             HaveHand,
             NoHand
+        }
+        public enum Fx
+        {
+            DeadFlash
         }
     }
     public class Botan

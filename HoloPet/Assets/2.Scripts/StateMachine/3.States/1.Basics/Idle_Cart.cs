@@ -7,7 +7,8 @@ public class Idle_Cart : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountableSM mountableSM;
-    private IDriveSM DriveSM;
+    private IDriveSM driveSM;
+    private IInteractableSM interactableSM;
 
     private void Awake()
     {
@@ -29,21 +30,30 @@ public class Idle_Cart : StateBase
             Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
-        DriveSM = GetComponentInParent<IDriveSM>();
-        if (DriveSM == null)
+        driveSM = GetComponentInParent<IDriveSM>();
+        if (driveSM == null)
         {
             Debug.LogError($"{transform} ¡X no IDriveSM found in parent.");
-        }        
+        }
+
+        interactableSM = GetComponentInParent<IInteractableSM>();
+        if (interactableSM == null)
+        {
+            Debug.LogError($"{transform} ¡X no IInteractableSM found in parent.");
+        }
     }
 
     public override void Enter()
     {
+        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
         if (mountableSM.MountableMg.GetIsMounted())
         {
-            stateMachine.ChangeState(DriveSM.StateDrive);
-            return;
+            interactableSM.InteractableMg.SetIsInteractable(false);
         }
-        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        else
+        {
+            interactableSM.InteractableMg.SetIsInteractable(true);
+        }
     }    
 
     public override void StateUpdate()
@@ -56,6 +66,7 @@ public class Idle_Cart : StateBase
 
     public override void Exit()
     {
+        interactableSM.InteractableMg.SetIsInteractable(true);
         mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
     }
 
@@ -63,7 +74,19 @@ public class Idle_Cart : StateBase
     {
         if (mountableSM.MountableMg.GetIsMounted())
         {
-            stateMachine.ChangeState(DriveSM.StateDrive);
-        }        
+            interactableSM.InteractableMg.SetIsInteractable(false);
+        }
+        else
+        {
+            interactableSM.InteractableMg.SetIsInteractable(true);
+        }
+        if (mountableSM.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicSM>(out IBasicSM basicSM))
+        {
+            if (basicSM.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+            {
+                stateMachine.ChangeState(driveSM.StateDrive);
+                return;
+            }
+        }
     }
 }

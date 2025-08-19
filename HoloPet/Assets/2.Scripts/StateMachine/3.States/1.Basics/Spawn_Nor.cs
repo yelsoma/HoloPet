@@ -24,15 +24,11 @@ public class Spawn_Nor : StateBase
 
     public override void Enter()
     {
-        // If call BoundaryManager here will have bug because of code order. BoundaryManager is also  set on start
+        // If spawnState call BoundaryManager here will have bug because of code order. BoundaryManager is also  set on start
         //So call it at lateupdate
     }
 
     public override void StateUpdate()
-    {    
-    }
-
-    public override void StateLateUpdate()
     {
         if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
@@ -44,6 +40,10 @@ public class Spawn_Nor : StateBase
             // Exit to StateInAir
             stateMachine.ChangeState(basicSM.StateInAir);
         }
+    }
+
+    public override void StateLateUpdate()
+    {     
     }
 
     public override void Exit()

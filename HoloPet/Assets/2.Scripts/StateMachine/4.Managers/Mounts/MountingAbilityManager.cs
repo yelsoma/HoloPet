@@ -34,7 +34,7 @@ public class MountingAbilityManager : MonoBehaviour
             return true;
         }
         return false;
-    }
+    }   
     public bool TrySetMountWithRaycast(RaycastHit2D[] raycastHit2Ds)
     {
         RaycastHit2D MountableRarcast2DNow = new RaycastHit2D();
@@ -89,5 +89,9 @@ public class MountingAbilityManager : MonoBehaviour
         stateMachineTransform.SetParent(null);
         myMount.SetIsMounted(false);
         myMount.TriggerMountedChange();
+    }
+    public Transform GetStateMachineTransform()
+    {
+        return stateMachineTransform;
     }
 }

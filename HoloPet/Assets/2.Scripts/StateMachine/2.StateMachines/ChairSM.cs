@@ -36,6 +36,7 @@ public class ChairSM : StateMachineBase, IBasicSM, IMountableSM
     [SerializeField] private StateBase stateClicked;
     [SerializeField] private StateBase stateReleased;
     [SerializeField] private StateBase stateSpawn;
+    [SerializeField] private StateBase stateDestroy;
 
 
     public StateBase StateIdle => stateIdle;
@@ -44,6 +45,7 @@ public class ChairSM : StateMachineBase, IBasicSM, IMountableSM
     public StateBase StateClicked => stateClicked;
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
+    public StateBase StateDestroy => stateDestroy;
     #endregion
 
     protected override StateBase SetFirstState()

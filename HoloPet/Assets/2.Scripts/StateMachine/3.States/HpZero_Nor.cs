@@ -27,6 +27,7 @@ public class HpZero_Nor : StateBase
     public override void Enter()
     {
         deathTimeNow = deathTime;
+        basicSM.ClickableMg.SetIsClickable(false);
     }
 
     public override void StateUpdate()
@@ -34,7 +35,7 @@ public class HpZero_Nor : StateBase
         deathTimeNow -=Time.deltaTime;
         if(deathTimeNow <= 0 )
         {
-            Destroy(stateMachine.gameObject);           
+            stateMachine.ChangeState(basicSM.StateDestroy);
         }
     }
 
@@ -44,5 +45,6 @@ public class HpZero_Nor : StateBase
 
     public override void Exit()
     {
+        basicSM.ClickableMg.SetIsClickable(true);
     }
 }

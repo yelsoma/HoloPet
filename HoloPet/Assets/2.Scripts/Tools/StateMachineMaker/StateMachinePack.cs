@@ -10,6 +10,7 @@ public class StateMachinePack
     [SerializeField] private StateBase stateClicked;
     [SerializeField] private StateBase stateReleased;
     [SerializeField] private StateBase stateSpawn;
+    [SerializeField] private StateBase stateDestroy;
 
 
     public StateBase StateIdle => stateIdle;
@@ -18,6 +19,7 @@ public class StateMachinePack
     public StateBase StateClicked => stateClicked;
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
+    public StateBase StateDestroy => stateDestroy;
     #endregion
     #region Basic Manager
     [Header("Basic Managers")]
@@ -77,13 +79,18 @@ public class StateMachinePack
     [SerializeField] private StateBase stateInteractThink;
     [SerializeField] private StateBase stateInteractFollowX;
     [SerializeField] private StateBase stateInteractFollowY;
+    [SerializeField] private StateBase stateInteractFailed;
     public StateBase StateInteractThink => stateInteractThink;
     public StateBase StateInteractFollowX => stateInteractFollowX;
     public StateBase StateInteractFollowY => stateInteractFollowY;
+    public StateBase StateInteractFailed => stateInteractFailed;
     #endregion
     #region InteractAbility Manager 
     [SerializeField] private InteractAbilityManager interactAbilityMg;
+    [SerializeField] private TextLogManager textLogMg;
+
     public InteractAbilityManager InteractAbilityMg => interactAbilityMg;
+    public TextLogManager TextLogMg => textLogMg;
     #endregion
 
     //Attackable

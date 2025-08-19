@@ -7,6 +7,7 @@ public class InteractAbilityManager : MonoBehaviour
 {
     [SerializeField] StateMachineBase stateMachine;
     private InteractableManager target;
+    private bool isTargetLocked = false;
     [SerializeField] private List<InteracterOption> interacterOptionList;
     private BothInteractOption choosenBothInteractOption;
     public event EventHandler OnTriggerInteracting;
@@ -24,8 +25,31 @@ public class InteractAbilityManager : MonoBehaviour
             Debug.LogWarning(stateMachine.transform.name + "'s " + "InteractAbilityMg interacter option is 0");
         }
     }
-
     public bool TrySetTargetWihtRaycastHits(RaycastHit2D[] raycastHit2Ds)
+    {
+        List<RaycastHit2D> interactablelists = new List<RaycastHit2D>();
+        // make  is interactable list 
+        for (int i = 0; i < raycastHit2Ds.Length; i++)
+        {
+            if (raycastHit2Ds[i].transform.TryGetComponent(out IInteractableSM interactableSM))
+            {
+                interactablelists.Add(raycastHit2Ds[i]);
+            }
+        }
+        // find closest distance one
+        int interactableArrayLength;
+        interactableArrayLength = interactablelists.ToArray().Length;
+        if (interactableArrayLength > 0)
+        {
+            int randomTargetI = UnityEngine.Random.Range(0, interactableArrayLength);
+            target = interactablelists[randomTargetI].transform.GetComponent<IInteractableSM>().InteractableMg;
+            //there is something interactable
+            return true;
+        }
+        //there is nothing interactable
+        return false;
+    }
+    public bool TrySetTargetAndCheckIsInteractableWihtRaycastHits(RaycastHit2D[] raycastHit2Ds)
     {
         List<RaycastHit2D> interactablelists = new List<RaycastHit2D>();
         // make  is interactable list 
@@ -62,8 +86,16 @@ public class InteractAbilityManager : MonoBehaviour
         //cycle through both side options see if option enum match ,add them to  both side op list
         foreach (InteracterOption interacterOption in interacterOptionList)
         {
+            if(interacterOption.GetChance <= 0)
+            {
+                continue;
+            }
             foreach (InteractedOption interactedOption in targetInteractedOpionList)
             {
+                if(interactedOption.GetChance <= 0)
+                {
+                    continue;
+                }
                 if (interacterOption.GetInteracterOptionEnum == interactedOption.GetInteractedOptionEnum)
                 {
                     BothInteractOption bothInteractOption = new BothInteractOption();
@@ -100,7 +132,7 @@ public class InteractAbilityManager : MonoBehaviour
     {
         return choosenBothInteractOption;
     }
-    public InteractableManager GetTargetIInteractable()
+    public InteractableManager GetTargetInteractableMg()
     {
         return target;
     }
@@ -139,5 +171,13 @@ public class InteractAbilityManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public void SetIsTargetLocked(bool isTargetLocked)
+    {
+        this.isTargetLocked = isTargetLocked;
+    }
+    public bool GetIsTargetLocked()
+    {
+        return isTargetLocked;
     }
 }

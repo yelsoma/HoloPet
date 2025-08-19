@@ -89,7 +89,7 @@ public class MouseInput : MonoBehaviour
             
             // Get ClickableManager in children and check if it's now clickable
             ClickableManager clickable = collider2D.transform.GetComponent<IBasicSM>().ClickableMg;
-            if (clickable != null && clickable.GetIsNowClickable())
+            if (clickable != null && clickable.GetIsClickable())
             {
                 // Get ILayerManager in children and compare layers
                 ILayerManager layerManager = collider2D.transform.GetComponent<IBasicSM>().LayerMg;

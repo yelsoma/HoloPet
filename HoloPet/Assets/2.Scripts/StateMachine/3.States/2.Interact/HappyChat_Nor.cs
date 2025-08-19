@@ -16,6 +16,7 @@ public class HappyChat_Nor : StateBase
     private float fallSpeedNow;
     private float jumpCountLeft;
     private Coroutine jumpCoroutine;
+    private bool exitToIdle;
     #region AutoSetRef
     private void Awake()
     {
@@ -43,8 +44,8 @@ public class HappyChat_Nor : StateBase
     public override void Enter()
     {
         
-        interactAbilitySM.InteractAbilityMg.GetTargetIInteractable().OnExitInteracted += InteractTarget_OnExitInteract;
-        if (interactAbilitySM.InteractAbilityMg.GetTargetIInteractable() != null)
+        interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().OnExitInteracted += InteractTarget_OnExitInteract;
+        if (interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg() != null)
         {          
             if (interactAbilitySM.InteractAbilityMg.GetIsTargetRight())
             {
@@ -56,16 +57,29 @@ public class HappyChat_Nor : StateBase
             }
             //start jump
             jumpCoroutine = StartCoroutine(CoStartJump());
+            exitToIdle = false;
         }
         else
         {
             // exit to idle
-            stateMachine.ChangeState(basicSM.StateIdle);
-            return;
+            exitToIdle = true;
         }
     }
     public override void StateUpdate()
     {
+        if (exitToIdle)
+        {
+            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            {
+                stateMachine.ChangeState(basicSM.StateIdle);
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(basicSM.StateInAir);
+                return;
+            }
+        }
     }
     public override void StateLateUpdate()
     {
@@ -73,7 +87,7 @@ public class HappyChat_Nor : StateBase
     public override void Exit()
     {
         StopCoroutine(jumpCoroutine);
-        interactAbilitySM.InteractAbilityMg.GetTargetIInteractable().OnExitInteracted -= InteractTarget_OnExitInteract;
+        interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().OnExitInteracted -= InteractTarget_OnExitInteract;
         interactAbilitySM.InteractAbilityMg.ExitInteractingEvent();      
     }
     #endregion

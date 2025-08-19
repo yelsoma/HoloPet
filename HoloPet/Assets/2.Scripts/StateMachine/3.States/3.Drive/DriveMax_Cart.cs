@@ -16,6 +16,7 @@ public class DriveMax_Cart : StateBase
     [SerializeField] private float knockUpDistance;
     [SerializeField] private float knockBackPower;
     private bool isMounted;
+    [SerializeField] private int knockBackDamage;
 
     private void Awake()
     {
@@ -67,6 +68,7 @@ public class DriveMax_Cart : StateBase
             }
             else
             {
+                SetAttackablesKnockBack(knockBackDamage);
                 speedNow = speedMax;
             }
         }
@@ -89,11 +91,7 @@ public class DriveMax_Cart : StateBase
             if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
-            }
-            if(speedNow >= speedMax)
-            {
-                SetAttackablesKnockRight(true);
-            }           
+            }                      
         }
         else
         {
@@ -102,11 +100,7 @@ public class DriveMax_Cart : StateBase
             {
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
-            if (speedNow >= speedMax)
-            {
-                SetAttackablesKnockRight(false);
-            }
-        }             
+        }
     }
 
     public override void StateLateUpdate()
@@ -118,14 +112,13 @@ public class DriveMax_Cart : StateBase
         mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
     }
 
-    private void SetAttackablesKnockRight(bool isAttackRight)
+    private void SetAttackablesKnockBack(int damage)
     {
         if (basicSM.RaycastMg.TrySetRaycast(knockUpDistance, Vector2.left))
         {
             if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
             {
-                attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBackRight(isAttackRight, knockBackPower);
-                attackAbilitySM.AttackAbilityMg.ModifyAttackablesHp(-3);
+                attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBack(damage, knockBackPower);
             }
         }
     }

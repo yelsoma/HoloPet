@@ -8,7 +8,7 @@ public class RandomMoveManager : MonoBehaviour
     [SerializeField] private float MinWaitTime = 1f;
 
     private float waitTimeNow;
-    private bool startCountDown;
+    private bool startCountDown = false;
     private StateMachineBase stateMachine;
 
     private void Awake()
@@ -18,7 +18,14 @@ public class RandomMoveManager : MonoBehaviour
         {
             Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
         }
-
+       
+        if (randomMoveChanceStructs.Length == 0)
+        {
+            Debug.LogError($"{stateMachine?.name}'s RandomMoveManager: randomMoveChanceStructs not set!");
+        }
+    }
+    private void Start()
+    {
         if (startState != null)
         {
             startState.OnEnterState += StartState_OnEnterState;
@@ -28,40 +35,28 @@ public class RandomMoveManager : MonoBehaviour
         {
             Debug.LogError($"{stateMachine?.name}'s RandomMoveManager: startState not set!");
         }
-
-        if (randomMoveChanceStructs.Length == 0)
-        {
-            Debug.LogError($"{stateMachine?.name}'s RandomMoveManager: randomMoveChanceStructs not set!");
-        }
-
-        if (MinWaitTime > MaxWaitTime)
-        {
-            Debug.LogWarning($"{stateMachine?.name}'s RandomMoveManager: MinWaitTime > MaxWaitTime. Swapping values.");
-            float temp = MinWaitTime;
-            MinWaitTime = MaxWaitTime;
-            MaxWaitTime = temp;
-        }
     }
-
     private void Update()
     {
-        if (!startCountDown)
-            return;
-
-        waitTimeNow -= Time.deltaTime;
-        if (waitTimeNow <= 0f)
+        if(startCountDown)
         {
-            StateBase nextState = GetRandomState();
-            if (nextState != null)
+            waitTimeNow -= Time.deltaTime;
+            if (waitTimeNow <= 0f)
             {
-                stateMachine.ChangeState(nextState);
+                StateBase nextState = GetRandomState();
+                if (nextState != null)
+                {
+                    stateMachine.ChangeState(nextState);
+                }
+                else
+                {
+                    Debug.LogWarning($"{stateMachine?.name}'s RandomMoveManager: No valid random state returned.");
+                }
+                if(waitTimeNow <= 0f)
+                {
+                    startCountDown = false;
+                }
             }
-            else
-            {
-                Debug.LogWarning($"{stateMachine?.name}'s RandomMoveManager: No valid random state returned.");
-            }
-
-            startCountDown = false; // prevent re-triggering
         }
     }
 

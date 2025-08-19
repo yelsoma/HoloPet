@@ -8,7 +8,6 @@ public class StateBase : MonoBehaviour
     public event EventHandler OnEnterState;
     public event EventHandler OnExitState;
     public event EventHandler OnTriggerAni1;
-    public event EventHandler OnTrigger1;
     protected void TriggerAni1()
     {
         OnTriggerAni1?.Invoke(this, EventArgs.Empty);
@@ -23,7 +22,11 @@ public class StateBase : MonoBehaviour
     {
         OnTriggerAni3?.Invoke(this, EventArgs.Empty);
     }
-
+    public event EventHandler OnTriggerSpecialEvent;
+    protected void TriggerSpecialEvent()
+    {
+        OnTriggerSpecialEvent?.Invoke(this, EventArgs.Empty);
+    }
     public virtual void Enter() { }
     public virtual void StateUpdate() { }
     public virtual void StateLateUpdate() { }

@@ -20,6 +20,8 @@ public partial class StateMachineMaker : MonoBehaviour
         TryFindStateField("InteractFollowY_Nor", targetType, "stateInteractFollowY");
         TryFindStateField("InteractFollowX_Nor", targetType, "stateInteractFollowX");
         TryFindStateField("AttackedKnockback_Nor", targetType, "stateKnockBack");
+        TryFindStateField("Destroy_Nor", targetType, "stateDestroy");
+        TryFindStateField("HpZero_Nor", targetType, "stateHpZero");
     }
     private bool TryFindStateField(string prefabName, Type type, string fieldName)
     {

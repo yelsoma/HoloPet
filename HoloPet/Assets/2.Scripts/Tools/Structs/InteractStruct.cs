@@ -6,7 +6,7 @@ using UnityEngine;
 public struct InteracterOption
 {
     [SerializeField] private string interacterOptionName;
-    [SerializeField] private interactOptionE interacterOptionEnum;
+    [SerializeField] private interactOptionEnum interacterOptionEnum;
     [SerializeField] private float chance;
     [SerializeField] private StateBase optionState;
 
@@ -15,7 +15,7 @@ public struct InteracterOption
         get { return interacterOptionName; }
     }
 
-    public interactOptionE GetInteracterOptionEnum
+    public interactOptionEnum GetInteracterOptionEnum
     {
         get { return interacterOptionEnum; }
     }
@@ -35,7 +35,7 @@ public struct InteracterOption
 public struct InteractedOption
 {
     [SerializeField] private string interactedOptionName;
-    [SerializeField] private interactOptionE interactedOptionEnum;
+    [SerializeField] private interactOptionEnum interactedOptionEnum;
     [SerializeField] private float chance;
     [SerializeField] private StateBase optionState;
 
@@ -44,7 +44,7 @@ public struct InteractedOption
         get { return interactedOptionName; }
     }
 
-    public interactOptionE GetInteractedOptionEnum
+    public interactOptionEnum GetInteractedOptionEnum
     {
         get { return interactedOptionEnum; }
     }

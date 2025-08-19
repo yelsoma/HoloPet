@@ -30,36 +30,11 @@ public class InteractableManager : MonoBehaviour
         {
             Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
         }
-        if(unInteractableState.Length > 0)
-        {
-            foreach (StateBase unInteractableState in unInteractableState)
-            {
-                if(unInteractableState == null)
-                {
-                    Debug.LogError(stateMachine.transform.name +"'s "+ "InteractableMg is not set correctly");
-                }
-                unInteractableState.OnEnterState += UnInteractableState_OnEnterState;
-                unInteractableState.OnExitState += UnInteractableState_OnExitState;
-            }
-        }
-        else
-        {
-            Debug.LogWarning(stateMachine.transform.name + "'s " + "InteractableMg unInteractableState is 0");
-        }
+
         if (interactedOptions.Count == 0)
         {
             Debug.LogWarning(stateMachine.transform.name + "'s " + "InteractableMg interacted option is 0");
         }
-    }
-
-    private void UnInteractableState_OnEnterState(object sender, EventArgs e)
-    {
-        isInteractable = false;
-    }
-
-    private void UnInteractableState_OnExitState(object sender, EventArgs e)
-    {
-        isInteractable = true;
     }
  
     public List<InteractedOption> GetInteractedOptions()
@@ -74,7 +49,23 @@ public class InteractableManager : MonoBehaviour
 
     public bool GetIsInteractable()
     {
-        return isInteractable;
+        bool isInteractableState = true;
+        if (unInteractableState.Length > 0)
+        {           
+            foreach (StateBase unInteractableState in unInteractableState)
+            {
+                if (unInteractableState == stateMachine.GetStateNow())
+                {
+                    isInteractableState = false;
+                    break;
+                }
+            }           
+        }
+        if (isInteractableState && isInteractable)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void SetIsInteractable(bool isInteractable)

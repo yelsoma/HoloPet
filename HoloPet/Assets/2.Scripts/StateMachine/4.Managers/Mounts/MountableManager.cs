@@ -62,7 +62,7 @@ public class MountableManager : MonoBehaviour
         return isMountableState;
     }
 
-    public MountingAbilityManager GetMounter()
+    public MountingAbilityManager GetMounterMountAbilityMg()
     {
         return myMounter;
     }

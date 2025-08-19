@@ -14,7 +14,7 @@ public class AttackAbilityManager : MonoBehaviour
             foreach(RaycastHit2D raycastHit2D in raycastHit2Ds)
             {
                 IAttackableSM hitAttackableSM = raycastHit2D.transform.GetComponent<IAttackableSM>();
-                if (hitAttackableSM != null && hitAttackableSM.AttackableMg.GetIsAttackableState())
+                if (hitAttackableSM != null && hitAttackableSM.AttackableMg.GetIsAttackable())
                 {
                     attackableManagers.Add(hitAttackableSM.AttackableMg);                   
                 }
@@ -32,17 +32,19 @@ public class AttackAbilityManager : MonoBehaviour
         return attackableManagers.ToArray();
     }
 
-    public void SetAttackablesKnockBackRight( bool isKnockRight , float knockBackPower)
+    public void SetAttackablesKnockBack( int damage , float knockBackPower)
     {
         foreach (AttackableManager attackableManager in attackableManagers)
         {
-            attackableManager.KnockBackRight(isKnockRight,knockBackPower);
+            attackableManager.SetAttacker(this);
+            attackableManager.AttackKnockBack(damage,knockBackPower);
         }
     }
     public void ModifyAttackablesHp( int i)
     {
         foreach (AttackableManager attackableManager in attackableManagers)
         {
+            attackableManager.SetAttacker(this);
             attackableManager.HpModify(i);
         }
     }

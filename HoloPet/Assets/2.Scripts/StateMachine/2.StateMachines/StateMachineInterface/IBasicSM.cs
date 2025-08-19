@@ -20,4 +20,5 @@ public interface IBasicSM
     public StateBase StateClicked { get; }
     public StateBase StateReleased { get; }
     public StateBase StateSpawn { get; }
+    public StateBase StateDestroy { get; }
 }

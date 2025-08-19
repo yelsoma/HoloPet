@@ -50,18 +50,13 @@ public class InteractFollowY_Nor : StateBase
     public override void Enter()
     {
         myInteractMg = interactAbilitySM.InteractAbilityMg;
-        targetInteractMg = myInteractMg.GetTargetIInteractable();
+        targetInteractMg = myInteractMg.GetTargetInteractableMg();
         keepJump = true;
         jumpUpPowerNow = jumpUpPower;
         fallSpeedNow = 0f;
     }
     public override void StateUpdate()
     {
-        // if target is no longer Interactable  , exit to idle
-        if (!targetInteractMg.GetIsInteractable())
-        {
-            keepJump = false;
-        }
         targetIsRight = myInteractMg.GetIsTargetRight();
         targetIsFarX = myInteractMg.GetIsTargetFarX(interactDistance);
         targetIsFarY = myInteractMg.GetIsTargetFarY(interactDistance);
@@ -124,6 +119,13 @@ public class InteractFollowY_Nor : StateBase
 
     private void GoToChoosenInteract()
     {
+        if (!interactAbilitySM.InteractAbilityMg.GetTargetInteractableMg().GetIsInteractable())
+        {
+            //exit to idle
+            stateMachine.ChangeState(interactAbilitySM.StateInteractFailed);
+            return;
+        }
+        interactAbilitySM.InteractAbilityMg.SetIsTargetLocked(false);
         targetInteractMg.SetInteracter(myInteractMg);
         targetInteractMg.GoToChoosenInteracedState();
         stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);

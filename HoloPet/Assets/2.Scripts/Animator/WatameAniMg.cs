@@ -26,6 +26,8 @@ public class WatameAniMg : MonoBehaviour
         attackableSM = GetComponent<IAttackableSM>();
         attackableSM.StateKnockBack.OnEnterState += AttackedKnockBack_OnEnterState;
         attackableSM.StateKnockBack.OnTriggerAni1 += AttackedKnockBack_OnKnockUpFall;
+        attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
+        attackableSM.StateHpZero.OnExitState += StateHpZero_OnExitState;
         creatureSM = GetComponent<ICreatureSM>();
         creatureSM.StateWander.OnEnterState += Wander_OnEnterState;
         mountingAbilitySM = GetComponent<IMountingAbilitySM>();
@@ -34,6 +36,7 @@ public class WatameAniMg : MonoBehaviour
         interactAbilitySM = GetComponent<IInteractAbilitySM>();
         interactAbilitySM.StateInteractFollowX.OnEnterState += FollowInteractX_OnEnterState;
         interactAbilitySM.StateInteractFollowY.OnEnterState += InteractFollowY_OnEnterState;
+        interactAbilitySM.StateInteractFailed.OnEnterState += StateInteractFailed_OnEnterState;
         happyChat.OnEnterState += HappyChat_OnEnterState;
         happyChatted.OnEnterState += HappyChatted_OnEnterState;
         happyChatted.OnTriggerAni1 += HappyChatted_OnHappyJump;
@@ -41,6 +44,25 @@ public class WatameAniMg : MonoBehaviour
         bullied.OnEnterState += Bullied_OnEnterState;
         bullied.OnTriggerAni1 += Bullied_OnHit;
         bullied.OnTriggerAni2 += Bullied_OnPanic;
+    }
+
+    private void StateInteractFailed_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceNormal.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
+    }
+
+    private void StateHpZero_OnExitState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Hand.HaveHand.ToString(), layer: 2);
+    }
+
+    private void StateHpZero_OnEnterState(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Main.Dead.ToString(), layer: 0);
+        animator.Play(AniEnum.Humanoid.Face.FaceDead.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Hand.NoHand.ToString(), layer: 2);
+        animator.Play(AniEnum.Humanoid.Fx.DeadFlash.ToString(), layer: 3);
     }
 
     private void AttackedKnockBack_OnKnockUpFall(object sender, System.EventArgs e)
@@ -92,13 +114,13 @@ public class WatameAniMg : MonoBehaviour
 
     private void HappyChatted_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Face.FaceHappy.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Face.FaceCalm.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
     }
 
     private void HappyChat_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Face.FaceCalm.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Face.FaceHappy.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
     }
 

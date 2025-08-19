@@ -21,6 +21,8 @@ public partial class StateMachineMaker : MonoBehaviour
         TrySetManagerField<InteractAbilityManager>("InteractAbilityMg", targetType, "interactAbilityMg");
         TrySetManagerField<AttackableManager>("AttackableMg", targetType, "attackableMg");
         TrySetManagerField<AttackAbilityManager>("AttackAbilityMg", targetType, "attackAbilityMg");
+        TrySetManagerField<TextLogManager>("TextLogMg", targetType, "textLogMg");
+        
 
         FieldInfo layerMgField = targetType.GetField("layerMg", BindingFlags.NonPublic | BindingFlags.Instance);
         if (layerMgField != null)

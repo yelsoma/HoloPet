@@ -9,15 +9,27 @@ public class Notes
 
     //chang in future
     //*
-    //interact and mouting systm useing starage logic
-    // useing return SM transform mabe change it later
+    //interact and mouting systm useing starage logic useing return SM transform mabe change it later
     //interact distance is in find target fix later and all other numbers need to move to ²Î¤@¸}¥»
-
-    //add in future
-    //*
-    //makeanimate and events
+    //make human animate base
+    //split grab and click for enemy to grab characters   
+    //change the find interacting can still go to target even its uninteractable state but will fail interact and try again soon
+    // remove cart drive max will hit mounter 
+    //add mooutPoit and HeadPoint scipt to auto get in awake
+    //add build blocks mincraft!!
+    //add face change mg
+    //stateMachine bug if i change back and forth in enter will not trigger exit (Ex. idle to thinks enter back to idle)
 
     //need do now
-    //*
-    //check holomem states ani logic
+    //
+    //add punch click fx *
+    //add kanata
+    //add Chair and sleepy State and get down chair auto
+    //add interact matched fail
+    //**
+    //the interact logic is easy to fail beacous no mathch
+    //check all states remove change state on enter
+    //remake fail ani add want target
+    //give cart a mounted state
+
 }

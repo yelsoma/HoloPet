@@ -18,6 +18,7 @@ public class HappyChatted_Nor : StateBase
     private float jumpCountLeft;
     [SerializeField] private float startJumpDelay;
     private Coroutine jumpCoroutine;
+    private bool exitToIdle;
 
     #region AutoSetRef
     private void Awake()
@@ -58,16 +59,29 @@ public class HappyChatted_Nor : StateBase
             }
             //start jump
             jumpCoroutine = StartCoroutine(CoStartJump());
+            exitToIdle = false;
         }
         else
         {
             // exit to idle
-            stateMachine.ChangeState(basicSM.StateIdle);
-            return;
+            exitToIdle = true;
         }
     }
     public override void StateUpdate()
     {
+        if (exitToIdle)
+        {
+            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            {
+                stateMachine.ChangeState(basicSM.StateIdle);
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(basicSM.StateInAir);
+                return;
+            }
+        }
     }
     public override void StateLateUpdate()
     {
