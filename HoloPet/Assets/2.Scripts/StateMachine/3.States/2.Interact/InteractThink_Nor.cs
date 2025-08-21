@@ -70,7 +70,7 @@ public class InteractThink_Nor : StateBase
         targetInteractMg = myInteractMg.GetTargetInteractableMg();
         targetIsFarX = myInteractMg.GetIsTargetFarX(interactDistance);
         targetIsFarY = myInteractMg.GetIsTargetFarY(interactDistance);
-        IBasicSM targetBasicSM = targetInteractMg.GetStateMachineTransform().GetComponent<IBasicSM>();
+        IBasicSM targetBasicSM = targetInteractMg.GetTargetIBasicSM();
         interactAbilitySM.TextLogMg.PopUpTargetIcon(targetBasicSM.BaseDataMg.GetIconSprite(), bubbleTime);
         waitTimeNow = waitTime;
         exitToIdle = false;

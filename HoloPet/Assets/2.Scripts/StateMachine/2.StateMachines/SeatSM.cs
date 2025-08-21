@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SeatSM : StateMachineBase, IMountableSM ,IInteractableSM
+public class SeatSM : StateMachineBase, IMountableSM ,IInteractableSM ,ISeatSM
 {
     #region Mountable Manager
     [SerializeField] private MountableManager mountableMg;
@@ -12,12 +12,13 @@ public class SeatSM : StateMachineBase, IMountableSM ,IInteractableSM
     [SerializeField] private InteractableManager interactableMg;
     public InteractableManager InteractableMg => interactableMg;
     #endregion  
-    #region SeatStates
+    #region SeatStatesManagers
     [SerializeField] private StateBase stateSpawn;
     public StateBase StateSpawn => stateSpawn;
-    [SerializeField] private StateBase stateDestroy;
-    public StateBase StateDestroy => stateDestroy;
+    [SerializeField] private FaceDirectionManager faceDirectionManager;
+    public FaceDirectionManager FaceDirectionManager => faceDirectionManager;
     #endregion
+
     protected override StateBase SetFirstState()
     {
         return stateSpawn;

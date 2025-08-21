@@ -42,6 +42,8 @@ public class Notes
     //punch punch punch 
     //cart dash panic for and crash each other with explod
     //defend enemies hach eggs coming soon
+    //interactMounted_Nor have change to stateInAir change laters
+    //cart hit Fx clone a lot for ever 
 
     //add icon for bench*2 and set face left for seat2
 }

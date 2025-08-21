@@ -18,7 +18,8 @@ public class InteractableManager : MonoBehaviour
     public event EventHandler<ChangeLayerEventArgs> OnEnterInteractedChangeLayer;
     public event EventHandler OnExitInteracted;
     [SerializeField] private StateMachineBase stateMachine;
-    [SerializeField] private List<InteractedOption> interactedOptions;
+    [SerializeField] private Transform transformForIcon;
+    [SerializeField] private List<InteractedOption> interactedOptions;   
     private InteractAbilityManager interacterMg;
     private bool isInteractable = true;
     [SerializeField] private StateBase[] unInteractableState;
@@ -103,5 +104,16 @@ public class InteractableManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public IBasicSM GetTargetIBasicSM()
+    {
+        if(stateMachine.GetComponent<IBasicSM>()!= null)
+        {
+            return stateMachine.GetComponent<IBasicSM>();
+        }
+        else
+        {
+            return transformForIcon.GetComponent<IBasicSM>();
+        }
     }
 }

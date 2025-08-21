@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Spawn_Seat : StateBase
 {
-    private StateMachineBase stateMachine;
+    private SeatSM stateMachine;
+    [SerializeField] private bool isFaceRight;
 
     private void Awake()
     {
@@ -19,6 +20,14 @@ public class Spawn_Seat : StateBase
     {
         // If spawnState call BoundaryManager here will have bug because of code order. BoundaryManager is also  set on start
         //So call it at lateupdate
+        if (isFaceRight)
+        {
+            stateMachine.FaceDirectionManager.SetFaceRight();
+        }
+        else
+        {
+            stateMachine.FaceDirectionManager.SetFaceRight();
+        }       
     }
 
     public override void StateUpdate()
