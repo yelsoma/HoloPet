@@ -28,4 +28,20 @@ public class Notes
     //**
     //the interact logic is easy to fail beacous no mathch
     //cart float problem
+    //organize IInteractableSM IHoloFXSM
+    //fix partical heart colar bug cart break partical duration cart smoke burst
+
+
+    //for vidio
+    //a portal effect spawn 
+    //a script for batan after spawn looke two side ! when see shock face
+    //a table a chair sleep 
+    // Holo Desk Defender
+    //show a little decorate and play with pet
+    //drive
+    //punch punch punch 
+    //cart dash panic for and crash each other with explod
+    //defend enemies hach eggs coming soon
+
+    //add icon for bench*2 and set face left for seat2
 }

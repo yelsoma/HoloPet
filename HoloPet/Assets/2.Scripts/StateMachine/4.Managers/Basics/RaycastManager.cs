@@ -28,16 +28,12 @@ public class RaycastManager : MonoBehaviour
     }
     private void AddHitsToList(RaycastHit2D[] raycastHits)
     {
-        if (raycastHits != null)
+        foreach (var hit in raycastHits)
         {
-            for (int i = 0; i < raycastHits.Length; i++)
+            // Check if the hit's transform is not the same as self or its child
+            if (hit.transform != selfTransform && !hit.transform.IsChildOf(selfTransform))
             {
-                //check self                
-                if (raycastHits[i].transform != selfTransform)
-                {
-                    raycastHitList.Add(raycastHits[i]);
-
-                }
+                raycastHitList.Add(hit);
             }
         }
     }
@@ -56,5 +52,16 @@ public class RaycastManager : MonoBehaviour
     public void ClearHits()
     {
         raycastHitList.Clear();
+    }
+    public bool CheckIsListMatched(Transform transform)
+    {
+        foreach(RaycastHit2D raycastHit2D in raycastHitList)
+        {
+            if(raycastHit2D.transform == transform)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

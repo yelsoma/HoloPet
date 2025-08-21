@@ -11,6 +11,7 @@ public class PrefebSpawn : MonoBehaviour
     [SerializeField] private GameObject PressM;
     [SerializeField] private GameObject PressW;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private Object PortalPrefab;
     void Update()
     {
         if(PressF != null)

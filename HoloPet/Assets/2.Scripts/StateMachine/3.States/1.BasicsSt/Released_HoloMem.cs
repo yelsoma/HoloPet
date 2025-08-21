@@ -9,6 +9,7 @@ public class Released_HoloMem : StateBase
     private IMountingAbilitySM mountingAbilitySM;
     private IAttackableSM attackableSM;
     private IInteractAbilitySM interactAbilitySM;
+    private IHoloMemFXSM holoMemFXSM;
 
     private void Awake()
     {
@@ -41,6 +42,12 @@ public class Released_HoloMem : StateBase
         {
             Debug.LogError($"{transform} ¡X no interactAbilitySM found in parent.");
         }
+
+        holoMemFXSM = GetComponentInParent<IHoloMemFXSM>();
+        if (holoMemFXSM == null)
+        {
+            Debug.LogError($"{transform} ¡X no holoMemFXSM found in parent.");
+        }
     }
 
     public override void Enter()
@@ -62,18 +69,21 @@ public class Released_HoloMem : StateBase
             {
                 InteractAbilityManager myInteractMg = interactAbilitySM.InteractAbilityMg;
                 InteractableManager targetInteractMg = myInteractMg.GetTargetInteractableMg();
-                if (targetInteractMg.GetIsInteractable())
+                if (basicSM.RaycastMg.CheckIsListMatched(targetInteractMg.GetStateMachineTransform()))
                 {
-                    interactAbilitySM.TextLogMg.PopUpHappyFace(1f);
-                    myInteractMg.SetIsTargetLocked(false);
-                    targetInteractMg.SetInteracter(myInteractMg);
-                    targetInteractMg.GoToChoosenInteracedState();
-                    if (myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState != null)
+                    if (targetInteractMg.GetIsInteractable())
                     {
-                        stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
+                        holoMemFXSM.HoloMemFXMg.StartHeartPartical();
+                        myInteractMg.SetIsTargetLocked(false);
+                        targetInteractMg.SetInteracter(myInteractMg);
+                        targetInteractMg.GoToChoosenInteracedState();
+                        if (myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState != null)
+                        {
+                            stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
+                        }
+                        return;
                     }
-                    return;
-                }               
+                }                                                 
             }
             //check is there mount
             if (mountingAbilitySM.MountingAbilityMg.TrySetMountWithRaycast(basicSM.RaycastMg.GetRaycastHits()))

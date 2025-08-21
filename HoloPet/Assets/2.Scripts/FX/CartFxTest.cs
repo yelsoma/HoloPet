@@ -11,6 +11,8 @@ public class CartFxTest : MonoBehaviour
     public GameObject driveBreak;
     public GameObject driveBreakMounted;
     public MountableManager mountableManager;
+    public GameObject explodPrefab;
+    public Transform hitPoint;
 
     private void Awake()
     {
@@ -44,14 +46,14 @@ public class CartFxTest : MonoBehaviour
     {
         ss.SetActive(true);
         var main = ParticleSystem.main;
-        main.simulationSpeed = 3f;
+        main.simulationSpeed = 3.5f;
         ParticleSystem.Play();
         driveBreak.SetActive(true);
     }
 
     private void Drive_OnExitState(object sender, System.EventArgs e)
     {
-        ParticleSystem.Clear();
+        ParticleSystem.Clear();        
         ss.SetActive(false);
         driveBreak.SetActive(false);
     }
@@ -59,9 +61,19 @@ public class CartFxTest : MonoBehaviour
     private void Drive_OnEnterState(object sender, System.EventArgs e)
     {
         ss.SetActive(true);
-        var main = ParticleSystem.main;
-        main.simulationSpeed = 1.5f;
+        
         ParticleSystem.Play();
         driveBreak.SetActive(true);
+    }
+
+    public void DriveParticalSmokeSpeed(float speed)
+    {
+        var main = ParticleSystem.main;
+        main.simulationSpeed = speed;
+    }
+
+    public void HitExplode()
+    {
+        Instantiate(explodPrefab ,hitPoint.position, Quaternion.identity);
     }
 }

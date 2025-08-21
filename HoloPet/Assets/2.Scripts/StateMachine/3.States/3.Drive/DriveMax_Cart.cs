@@ -17,6 +17,7 @@ public class DriveMax_Cart : StateBase
     [SerializeField] private float knockBackPower;
     private bool isMounted;
     [SerializeField] private int knockBackDamage;
+    public CartFxTest CartFxTest;
 
     private void Awake()
     {
@@ -101,10 +102,11 @@ public class DriveMax_Cart : StateBase
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
         }
+        CartFxTest.DriveParticalSmokeSpeed(speedNow);
     }
 
     public override void StateLateUpdate()
-    {
+    {       
     }
 
     public override void Exit()
@@ -118,6 +120,7 @@ public class DriveMax_Cart : StateBase
         {
             if (attackAbilitySM.AttackAbilityMg.TrySetAttackables(basicSM.RaycastMg.GetRaycastHits()))
             {
+                CartFxTest.HitExplode();
                 attackAbilitySM.AttackAbilityMg.SetAttackablesKnockBack(damage, knockBackPower);
             }
         }

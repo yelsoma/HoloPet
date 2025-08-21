@@ -14,6 +14,7 @@ public class Drive_Cart : StateBase
     [SerializeField] private float speedPlus;
     private float speedNow;
     private bool isMounted;
+    public CartFxTest CartFxTest;
 
     private void Awake()
     {
@@ -47,6 +48,7 @@ public class Drive_Cart : StateBase
         speedNow = 0f;
         isMounted = mountableSM.MountableMg.GetIsMounted();
         mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        mountableSM.MountableMg.GetIsMountable();
     }
 
     public override void StateUpdate()
@@ -86,6 +88,7 @@ public class Drive_Cart : StateBase
                 basicSM.FaceDirectionMg.SetFaceRight();
             }
         }
+        CartFxTest.DriveParticalSmokeSpeed(speedNow);
     }
 
     public override void StateLateUpdate()

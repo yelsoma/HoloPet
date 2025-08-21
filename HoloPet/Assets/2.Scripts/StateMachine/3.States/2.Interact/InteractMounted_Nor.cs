@@ -52,8 +52,7 @@ public class InteractMounted_Nor : StateBase
             //sucsses set mounter
             interacterSM.ChangeState(MounterMountingAbilitySM.StateMounting);
         }
-        //fail
-        stateMachine.ChangeState(basicSM.StateIdle);
+        stateMachine.ChangeState(basicSM.StateInAir);
     }
     public override void StateLateUpdate()
     {

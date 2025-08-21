@@ -8,7 +8,6 @@ public class AttackedKnockBack_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
-    private IMountableSM mountableSM;
     private IAttackableSM attackableSM;
     [SerializeField] private float knockUpPower;
     [SerializeField] private float knockUpDecrease;
@@ -31,12 +30,6 @@ public class AttackedKnockBack_Nor : StateBase
         if (basicSM == null)
         {
             Debug.LogError($"{transform} ¡X no basicSM found in parent.");
-        }
-
-        mountableSM = GetComponentInParent<IMountableSM>();
-        if (mountableSM == null)
-        {
-            Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
         }
 
         attackableSM = GetComponentInParent<IAttackableSM>();

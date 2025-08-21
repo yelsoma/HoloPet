@@ -10,6 +10,10 @@ public class InteractMounted_Cart : StateBase
     private InteractableManager myInteractableMg;
     private IMountableSM mountableSM;
     private IDriveSM driveSM;
+
+    private float fallSpeedIncreese = 6.5f;
+    private float fallSpeedMax = 9f;
+    private float fallSpeedNow;
     #region AutoSetRef
     private void Awake()
     {
@@ -47,7 +51,8 @@ public class InteractMounted_Cart : StateBase
 
     #region StateBase
     public override void Enter()
-    {            
+    {
+        fallSpeedNow = 0f;
     }
     public override void StateUpdate()
     {
@@ -60,15 +65,37 @@ public class InteractMounted_Cart : StateBase
             //sucsses set mounter
             interacterSM.ChangeState(MounterMountingAbilitySM.StateMounting);
 
-            //check is it batan
-            if (interacterBasicSM.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(driveSM.StateDrive);
-                return;
+                //check is it batan
+                if (interacterBasicSM.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+                {
+                    stateMachine.ChangeState(driveSM.StateDrive);
+                    return;
+                }
             }
+            else
+            {
+                basicSM.MovementMg.MoveDown(fallSpeedNow);
+                if (fallSpeedNow <= fallSpeedMax)
+                {
+                    fallSpeedNow += fallSpeedIncreese;                    
+                }
+                else
+                {
+                    fallSpeedNow = fallSpeedMax;
+                }
+            }           
         }
         //fail
-        stateMachine.ChangeState(basicSM.StateInAir);
+        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        {
+            stateMachine.ChangeState(basicSM.StateIdle);
+        }
+        else
+        {
+            stateMachine.ChangeState(basicSM.StateInAir);
+        }           
     }
     public override void StateLateUpdate()
     {

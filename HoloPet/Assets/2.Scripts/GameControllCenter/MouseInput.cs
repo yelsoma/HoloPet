@@ -86,19 +86,21 @@ public class MouseInput : MonoBehaviour
         int layerNow = -32767;
         foreach (Collider2D collider2D in GetMousePositionCollider2Ds(GetMouseWorldPosition()))
         {
-            
-            // Get ClickableManager in children and check if it's now clickable
-            ClickableManager clickable = collider2D.transform.GetComponent<IBasicSM>().ClickableMg;
-            if (clickable != null && clickable.GetIsClickable())
+            if (collider2D.transform.TryGetComponent<IBasicSM>(out IBasicSM basicSM))
             {
-                // Get ILayerManager in children and compare layers
-                ILayerManager layerManager = collider2D.transform.GetComponent<IBasicSM>().LayerMg;
-                if (layerManager != null && layerManager.GetObjectMainLayer() >= layerNow)
+                // Get ClickableManager in children and check if it's now clickable
+                ClickableManager clickable = basicSM.ClickableMg;
+                if (clickable != null && clickable.GetIsClickable())
                 {
-                    layerNow = layerManager.GetObjectMainLayer();
-                    selectedClickable = clickable;
+                    // Get ILayerManager in children and compare layers
+                    ILayerManager layerManager = collider2D.transform.GetComponent<IBasicSM>().LayerMg;
+                    if (layerManager != null && layerManager.GetObjectMainLayer() >= layerNow)
+                    {
+                        layerNow = layerManager.GetObjectMainLayer();
+                        selectedClickable = clickable;
+                    }
                 }
-            }
+            }          
         }
     }
     private void ClearSelectedOb()

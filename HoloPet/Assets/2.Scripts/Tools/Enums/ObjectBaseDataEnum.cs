@@ -6,7 +6,10 @@ public enum ObjectNameEnum
 {
     Botan,
     Watame,
-    ShopingCart
+    ShopingCart,
+    Chair,
+    bench,
+    pot
 }
 public enum ObjectTypeEnum
 {

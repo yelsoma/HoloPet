@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM, ICreatureSM
+public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM, ICreatureSM , IHoloMemFXSM
 {
     [Header(" Managers")]
 
@@ -57,7 +57,10 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     [SerializeField] private AttackAbilityManager attackAbilityMg;
     public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
     #endregion
-
+    #region AttackAbility Manager 
+    [SerializeField] private HoloMemFX holoMemFXMg;
+    public HoloMemFX HoloMemFXMg => holoMemFXMg;
+    #endregion
     [Header(" States")]
 
     #region Basic State
