@@ -10,12 +10,13 @@ public class AttackableManager : MonoBehaviour
     private bool isAttckable;
     private IAttackableSM attackableSM;
     private StateMachineBase stateMachine;
-    private bool knockRight;
+    private bool isLeft;
     [SerializeField] private float deathKnockBackPower;
     private float knockBackPower;
     private IBasicSM basicSM;
     private AttackAbilityManager attackerMg;
     private Coroutine StartDeath;
+    [SerializeField] private StateBase StatePanic;
     private void Awake()
     {
         attackableSM = GetComponentInParent<IAttackableSM>();
@@ -53,7 +54,7 @@ public class AttackableManager : MonoBehaviour
         {
             hp = 0;
             knockBackPower = deathKnockBackPower;
-            SetIsKnockBackRight();
+            SetIsAttackerLeft();
             stateMachine.ChangeState(attackableSM.StateKnockBack);
         }
     }
@@ -69,12 +70,23 @@ public class AttackableManager : MonoBehaviour
         {
             hp = 0;
         }
-        SetIsKnockBackRight();
+        SetIsAttackerLeft();
         stateMachine.ChangeState(attackableSM.StateKnockBack);
     }
-    public bool GetIsKnockRight()
+    public void AttackPanic()
     {
-        return knockRight;
+        SetIsAttackerLeft();
+        if(StatePanic!= null)
+        {
+            if(stateMachine.GetStateNow() == basicSM.StateIdle)
+            {
+                stateMachine.ChangeState(StatePanic);
+            }          
+        }
+    }
+    public bool GetIsAttackerLeft()
+    {
+        return isLeft;
     }
     public float GetKnockBackPower()
     {
@@ -104,20 +116,21 @@ public class AttackableManager : MonoBehaviour
     {
         this.isAttckable = isAttckable;
     }
-    private void SetIsKnockBackRight()
+    private void SetIsAttackerLeft()
     {
         if(attackerMg == null)
         {
-            knockRight = false;
+            isLeft = false;
+            Debug.LogWarning("no attacker set");
             return;
         }
-        if(attackerMg.transform.root.position.x <= transform.root.position.x)
+        if(attackerMg.GetComponentInParent<StateMachineBase>().transform.position.x < stateMachine.transform.position.x)
         {
-            knockRight = true;
+            isLeft = true;
         }
         else
         {
-            knockRight = false;
+            isLeft = false;
         }
         
     }
@@ -154,5 +167,9 @@ public class AttackableManager : MonoBehaviour
     public void SetAttacker(AttackAbilityManager attackAbilityManager)
     {
         attackerMg = attackAbilityManager;
+    }
+    public StateMachineBase GetStateMachine()
+    {
+        return stateMachine;
     }
 }

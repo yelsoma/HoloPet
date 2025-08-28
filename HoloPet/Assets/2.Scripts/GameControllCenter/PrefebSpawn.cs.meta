@@ -3,7 +3,15 @@ guid: cd379e400438e494d9ea2431826cd42c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - PressF: {fileID: 2046127959290517983, guid: 5f94a560019f51044bdf1052739db2dc, type: 3}
+  - PressB: {instanceID: 0}
+  - PressC: {instanceID: 0}
+  - PressA: {instanceID: 0}
+  - PressM: {instanceID: 0}
+  - PressW: {instanceID: 0}
+  - mainCamera: {instanceID: 0}
+  - PortalPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

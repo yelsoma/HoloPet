@@ -43,7 +43,7 @@ public class AttackedKnockBack_Nor : StateBase
     {
         knockUpPowerNow = knockUpPower;
         fallSpeedNow = 0f;
-        if (attackableSM.AttackableMg.GetIsKnockRight())
+        if (attackableSM.AttackableMg.GetIsAttackerLeft())
         {
             knockBackRight = true;
         }

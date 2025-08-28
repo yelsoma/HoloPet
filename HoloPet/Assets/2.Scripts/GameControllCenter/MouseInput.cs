@@ -13,6 +13,7 @@ public class MouseInput : MonoBehaviour
     private float clickTime;
     private bool overClickTime;
     private bool grabTriggered;
+    [SerializeField] private GameObject clickFX;
     public void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -53,6 +54,7 @@ public class MouseInput : MonoBehaviour
             {
                 if (!ClickTimeOver() && !DragPosOver())
                 {
+                    Instantiate(clickFX, mouseInatialPos, Quaternion.identity);
                     selectedClickable.Click();
                 }
                 selectedClickable.Release();

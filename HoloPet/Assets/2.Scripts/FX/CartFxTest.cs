@@ -13,6 +13,7 @@ public class CartFxTest : MonoBehaviour
     public MountableManager mountableManager;
     public GameObject explodPrefab;
     public Transform hitPoint;
+    public Transform FireTransform;
 
     private void Awake()
     {

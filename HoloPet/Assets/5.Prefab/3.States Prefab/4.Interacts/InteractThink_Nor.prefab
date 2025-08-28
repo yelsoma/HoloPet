@@ -44,4 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fab5dc5a33dc554e95d1df8ddcbd710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serchDistance: 20
   interactDistance: 0.75
+  waitTime: 1.5
+  bubbleTime: 1.1
