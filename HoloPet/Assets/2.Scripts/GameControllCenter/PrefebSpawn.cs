@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PrefebSpawn : MonoBehaviour
@@ -12,6 +13,11 @@ public class PrefebSpawn : MonoBehaviour
     [SerializeField] private GameObject PressW;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Object PortalPrefab;
+    private List<GameObject> slimeList = new List<GameObject>();
+    [SerializeField] private TextMeshProUGUI slimeCountText;
+    private List<GameObject> botanList = new List<GameObject>();
+    [SerializeField] private TextMeshProUGUI botanCountText;
+
     void Update()
     {
         if(PressF != null)
@@ -19,7 +25,9 @@ public class PrefebSpawn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-                Instantiate(PressF, new Vector3(mousePos.x, mousePos.y, 0), Quaternion.identity);
+                GameObject newObj = Instantiate(PressF, new Vector3(mousePos.x, mousePos.y, 0), Quaternion.identity);
+                slimeList.Add(newObj);
+                slimeCountText.text = "Slime Now: " + slimeList.Count;
             }
         }
 
@@ -28,7 +36,9 @@ public class PrefebSpawn : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.B))
             {
                 Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-                Instantiate(PressB, new Vector3(mousePos.x, mousePos.y, 0), Quaternion.identity);
+                GameObject newObj = Instantiate(PressB, new Vector3(mousePos.x, mousePos.y, 0), Quaternion.identity);
+                botanList.Add(newObj);
+                botanCountText.text = "Player Now: " + botanList.Count;
             }
         }
         if (PressC != null)
