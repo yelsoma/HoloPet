@@ -21,9 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 1397676354, guid: 04eacacb0bba42e4a830bce72a2bbca7, type: 3}
+      value: {fileID: 846509650, guid: 4c673fc85957c7442ae5f351f9a269eb, type: 3}
+    - time: 1
+      value: {fileID: 1475557285, guid: 4c673fc85957c7442ae5f351f9a269eb, type: 3}
     attribute: m_Sprite
-    path: BodyParts/Head
+    path: BodyParts/HumanBody/Head
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -35,7 +37,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 438849167
+      path: 3421681876
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -44,13 +46,14 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 1397676354, guid: 04eacacb0bba42e4a830bce72a2bbca7, type: 3}
+    - {fileID: 846509650, guid: 4c673fc85957c7442ae5f351f9a269eb, type: 3}
+    - {fileID: 1475557285, guid: 4c673fc85957c7442ae5f351f9a269eb, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 2
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

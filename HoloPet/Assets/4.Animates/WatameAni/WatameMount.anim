@@ -30,7 +30,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -46,7 +46,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
@@ -55,7 +55,7 @@ AnimationClip:
     - time: 0
       value: {fileID: -1951089819, guid: b1c1985830b72da4294ff6f95f435ffc, type: 3}
     attribute: m_Sprite
-    path: BodyParts/Body
+    path: BodyParts/HumanBody/Body
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -67,7 +67,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1718858657
+      path: 3081324026
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -76,7 +76,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2816780728
+      path: 2158158254
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -85,7 +85,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2201409071
+      path: 2009408822
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -133,7 +133,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -154,7 +154,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -175,7 +175,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -196,7 +196,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -217,7 +217,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -238,7 +238,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
     classID: 4
     script: {fileID: 0}
     flags: 0

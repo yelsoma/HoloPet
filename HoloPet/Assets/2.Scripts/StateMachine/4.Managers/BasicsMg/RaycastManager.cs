@@ -12,10 +12,10 @@ public class RaycastManager : MonoBehaviour
         stateMachine = GetComponentInParent<StateMachineBase>();
     }
 
-    public RaycastHit2D GetFirstHit(Vector2 direction, float raycastDistance, LayerMask mask)
+    public RaycastHit2D GetFirstHit(Vector2 startPoint, Vector2 direction, float raycastDistance, LayerMask mask)
     {
         RaycastHit2D hit = Physics2D.Raycast(
-            stateMachine.transform.position,
+            startPoint,
             direction,
             raycastDistance,
             mask

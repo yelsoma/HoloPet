@@ -17,11 +17,6 @@ public class InteractFollowY_Nor : StateBase
 
     // jump
     [SerializeField] private float jumpUpPower;
-    [SerializeField] private float jumpUpDecrese;
-    private float jumpUpPowerNow;
-    private float fallSpeedIncreese = 6.5f;
-    private float fallSpeedMax = 9f;
-    private float fallSpeedNow;
     private bool keepJump;
 
     #region AutoSetRef
@@ -59,8 +54,8 @@ public class InteractFollowY_Nor : StateBase
         myInteractMg = interactAbilitySM.InteractAbilityMg;
         targetInteractMg = myInteractMg.GetTargetInteractableMg();
         keepJump = true;
-        jumpUpPowerNow = jumpUpPower;
-        fallSpeedNow = 0f;
+        basicSM.MovementMg.SetJump(jumpUpPower);
+        basicSM.MovementMg.ResetFall();
     }
     public override void StateUpdate()
     {
@@ -90,24 +85,22 @@ public class InteractFollowY_Nor : StateBase
                 GoToChoosenInteract();
             }
         }
-        if (jumpUpPowerNow > 0)
+        if (basicSM.MovementMg.KeepJump())
         {
-            basicSM.MovementMg.MoveUp(jumpUpPowerNow);
-            jumpUpPowerNow -= jumpUpDecrese * Time.deltaTime;
+            if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+            {
+                basicSM.MovementMg.SetJump(0);
+            }
         }
         else
         {
-            basicSM.MovementMg.MoveDown(fallSpeedNow);
-            if (fallSpeedNow <= fallSpeedMax)
-            {
-                fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
-            }
+            basicSM.MovementMg.KeepFall();
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 if (keepJump)
                 {
-                    jumpUpPowerNow = jumpUpPower;
-                    fallSpeedNow = 0f;
+                    basicSM.MovementMg.SetJump(jumpUpPower);
+                    basicSM.MovementMg.ResetFall();
                 }
                 else
                 {

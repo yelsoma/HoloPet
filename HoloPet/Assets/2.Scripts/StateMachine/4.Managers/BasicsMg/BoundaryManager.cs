@@ -97,4 +97,22 @@ public class BoundaryManager : MonoBehaviour
     {
         objectTransform.position = new Vector2(objectTransform.position.x, botObjectBoundery);
     }
+    public void SetToLeftBoundary()
+    {
+        objectTransform.position = new Vector2(leftObjectBoundery, objectTransform.position.y);
+    }
+    public void SetToRightBoundary()
+    {
+        objectTransform.position = new Vector2(rightObjectBoundery, objectTransform.position.y);
+    }
+
+    public float GetHight()
+    {
+        return objectHight;
+    }
+
+    public float GetWidth()
+    {
+        return objectWidth;
+    }
 }

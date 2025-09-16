@@ -8,12 +8,7 @@ public class HappyChat_Nor : StateBase
     private IBasicSM basicSM;
     private IInteractAbilitySM interactAbilitySM;
     [SerializeField] private float jumpUpPower;
-    [SerializeField] private float jumpUpDecrese;
     [SerializeField] private int jumpCount;
-    private float jumpUpPowerNow;
-    private float fallSpeedIncreese = 6.5f;
-    private float fallSpeedMax = 9f;
-    private float fallSpeedNow;
     private float jumpCountLeft;
     private Coroutine jumpCoroutine;
     private bool exitToIdle;
@@ -100,27 +95,25 @@ public class HappyChat_Nor : StateBase
     private IEnumerator CoStartJump()
     {
         jumpCountLeft = jumpCount;
-        jumpUpPowerNow = jumpUpPower;
-        fallSpeedNow = 0f;
+        basicSM.MovementMg.SetJump(jumpUpPower);
+        basicSM.MovementMg.ResetFall();
         while (jumpCountLeft > 0)
         {
-            if (jumpUpPowerNow > 0)
+            if (basicSM.MovementMg.KeepJump())
             {
-                basicSM.MovementMg.MoveUp(jumpUpPowerNow);
-                jumpUpPowerNow -= jumpUpDecrese * Time.deltaTime;
+                if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+                {
+                    basicSM.MovementMg.SetJump(0);
+                }
             }
             else
             {
-                basicSM.MovementMg.MoveDown(fallSpeedNow);
-                if (fallSpeedNow <= fallSpeedMax)
-                {
-                    fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
-                }
+                basicSM.MovementMg.KeepFall();
                 if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
                 {
                     jumpCountLeft--;
-                    jumpUpPowerNow = jumpUpPower;
-                    fallSpeedNow = 0f;
+                    basicSM.MovementMg.SetJump(jumpUpPower);
+                    basicSM.MovementMg.ResetFall();
                 }
             }
             yield return null;

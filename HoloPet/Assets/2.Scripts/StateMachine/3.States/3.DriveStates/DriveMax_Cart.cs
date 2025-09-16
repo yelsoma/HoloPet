@@ -134,7 +134,7 @@ public class DriveMax_Cart : StateBase
     }
     private void SetAttackablePanic(Vector2 hitDirection)
     {
-        if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackable(hitDirection, panicDistance))
+        if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackable(stateMachine.transform.position, hitDirection, panicDistance))
         {
             CartFxTest.HitExplode();
             attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);

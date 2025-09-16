@@ -9,12 +9,7 @@ public class HappyChatted_Nor : StateBase
     private IBasicSM basicSM;
     private IInteractableSM interactableSM;
     [SerializeField] private float jumpUpPower;
-    [SerializeField] private float jumpUpDecrese;
     [SerializeField] private int jumpCount;
-    private float jumpUpPowerNow;
-    private float fallSpeedIncreese = 6.5f;
-    private float fallSpeedMax = 9f;
-    private float fallSpeedNow;
     private float jumpCountLeft;
     [SerializeField] private float startJumpDelay;
     private Coroutine jumpCoroutine;
@@ -104,28 +99,26 @@ public class HappyChatted_Nor : StateBase
     {
         yield return new WaitForSeconds(startJumpDelay);
         jumpCountLeft = jumpCount;
-        jumpUpPowerNow = jumpUpPower;
-        fallSpeedNow = 0f;
+        basicSM.MovementMg.SetJump(jumpUpPower);
+        basicSM.MovementMg.ResetFall();
         TriggerAni1();// happy ani
         while (jumpCountLeft > 0)
         {
-            if (jumpUpPowerNow > 0)
+            if (basicSM.MovementMg.KeepJump())
             {
-                basicSM.MovementMg.MoveUp(jumpUpPowerNow);
-                jumpUpPowerNow -= jumpUpDecrese * Time.deltaTime;
+                if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+                {
+                    basicSM.MovementMg.SetJump(0);
+                }
             }
             else
             {
-                basicSM.MovementMg.MoveDown(fallSpeedNow);
-                if (fallSpeedNow <= fallSpeedMax)
-                {
-                    fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
-                }
+                basicSM.MovementMg.KeepFall();
                 if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
                 {
                     jumpCountLeft--;
-                    jumpUpPowerNow = jumpUpPower;
-                    fallSpeedNow = 0f;
+                    basicSM.MovementMg.SetJump(jumpUpPower);
+                    basicSM.MovementMg.ResetFall();
                 }
             }
             yield return null;

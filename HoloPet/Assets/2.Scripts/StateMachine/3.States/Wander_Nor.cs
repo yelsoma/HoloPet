@@ -6,7 +6,6 @@ public class Wander_Nor : StateBase
 {
     [SerializeField] private float wanderMaxTime;
     [SerializeField] private float wanderMinTime;
-    [SerializeField] private float wanderSpeed;
     private float wanderTimer;
     private float randomDir;
     private bool wanderRight;
@@ -82,11 +81,11 @@ public class Wander_Nor : StateBase
     {
         if (wanderRight)
         {
-            basicSM.MovementMg.MoveRight(wanderSpeed);
+            basicSM.MovementMg.MoveRightMultiply(1f);
         }
         else
         {
-            basicSM.MovementMg.MoveLeft(wanderSpeed);
+            basicSM.MovementMg.MoveLeftMultiply(1f);
         }
     }
     public override void Exit()

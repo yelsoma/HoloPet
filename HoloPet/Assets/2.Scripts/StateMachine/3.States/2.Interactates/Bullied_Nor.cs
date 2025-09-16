@@ -20,17 +20,12 @@ public class Bullied_Nor : StateBase
 
     //KnockBack
     private float knockUpPower = 6f;
-    private float knockUpPowerNow;
     private float knockBackPower = 2.5f;
-    private float fallSpeedNow;
-    private float knockUpDecrese = 14f;
-    private float fallSpeedIncreese = 6.5f;
-    private float fallSpeedMax = 9f;
     private bool knockUpRight;
 
     //PanicRun
-    [SerializeField] private float panicRunSpeed;
     [SerializeField] private float panicTime;
+    private float panicSpeed = 2f;
     private float panicTimeNow;
     private bool panicRight;
     #region AutoSetRef
@@ -145,33 +140,23 @@ public class Bullied_Nor : StateBase
     private void TriggerInteracting(object sender, System.EventArgs e)
     {
         isKnockUp = true;
-        knockUpPowerNow = knockUpPower;
-        fallSpeedNow = 0f;
+        basicSM.MovementMg.SetJump(knockUpPower);
+        basicSM.MovementMg.ResetFall();
         ChooseKnockUpSide();
     }
 
     private void KnockBack()
     {
-        if (knockUpPowerNow >= 0f)
+        if (basicSM.MovementMg.KeepJump())
         {
-            knockUpPowerNow -= knockUpDecrese * Time.deltaTime;
-
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                knockUpPowerNow = -1f;
+                basicSM.MovementMg.SetJump(0);
             }
-
-            basicSM.MovementMg.MoveUp(knockUpPowerNow);
         }
         else
         {
-            if (fallSpeedNow <= fallSpeedMax)
-            {
-                fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
-            }
-
-            basicSM.MovementMg.MoveDown(fallSpeedNow);
-
+            basicSM.MovementMg.KeepFall();
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 isPanicRun = true;
@@ -232,7 +217,7 @@ public class Bullied_Nor : StateBase
             panicTimeNow = panicTimeNow - Time.deltaTime;
             if (panicRight)
             {
-                basicSM.MovementMg.MoveRight(panicRunSpeed);
+                basicSM.MovementMg.MoveRightMultiply(panicSpeed);
                 if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
                 {
                     basicSM.FaceDirectionMg.SetFaceLeft();
@@ -241,7 +226,7 @@ public class Bullied_Nor : StateBase
             }
             else
             {
-                basicSM.MovementMg.MoveLeft(panicRunSpeed);
+                basicSM.MovementMg.MoveLeftMultiply(panicSpeed);
                 if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
                 {
                     basicSM.FaceDirectionMg.SetFaceRight();

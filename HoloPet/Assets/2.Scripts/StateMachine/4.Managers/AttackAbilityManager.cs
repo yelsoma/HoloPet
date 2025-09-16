@@ -53,42 +53,68 @@ public class AttackAbilityManager : MonoBehaviour
         return true;
     }
 
+    //closest xy
+    public bool TrySetClosestAttackable(Vector2 startPoint, Vector2 direction, float distance, LayerMask mask = default,ObjectGangEnum? gangFilter = null)
+    {
+        return TrySetClosestAttackableFromHits(
+            new[] { raycastManager.GetFirstHit(startPoint, direction, distance, mask) },
+            gangFilter
+        );
+    }
     public bool TrySetClosestAttackable(Vector2 direction, float distance, LayerMask mask = default, ObjectGangEnum? gangFilter = null)
     {
+        Vector2 startPoint = stateMachine.transform.position;
+        return TrySetClosestAttackable(startPoint, direction, distance, mask, gangFilter);
+    }
+
+    //closest Horizontal
+    public bool TrySetClosestAttackableHorizontal( float yAdjust, float distance, LayerMask mask = default, ObjectGangEnum? gangFilter = null)
+    {
+        Vector2 startPoint = new Vector2(
+            stateMachine.transform.position.x,
+            stateMachine.transform.position.y + yAdjust
+        );
+
+        if (mask == default)
+            mask = Physics2D.DefaultRaycastLayers;
+
         return TrySetClosestAttackableFromHits(
-            new[] { raycastManager.GetFirstHit(direction, distance, mask) },
+            new[]
+            {
+            raycastManager.GetFirstHit(startPoint, Vector2.left, distance, mask),
+            raycastManager.GetFirstHit(startPoint, Vector2.right, distance, mask)
+            },
             gangFilter
         );
     }
-
     public bool TrySetClosestAttackableHorizontal(float distance, LayerMask mask = default, ObjectGangEnum? gangFilter = null)
     {
+        return TrySetClosestAttackableHorizontal(0f, distance, mask, gangFilter);
+    }
+
+    //Colsest Vertical
+    public bool TrySetClosestAttackableVertical(float xAdjust, float distance, LayerMask mask = default, ObjectGangEnum? gangFilter = null)
+    {
+        Vector2 startPoint = new Vector2(
+            stateMachine.transform.position.x + xAdjust,
+            stateMachine.transform.position.y
+        );
+
         if (mask == default)
             mask = Physics2D.DefaultRaycastLayers;
 
         return TrySetClosestAttackableFromHits(
             new[]
             {
-                raycastManager.GetFirstHit(Vector2.left, distance, mask),
-                raycastManager.GetFirstHit(Vector2.right, distance, mask)
+            raycastManager.GetFirstHit(startPoint, Vector2.up, distance, mask),
+            raycastManager.GetFirstHit(startPoint, Vector2.down, distance, mask)
             },
             gangFilter
         );
     }
-
-    public bool TrySetClosestAttackableVertical(float distance, LayerMask mask = default, ObjectGangEnum? gangFilter = null)
+    public bool TrySetClosestAttackableVertical( float distance, LayerMask mask = default, ObjectGangEnum? gangFilter = null)
     {
-        if (mask == default)
-            mask = Physics2D.DefaultRaycastLayers;
-
-        return TrySetClosestAttackableFromHits(
-            new[]
-            {
-                raycastManager.GetFirstHit(Vector2.up, distance, mask),
-                raycastManager.GetFirstHit(Vector2.down, distance, mask)
-            },
-            gangFilter
-        );
+        return TrySetClosestAttackableVertical(0f, distance, mask, gangFilter);
     }
 
     public AttackableManager GetTarget() => targetAttackable;

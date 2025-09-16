@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM, ICreatureSM , IHoloMemFXSM
+public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM, ICreatureSM , IHoloMemFXSM, IHumanAttackSM
 {
     [Header(" Managers")]
 
@@ -61,6 +61,8 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     [SerializeField] private HoloMemFX holoMemFXMg;
     public HoloMemFX HoloMemFXMg => holoMemFXMg;
     #endregion
+    [SerializeField] private ItemHolderManager itemHolderMg;
+    public ItemHolderManager ItemHolderMg => itemHolderMg;
     [Header(" States")]
 
     #region Basic State
@@ -105,6 +107,18 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     [SerializeField] private StateBase stateWander;
     public StateBase StateWander => stateWander;
     #endregion
+    #region AttackAbility State
+    [SerializeField] private StateBase stateSearch;
+    [SerializeField] private StateBase stateBasicAttack;
+    public StateBase StateSearch => stateSearch;
+    public StateBase StateBasicAttack => stateBasicAttack;
+    #endregion
+    [SerializeField] private StateBase stateMeleeAttack;
+    public StateBase StateMeleeAttack => stateMeleeAttack;
+    [SerializeField] private StateBase stateRangeAttack;
+    public StateBase StateRangeAttack => stateRangeAttack;
+    [SerializeField] private StateBase stateShieldAttack;
+    public StateBase StateShieldAttack => stateShieldAttack;
 
     protected override StateBase SetFirstState()
     {

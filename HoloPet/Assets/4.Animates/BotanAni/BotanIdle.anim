@@ -48,6 +48,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.5
         value: {x: 0, y: -0.03125, z: 0}
+        inSlope: {x: 0, y: Infinity, z: 0}
+        outSlope: {x: 0, y: Infinity, z: 0}
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0, z: 0.33333334}
+      - serializedVersion: 3
+        time: 0.6666667
+        value: {x: 0, y: 0, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -57,13 +66,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: BodyParts/Head
+    path: BodyParts/HumanBody/Head
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -0.109375, y: -0.3694, z: 0}
+        value: {x: -0.14225, y: -0.3694, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -71,26 +80,8 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        time: 0.16666667
-        value: {x: -0.11367515, y: -0.365276, z: 0}
-        inSlope: {x: -0.044230133, y: 0.024765015, z: 0}
-        outSlope: {x: -0.044230133, y: 0.024765015, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
         time: 0.33333334
-        value: {x: -0.12166115, y: -0.361145, z: 0}
-        inSlope: {x: -0.044230167, y: 0.034503046, z: 0}
-        outSlope: {x: -0.044230167, y: 0.034503046, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 0.5
-        value: {x: -0.1259613, y: -0.353775, z: 0}
+        value: {x: -0.15430917, y: -0.3721526, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -99,7 +90,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.6666667
-        value: {x: -0.109375, y: -0.3694, z: 0}
+        value: {x: -0.14225, y: -0.3694, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -109,13 +100,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.171875, y: -0.3694, z: 0}
+        value: {x: 0.139, y: -0.3694, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -123,26 +114,8 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        time: 0.16666667
-        value: {x: 0.17576708, y: -0.36496732, z: 0}
-        inSlope: {x: 0.040032804, y: 0.025222778, z: 0}
-        outSlope: {x: 0.040032804, y: 0.025222778, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
         time: 0.33333334
-        value: {x: 0.18299523, y: -0.3609924, z: 0}
-        inSlope: {x: 0.040032867, y: 0.018947663, z: 0}
-        outSlope: {x: 0.040032867, y: 0.018947663, z: 0}
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
-      - serializedVersion: 3
-        time: 0.5
-        value: {x: 0.18688731, y: -0.35865143, z: 0}
+        value: {x: 0.151, y: -0.372, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -151,7 +124,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.6666667
-        value: {x: 0.171875, y: -0.3694, z: 0}
+        value: {x: 0.139, y: -0.3694, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -161,22 +134,24 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -581983982, guid: 760a256088e08c149a18839ff546b82a, type: 3}
+      value: {fileID: 1032038659, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
     - time: 0.16666667
-      value: {fileID: -581983982, guid: 760a256088e08c149a18839ff546b82a, type: 3}
+      value: {fileID: 1032038659, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: de089373ee2c50d408bebab271ee15cd, type: 3}
+      value: {fileID: -977720110, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
     - time: 0.5
-      value: {fileID: 21300000, guid: de089373ee2c50d408bebab271ee15cd, type: 3}
+      value: {fileID: -977720110, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
+    - time: 0.6666667
+      value: {fileID: 1032038659, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
     attribute: m_Sprite
-    path: BodyParts/Body
+    path: BodyParts/HumanBody/Body
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -188,7 +163,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 438849167
+      path: 3421681876
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -197,7 +172,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2201409071
+      path: 2009408822
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -206,7 +181,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2816780728
+      path: 2158158254
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -215,7 +190,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1718858657
+      path: 3081324026
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -224,16 +199,17 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -581983982, guid: 760a256088e08c149a18839ff546b82a, type: 3}
-    - {fileID: -581983982, guid: 760a256088e08c149a18839ff546b82a, type: 3}
-    - {fileID: 21300000, guid: de089373ee2c50d408bebab271ee15cd, type: 3}
-    - {fileID: 21300000, guid: de089373ee2c50d408bebab271ee15cd, type: 3}
+    - {fileID: 1032038659, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
+    - {fileID: 1032038659, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
+    - {fileID: -977720110, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
+    - {fileID: -977720110, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
+    - {fileID: 1032038659, guid: 8c9f881c6f16c0a4ab441cb9503ba76c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.6666667
+    m_StopTime: 0.8333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -289,11 +265,20 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6666667
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: BodyParts/Head
+    path: BodyParts/HumanBody/Head
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -331,6 +316,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.5
         value: -0.03125
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.6666667
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -341,7 +335,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: BodyParts/Head
+    path: BodyParts/HumanBody/Head
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -385,11 +379,20 @@ AnimationClip:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6666667
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: BodyParts/Head
+    path: BodyParts/HumanBody/Head
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -399,7 +402,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -0.109375
+        value: -0.14225
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -407,8 +410,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.5
-        value: -0.1259613
+        time: 0.33333334
+        value: -0.15430917
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -417,7 +420,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.6666667
-        value: -0.109375
+        value: -0.14225
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -428,7 +431,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -446,26 +449,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.16666667
-        value: -0.365276
-        inSlope: 0.024765015
-        outSlope: 0.024765015
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
         time: 0.33333334
-        value: -0.361145
-        inSlope: 0.034503046
-        outSlope: 0.034503046
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.5
-        value: -0.353775
+        value: -0.3721526
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -485,7 +470,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -503,7 +488,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.5
+        time: 0.33333334
         value: 0
         inSlope: 0
         outSlope: 0
@@ -524,7 +509,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -534,7 +519,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.171875
+        value: 0.139
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -542,8 +527,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.5
-        value: 0.18688731
+        time: 0.33333334
+        value: 0.151
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -552,7 +537,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.6666667
-        value: 0.171875
+        value: 0.139
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -563,7 +548,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -581,26 +566,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.16666667
-        value: -0.36496732
-        inSlope: 0.025222778
-        outSlope: 0.025222778
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
         time: 0.33333334
-        value: -0.3609924
-        inSlope: 0.018947663
-        outSlope: 0.018947663
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.5
-        value: -0.35865143
+        value: -0.372
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -620,7 +587,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -638,7 +605,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.5
+        time: 0.33333334
         value: 0
         inSlope: 0
         outSlope: 0
@@ -659,7 +626,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
     classID: 4
     script: {fileID: 0}
     flags: 0

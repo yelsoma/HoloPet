@@ -9,17 +9,9 @@ public class KnockUp_Nor : StateBase
     private IBasicSM basicSM;
 
     private bool fallAniTriggered;
-
     private float knockUpPower;
-    private float knockUpPowerNow;
     private float knockUpFaceDir;
     private float knockBackPower;
-    private float fallSpeedNow;
-
-    [SerializeField] private float knockUpDecrese;
-    private float fallSpeedIncreese = 6.5f;
-    private float fallSpeedMax = 9f;
-
     private bool knockUpRight;
 
     private void Awake()
@@ -42,9 +34,9 @@ public class KnockUp_Nor : StateBase
         knockUpPower = UnityEngine.Random.Range(6f, 7f);
         knockBackPower = UnityEngine.Random.Range(0.7f, 2f);
         knockUpFaceDir = UnityEngine.Random.Range(0f, 1f);
-
-        fallSpeedNow = 0f;
-        knockUpPowerNow = knockUpPower;
+        basicSM.MovementMg.SetJump(knockUpPower);
+        basicSM.MovementMg.ResetFall();
+       
         fallAniTriggered = false;
 
         if (knockUpFaceDir <= 0.5f)
@@ -61,16 +53,12 @@ public class KnockUp_Nor : StateBase
 
     public override void StateUpdate()
     {
-        if (knockUpPowerNow >= 0f)
+        if (basicSM.MovementMg.KeepJump())
         {           
-            knockUpPowerNow -= knockUpDecrese * Time.deltaTime;
-
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                knockUpPowerNow = -1f;
+                basicSM.MovementMg.SetJump(0);
             }
-
-            basicSM.MovementMg.MoveUp(knockUpPowerNow);
         }
         else
         {
@@ -78,14 +66,9 @@ public class KnockUp_Nor : StateBase
             {               
                 TriggerAni1(); //Trigger fall ani
                 fallAniTriggered = true;
-            }        
-
-            if (fallSpeedNow <= fallSpeedMax)
-            {
-                fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
             }
 
-            basicSM.MovementMg.MoveDown(fallSpeedNow);
+            basicSM.MovementMg.KeepFall();
 
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {

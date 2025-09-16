@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class AniEnum
 {
+    public enum Common
+    {
+        Fall,
+        Grab,
+        Idle,
+        Jump,
+        Mount,
+        Dead,
+        BasicAttack,
+        Hit
+    }
     public class Humanoid
     {
         public enum Main
@@ -43,12 +54,6 @@ public class AniEnum
         {
             DeadFlash
         }
-    }
-    public class Botan
-    {
-    }
-    public class Watame
-    {
     }
     public class Cart
     {

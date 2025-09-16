@@ -110,7 +110,12 @@ public class StateMachinePack
     [SerializeField] private AttackAbilityManager attackAbilityMg;
     public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
     #endregion
-
+    #region AttackAbility State
+    [SerializeField] private StateBase stateSearch;
+    [SerializeField] private StateBase stateBasicAttack;
+    public StateBase StateSearch => stateSearch;
+    public StateBase StateBasicAttack => stateBasicAttack;
+    #endregion
     //Drive
     #region Drive State
     [SerializeField] private StateBase stateDrive;

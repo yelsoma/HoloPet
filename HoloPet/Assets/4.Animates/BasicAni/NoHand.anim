@@ -23,7 +23,7 @@ AnimationClip:
     - time: 0
       value: {fileID: -1479203293, guid: c081e3689c2a1bc4ab65ca27c1636dae, type: 3}
     attribute: m_Sprite
-    path: BodyParts/HandBack
+    path: BodyParts/HumanBody/HandBack
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -32,7 +32,7 @@ AnimationClip:
     - time: 0
       value: {fileID: -1479203293, guid: c081e3689c2a1bc4ab65ca27c1636dae, type: 3}
     attribute: m_Sprite
-    path: BodyParts/HandFront
+    path: BodyParts/HumanBody/HandFront
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -44,7 +44,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2816780728
+      path: 2158158254
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -53,7 +53,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 2201409071
+      path: 2009408822
       attribute: 0
       script: {fileID: 0}
       typeID: 212

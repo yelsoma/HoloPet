@@ -9,7 +9,7 @@ public class InteractFollowX_Nor : StateBase
     private IInteractAbilitySM interactAbilitySM;
     private IHoloMemFXSM holoMemFXSM;
     [SerializeField] private float interactDistance;
-    [SerializeField] private float followTargetSpeed;
+    private float followSpeed = 2f;
     private InteractAbilityManager myInteractMg;
     private InteractableManager targetInteractMg;
     private bool targetIsRight;
@@ -59,7 +59,7 @@ public class InteractFollowX_Nor : StateBase
         if (targetIsFarX == true && targetIsRight == true)
         {
             basicSM.FaceDirectionMg.SetFaceRight();
-            basicSM.MovementMg.MoveRight(followTargetSpeed);
+            basicSM.MovementMg.MoveRightMultiply(followSpeed);
             if (!myInteractMg.GetIsTargetFarX(interactDistance))
             {
                 if (myInteractMg.GetIsTargetFarY(interactDistance))
@@ -78,7 +78,7 @@ public class InteractFollowX_Nor : StateBase
         if (targetIsFarX == true && targetIsRight == false)
         {
             basicSM.FaceDirectionMg.SetFaceLeft();
-            basicSM.MovementMg.MoveLeft(followTargetSpeed);
+            basicSM.MovementMg.MoveLeftMultiply(followSpeed);
             if (!myInteractMg.GetIsTargetFarX(interactDistance))
             {
                 if (myInteractMg.GetIsTargetFarY(interactDistance))
@@ -104,7 +104,7 @@ public class InteractFollowX_Nor : StateBase
             if (targetIsRight)
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
-                basicSM.MovementMg.MoveLeft(followTargetSpeed);
+                basicSM.MovementMg.MoveLeftMultiply(followSpeed);
                 if (myInteractMg.GetIsTargetFarX(interactDistance))
                 {
                     // distance is ok exit to interact
@@ -115,7 +115,7 @@ public class InteractFollowX_Nor : StateBase
             else
             {
                 basicSM.FaceDirectionMg.SetFaceRight();
-                basicSM.MovementMg.MoveRight(followTargetSpeed);
+                basicSM.MovementMg.MoveRightMultiply(followSpeed);
                 if (myInteractMg.GetIsTargetFarX(interactDistance))
                 {
                     // distance is ok exit to interact

@@ -7,10 +7,6 @@ public class Fall_Nor : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
 
-    [SerializeField] private float fallSpeedIncrease;
-    [SerializeField] private float fallSpeedMax;
-    private float fallSpeedNow;
-
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
@@ -28,15 +24,13 @@ public class Fall_Nor : StateBase
 
     public override void Enter()
     {
-        fallSpeedNow = 0f;
+        basicSM.MovementMg.ResetFall();
     }
 
     public override void StateUpdate()
     {
         //fall
-        basicSM.MovementMg.MoveDown(fallSpeedNow);
-        fallSpeedNow += fallSpeedIncrease * Time.deltaTime;
-
+        basicSM.MovementMg.KeepFall();
         if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             //exit to idle

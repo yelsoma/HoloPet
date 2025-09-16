@@ -15,6 +15,8 @@ public class BotanAniMg : MonoBehaviour
     [SerializeField] private StateBase happyChatted;
     [SerializeField] private StateBase bully;
     [SerializeField] private StateBase bullied;
+    [SerializeField] private StateBase melee;
+    [SerializeField] private StateBase sheild;
 
     private void Awake()
     {
@@ -48,6 +50,20 @@ public class BotanAniMg : MonoBehaviour
         bullied.OnEnterState += Bullied_OnEnterState;
         bullied.OnTriggerAni1 += Bullied_OnHit;
         bullied.OnTriggerAni2 += Bullied_OnPanic;
+        melee.OnTriggerAni1 += Melee_OnTriggerAni1;
+        sheild.OnTriggerAni1 += Sheild_OnTriggerAni1;
+    }
+
+    private void Sheild_OnTriggerAni1(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceRoar.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Punch.ToString(), layer: 0);
+    }
+
+    private void Melee_OnTriggerAni1(object sender, System.EventArgs e)
+    {
+        animator.Play(AniEnum.Humanoid.Face.FaceRoar.ToString(), layer: 1);
+        animator.Play(AniEnum.Humanoid.Main.Punch.ToString(), layer: 0);
     }
 
     private void StateInteractFailed_OnEnterState(object sender, System.EventArgs e)

@@ -69,6 +69,12 @@ public class EnemySM : StateMachineBase, IBasicSM, IMountableSM, IMountingAbilit
     public StateBase StateHpZero => stateHpZero;
     public StateBase StateKnockBack => stateKnockBack;
     #endregion
+    #region AttackAbility State
+    [SerializeField] private StateBase stateSearch;
+    [SerializeField] private StateBase stateBasicAttack;
+    public StateBase StateSearch => stateSearch;
+    public StateBase StateBasicAttack => stateBasicAttack;
+    #endregion
 
     protected override StateBase SetFirstState()
     {

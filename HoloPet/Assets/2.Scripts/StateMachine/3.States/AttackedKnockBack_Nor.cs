@@ -10,13 +10,8 @@ public class AttackedKnockBack_Nor : StateBase
     private IBasicSM basicSM;
     private IAttackableSM attackableSM;
     [SerializeField] private float knockUpPower;
-    [SerializeField] private float knockUpDecrease;
     private float knockBackPower;
-    private float knockUpPowerNow;
     private bool knockBackRight;
-    private float fallSpeedNow;
-    private float fallSpeedIncreese = 6.5f;
-    private float fallSpeedMax = 9f;
     private bool FallEventTriggered;
     private void Awake()
     {
@@ -41,8 +36,8 @@ public class AttackedKnockBack_Nor : StateBase
 
     public override void Enter()
     {
-        knockUpPowerNow = knockUpPower;
-        fallSpeedNow = 0f;
+        basicSM.MovementMg.SetJump(knockUpPower);
+        basicSM.MovementMg.ResetFall();
         if (attackableSM.AttackableMg.GetIsAttackerLeft())
         {
             knockBackRight = true;
@@ -52,8 +47,12 @@ public class AttackedKnockBack_Nor : StateBase
             knockBackRight = false;
         }
         knockBackPower = attackableSM.AttackableMg.GetKnockBackPower();
+        if(knockUpPower == 0f)
+        {
+            knockBackPower = 0f;
+        }
         FallEventTriggered = false;
-        basicSM.MovementMg.MoveUp(knockUpPowerNow);
+        basicSM.MovementMg.KeepJump();
         if(attackableSM.AttackableMg.GetHp() == 0)
         {
             attackableSM.AttackableMg.SetDeath(true);
@@ -62,13 +61,11 @@ public class AttackedKnockBack_Nor : StateBase
 
     public override void StateUpdate()
     {
-        if (knockUpPowerNow >= 0)
+        if (basicSM.MovementMg.KeepJump())
         {
-            knockUpPowerNow -= knockUpDecrease * Time.deltaTime;
-            basicSM.MovementMg.MoveUp(knockUpPowerNow);
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                knockUpPowerNow = 0f;
+                basicSM.MovementMg.SetJump(0);
             }
         }
         else
@@ -77,16 +74,8 @@ public class AttackedKnockBack_Nor : StateBase
             {
                 TriggerAni1();// fall ani
                 FallEventTriggered = true;
-            }          
-            basicSM.MovementMg.MoveDown(fallSpeedNow);
-            if (fallSpeedNow < fallSpeedMax)
-            {
-                fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
             }
-            else
-            {
-                fallSpeedNow = fallSpeedMax;
-            }
+            basicSM.MovementMg.KeepFall();
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 stateMachine.ChangeState(basicSM.StateIdle);
@@ -119,5 +108,10 @@ public class AttackedKnockBack_Nor : StateBase
 
     public override void Exit()
     {
+    }
+    public void SetKonckUp0(float power)
+    {
+        knockUpPower = power;
+        Debug.Log("here");
     }
 }

@@ -15,10 +15,6 @@ public class WatameAniMg : MonoBehaviour
     [SerializeField] private StateBase bully;
     [SerializeField] private StateBase bullied;
 
-    [SerializeField] private StateBase vidioWalk;
-    [SerializeField] private StateBase vidioHit;
-    [SerializeField] private StateBase vidioPanic;
-
     private void Awake()
     {
         basicSM = GetComponent<IBasicSM>();

@@ -10,13 +10,8 @@ public class DriveJump_Cart : StateBase
     private IMountableSM mountableSM;
     private IDriveSM driveSM;
     [SerializeField] private float jumpPower;
-    [SerializeField] private float jumpDecrease;
     [SerializeField] private float jumpForward;
-    private float jumpPowerNow;
     private bool jumpRight;
-    private float fallSpeedNow;
-    private float fallSpeedIncreese = 6.5f;
-    private float fallSpeedMax = 9f;
     private bool isMounted;
 
     private void Awake()
@@ -48,8 +43,8 @@ public class DriveJump_Cart : StateBase
 
     public override void Enter()
     {
-        jumpPowerNow = jumpPower;
-        fallSpeedNow = 0f;
+        basicSM.MovementMg.SetJump(jumpPower);
+        basicSM.MovementMg.ResetFall();
         if (basicSM.FaceDirectionMg.GetIsFaceRight())
         {
             jumpRight = true;
@@ -64,26 +59,16 @@ public class DriveJump_Cart : StateBase
 
     public override void StateUpdate()
     {
-        if(jumpPowerNow >= 0)
+        if(basicSM.MovementMg.KeepJump())
         {
-            jumpPowerNow -= jumpDecrease * Time.deltaTime;
-            basicSM.MovementMg.MoveUp(jumpPowerNow);
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                jumpPowerNow = 0f;  
+                basicSM.MovementMg.SetJump(0);
             }
         }
         else
         {
-            basicSM.MovementMg.MoveDown(fallSpeedNow);
-            if(fallSpeedNow< fallSpeedMax)
-            {
-                fallSpeedNow += fallSpeedIncreese * Time.deltaTime;
-            }
-            else
-            {
-                fallSpeedNow = fallSpeedMax;
-            }
+            basicSM.MovementMg.KeepFall();
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 if (isMounted)

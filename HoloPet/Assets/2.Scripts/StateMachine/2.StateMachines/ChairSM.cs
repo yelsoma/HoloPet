@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChairSM : StateMachineBase, IBasicSM, IMountableSM
+public class ChairSM : StateMachineBase, IBasicSM, IMountableSM ,IMountingAbilitySM
 {
     [Header(" Managers")]
     #region Basic Manager
@@ -27,7 +27,10 @@ public class ChairSM : StateMachineBase, IBasicSM, IMountableSM
     [SerializeField] private MountableManager mountableMg;
     public MountableManager MountableMg => mountableMg;
     #endregion
-
+    #region MountingAbility Manager
+    [SerializeField] private MountingAbilityManager mountingAbilityMg;
+    public MountingAbilityManager MountingAbilityMg => mountingAbilityMg;
+    #endregion
     [Header(" States")]
     #region Basic State
     [SerializeField] private StateBase stateIdle;
@@ -46,6 +49,10 @@ public class ChairSM : StateMachineBase, IBasicSM, IMountableSM
     public StateBase StateReleased => stateReleased;
     public StateBase StateSpawn => stateSpawn;
     public StateBase StateDestroy => stateDestroy;
+    #endregion
+    #region MountingAbility States
+    [SerializeField] private StateBase stateMounting;
+    public StateBase StateMounting => stateMounting;
     #endregion
 
     protected override StateBase SetFirstState()

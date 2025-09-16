@@ -7,7 +7,6 @@ public class Released_CheckMount : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IMountingAbilitySM mountingAbilitySM;
-    private IAttackableSM attackableSM;
     [SerializeField] private float checkDistanceDown; 
 
     private void Awake()
@@ -29,12 +28,6 @@ public class Released_CheckMount : StateBase
         {
             Debug.LogError($"{transform} ¡X no mountingAbilitySM found in parent.");
         }
-
-        attackableSM = GetComponentInParent<IAttackableSM>();
-        if (attackableSM == null)
-        {
-            Debug.LogError($"{transform} ¡X no attackableSM found in parent.");
-        }
     }
 
     public override void Enter()
@@ -43,11 +36,6 @@ public class Released_CheckMount : StateBase
 
     public override void StateUpdate()
     {
-        if (attackableSM.AttackableMg.GetHp() == 0)
-        {
-            stateMachine.ChangeState(basicSM.StateInAir);
-            return;
-        }
         if (mountingAbilitySM.MountingAbilityMg.TrySetMountWithRaycast(Vector2.down, checkDistanceDown))
         {     
             stateMachine.ChangeState(mountingAbilitySM.StateMounting);

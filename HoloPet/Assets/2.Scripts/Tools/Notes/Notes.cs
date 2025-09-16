@@ -38,4 +38,6 @@ public class Notes
     //
     //do a enemy first than a spawner than a manager
 
+    // give item and mount thier holders sm not just part forfacedir
+
 }
