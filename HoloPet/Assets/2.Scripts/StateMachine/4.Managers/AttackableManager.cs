@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class AttackableManager : MonoBehaviour
 {
-    [SerializeField] private int hpMax;
-    private int hp;
+    private StateMachineBase stateMachine;
+    private IBasicSM basicSM;
+    private IAttackableSM attackableSM;
+
     [SerializeField] private StateBase[] unAttackableState;
     private bool isAttckable;
-    private IAttackableSM attackableSM;
-    private StateMachineBase stateMachine;
-    private bool isLeft;
-    [SerializeField] private float deathKnockBackPower;
     private float knockBackPower;
-    private IBasicSM basicSM;
-    private AttackAbilityManager attackerMg;
-    private Coroutine StartDeath;
+    private bool isKnockable;
+    private bool isknockRight;
     [SerializeField] private StateBase StatePanic;
     private void Awake()
     {
@@ -40,42 +37,30 @@ public class AttackableManager : MonoBehaviour
 
     private void Start()
     {
-        ResetHp();
         SetIsAttackable(true);
-    }
-    public void ResetHp()
-    {
-        hp = hpMax;
-    }
-    public void HpModify(int i)
-    {
-        hp += i;
-        if(hp <= 0)
+        SetIsKnockable(true);
+        foreach (StateBase stateBase in unAttackableState)
         {
-            hp = 0;
-            knockBackPower = deathKnockBackPower;
-            SetIsAttackerLeft();
-            stateMachine.ChangeState(attackableSM.StateKnockBack);
+            stateBase.OnEnterState += StateBase_OnEnterState;
+            stateBase.OnExitState += StateBase_OnExitState;
         }
     }
-    public int GetHp()
+
+    public bool GetIsKnockable() => isKnockable;
+    public StateMachineBase GetStateMachine() => stateMachine;
+    public bool GetIsKnockRight() => isknockRight;
+    public void SetIsKnockable(bool isKnockable)
     {
-        return hp;
+        this.isKnockable = isKnockable;
     }
-    public void AttackKnockBack(int damage, float knockBackPower)
+    public void SetAttackKnockBack(float knockBackPower , bool knockRight)
     {
         this.knockBackPower = knockBackPower;
-        hp += damage;
-        if(hp < 0)
-        {
-            hp = 0;
-        }
-        SetIsAttackerLeft();
+        this.isknockRight = knockRight;
         stateMachine.ChangeState(attackableSM.StateKnockBack);
     }
     public void AttackPanic()
     {
-        SetIsAttackerLeft();
         if(StatePanic!= null)
         {
             if(stateMachine.GetStateNow() == basicSM.StateIdle)
@@ -84,92 +69,31 @@ public class AttackableManager : MonoBehaviour
             }          
         }
     }
-    public bool GetIsAttackerLeft()
+    public void AttackHP(int damage)
     {
-        return isLeft;
+        basicSM.ObjectStatMg.HpModify(- damage);
     }
+
     public float GetKnockBackPower()
     {
         return knockBackPower;
     }
     public bool GetIsAttackable()
     {
-        bool isAttackableState = true;
-        if (unAttackableState.Length > 0)
-        {
-            foreach (StateBase stateBase in unAttackableState)
-            {
-                if(stateMachine.GetStateNow() == stateBase)
-                {
-                    isAttackableState = false;
-                    break;
-                }
-            }
-        }
-        if(isAttackableState && isAttckable)
-        {
-            return true;
-        }
-        return false;
+        return isAttckable;
     }
     public void SetIsAttackable(bool isAttckable)
     {
         this.isAttckable = isAttckable;
     }
-    private void SetIsAttackerLeft()
+    // event is attackable state 
+    private void StateBase_OnExitState(object sender, System.EventArgs e)
     {
-        if(attackerMg == null)
-        {
-            isLeft = false;
-            Debug.LogWarning("no attacker set");
-            return;
-        }
-        if(attackerMg.GetComponentInParent<StateMachineBase>().transform.position.x < stateMachine.transform.position.x)
-        {
-            isLeft = true;
-        }
-        else
-        {
-            isLeft = false;
-        }
-        
+        isAttckable = true;
     }
-    public void SetDeath(bool isDeath)
-    {        
-        if (isDeath)
-        {
-            if(StartDeath == null)
-            {
-                StartDeath = StartCoroutine(CoStartDeath());
-            }          
-        }
-        else
-        {
-            StopCoroutine(StartDeath);
-            StartDeath = null;
-        }
-    }
-    private IEnumerator CoStartDeath()
+
+    private void StateBase_OnEnterState(object sender, System.EventArgs e)
     {
-        SetIsAttackable(false);
-        IInteractableSM interactableSM = GetComponentInParent<IInteractableSM>();
-        if (interactableSM != null)
-        {
-            interactableSM.InteractableMg.SetIsInteractable(false);
-        }
-        while (!basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
-        {
-            yield return null;
-        }
-        stateMachine.ChangeState(attackableSM.StateHpZero);
-        StartDeath = null;
-    }
-    public void SetAttacker(AttackAbilityManager attackAbilityManager)
-    {
-        attackerMg = attackAbilityManager;
-    }
-    public StateMachineBase GetStateMachine()
-    {
-        return stateMachine;
+        isAttckable = false;
     }
 }

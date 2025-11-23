@@ -15,31 +15,31 @@ public class Idle_Cart : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         mountableSM = GetComponentInParent<IMountableSM>();
         if(mountableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
         if (driveSM == null)
         {
-            Debug.LogError($"{transform} ¡X no IDriveSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IDriveSM found in parent.");
         }
 
         interactableSM = GetComponentInParent<IInteractableSM>();
         if (interactableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no IInteractableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
         }
     }
 

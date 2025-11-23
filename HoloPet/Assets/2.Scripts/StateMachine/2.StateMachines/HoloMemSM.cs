@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM ,IAttackAbilitySM, IAttackableSM, ICreatureSM , IHoloMemFXSM, IHumanAttackSM
+public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM, IMountingAbilitySM, IInteractableSM, IInteractAbilitySM, IAttackableSM, IAttackAbilitySM, IItemHolderSM, ICreatureSM, IHoloMemFXSM
 {
     [Header(" Managers")]
 
@@ -12,19 +12,21 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     [Header("Basic Managers")]
     [SerializeField] private BoundaryManager boundaryMg;
     [SerializeField] private FaceDirectionManager faceDirectionMg;
-    [SerializeField] private MovementManager movementMg;
+    [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
     [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
+    [SerializeField] private ObjectStatManager objectStatMg;
 
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
-    public MovementManager MovementMg => movementMg;
+    public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
     public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
+    public ObjectStatManager ObjectStatMg => objectStatMg;
     #endregion
     #region RandomMove Manager
     [SerializeField] private RandomMoveManager randomMoveMg;
@@ -61,8 +63,11 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     [SerializeField] private HoloMemFX holoMemFXMg;
     public HoloMemFX HoloMemFXMg => holoMemFXMg;
     #endregion
+    #region ItemHolder Manager 
     [SerializeField] private ItemHolderManager itemHolderMg;
     public ItemHolderManager ItemHolderMg => itemHolderMg;
+    #endregion
+
     [Header(" States")]
 
     #region Basic State
@@ -113,12 +118,10 @@ public class HoloMemSM : StateMachineBase, IBasicSM, IRandomMoveSM, IMountableSM
     public StateBase StateSearch => stateSearch;
     public StateBase StateBasicAttack => stateBasicAttack;
     #endregion
-    [SerializeField] private StateBase stateMeleeAttack;
-    public StateBase StateMeleeAttack => stateMeleeAttack;
-    [SerializeField] private StateBase stateRangeAttack;
-    public StateBase StateRangeAttack => stateRangeAttack;
-    [SerializeField] private StateBase stateShieldAttack;
-    public StateBase StateShieldAttack => stateShieldAttack;
+    #region ItemHolder State
+    [SerializeField] private StateBase stateItemAttack;
+    public StateBase StateItemAttack => stateItemAttack;
+    #endregion
 
     protected override StateBase SetFirstState()
     {

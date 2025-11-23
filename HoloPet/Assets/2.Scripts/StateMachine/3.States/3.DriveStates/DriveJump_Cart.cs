@@ -19,32 +19,32 @@ public class DriveJump_Cart : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         mountableSM = GetComponentInParent<IMountableSM>();
         if (mountableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
         if (driveSM == null)
         {
-            Debug.LogError($"{transform} ¡X no cartSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
         }
     }
 
     public override void Enter()
     {
-        basicSM.MovementMg.SetJump(jumpPower);
-        basicSM.MovementMg.ResetFall();
+        basicSM.PhysicsMg.SetJump(jumpPower);
+        basicSM.PhysicsMg.ResetFall();
         if (basicSM.FaceDirectionMg.GetIsFaceRight())
         {
             jumpRight = true;
@@ -59,16 +59,16 @@ public class DriveJump_Cart : StateBase
 
     public override void StateUpdate()
     {
-        if(basicSM.MovementMg.KeepJump())
+        if(basicSM.PhysicsMg.KeepJump())
         {
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                basicSM.MovementMg.SetJump(0);
+                basicSM.PhysicsMg.SetJump(0);
             }
         }
         else
         {
-            basicSM.MovementMg.KeepFall();
+            basicSM.PhysicsMg.KeepFall();
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 if (isMounted)
@@ -85,7 +85,7 @@ public class DriveJump_Cart : StateBase
         }
         if (jumpRight)
         {
-            basicSM.MovementMg.MoveRight(jumpForward);
+            basicSM.PhysicsMg.MoveRight(jumpForward);
             if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 jumpRight = false;
@@ -94,7 +94,7 @@ public class DriveJump_Cart : StateBase
         }
         else
         {
-            basicSM.MovementMg.MoveLeft(jumpForward);
+            basicSM.PhysicsMg.MoveLeft(jumpForward);
             if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
                 jumpRight = true;

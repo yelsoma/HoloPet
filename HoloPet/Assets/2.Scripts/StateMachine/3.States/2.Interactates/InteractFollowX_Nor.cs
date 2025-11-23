@@ -21,25 +21,25 @@ public class InteractFollowX_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
         if (interactAbilitySM == null)
         {
-            Debug.LogError($"{transform} ¡X no IInteractAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractAbilitySM found in parent.");
         }
 
         holoMemFXSM = GetComponentInParent<IHoloMemFXSM>();
         if (holoMemFXSM == null)
         {
-            Debug.LogError($"{transform} ¡X no holoMemFXSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no holoMemFXSM found in parent.");
         }
     }
     #endregion
@@ -59,7 +59,7 @@ public class InteractFollowX_Nor : StateBase
         if (targetIsFarX == true && targetIsRight == true)
         {
             basicSM.FaceDirectionMg.SetFaceRight();
-            basicSM.MovementMg.MoveRightMultiply(followSpeed);
+            basicSM.PhysicsMg.MoveRightMultiply(followSpeed);
             if (!myInteractMg.GetIsTargetFarX(interactDistance))
             {
                 if (myInteractMg.GetIsTargetFarY(interactDistance))
@@ -78,7 +78,7 @@ public class InteractFollowX_Nor : StateBase
         if (targetIsFarX == true && targetIsRight == false)
         {
             basicSM.FaceDirectionMg.SetFaceLeft();
-            basicSM.MovementMg.MoveLeftMultiply(followSpeed);
+            basicSM.PhysicsMg.MoveLeftMultiply(followSpeed);
             if (!myInteractMg.GetIsTargetFarX(interactDistance))
             {
                 if (myInteractMg.GetIsTargetFarY(interactDistance))
@@ -104,7 +104,7 @@ public class InteractFollowX_Nor : StateBase
             if (targetIsRight)
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
-                basicSM.MovementMg.MoveLeftMultiply(followSpeed);
+                basicSM.PhysicsMg.MoveLeftMultiply(followSpeed);
                 if (myInteractMg.GetIsTargetFarX(interactDistance))
                 {
                     // distance is ok exit to interact
@@ -115,7 +115,7 @@ public class InteractFollowX_Nor : StateBase
             else
             {
                 basicSM.FaceDirectionMg.SetFaceRight();
-                basicSM.MovementMg.MoveRightMultiply(followSpeed);
+                basicSM.PhysicsMg.MoveRightMultiply(followSpeed);
                 if (myInteractMg.GetIsTargetFarX(interactDistance))
                 {
                     // distance is ok exit to interact

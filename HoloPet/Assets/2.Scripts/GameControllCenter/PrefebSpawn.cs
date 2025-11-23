@@ -17,10 +17,20 @@ public class PrefebSpawn : MonoBehaviour
     [SerializeField] private TextMeshProUGUI slimeCountText;
     private List<GameObject> botanList = new List<GameObject>();
     [SerializeField] private TextMeshProUGUI botanCountText;
+    [SerializeField] private GameObject PressI;
 
     void Update()
     {
-        if(PressF != null)
+        if (PressI != null)
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                BattleManager battleMg = PressI.GetComponentInChildren<BattleManager>();
+                battleMg.SetIsInBattle(true);
+            }
+        }
+
+        if (PressF != null)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {

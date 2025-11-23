@@ -11,61 +11,59 @@ public class AttackedKnockBack_Nor : StateBase
     private IAttackableSM attackableSM;
     [SerializeField] private float knockUpPower;
     private float knockBackPower;
-    private bool knockBackRight;
     private bool FallEventTriggered;
+    private bool knockBackRight;
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         attackableSM = GetComponentInParent<IAttackableSM>();
         if (attackableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no attackableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackableSM found in parent.");
         }
     }
 
     public override void Enter()
     {
-        basicSM.MovementMg.SetJump(knockUpPower);
-        basicSM.MovementMg.ResetFall();
-        if (attackableSM.AttackableMg.GetIsAttackerLeft())
+        if (!attackableSM.AttackableMg.GetIsKnockable())
         {
-            knockBackRight = true;
+            stateMachine.ChangeState(basicSM.StateIdle);
+            return;
+        }
+        basicSM.PhysicsMg.SetJump(knockUpPower);
+        basicSM.PhysicsMg.ResetFall();      
+        knockBackRight = attackableSM.AttackableMg.GetIsKnockRight();
+        if (knockBackRight)
+        {
+            basicSM.FaceDirectionMg.SetFaceLeft();
         }
         else
         {
-            knockBackRight = false;
+            basicSM.FaceDirectionMg.SetFaceRight();
         }
         knockBackPower = attackableSM.AttackableMg.GetKnockBackPower();
-        if(knockUpPower == 0f)
-        {
-            knockBackPower = 0f;
-        }
+        attackableSM.AttackableMg.SetIsKnockable(false);
         FallEventTriggered = false;
-        basicSM.MovementMg.KeepJump();
-        if(attackableSM.AttackableMg.GetHp() == 0)
-        {
-            attackableSM.AttackableMg.SetDeath(true);
-        }
     }
 
     public override void StateUpdate()
     {
-        if (basicSM.MovementMg.KeepJump())
+        if (basicSM.PhysicsMg.KeepJump())
         {
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                basicSM.MovementMg.SetJump(0);
+                basicSM.PhysicsMg.SetJump(0);
             }
         }
         else
@@ -75,7 +73,7 @@ public class AttackedKnockBack_Nor : StateBase
                 TriggerAni1();// fall ani
                 FallEventTriggered = true;
             }
-            basicSM.MovementMg.KeepFall();
+            basicSM.PhysicsMg.KeepFall();
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 stateMachine.ChangeState(basicSM.StateIdle);
@@ -84,7 +82,7 @@ public class AttackedKnockBack_Nor : StateBase
         }
         if (knockBackRight)
         {
-            basicSM.MovementMg.MoveRight(knockBackPower);
+            basicSM.PhysicsMg.MoveRight(knockBackPower);
             if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 knockBackRight = false;
@@ -93,7 +91,7 @@ public class AttackedKnockBack_Nor : StateBase
         }
         else
         {
-            basicSM.MovementMg.MoveLeft(knockBackPower);
+            basicSM.PhysicsMg.MoveLeft(knockBackPower);
             if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
                 knockBackRight = true;
@@ -108,10 +106,6 @@ public class AttackedKnockBack_Nor : StateBase
 
     public override void Exit()
     {
-    }
-    public void SetKonckUp0(float power)
-    {
-        knockUpPower = power;
-        Debug.Log("here");
+        attackableSM.AttackableMg.SetIsKnockable(true);
     }
 }

@@ -17,12 +17,12 @@ public class AttackAbilityManager : MonoBehaviour
         stateMachine = GetComponentInParent<StateMachineBase>();
         if(stateMachine == null)
         {
-            Debug.LogError(transform + " no  StateMachine in parenet");
+            Debug.LogError(transform.root.name + " no  StateMachine in parenet");
         }
         IBasicSM basicSM = stateMachine.transform.GetComponent<IBasicSM>();
         if( basicSM == null)
         {
-            Debug.LogError(transform + " no IBasicSM in parenet");
+            Debug.LogError(transform.root.name + " no IBasicSM in parenet");
         }
         raycastManager = basicSM.RaycastMg;
     }
@@ -53,7 +53,7 @@ public class AttackAbilityManager : MonoBehaviour
         return true;
     }
 
-    //closest xy
+    //closest xy 2 differant way first with start point second dont need start point
     public bool TrySetClosestAttackable(Vector2 startPoint, Vector2 direction, float distance, LayerMask mask = default,ObjectGangEnum? gangFilter = null)
     {
         return TrySetClosestAttackableFromHits(
@@ -153,7 +153,7 @@ public class AttackAbilityManager : MonoBehaviour
     {
         if(targetAttackable == null)
         {
-            Debug.LogError(transform + " no target Attackable");
+            Debug.LogError(transform.root.name + " no target Attackable");
         }
         if (targetAttackable.GetStateMachine().transform.position.x > stateMachine.transform.position.x )
         {
@@ -164,5 +164,13 @@ public class AttackAbilityManager : MonoBehaviour
     public float GetTargetDistance()
     {
         return targetDistance;
+    }
+    public bool GetIsTargetAttackableSet()
+    {
+        if(targetAttackable != null)
+        {
+            return true;
+        }
+        return false;
     }
 }

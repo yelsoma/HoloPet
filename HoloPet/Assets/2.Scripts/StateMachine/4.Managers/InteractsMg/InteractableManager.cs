@@ -29,7 +29,7 @@ public class InteractableManager : MonoBehaviour
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         if (interactedOptions.Count == 0)

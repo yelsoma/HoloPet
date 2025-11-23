@@ -10,7 +10,7 @@ public partial class StateMachineMaker : MonoBehaviour
     {
         TrySetManagerField<BoundaryManager>("BoundaryMg", targetType, "boundaryMg");
         TrySetManagerField<FaceDirectionManager>("FaceDirectionMg", targetType, "faceDirectionMg");
-        TrySetManagerField<MovementManager>("MovementMg", targetType, "movementMg");
+        TrySetManagerField<PhysicsManager>("PhysicsMg", targetType, "physicsMg");
         TrySetManagerField<RaycastManager>("RaycastMg", targetType, "raycastMg");
         TrySetManagerField<BaseDataManager>("BaseDataMg", targetType, "baseDataMg");
         TrySetManagerField<ClickableManager>("ClickableMg", targetType, "clickableMg");

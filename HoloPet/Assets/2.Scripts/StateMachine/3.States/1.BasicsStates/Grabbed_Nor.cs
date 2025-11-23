@@ -6,19 +6,20 @@ public class Grabbed_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
+    [SerializeField] private float grabOffset = 0.5f;
 
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
     }
 
@@ -50,7 +51,7 @@ public class Grabbed_Nor : StateBase
 
     private void ClickableManager_OnGrabMousePos(object sender, ClickableManager.GrabEventArgs e)
     {
-        stateMachine.transform.position = e.MousePosition;
+        stateMachine.transform.position = new Vector2( e.MousePosition.x,e.MousePosition.y - grabOffset);
     }
 }
 

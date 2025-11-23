@@ -17,7 +17,7 @@ public class MountingAbilityManager : MonoBehaviour
         basicSM = stateMachineTransform.GetComponent<IBasicSM>();
         if(basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in StateMachineBase.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in StateMachineBase.");
         }
         raycastManager = basicSM.RaycastMg;
     }
@@ -85,7 +85,7 @@ public class MountingAbilityManager : MonoBehaviour
         {
             stateMachineTransform.GetComponent<IBasicSM>().FaceDirectionMg.SetFaceLeft();
         }
-        stateMachineTransform.position = new Vector2(myMount.GetMountPointTansform().position.x, myMount.GetMountPointTansform().position.y + basicSM.BoundaryMg.GetHight());
+        stateMachineTransform.localPosition = Vector3.zero;
         SetIsMounting(true);
         myMount.SetIsMounted(true);
         myMount.SetMounter(transform.GetComponent<MountingAbilityManager>());

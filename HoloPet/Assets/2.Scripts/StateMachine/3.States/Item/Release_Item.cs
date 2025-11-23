@@ -6,7 +6,7 @@ public class Release_Item : StateBase
 {
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
-    private IItemHoldSM itemHoldSM;
+    private IItemSM itemHoldSM;
     private IMountingAbilitySM mountingAbilitySM;
     [SerializeField] private float checkDistanceDown;
 
@@ -15,19 +15,19 @@ public class Release_Item : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
-        itemHoldSM = GetComponentInParent<IItemHoldSM>();
+        itemHoldSM = GetComponentInParent<IItemSM>();
         if (itemHoldSM == null)
         {
-            Debug.LogError($"{transform} ¡X no itemHoldSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no itemHoldSM found in parent.");
         }
     }
     public override void Enter()
@@ -36,9 +36,8 @@ public class Release_Item : StateBase
 
     public override void StateUpdate()
     {
-        if (itemHoldSM.ItemHoldMg.TrySetHolder(checkDistanceDown))
+        if (itemHoldSM.ItemMg.TrySetHolderRayCast(checkDistanceDown))
         {
-            Debug.Log("startCS");
             stateMachine.ChangeState(itemHoldSM.StateHold);
             return;
         }

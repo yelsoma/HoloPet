@@ -21,25 +21,25 @@ public class Drive_Cart : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         mountableSM = GetComponentInParent<IMountableSM>();
         if (mountableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
         if (driveSM == null)
         {
-            Debug.LogError($"{transform} ¡X no cartSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
         }
     }
 
@@ -74,7 +74,7 @@ public class Drive_Cart : StateBase
 
         if (basicSM.FaceDirectionMg.GetIsFaceRight())
         {
-            basicSM.MovementMg.MoveRight(speedNow);
+            basicSM.PhysicsMg.MoveRight(speedNow);
             if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
@@ -82,7 +82,7 @@ public class Drive_Cart : StateBase
         }
         else
         {
-            basicSM.MovementMg.MoveLeft(speedNow);
+            basicSM.PhysicsMg.MoveLeft(speedNow);
             if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
                 basicSM.FaceDirectionMg.SetFaceRight();

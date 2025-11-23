@@ -22,19 +22,19 @@ public class InteractAbilityManager : MonoBehaviour
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         IBasicSM basicSM = stateMachine.GetComponent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in StateMachineBase.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in StateMachineBase.");
         }
         raycastManager = basicSM.RaycastMg;
 
         if (interacterOptionList.Count == 0)
         {
-            Debug.LogWarning($"{stateMachine.transform.name}'s InteractAbilityManager has no interacter options.");
+            Debug.LogWarning($"{transform.root.name}'s InteractAbilityManager has no interacter options.");
         }
     }
 

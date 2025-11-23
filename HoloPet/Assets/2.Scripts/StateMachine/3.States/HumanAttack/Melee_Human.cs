@@ -7,7 +7,7 @@ public class Melee_Human : StateBase
     private StateMachineBase stateMachine;
     private IBasicSM basicSM;
     private IAttackAbilitySM attackAbilitySM;
-    private IHumanAttackSM humanAttackSM;
+    //private IHoloMemAttackAbilitySM humanAttackSM;
 
     [SerializeField] private LayerMask targetLayerMask;
     [SerializeField] private float wait = 0.5f;
@@ -21,26 +21,26 @@ public class Melee_Human : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
         if (attackAbilitySM == null)
         {
-            Debug.LogError($"{transform} ¡X no IAttackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IAttackAbilitySM found in parent.");
         }
 
-        humanAttackSM = GetComponentInParent<IHumanAttackSM>();
-        if (humanAttackSM == null)
-        {
-            Debug.LogError($"{transform} ¡X no humanAttackSM found in parent.");
-        }
+        //humanAttackSM = GetComponentInParent<IHoloMemAttackAbilitySM>();
+        //if (humanAttackSM == null)
+        //{
+        //    Debug.LogError($"{transform} ¡X no humanAttackSM found in parent.");
+        //}
     }
     #endregion
 
@@ -58,10 +58,10 @@ public class Melee_Human : StateBase
         if (waiting)
         {
             waitTimer -= Time.deltaTime;
-            if (waitTimer <= 0f)
-            {
-                stateMachine.ChangeState(humanAttackSM.StateSearch);
-            }
+            //if (waitTimer <= 0f)
+            //{
+            //    stateMachine.ChangeState(humanAttackSM.StateSearch);
+            //}
             return; // Skip attack logic while waiting
         }
 
@@ -80,8 +80,8 @@ public class Melee_Human : StateBase
             if (attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= 3f)
             {
                 TriggerAni1();
-                attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);
-                attackAbilitySM.AttackAbilityMg.GetTarget().AttackKnockBack(0, 1);
+                //attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);
+                //attackAbilitySM.AttackAbilityMg.GetTarget().AttackKnockBack(0, 1);
 
                 StartWait();
                 return;

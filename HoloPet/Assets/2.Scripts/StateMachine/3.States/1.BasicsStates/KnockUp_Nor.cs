@@ -19,13 +19,13 @@ public class KnockUp_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
     }
 
@@ -34,8 +34,8 @@ public class KnockUp_Nor : StateBase
         knockUpPower = UnityEngine.Random.Range(6f, 7f);
         knockBackPower = UnityEngine.Random.Range(0.7f, 2f);
         knockUpFaceDir = UnityEngine.Random.Range(0f, 1f);
-        basicSM.MovementMg.SetJump(knockUpPower);
-        basicSM.MovementMg.ResetFall();
+        basicSM.PhysicsMg.SetJump(knockUpPower);
+        basicSM.PhysicsMg.ResetFall();
        
         fallAniTriggered = false;
 
@@ -53,11 +53,11 @@ public class KnockUp_Nor : StateBase
 
     public override void StateUpdate()
     {
-        if (basicSM.MovementMg.KeepJump())
+        if (basicSM.PhysicsMg.KeepJump())
         {           
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                basicSM.MovementMg.SetJump(0);
+                basicSM.PhysicsMg.SetJump(0);
             }
         }
         else
@@ -68,7 +68,7 @@ public class KnockUp_Nor : StateBase
                 fallAniTriggered = true;
             }
 
-            basicSM.MovementMg.KeepFall();
+            basicSM.PhysicsMg.KeepFall();
 
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
@@ -83,7 +83,7 @@ public class KnockUp_Nor : StateBase
                 knockUpRight = false;
             }
 
-            basicSM.MovementMg.MoveRight(knockBackPower);
+            basicSM.PhysicsMg.MoveRight(knockBackPower);
         }
         else
         {
@@ -92,7 +92,7 @@ public class KnockUp_Nor : StateBase
                 knockUpRight = true;
             }
 
-            basicSM.MovementMg.MoveLeft(knockBackPower);
+            basicSM.PhysicsMg.MoveLeft(knockBackPower);
         }
     }
 

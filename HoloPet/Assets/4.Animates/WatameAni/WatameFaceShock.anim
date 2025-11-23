@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -1623219432, guid: b447760f939b2fe4ea26b259a95bca99, type: 3}
+      value: {fileID: 6475063302837092819, guid: a058146f74bd86f40adb261ccb93c125, type: 3}
     attribute: m_Sprite
     path: BodyParts/HumanBody/Head
     classID: 212
@@ -44,7 +44,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -1623219432, guid: b447760f939b2fe4ea26b259a95bca99, type: 3}
+    - {fileID: 6475063302837092819, guid: a058146f74bd86f40adb261ccb93c125, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

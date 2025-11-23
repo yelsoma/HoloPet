@@ -22,19 +22,19 @@ public class Search_JumpEnemy : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
         if (attackAbilitySM == null)
         {
-            Debug.LogError($"{transform} ¡X no IAttackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IAttackAbilitySM found in parent.");
         }
     }
     #endregion
@@ -45,7 +45,7 @@ public class Search_JumpEnemy : StateBase
         playerLayerMask = LayerMask.GetMask("Player");
         keepSearch = true;
         startJump = false;
-        basicSM.MovementMg.ResetFall();
+        basicSM.PhysicsMg.ResetFall();
     }
     public override void StateUpdate()
     {
@@ -59,7 +59,7 @@ public class Search_JumpEnemy : StateBase
             {
                 if (basicSM.FaceDirectionMg.GetIsFaceRight())
                 {
-                    basicSM.MovementMg.MoveRightMultiply(speedMultiply);
+                    basicSM.PhysicsMg.MoveRightMultiply(speedMultiply);
                     if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
                     {
                         basicSM.FaceDirectionMg.SetFaceLeft();
@@ -67,29 +67,29 @@ public class Search_JumpEnemy : StateBase
                 }
                 else
                 {
-                    basicSM.MovementMg.MoveLeftMultiply(speedMultiply);
+                    basicSM.PhysicsMg.MoveLeftMultiply(speedMultiply);
                     if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
                     {
                         basicSM.FaceDirectionMg.SetFaceRight();
                     }
                 }
-                if (basicSM.MovementMg.KeepJump())
+                if (basicSM.PhysicsMg.KeepJump())
                 {
                     if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
                     {
-                        basicSM.MovementMg.SetJump(0);
-                        basicSM.MovementMg.ResetFall();
+                        basicSM.PhysicsMg.SetJump(0);
+                        basicSM.PhysicsMg.ResetFall();
                     }
 
                 }
                 else
                 {
-                    basicSM.MovementMg.KeepFall();
+                    basicSM.PhysicsMg.KeepFall();
                     if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
                     {
                         startJump = false;
                         keepSearch = true;
-                        basicSM.MovementMg.ResetFall();
+                        basicSM.PhysicsMg.ResetFall();
                         TriggerAni2();//play idle Ani
                     }
                 }
@@ -109,7 +109,7 @@ public class Search_JumpEnemy : StateBase
         {
             TriggerAni1();//start jump ani
             keepSearch = false;
-            basicSM.MovementMg.SetJump(jumpPower);
+            basicSM.PhysicsMg.SetJump(jumpPower);
             if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
             {
 

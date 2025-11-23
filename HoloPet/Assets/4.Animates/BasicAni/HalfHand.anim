@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 851012954, guid: c081e3689c2a1bc4ab65ca27c1636dae, type: 3}
+      value: {fileID: 7841643872434289406, guid: d3f292f3edaede240b12ea8be3b3c228, type: 3}
     attribute: m_Sprite
     path: BodyParts/HumanBody/HandBack
     classID: 212
@@ -30,7 +30,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 851012954, guid: c081e3689c2a1bc4ab65ca27c1636dae, type: 3}
+      value: {fileID: 7841643872434289406, guid: d3f292f3edaede240b12ea8be3b3c228, type: 3}
     attribute: m_Sprite
     path: BodyParts/HumanBody/HandFront
     classID: 212
@@ -62,8 +62,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 851012954, guid: c081e3689c2a1bc4ab65ca27c1636dae, type: 3}
-    - {fileID: 851012954, guid: c081e3689c2a1bc4ab65ca27c1636dae, type: 3}
+    - {fileID: 7841643872434289406, guid: d3f292f3edaede240b12ea8be3b3c228, type: 3}
+    - {fileID: 7841643872434289406, guid: d3f292f3edaede240b12ea8be3b3c228, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

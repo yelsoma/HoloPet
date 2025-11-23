@@ -8,19 +8,21 @@ public class DecorateSM : StateMachineBase , IBasicSM , IMountableSM ,IMountingA
     [Header("Basic Managers")]
     [SerializeField] private BoundaryManager boundaryMg;
     [SerializeField] private FaceDirectionManager faceDirectionMg;
-    [SerializeField] private MovementManager movementMg;
+    [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
     [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
+    [SerializeField] private ObjectStatManager objectStatMg;
 
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
-    public MovementManager MovementMg => movementMg;
+    public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
     public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
+    public ObjectStatManager ObjectStatMg => objectStatMg;
     #endregion
     #region Mountable Manager
     [SerializeField] private MountableManager mountableMg;

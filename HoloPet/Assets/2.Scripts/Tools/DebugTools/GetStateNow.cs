@@ -7,6 +7,9 @@ public class GetStateNow : MonoBehaviour
     [SerializeField] private StateMachineBase stateMachine;
     private void Update()
     {
-        Debug.Log(stateMachine.GetStateNow());        
+        if(stateMachine != null)
+        {
+            Debug.Log(stateMachine.GetStateNow());
+        }  
     }
 }

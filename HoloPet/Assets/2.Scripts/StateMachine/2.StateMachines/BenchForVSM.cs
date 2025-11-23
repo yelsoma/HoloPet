@@ -8,20 +8,22 @@ public class BenchForVSM : StateMachineBase ,IBasicSM ,IAttackableSM,IMountingAb
     [Header("Basic Managers")]
     [SerializeField] private BoundaryManager boundaryMg;
     [SerializeField] private FaceDirectionManager faceDirectionMg;
-    [SerializeField] private MovementManager movementMg;
+    [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
     [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
+    [SerializeField] private ObjectStatManager objectStatMg;
 
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
-    public MovementManager MovementMg => movementMg;
+    public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
     public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
-    #endregion  
+    public ObjectStatManager ObjectStatMg => objectStatMg;
+    #endregion
     #region Attackable Manager 
     [SerializeField] private AttackableManager attackableMg;
     public AttackableManager AttackableMg => attackableMg;

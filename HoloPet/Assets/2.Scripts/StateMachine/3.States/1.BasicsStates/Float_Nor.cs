@@ -17,13 +17,13 @@ public class Float_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
     }
 
@@ -39,7 +39,7 @@ public class Float_Nor : StateBase
             speedNow += floatSpeed * Time.deltaTime;
         }
         //fall
-        basicSM.MovementMg.MoveUp(speedNow);
+        basicSM.PhysicsMg.MoveUp(speedNow);
 
         if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
         {

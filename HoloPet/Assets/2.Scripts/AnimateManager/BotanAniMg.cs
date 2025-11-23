@@ -11,12 +11,12 @@ public class BotanAniMg : MonoBehaviour
     private IInteractAbilitySM interactAbilitySM;
     private IAttackableSM attackableSM;
     private ICreatureSM creatureSM;
+    private IItemHolderSM itemHolderSM;
     [SerializeField] private StateBase happyChat;
     [SerializeField] private StateBase happyChatted;
     [SerializeField] private StateBase bully;
     [SerializeField] private StateBase bullied;
-    [SerializeField] private StateBase melee;
-    [SerializeField] private StateBase sheild;
+    [SerializeField] private StateBase itemattack;
 
     private void Awake()
     {
@@ -50,20 +50,20 @@ public class BotanAniMg : MonoBehaviour
         bullied.OnEnterState += Bullied_OnEnterState;
         bullied.OnTriggerAni1 += Bullied_OnHit;
         bullied.OnTriggerAni2 += Bullied_OnPanic;
-        melee.OnTriggerAni1 += Melee_OnTriggerAni1;
-        sheild.OnTriggerAni1 += Sheild_OnTriggerAni1;
+        itemattack.OnEnterState += Itemattack_OnEnterState;
+        itemHolderSM = GetComponent<IItemHolderSM>();
+        itemHolderSM.ItemHolderMg.OnChangeHold += ItemHolderMg_OnChangeHold;
     }
 
-    private void Sheild_OnTriggerAni1(object sender, System.EventArgs e)
+    private void ItemHolderMg_OnChangeHold(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Face.FaceRoar.ToString(), layer: 1);
-        animator.Play(AniEnum.Humanoid.Main.Punch.ToString(), layer: 0);
+        SetHandAni(AniEnum.Humanoid.Hand.HaveHand);
     }
 
-    private void Melee_OnTriggerAni1(object sender, System.EventArgs e)
+    private void Itemattack_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Face.FaceRoar.ToString(), layer: 1);
-        animator.Play(AniEnum.Humanoid.Main.Punch.ToString(), layer: 0);
+        animator.Play(AniEnum.Humanoid.Main.Idle.ToString(), layer: 0);
+        animator.Play(AniEnum.Humanoid.Hand.NoHand.ToString(), layer: 2);
     }
 
     private void StateInteractFailed_OnEnterState(object sender, System.EventArgs e)
@@ -194,11 +194,23 @@ public class BotanAniMg : MonoBehaviour
     {
         animator.Play(AniEnum.Humanoid.Face.FaceNormal.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Main.Mount.ToString(), layer: 0);
-        animator.Play(AniEnum.Humanoid.Hand.HalfHand.ToString(), layer: 2);
+        SetHandAni(AniEnum.Humanoid.Hand.HalfHand);
     }
     private void Mounting_OnExitState(object sender, System.EventArgs e)
     {
         animator.Play(AniEnum.Humanoid.Hand.HaveHand.ToString(), layer: 2);
+    }
+    // ani method
+    private void SetHandAni(AniEnum.Humanoid.Hand handEnum)
+    {
+        if (itemHolderSM.ItemHolderMg.GetIsHolding())
+        {
+            animator.Play(AniEnum.Humanoid.Hand.NoHand.ToString(), layer: 2);
+        }
+        else
+        {
+            animator.Play(handEnum.ToString(), layer: 2);
+        }
     }
 }
 

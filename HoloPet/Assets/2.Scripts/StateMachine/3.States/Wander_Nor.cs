@@ -19,19 +19,19 @@ public class Wander_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no IBasicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IBasicSM found in parent.");
         }
 
         randomMoveSM = GetComponentInParent<IRandomMoveSM>();
         if (randomMoveSM == null)
         {
-            Debug.LogError($"{transform} ¡X no IRandomMoveSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IRandomMoveSM found in parent.");
         }
     }
     #endregion
@@ -81,11 +81,11 @@ public class Wander_Nor : StateBase
     {
         if (wanderRight)
         {
-            basicSM.MovementMg.MoveRightMultiply(1f);
+            basicSM.PhysicsMg.MoveRightMultiply(1f);
         }
         else
         {
-            basicSM.MovementMg.MoveLeftMultiply(1f);
+            basicSM.PhysicsMg.MoveLeftMultiply(1f);
         }
     }
     public override void Exit()

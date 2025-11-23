@@ -16,7 +16,7 @@ public class RandomMoveManager : MonoBehaviour
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
        
         if (randomMoveChanceStructs.Length == 0)

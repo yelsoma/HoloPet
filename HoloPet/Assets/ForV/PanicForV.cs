@@ -15,34 +15,34 @@ public class PanicForV : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         attackableSM = GetComponentInParent<IAttackableSM>();
         if (attackableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no attackableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackableSM found in parent.");
         }
     }
 
     public override void Enter()
     {
-        if (attackableSM.AttackableMg.GetIsAttackerLeft())
-        {
-            runRight = true;
-            basicSM.FaceDirectionMg.SetFaceRight();
-        }
-        else
-        {
-            runRight = false;
-            basicSM.FaceDirectionMg.SetFaceLeft();
-        }
+        //if (attackableSM.AttackableMg.GetIsAttackerLeft())
+        //{
+        //    runRight = true;
+        //    basicSM.FaceDirectionMg.SetFaceRight();
+        //}
+        //else
+        //{
+        //    runRight = false;
+        //    basicSM.FaceDirectionMg.SetFaceLeft();
+        //}
     }
 
     public override void StateUpdate()
@@ -60,11 +60,11 @@ public class PanicForV : StateBase
         }
         if (runRight)
         {
-            basicSM.MovementMg.MoveRight(speed);
+            basicSM.PhysicsMg.MoveRight(speed);
         }
         else
         {
-            basicSM.MovementMg.MoveLeft(speed);
+            basicSM.PhysicsMg.MoveLeft(speed);
         }
     }
 

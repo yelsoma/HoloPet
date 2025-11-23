@@ -7,11 +7,12 @@ public interface IBasicSM
     // Managers
     public BoundaryManager BoundaryMg{ get; }
     public FaceDirectionManager FaceDirectionMg { get; }
-    public MovementManager MovementMg { get; }
+    public PhysicsManager PhysicsMg { get; }
     public RaycastManager RaycastMg { get; }
     public BaseDataManager BaseDataMg { get; }
     public ClickableManager ClickableMg { get;}
     public ILayerManager LayerMg { get; }
+    public ObjectStatManager ObjectStatMg { get; }
 
     // States
     public StateBase StateIdle { get; }

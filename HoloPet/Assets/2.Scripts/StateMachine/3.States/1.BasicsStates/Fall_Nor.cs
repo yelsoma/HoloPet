@@ -12,25 +12,25 @@ public class Fall_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
     }
 
     public override void Enter()
     {
-        basicSM.MovementMg.ResetFall();
+        basicSM.PhysicsMg.ResetFall();
     }
 
     public override void StateUpdate()
     {
         //fall
-        basicSM.MovementMg.KeepFall();
+        basicSM.PhysicsMg.KeepFall();
         if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             //exit to idle

@@ -21,25 +21,25 @@ public class InteractFailed_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
         if (interactAbilitySM == null)
         {
-            Debug.LogError($"{transform} ¡X no IInteractAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractAbilitySM found in parent.");
         }
 
         creatureSM = GetComponentInParent<ICreatureSM>();
         if (creatureSM == null)
         {
-            Debug.LogError($"{transform} ¡X no creatureSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no creatureSM found in parent.");
         }
     }
     #endregion
@@ -62,7 +62,7 @@ public class InteractFailed_Nor : StateBase
     {
         if (!basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            basicSM.MovementMg.MoveDown(fallSpeedNow);
+            basicSM.PhysicsMg.MoveDown(fallSpeedNow);
             if (fallSpeedNow <= fallSpeedMax)
             {
                 fallSpeedNow += fallSpeedIncreese * Time.deltaTime;

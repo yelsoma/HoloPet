@@ -34,19 +34,19 @@ public class Bullied_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         interactableSM = GetComponentInParent<IInteractableSM>();
         if (interactableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no IInteractableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
         }
     }
     #endregion
@@ -140,23 +140,23 @@ public class Bullied_Nor : StateBase
     private void TriggerInteracting(object sender, System.EventArgs e)
     {
         isKnockUp = true;
-        basicSM.MovementMg.SetJump(knockUpPower);
-        basicSM.MovementMg.ResetFall();
+        basicSM.PhysicsMg.SetJump(knockUpPower);
+        basicSM.PhysicsMg.ResetFall();
         ChooseKnockUpSide();
     }
 
     private void KnockBack()
     {
-        if (basicSM.MovementMg.KeepJump())
+        if (basicSM.PhysicsMg.KeepJump())
         {
             if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                basicSM.MovementMg.SetJump(0);
+                basicSM.PhysicsMg.SetJump(0);
             }
         }
         else
         {
-            basicSM.MovementMg.KeepFall();
+            basicSM.PhysicsMg.KeepFall();
             if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 isPanicRun = true;
@@ -171,7 +171,7 @@ public class Bullied_Nor : StateBase
                 knockUpRight = false;
             }
 
-            basicSM.MovementMg.MoveRight(knockBackPower);
+            basicSM.PhysicsMg.MoveRight(knockBackPower);
         }
         else
         {
@@ -180,7 +180,7 @@ public class Bullied_Nor : StateBase
                 knockUpRight = true;
             }
 
-            basicSM.MovementMg.MoveLeft(knockBackPower);
+            basicSM.PhysicsMg.MoveLeft(knockBackPower);
         }
     }
     private void ChooseKnockUpSide()
@@ -217,7 +217,7 @@ public class Bullied_Nor : StateBase
             panicTimeNow = panicTimeNow - Time.deltaTime;
             if (panicRight)
             {
-                basicSM.MovementMg.MoveRightMultiply(panicSpeed);
+                basicSM.PhysicsMg.MoveRightMultiply(panicSpeed);
                 if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
                 {
                     basicSM.FaceDirectionMg.SetFaceLeft();
@@ -226,7 +226,7 @@ public class Bullied_Nor : StateBase
             }
             else
             {
-                basicSM.MovementMg.MoveLeftMultiply(panicSpeed);
+                basicSM.PhysicsMg.MoveLeftMultiply(panicSpeed);
                 if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
                 {
                     basicSM.FaceDirectionMg.SetFaceRight();

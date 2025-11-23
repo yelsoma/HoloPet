@@ -26,31 +26,31 @@ public class DriveMax_Cart : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         mountableSM = GetComponentInParent<IMountableSM>();
         if (mountableSM == null)
         {
-            Debug.LogError($"{transform} ¡X no mountableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
         if (driveSM == null)
         {
-            Debug.LogError($"{transform} ¡X no cartSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
         if (attackAbilitySM == null)
         {
-            Debug.LogError($"{transform} ¡X no attackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilitySM found in parent.");
         }
     }
 
@@ -68,7 +68,7 @@ public class DriveMax_Cart : StateBase
         if (isFaceRigh)
         {
             hitDirection = Vector2.right;
-            basicSM.MovementMg.MoveRight(speedNow);
+            basicSM.PhysicsMg.MoveRight(speedNow);
             if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 basicSM.FaceDirectionMg.SetFaceLeft();
@@ -77,7 +77,7 @@ public class DriveMax_Cart : StateBase
         else
         {
             hitDirection = Vector2.left;
-            basicSM.MovementMg.MoveLeft(speedNow);
+            basicSM.PhysicsMg.MoveLeft(speedNow);
             if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
                 basicSM.FaceDirectionMg.SetFaceRight();
@@ -125,21 +125,33 @@ public class DriveMax_Cart : StateBase
 
     private void SetHitAttackableKnockBack(Vector2 hitDirection)
     {
+        bool isKnockRight;
+        if (hitDirection == Vector2.right)
+        {
+            isKnockRight = true;
+        }
+        else
+        {
+            isKnockRight = false;
+        }
+
         if (attackAbilitySM.AttackAbilityMg.TrySetAttackableAll(hitDirection, HitDistance))
         {
             CartFxTest.HitExplode();
-            attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);
-            attackAbilitySM.AttackAbilityMg.GetTarget().AttackKnockBack(knockBackDamage, knockBackPower);
+            if (attackAbilitySM.AttackAbilityMg.GetTarget().GetIsKnockable())
+            {
+                attackAbilitySM.AttackAbilityMg.GetTarget().SetAttackKnockBack(knockBackPower,isKnockRight);
+            }            
         }        
     }
     private void SetAttackablePanic(Vector2 hitDirection)
     {
-        if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackable(stateMachine.transform.position, hitDirection, panicDistance))
-        {
-            CartFxTest.HitExplode();
-            attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);
-            attackAbilitySM.AttackAbilityMg.GetTarget().AttackPanic();
-        }
+        //if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackable(stateMachine.transform.position, hitDirection, panicDistance))
+        //{
+        //    CartFxTest.HitExplode();
+        //    attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);
+        //    attackAbilitySM.AttackAbilityMg.GetTarget().AttackPanic();
+        //}
     }
 
     private void MountableMg_OnChangeMounted(object sender, EventArgs e)

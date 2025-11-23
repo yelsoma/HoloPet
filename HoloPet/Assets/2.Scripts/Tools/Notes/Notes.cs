@@ -39,5 +39,9 @@ public class Notes
     //do a enemy first than a spawner than a manager
 
     // give item and mount thier holders sm not just part forfacedir
-
+    //remember you dont have pucnh attack yet fix it in serach human also check is findAttack_enemy needed
+    //item drop satate need
+    //move the isAttackableState[] and event in attackable manager to new system buffs
+    //move item type enum
+    //add enemysystem start find enemy event
 }

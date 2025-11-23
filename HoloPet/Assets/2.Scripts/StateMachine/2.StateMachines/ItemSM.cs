@@ -2,25 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSM : StateMachineBase, IBasicSM, IItemHoldSM
+public class ItemSM : StateMachineBase, IBasicSM, IItemSM
 {
     #region Basic Manager
     [Header("Basic Managers")]
     [SerializeField] private BoundaryManager boundaryMg;
     [SerializeField] private FaceDirectionManager faceDirectionMg;
-    [SerializeField] private MovementManager movementMg;
+    [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
     [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
+    [SerializeField] private ObjectStatManager objectStatMg;
 
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
-    public MovementManager MovementMg => movementMg;
+    public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
     public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
+    public ObjectStatManager ObjectStatMg => objectStatMg;
     #endregion
     #region Basic State
     [SerializeField] private StateBase stateIdle;
@@ -40,16 +42,19 @@ public class ItemSM : StateMachineBase, IBasicSM, IItemHoldSM
     public StateBase StateSpawn => stateSpawn;
     public StateBase StateDestroy => stateDestroy;
     #endregion
-
-    [SerializeField] private ItemHoldManager itemHoldMg;
-    public ItemHoldManager ItemHoldMg => itemHoldMg;
-
-    [SerializeField] private StateBase stateUse;
-    public StateBase StateUse => stateUse;
+    #region Item Manager 
+    [SerializeField] private ItemManager itemMg;
+    public ItemManager ItemMg => itemMg;
+    #endregion
+    #region Item State
+    [SerializeField] private StateBase stateItemUse;
     [SerializeField] private StateBase stateHold;
+    public StateBase StateItemUse => stateItemUse;
     public StateBase StateHold => stateHold;
+    #endregion
     protected override StateBase SetFirstState()
     {
         return stateSpawn;
     }
+    
 }

@@ -18,19 +18,19 @@ public class HappyChat_Nor : StateBase
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
-            Debug.LogError($"{transform} ¡X no StateMachineBase found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
         basicSM = GetComponentInParent<IBasicSM>();
         if (basicSM == null)
         {
-            Debug.LogError($"{transform} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
         if (interactAbilitySM == null)
         {
-            Debug.LogError($"{transform} ¡X no IInteractAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractAbilitySM found in parent.");
         }
     }
     #endregion
@@ -95,25 +95,25 @@ public class HappyChat_Nor : StateBase
     private IEnumerator CoStartJump()
     {
         jumpCountLeft = jumpCount;
-        basicSM.MovementMg.SetJump(jumpUpPower);
-        basicSM.MovementMg.ResetFall();
+        basicSM.PhysicsMg.SetJump(jumpUpPower);
+        basicSM.PhysicsMg.ResetFall();
         while (jumpCountLeft > 0)
         {
-            if (basicSM.MovementMg.KeepJump())
+            if (basicSM.PhysicsMg.KeepJump())
             {
                 if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
                 {
-                    basicSM.MovementMg.SetJump(0);
+                    basicSM.PhysicsMg.SetJump(0);
                 }
             }
             else
             {
-                basicSM.MovementMg.KeepFall();
+                basicSM.PhysicsMg.KeepFall();
                 if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
                 {
                     jumpCountLeft--;
-                    basicSM.MovementMg.SetJump(jumpUpPower);
-                    basicSM.MovementMg.ResetFall();
+                    basicSM.PhysicsMg.SetJump(jumpUpPower);
+                    basicSM.PhysicsMg.ResetFall();
                 }
             }
             yield return null;

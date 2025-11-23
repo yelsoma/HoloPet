@@ -52,7 +52,7 @@ public class EnemySystem : MonoBehaviour
         {
             foreach (GameObject player in Players)
             {
-                player.GetComponent<IHumanAttackSM>().ItemHolderMg.GoToAttack();
+                //start
             }
         }
     }

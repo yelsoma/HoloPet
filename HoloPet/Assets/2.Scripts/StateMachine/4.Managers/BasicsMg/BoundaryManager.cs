@@ -23,7 +23,7 @@ public class BoundaryManager : MonoBehaviour
     {
         leftObjectBoundery = MainBoundary.GetLeftBounderyVectorX() + objectWidth;
         rightObjectBoundery = MainBoundary.GetRightBounderyVectorX() - objectWidth;
-        botObjectBoundery = MainBoundary.GetBotBounderyVectorY() + objectHight;
+        botObjectBoundery = MainBoundary.GetBotBounderyVectorY();
         topObjectBoundery = MainBoundary.GetTopBounderyVectorY() - objectHight;
     }
     public void CheckAllBouderyAndResetPos()
