@@ -5,7 +5,7 @@ using UnityEngine;
 public class Range_Human : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackAbilitySM attackAbilitySM;
     //private IHoloMemAttackAbilitySM humanAttackSM;
 
@@ -24,10 +24,14 @@ public class Range_Human : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
@@ -70,11 +74,11 @@ public class Range_Human : StateBase
         {
             if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
 
             if (attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= 1f)

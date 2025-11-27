@@ -6,7 +6,7 @@ using UnityEngine;
 public class KnockUp_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
 
     private bool fallAniTriggered;
     private float knockUpPower;
@@ -22,10 +22,14 @@ public class KnockUp_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
@@ -34,30 +38,30 @@ public class KnockUp_Nor : StateBase
         knockUpPower = UnityEngine.Random.Range(6f, 7f);
         knockBackPower = UnityEngine.Random.Range(0.7f, 2f);
         knockUpFaceDir = UnityEngine.Random.Range(0f, 1f);
-        basicSM.PhysicsMg.SetJump(knockUpPower);
-        basicSM.PhysicsMg.ResetFall();
+        basicMod.PhysicsMg.SetJump(knockUpPower);
+        basicMod.PhysicsMg.ResetFall();
        
         fallAniTriggered = false;
 
         if (knockUpFaceDir <= 0.5f)
         {
             knockUpRight = false;
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
         else
         {
             knockUpRight = true;
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
     }
 
     public override void StateUpdate()
     {
-        if (basicSM.PhysicsMg.KeepJump())
+        if (basicMod.PhysicsMg.KeepJump())
         {           
-            if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                basicSM.PhysicsMg.SetJump(0);
+                basicMod.PhysicsMg.SetJump(0);
             }
         }
         else
@@ -68,31 +72,31 @@ public class KnockUp_Nor : StateBase
                 fallAniTriggered = true;
             }
 
-            basicSM.PhysicsMg.KeepFall();
+            basicMod.PhysicsMg.KeepFall();
 
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
             }
         }
 
         if (knockUpRight)
         {
-            if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 knockUpRight = false;
             }
 
-            basicSM.PhysicsMg.MoveRight(knockBackPower);
+            basicMod.PhysicsMg.MoveRight(knockBackPower);
         }
         else
         {
-            if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
                 knockUpRight = true;
             }
 
-            basicSM.PhysicsMg.MoveLeft(knockBackPower);
+            basicMod.PhysicsMg.MoveLeft(knockBackPower);
         }
     }
 

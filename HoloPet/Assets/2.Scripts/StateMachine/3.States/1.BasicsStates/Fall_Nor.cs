@@ -5,7 +5,7 @@ using UnityEngine;
 public class Fall_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
 
     private void Awake()
     {
@@ -15,8 +15,8 @@ public class Fall_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        basicMod = GetComponentInParent<IBasicMod>().BasicMod;
+        if (basicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
@@ -24,17 +24,17 @@ public class Fall_Nor : StateBase
 
     public override void Enter()
     {
-        basicSM.PhysicsMg.ResetFall();
+        basicMod.PhysicsMg.ResetFall();
     }
 
     public override void StateUpdate()
     {
         //fall
-        basicSM.PhysicsMg.KeepFall();
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        basicMod.PhysicsMg.KeepFall();
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             //exit to idle
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
     }
 

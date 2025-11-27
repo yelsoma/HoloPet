@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleSearch_Human : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackAbilitySM attackAbilitySM;
     private IItemHolderSM itemHolderSM;
     private BattleManager battleManager;
@@ -24,10 +24,14 @@ public class BattleSearch_Human : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
@@ -63,7 +67,7 @@ public class BattleSearch_Human : StateBase
             isHolding = false;
         }
         targetSet = false;
-        basicSM.BoundaryMg.SetToBotBoundary();
+        basicMod.BoundaryMg.SetToBotBoundary();
     }
     public override void StateUpdate()
     {
@@ -85,21 +89,21 @@ public class BattleSearch_Human : StateBase
         }
         if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
         {
-            basicSM.FaceDirectionMg.SetFaceRight();           
-            if (basicSM.RaycastMg.GetFirstHit(stateMachine.transform.position, Vector2.right, atkDistance, targetLayerMask))
+            basicMod.FaceDirectionMg.SetFaceRight();           
+            if (basicMod.RaycastMg.GetFirstHit(stateMachine.transform.position, Vector2.right, atkDistance, targetLayerMask))
             {
                 ChangeToAttack();
             }
-            basicSM.PhysicsMg.MoveRightMultiply(moveSpeedMultiply);
+            basicMod.PhysicsMg.MoveRightMultiply(moveSpeedMultiply);
         }
         else
         {
-            basicSM.FaceDirectionMg.SetFaceLeft();         
-            if (basicSM.RaycastMg.GetFirstHit(stateMachine.transform.position, Vector2.left, atkDistance, targetLayerMask))
+            basicMod.FaceDirectionMg.SetFaceLeft();         
+            if (basicMod.RaycastMg.GetFirstHit(stateMachine.transform.position, Vector2.left, atkDistance, targetLayerMask))
             {
                 ChangeToAttack();
             }
-            basicSM.PhysicsMg.MoveLeftMultiply(moveSpeedMultiply);
+            basicMod.PhysicsMg.MoveLeftMultiply(moveSpeedMultiply);
         }
     }
     public override void StateLateUpdate()

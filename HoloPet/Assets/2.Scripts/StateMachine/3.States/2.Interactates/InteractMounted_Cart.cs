@@ -5,10 +5,10 @@ using UnityEngine;
 public class InteractMounted_Cart : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractableSM interactableSM;
     private InteractableManager myInteractableMg;
-    private IMountableSM mountableSM;
+    private MountableMod mountableMod;
     private IDriveSM driveSM;
 
     private float fallSpeedIncreese = 6.5f;
@@ -23,10 +23,14 @@ public class InteractMounted_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactableSM = GetComponentInParent<IInteractableSM>();
@@ -35,10 +39,14 @@ public class InteractMounted_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
         }
 
-        mountableSM = GetComponentInParent < IMountableSM>();
-        if(mountableSM == null)
+        IMountableMod imountableMod = GetComponentInParent < IMountableMod>();
+        if(imountableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no mountableSM  found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no mountableMod  found in parent.");
+        }
+        else
+        {
+            mountableMod = imountableMod.MountableMod;
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
@@ -59,16 +67,16 @@ public class InteractMounted_Cart : StateBase
         myInteractableMg = interactableSM.InteractableMg;
         Transform interacterTransform = myInteractableMg.GetInteracterManager().GetStateMachineTransform();
         StateMachineBase interacterSM = interacterTransform.GetComponent<StateMachineBase>();
-        IBasicSM interacterBasicSM = interacterTransform.GetComponent<IBasicSM>();
-        if (interacterTransform.TryGetComponent<IMountingAbilitySM>(out IMountingAbilitySM MounterMountingAbilitySM) && MounterMountingAbilitySM.MountingAbilityMg.TrySetMount(mountableSM.MountableMg))
+        BasicMod interacterBasicMod = interacterTransform.GetComponent<IBasicMod>().BasicMod;
+        if (interacterTransform.TryGetComponent<IMountingAbilityMod>(out IMountingAbilityMod iMounterMountingAbilityMod) && iMounterMountingAbilityMod.MountingAbilityMod.MountingAbilityMg.TrySetMount(mountableMod.MountableMg))
         {
             //sucsses set mounter
-            interacterSM.ChangeState(MounterMountingAbilitySM.StateMounting);
+            interacterSM.ChangeState(iMounterMountingAbilityMod.MountingAbilityMod.StateMounting);
 
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 //check is it batan
-                if (interacterBasicSM.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+                if (interacterBasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
                 {
                     stateMachine.ChangeState(driveSM.StateDrive);
                     return;
@@ -76,7 +84,7 @@ public class InteractMounted_Cart : StateBase
             }
             else
             {
-                basicSM.PhysicsMg.MoveDown(fallSpeedNow);
+                basicMod.PhysicsMg.MoveDown(fallSpeedNow);
                 if (fallSpeedNow <= fallSpeedMax)
                 {
                     fallSpeedNow += fallSpeedIncreese;                    
@@ -88,13 +96,13 @@ public class InteractMounted_Cart : StateBase
             }           
         }
         //fail
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
         else
         {
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }           
     }
     public override void StateLateUpdate()

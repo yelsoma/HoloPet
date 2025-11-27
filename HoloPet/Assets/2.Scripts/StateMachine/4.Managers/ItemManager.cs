@@ -7,7 +7,7 @@ public class ItemManager : MonoBehaviour
     private StateMachineBase stateMachine;
     [SerializeField] private ItemType itemType;
     [SerializeField] private float attackDistance;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private bool isHolded;
     private ItemHolderManager holderMg;
     private IItemSM itemSM;
@@ -21,10 +21,14 @@ public class ItemManager : MonoBehaviour
         {
             Debug.LogError("no statemachinebase in " + transform.root.name);
         }
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
         itemSM = GetComponentInParent<IItemSM>();
         if (itemSM == null)
@@ -56,7 +60,7 @@ public class ItemManager : MonoBehaviour
     }
     public bool TrySetHolderRayCast(float distance)
     {
-        RaycastHit2D[] hits =  basicSM.RaycastMg.GetAllHits(Vector2.down, distance);
+        RaycastHit2D[] hits =  basicMod.RaycastMg.GetAllHits(Vector2.down, distance);
         if(hits.Length >= 0)
         {
             foreach(RaycastHit2D hit in hits)
@@ -81,16 +85,16 @@ public class ItemManager : MonoBehaviour
         stateMachine.transform.SetParent(holderMg.GetHoldPoint());
         stateMachine.transform.position = holderMg.GetHoldPoint().position;
         holderMg.SetItemHold(itemSM.ItemMg);
-        IBasicSM holderBasicSM = holderMg.GetComponentInParent<IBasicSM>();
-        if(holderBasicSM != null)
+        IBasicMod holderIBasicMod = holderMg.GetComponentInParent<IBasicMod>();
+        if(holderIBasicMod != null)
         {
-            if (holderBasicSM.FaceDirectionMg.GetIsFaceRight())
+            if (holderIBasicMod.BasicMod.FaceDirectionMg.GetIsFaceRight())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
         }
     }

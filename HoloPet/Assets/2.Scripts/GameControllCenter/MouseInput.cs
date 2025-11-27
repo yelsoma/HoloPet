@@ -88,14 +88,12 @@ public class MouseInput : MonoBehaviour
         int layerNow = -32767;
         foreach (Collider2D collider2D in GetMousePositionCollider2Ds(GetMouseWorldPosition()))
         {
-            if (collider2D.transform.TryGetComponent<IBasicSM>(out IBasicSM basicSM))
+            if (collider2D.transform.TryGetComponent<ClickableManager>(out ClickableManager clickable))
             {
-                // Get ClickableManager in children and check if it's now clickable
-                ClickableManager clickable = basicSM.ClickableMg;
                 if (clickable != null && clickable.GetIsClickable())
                 {
                     // Get ILayerManager in children and compare layers
-                    ILayerManager layerManager = collider2D.transform.GetComponent<IBasicSM>().LayerMg;
+                    ILayerManager layerManager = collider2D.transform.GetComponentInParent<IBasicMod>().BasicMod.LayerMg;
                     if (layerManager != null && layerManager.GetObjectMainLayer() >= layerNow)
                     {
                         layerNow = layerManager.GetObjectMainLayer();

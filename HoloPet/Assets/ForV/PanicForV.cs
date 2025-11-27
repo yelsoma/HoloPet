@@ -6,7 +6,7 @@ public class PanicForV : StateBase
 {
 
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackableSM attackableSM;
     private bool runRight;
     [SerializeField]private float speed;
@@ -18,10 +18,14 @@ public class PanicForV : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackableSM = GetComponentInParent<IAttackableSM>();
@@ -47,24 +51,24 @@ public class PanicForV : StateBase
 
     public override void StateUpdate()
     {
-        if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
         {
             runRight = true;
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
-        if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
         {
 
             runRight = false;
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
         if (runRight)
         {
-            basicSM.PhysicsMg.MoveRight(speed);
+            basicMod.PhysicsMg.MoveRight(speed);
         }
         else
         {
-            basicSM.PhysicsMg.MoveLeft(speed);
+            basicMod.PhysicsMg.MoveLeft(speed);
         }
     }
 

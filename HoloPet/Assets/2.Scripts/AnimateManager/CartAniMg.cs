@@ -6,16 +6,16 @@ public class CartAniMg : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IDriveSM driveSM;
     private IAttackableSM attackableSM;
-    private IMountableSM mountableSM;
+    private MountableMod mountableMod;
     private void Awake()
     {
-        basicSM = GetComponent<IBasicSM>();
-        basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
-        basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
-        basicSM.StateInAir.OnEnterState += StateInAir_OnEnterState;
+        basicMod = GetComponent<IBasicMod>().BasicMod;
+        basicMod.StateIdle.OnEnterState += Idle_OnEnterState;
+        basicMod.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
+        basicMod.StateInAir.OnEnterState += StateInAir_OnEnterState;
         driveSM = GetComponent<IDriveSM>();
         driveSM.StateClickedNor.OnEnterState += ClickedNor_OnEnterState;
         driveSM.StateDirveJump.OnEnterState += DirveJump_OnEnterState;
@@ -26,8 +26,8 @@ public class CartAniMg : MonoBehaviour
         attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
         //mounted change
         stateMachine = GetComponent<StateMachineBase>();
-        mountableSM = GetComponent<IMountableSM>();
-        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        mountableMod = GetComponent<IMountableMod>().MountableMod;
+        mountableMod.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
         
     }
 
@@ -64,7 +64,7 @@ public class CartAniMg : MonoBehaviour
     //mounted OnChange
     private void MountableMg_OnChangeMounted(object sender, System.EventArgs e)
     {
-        bool isMounted = mountableSM.MountableMg.GetIsMounted();
+        bool isMounted = mountableMod.MountableMg.GetIsMounted();
         if (stateMachine.GetStateNow() == driveSM.StateDrive)
         {
             if (isMounted)
@@ -105,7 +105,7 @@ public class CartAniMg : MonoBehaviour
 
     private void StateInAir_OnEnterState(object sender, System.EventArgs e)
     {
-        if (mountableSM.MountableMg.GetIsMounted())
+        if (mountableMod.MountableMg.GetIsMounted())
         {
             Mounted();
         }
@@ -116,7 +116,7 @@ public class CartAniMg : MonoBehaviour
     }
     private void Grabbed_OnEnterState(object sender, System.EventArgs e)
     {
-        if (mountableSM.MountableMg.GetIsMounted())
+        if (mountableMod.MountableMg.GetIsMounted())
         {
             Mounted();
             return;

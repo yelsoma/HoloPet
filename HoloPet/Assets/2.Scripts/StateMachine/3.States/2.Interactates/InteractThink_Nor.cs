@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractThink_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractAbilitySM interactAbilitySM;
     [SerializeField] private float serchDistance;
     [SerializeField] private float interactDistance;
@@ -27,10 +27,14 @@ public class InteractThink_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
@@ -59,7 +63,7 @@ public class InteractThink_Nor : StateBase
         targetInteractMg = myInteractMg.GetTargetInteractableMg();
         targetIsFarX = myInteractMg.GetIsTargetFarX(interactDistance);
         targetIsFarY = myInteractMg.GetIsTargetFarY(interactDistance);
-        IBasicSM targetBasicSM = targetInteractMg.GetTargetIBasicSM();
+        BasicMod targetBasicSM = targetInteractMg.GetTargetBasicMod();
         interactAbilitySM.TextLogMg.PopUpTargetIcon(targetBasicSM.BaseDataMg.GetIconSprite(), bubbleTime);
         waitTimeNow = waitTime;
         exitToIdle = false;
@@ -68,14 +72,14 @@ public class InteractThink_Nor : StateBase
     {
         if (exitToIdle)
         {
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
                 return;
             }
             else
             {
-                stateMachine.ChangeState(basicSM.StateInAir);
+                stateMachine.ChangeState(basicMod.StateInAir);
                 return;
             }
         }

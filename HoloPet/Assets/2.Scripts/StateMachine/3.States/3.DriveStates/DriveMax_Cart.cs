@@ -6,8 +6,8 @@ using System;
 public class DriveMax_Cart : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IMountableSM mountableSM;
+    private BasicMod basicMod;
+    private MountableMod mountableMod;
     private IAttackAbilitySM attackAbilitySM;
     private IDriveSM driveSM;
     [SerializeField] private float speedMax;
@@ -29,16 +29,24 @@ public class DriveMax_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-
-        mountableSM = GetComponentInParent<IMountableSM>();
-        if (mountableSM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
+            basicMod = ibasicMod.BasicMod;
+        }
+
+        IMountableMod imountableMod = GetComponentInParent<IMountableMod>();
+        if (imountableMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no mountableMod  found in parent.");
+        }
+        else
+        {
+            mountableMod = imountableMod.MountableMod;
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
@@ -57,30 +65,30 @@ public class DriveMax_Cart : StateBase
     public override void Enter()
     {
         speedNow = speedMax;  
-        isMounted = mountableSM.MountableMg.GetIsMounted();
-        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        isMounted = mountableMod.MountableMg.GetIsMounted();
+        mountableMod.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
     }
 
     public override void StateUpdate()
     {
-        bool isFaceRigh = basicSM.FaceDirectionMg.GetIsFaceRight();
+        bool isFaceRigh = basicMod.FaceDirectionMg.GetIsFaceRight();
         Vector2 hitDirection;
         if (isFaceRigh)
         {
             hitDirection = Vector2.right;
-            basicSM.PhysicsMg.MoveRight(speedNow);
-            if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+            basicMod.PhysicsMg.MoveRight(speedNow);
+            if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
         }
         else
         {
             hitDirection = Vector2.left;
-            basicSM.PhysicsMg.MoveLeft(speedNow);
-            if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+            basicMod.PhysicsMg.MoveLeft(speedNow);
+            if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
         }
 
@@ -106,7 +114,7 @@ public class DriveMax_Cart : StateBase
             }
             else
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
             }
         }
 
@@ -120,7 +128,7 @@ public class DriveMax_Cart : StateBase
 
     public override void Exit()
     {
-        mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
+        mountableMod.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
     }
 
     private void SetHitAttackableKnockBack(Vector2 hitDirection)
@@ -156,6 +164,6 @@ public class DriveMax_Cart : StateBase
 
     private void MountableMg_OnChangeMounted(object sender, EventArgs e)
     {
-        isMounted = mountableSM.MountableMg.GetIsMounted();
+        isMounted = mountableMod.MountableMg.GetIsMounted();
     }
 }

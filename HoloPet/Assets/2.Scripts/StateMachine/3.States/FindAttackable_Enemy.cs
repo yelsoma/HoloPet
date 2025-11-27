@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class FindAttackable_Enemy : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackAbilitySM attackAbilitySM;
     [SerializeField] private float searchDistance;
     LayerMask playerLayerMask;
@@ -26,10 +26,14 @@ public class FindAttackable_Enemy : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
@@ -82,13 +86,13 @@ public class FindAttackable_Enemy : StateBase
                     TriggerAni2();
                     if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
                     {
-                        basicSM.FaceDirectionMg.SetFaceRight();
-                        basicSM.PhysicsMg.MoveRight(moveSpeed);
+                        basicMod.FaceDirectionMg.SetFaceRight();
+                        basicMod.PhysicsMg.MoveRight(moveSpeed);
                     }
                     else
                     {
-                        basicSM.FaceDirectionMg.SetFaceLeft();
-                        basicSM.PhysicsMg.MoveLeft(moveSpeed);
+                        basicMod.FaceDirectionMg.SetFaceLeft();
+                        basicMod.PhysicsMg.MoveLeft(moveSpeed);
                     }
                 }              
             }

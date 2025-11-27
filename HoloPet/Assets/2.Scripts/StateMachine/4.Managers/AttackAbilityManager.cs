@@ -19,12 +19,15 @@ public class AttackAbilityManager : MonoBehaviour
         {
             Debug.LogError(transform.root.name + " no  StateMachine in parenet");
         }
-        IBasicSM basicSM = stateMachine.transform.GetComponent<IBasicSM>();
-        if( basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
-            Debug.LogError(transform.root.name + " no IBasicSM in parenet");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-        raycastManager = basicSM.RaycastMg;
+        else
+        {
+            raycastManager = ibasicMod.BasicMod.RaycastMg;
+        }
     }
 
     public bool TrySetAttackableAll(Vector2 direction, float distance, LayerMask mask = default, ObjectGangEnum? gangFilter = null)
@@ -140,10 +143,10 @@ public class AttackAbilityManager : MonoBehaviour
         if (hit.collider == null) return null;
 
         IAttackableSM attackable = hit.transform.GetComponent<IAttackableSM>();
-        IBasicSM basicSM = hit.transform.GetComponent<IBasicSM>();
+        IBasicMod ibasicMod = hit.transform.GetComponent<IBasicMod>();
 
-        if (attackable != null && basicSM != null &&
-            (!gangFilter.HasValue || basicSM.BaseDataMg.GetObjectGang() == gangFilter.Value))
+        if (attackable != null && ibasicMod != null &&
+            (!gangFilter.HasValue || ibasicMod.BasicMod.BaseDataMg.GetObjectGang() == gangFilter.Value))
         {
             return attackable;
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Idle_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
 
     private void Awake()
     {
@@ -15,18 +15,22 @@ public class Idle_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
     public override void Enter()
     {
-        if (!basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (!basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }
     }
 

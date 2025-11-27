@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractFailed_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractAbilitySM interactAbilitySM;
     private ICreatureSM creatureSM;
     [SerializeField] private float failTime;
@@ -24,10 +24,14 @@ public class InteractFailed_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
@@ -51,18 +55,18 @@ public class InteractFailed_Nor : StateBase
         interactAbilitySM.TextLogMg.PopUpSadEmoji(sadBubbleTime);
         if (interactAbilitySM.InteractAbilityMg.GetIsTargetRight())
         {
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
         else
         {
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
     }
     public override void StateUpdate()
     {
-        if (!basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (!basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            basicSM.PhysicsMg.MoveDown(fallSpeedNow);
+            basicMod.PhysicsMg.MoveDown(fallSpeedNow);
             if (fallSpeedNow <= fallSpeedMax)
             {
                 fallSpeedNow += fallSpeedIncreese * Time.deltaTime;

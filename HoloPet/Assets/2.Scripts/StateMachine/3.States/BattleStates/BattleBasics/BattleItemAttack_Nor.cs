@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleItemAttack_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private BattleManager battleManager;
     private IItemHolderSM itemHolderSM;
     private float attackSpeedWait;
@@ -18,10 +18,14 @@ public class BattleItemAttack_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         itemHolderSM = GetComponentInParent<IItemHolderSM>();
@@ -39,7 +43,7 @@ public class BattleItemAttack_Nor : StateBase
 
     public override void Enter()
     {
-        attackSpeedWait = basicSM.ObjectStatMg.GetAtkSpeed();
+        attackSpeedWait = basicMod.ObjectStatMg.GetAtkSpeed();
         itemHolderSM.ItemHolderMg.GetItem().ChangeToItemUse();
     }
 

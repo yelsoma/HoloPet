@@ -5,8 +5,8 @@ using UnityEngine;
 public class Idle_Cart : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IMountableSM mountableSM;
+    private BasicMod basicMod;
+    private MountableMod mountableMod;
     private IDriveSM driveSM;
     private IInteractableSM interactableSM;
 
@@ -18,16 +18,25 @@ public class Idle_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-
-        mountableSM = GetComponentInParent<IMountableSM>();
-        if(mountableSM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
+            basicMod = ibasicMod.BasicMod;
+        }
+
+        IMountableMod imountableMod = GetComponentInParent<IMountableMod>();
+        if (imountableMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no mountableMod  found in parent.");
+        }
+        else
+        {
+            mountableMod = imountableMod.MountableMod;
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
@@ -45,13 +54,13 @@ public class Idle_Cart : StateBase
 
     public override void Enter()
     {
-        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
-        if (mountableSM.MountableMg.GetIsMounted())
+        mountableMod.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        if (mountableMod.MountableMg.GetIsMounted())
         {
             interactableSM.InteractableMg.SetIsInteractable(false);
-            if (mountableSM.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicSM>(out IBasicSM basicSM))
+            if (mountableMod.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicMod>(out IBasicMod ibasicSM))
             {
-                if (basicSM.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+                if (ibasicSM.BasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
                 {
                     stateMachine.ChangeState(driveSM.StateDrive);
                     return;
@@ -75,17 +84,17 @@ public class Idle_Cart : StateBase
     public override void Exit()
     {
         interactableSM.InteractableMg.SetIsInteractable(true);
-        mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
+        mountableMod.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
     }
 
     private void MountableMg_OnChangeMounted(object sender, System.EventArgs e)
     {
-        if (mountableSM.MountableMg.GetIsMounted())
+        if (mountableMod.MountableMg.GetIsMounted())
         {
             interactableSM.InteractableMg.SetIsInteractable(false);
-            if (mountableSM.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicSM>(out IBasicSM basicSM))
+            if (mountableMod.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicMod>(out IBasicMod ibasicSM))
             {
-                if (basicSM.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+                if (ibasicSM.BasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
                 {
                     stateMachine.ChangeState(driveSM.StateDrive);
                     return;

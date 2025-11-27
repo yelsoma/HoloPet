@@ -5,17 +5,17 @@ using UnityEngine;
 public class SlimeAniMg : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackAbilitySM attackAbilitySM;
     [SerializeField] private BasicAttack_Slime slimeAttack;
     [SerializeField] private Search_JumpEnemy searchJump;
 
     private void Awake()
     {
-        basicSM = GetComponent<IBasicSM>();
-        basicSM.StateIdle.OnEnterState += StateIdle_OnEnterState;
-        basicSM.StateInAir.OnEnterState += StateInAir_OnEnterState;
-        basicSM.StateClicked.OnEnterState += StateClicked_OnEnterState;
+        basicMod = GetComponent<IBasicMod>().BasicMod;
+        basicMod.StateIdle.OnEnterState += StateIdle_OnEnterState;
+        basicMod.StateInAir.OnEnterState += StateInAir_OnEnterState;
+        basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
         attackAbilitySM = GetComponent<IAttackAbilitySM>();
         attackAbilitySM.StateSearch.OnEnterState += StateSearch_OnEnterState;
         attackAbilitySM.StateBasicAttack.OnEnterState += StateBasicAttack_OnEnterState;

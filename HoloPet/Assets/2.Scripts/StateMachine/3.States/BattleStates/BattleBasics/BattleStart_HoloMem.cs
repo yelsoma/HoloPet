@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleStart_HoloMem : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private BattleManager battleManager;
     private IItemHolderSM itemHolderSM;
 
@@ -17,10 +17,14 @@ public class BattleStart_HoloMem : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         itemHolderSM = GetComponentInParent<IItemHolderSM>();
@@ -40,11 +44,11 @@ public class BattleStart_HoloMem : StateBase
     {
         if (!battleManager.GetIsInbattle())
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
             return;
         }
         //check mount here
-        if (!basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (!basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             //exit to idle
             stateMachine.ChangeState(battleManager.BattleFall);

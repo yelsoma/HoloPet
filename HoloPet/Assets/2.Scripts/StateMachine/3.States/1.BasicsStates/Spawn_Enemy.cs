@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawn_Enemy : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
 
     private void Awake()
     {
@@ -15,10 +15,14 @@ public class Spawn_Enemy : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
@@ -30,17 +34,17 @@ public class Spawn_Enemy : StateBase
 
     public override void StateUpdate()
     {
-        basicSM.BoundaryMg.SetToLeftBoundary();
-        basicSM.BoundaryMg.SetToBotBoundary();
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        basicMod.BoundaryMg.SetToLeftBoundary();
+        basicMod.BoundaryMg.SetToBotBoundary();
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             // Exit to StateIdle
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
         else
         {
             // Exit to StateInAir
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }
     }
 

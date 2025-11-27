@@ -5,8 +5,8 @@ using UnityEngine;
 public class Mounting_Botan : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IMountingAbilitySM mountingAbilitySM;
+    private BasicMod basicMod;
+    private MountingAbilityMod mountingAbilityMod;
     private MountableManager mountMg;
 
     #region AutoSetRef
@@ -18,16 +18,24 @@ public class Mounting_Botan : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-
-        mountingAbilitySM = GetComponentInParent<IMountingAbilitySM>();
-        if(mountingAbilitySM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no IMountingAbilitySM found in parent.");
+            basicMod = ibasicMod.BasicMod;
+        }
+
+        IMountingAbilityMod iMountingAbilityMod = GetComponentInParent<IMountingAbilityMod>();
+        if (iMountingAbilityMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no imountingAbilityMod found in parent.");
+        }
+        else
+        {
+            mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
         }
     }
     #endregion
@@ -35,14 +43,14 @@ public class Mounting_Botan : StateBase
     #region StateBase
     public override void Enter()
     {
-        mountingAbilitySM.MountingAbilityMg.EnterMount();
-        mountMg = mountingAbilitySM.MountingAbilityMg.GetMount();
+        mountingAbilityMod.MountingAbilityMg.EnterMount();
+        mountMg = mountingAbilityMod.MountingAbilityMg.GetMount();
     }
     public override void StateUpdate()
     {
         if (mountMg.GetIsMountableState() == false)
         {
-            stateMachine.ChangeState(basicSM.StateClicked);
+            stateMachine.ChangeState(basicMod.StateClicked);
         }
         if (mountMg.GetStateMachineTransform().TryGetComponent<CartSM>(out CartSM cartSM))
         {
@@ -63,7 +71,7 @@ public class Mounting_Botan : StateBase
     }
     public override void Exit()
     {
-        mountingAbilitySM.MountingAbilityMg.ExitMount();
+        mountingAbilityMod.MountingAbilityMg.ExitMount();
     }
     #endregion
 }

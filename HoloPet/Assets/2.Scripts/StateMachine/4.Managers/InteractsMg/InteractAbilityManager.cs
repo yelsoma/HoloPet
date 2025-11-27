@@ -6,7 +6,7 @@ using System.Linq;
 
 public class InteractAbilityManager : MonoBehaviour
 {
-    [SerializeField] private StateMachineBase stateMachine;
+    private StateMachineBase stateMachine;
     [SerializeField] private List<InteracterOption> interacterOptionList;
     private RaycastManager raycastManager;
 
@@ -25,12 +25,15 @@ public class InteractAbilityManager : MonoBehaviour
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        IBasicSM basicSM = stateMachine.GetComponent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no basicSM found in StateMachineBase.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-        raycastManager = basicSM.RaycastMg;
+        else
+        {
+            raycastManager = ibasicMod.BasicMod.RaycastMg;
+        }
 
         if (interacterOptionList.Count == 0)
         {

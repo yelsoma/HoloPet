@@ -5,7 +5,7 @@ using UnityEngine;
 public class HpZero_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     [SerializeField] private float deathTime;
     private float deathTimeNow;
 
@@ -17,17 +17,21 @@ public class HpZero_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
     public override void Enter()
     {
         deathTimeNow = deathTime;
-        basicSM.ClickableMg.SetIsClickable(false);
+        basicMod.ClickableMg.SetIsClickable(false);
     }
 
     public override void StateUpdate()
@@ -35,7 +39,7 @@ public class HpZero_Nor : StateBase
         deathTimeNow -=Time.deltaTime;
         if(deathTimeNow <= 0 )
         {
-            stateMachine.ChangeState(basicSM.StateDestroy);
+            stateMachine.ChangeState(basicMod.StateDestroy);
         }
     }
 
@@ -45,6 +49,6 @@ public class HpZero_Nor : StateBase
 
     public override void Exit()
     {
-        basicSM.ClickableMg.SetIsClickable(true);
+        basicMod.ClickableMg.SetIsClickable(true);
     }
 }

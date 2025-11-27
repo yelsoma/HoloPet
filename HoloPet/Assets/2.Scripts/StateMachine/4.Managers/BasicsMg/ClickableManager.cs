@@ -13,7 +13,7 @@ public class ClickableManager : MonoBehaviour
     [SerializeField] private StateBase[] unClickableStates;
 
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private bool isClickable;
 
     private void Awake()
@@ -24,10 +24,14 @@ public class ClickableManager : MonoBehaviour
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
@@ -38,13 +42,13 @@ public class ClickableManager : MonoBehaviour
     public void Click()
     {
         // go to state Clicked
-        stateMachine.ChangeState(basicSM.StateClicked);
+        stateMachine.ChangeState(basicMod.StateClicked);
     }
 
     public void Grab()
     {
         // go to state Grabbed
-        stateMachine.ChangeState(basicSM.StateGrabbed);
+        stateMachine.ChangeState(basicMod.StateGrabbed);
     }
 
     public void GrabMousePos(Vector2 mousePosition)

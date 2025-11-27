@@ -10,8 +10,8 @@ public class Wander_Nor : StateBase
     private float randomDir;
     private bool wanderRight;
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IRandomMoveSM randomMoveSM;
+    private BasicMod basicMod;
+    private RandomMoveMod randomMoveMod;
 
     #region AutoSetRef
     private void Awake()
@@ -22,16 +22,24 @@ public class Wander_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IBasicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
-        randomMoveSM = GetComponentInParent<IRandomMoveSM>();
-        if (randomMoveSM == null)
+        IRandomMoveMod iRandomMoveMod = GetComponentInParent<IRandomMoveMod>();
+        if (iRandomMoveMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IRandomMoveSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IRandomMoveMod found in parent.");
+        }
+        else
+        {
+            randomMoveMod = iRandomMoveMod.RandomMoveMod;
         }
     }
     #endregion
@@ -44,34 +52,34 @@ public class Wander_Nor : StateBase
         if (randomDir >= 0.5)
         {
             wanderRight = true;
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
         else
         {
             wanderRight = false;
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
     }
 
     public override void StateUpdate()
     {
         //side check
-        if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
         {
             wanderRight = true;
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
-        if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
         {
 
             wanderRight = false;
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
         //time check
         if (wanderTimer <= 0f)
         {
             //exit to idle
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
             return;
         }
         // keep  wander right
@@ -81,11 +89,11 @@ public class Wander_Nor : StateBase
     {
         if (wanderRight)
         {
-            basicSM.PhysicsMg.MoveRightMultiply(1f);
+            basicMod.PhysicsMg.MoveRightMultiply(1f);
         }
         else
         {
-            basicSM.PhysicsMg.MoveLeftMultiply(1f);
+            basicMod.PhysicsMg.MoveLeftMultiply(1f);
         }
     }
     public override void Exit()

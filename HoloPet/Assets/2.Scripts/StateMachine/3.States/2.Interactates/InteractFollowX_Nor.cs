@@ -5,7 +5,7 @@ using UnityEngine;
 public class InteractFollowX_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractAbilitySM interactAbilitySM;
     private IHoloMemFXSM holoMemFXSM;
     [SerializeField] private float interactDistance;
@@ -24,10 +24,14 @@ public class InteractFollowX_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
@@ -58,8 +62,8 @@ public class InteractFollowX_Nor : StateBase
         // if x is far and right 
         if (targetIsFarX == true && targetIsRight == true)
         {
-            basicSM.FaceDirectionMg.SetFaceRight();
-            basicSM.PhysicsMg.MoveRightMultiply(followSpeed);
+            basicMod.FaceDirectionMg.SetFaceRight();
+            basicMod.PhysicsMg.MoveRightMultiply(followSpeed);
             if (!myInteractMg.GetIsTargetFarX(interactDistance))
             {
                 if (myInteractMg.GetIsTargetFarY(interactDistance))
@@ -77,8 +81,8 @@ public class InteractFollowX_Nor : StateBase
         // if x is far and left 
         if (targetIsFarX == true && targetIsRight == false)
         {
-            basicSM.FaceDirectionMg.SetFaceLeft();
-            basicSM.PhysicsMg.MoveLeftMultiply(followSpeed);
+            basicMod.FaceDirectionMg.SetFaceLeft();
+            basicMod.PhysicsMg.MoveLeftMultiply(followSpeed);
             if (!myInteractMg.GetIsTargetFarX(interactDistance))
             {
                 if (myInteractMg.GetIsTargetFarY(interactDistance))
@@ -103,8 +107,8 @@ public class InteractFollowX_Nor : StateBase
         {
             if (targetIsRight)
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
-                basicSM.PhysicsMg.MoveLeftMultiply(followSpeed);
+                basicMod.FaceDirectionMg.SetFaceLeft();
+                basicMod.PhysicsMg.MoveLeftMultiply(followSpeed);
                 if (myInteractMg.GetIsTargetFarX(interactDistance))
                 {
                     // distance is ok exit to interact
@@ -114,8 +118,8 @@ public class InteractFollowX_Nor : StateBase
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
-                basicSM.PhysicsMg.MoveRightMultiply(followSpeed);
+                basicMod.FaceDirectionMg.SetFaceRight();
+                basicMod.PhysicsMg.MoveRightMultiply(followSpeed);
                 if (myInteractMg.GetIsTargetFarX(interactDistance))
                 {
                     // distance is ok exit to interact
@@ -124,13 +128,13 @@ public class InteractFollowX_Nor : StateBase
                 }
             }
         }
-        if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }
-        if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }
     }
     public override void StateLateUpdate()

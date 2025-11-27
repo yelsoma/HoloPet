@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleFall_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private BattleManager battleManager;
 
     private void Awake()
@@ -16,10 +16,14 @@ public class BattleFall_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         battleManager = GetComponentInParent<BattleManager>();
@@ -31,14 +35,14 @@ public class BattleFall_Nor : StateBase
 
     public override void Enter()
     {
-        basicSM.PhysicsMg.ResetFall();
+        basicMod.PhysicsMg.ResetFall();
     }
 
     public override void StateUpdate()
     {
         //fall
-        basicSM.PhysicsMg.KeepFall();
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        basicMod.PhysicsMg.KeepFall();
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             //exit to idle
             stateMachine.ChangeState(battleManager.BattleStart);

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Grabbed_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     [SerializeField] private float grabOffset = 0.5f;
 
     private void Awake()
@@ -16,17 +16,21 @@ public class Grabbed_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
     public override void Enter()
     {
-        basicSM.ClickableMg.OnRelease += ClickableManager_OnRelease;
-        basicSM.ClickableMg.OnGrabMousePos += ClickableManager_OnGrabMousePos;
+        basicMod.ClickableMg.OnRelease += ClickableManager_OnRelease;
+        basicMod.ClickableMg.OnGrabMousePos += ClickableManager_OnGrabMousePos;
     }
 
     public override void StateUpdate()
@@ -35,18 +39,18 @@ public class Grabbed_Nor : StateBase
 
     public override void StateLateUpdate()
     {
-        basicSM.BoundaryMg.CheckAllBouderyAndResetPos();
+        basicMod.BoundaryMg.CheckAllBouderyAndResetPos();
     }
 
     public override void Exit()
     {
-        basicSM.ClickableMg.OnRelease -= ClickableManager_OnRelease;
-        basicSM.ClickableMg.OnGrabMousePos -= ClickableManager_OnGrabMousePos;
+        basicMod.ClickableMg.OnRelease -= ClickableManager_OnRelease;
+        basicMod.ClickableMg.OnGrabMousePos -= ClickableManager_OnGrabMousePos;
     }
 
     private void ClickableManager_OnRelease(object sender, System.EventArgs e)
     {
-        stateMachine.ChangeState(basicSM.StateReleased);
+        stateMachine.ChangeState(basicMod.StateReleased);
     }
 
     private void ClickableManager_OnGrabMousePos(object sender, ClickableManager.GrabEventArgs e)

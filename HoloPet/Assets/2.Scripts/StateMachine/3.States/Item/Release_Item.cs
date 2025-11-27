@@ -5,9 +5,8 @@ using UnityEngine;
 public class Release_Item : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IItemSM itemHoldSM;
-    private IMountingAbilitySM mountingAbilitySM;
     [SerializeField] private float checkDistanceDown;
 
     private void Awake()
@@ -18,10 +17,14 @@ public class Release_Item : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         itemHoldSM = GetComponentInParent<IItemSM>();
@@ -41,13 +44,13 @@ public class Release_Item : StateBase
             stateMachine.ChangeState(itemHoldSM.StateHold);
             return;
         }
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
         else
         {
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }
     }
 

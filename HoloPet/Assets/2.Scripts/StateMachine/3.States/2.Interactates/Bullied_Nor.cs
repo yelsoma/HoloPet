@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bullied_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractableSM interactableSM;
     private InteractableManager myInteractableMg;
     private InteractAbilityManager interacterMg;
@@ -37,10 +37,14 @@ public class Bullied_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactableSM = GetComponentInParent<IInteractableSM>();
@@ -60,11 +64,11 @@ public class Bullied_Nor : StateBase
         {
             if (myInteractableMg.GetIsInteracterRight())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
             interacterMg.OnTriggerInteracting += TriggerInteracting;
             interacterMg.OnExitInteracting += ExitInteracting;
@@ -84,14 +88,14 @@ public class Bullied_Nor : StateBase
     {
         if (exitToIdle)
         {
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
                 return;
             }
             else
             {
-                stateMachine.ChangeState(basicSM.StateInAir);
+                stateMachine.ChangeState(basicMod.StateInAir);
                 return;
             }
         }
@@ -129,35 +133,35 @@ public class Bullied_Nor : StateBase
     {
         if (isKnockUp == false)
         {
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(basicSM.StateIdle) ;
+                stateMachine.ChangeState(basicMod.StateIdle) ;
             }
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }       
     }
 
     private void TriggerInteracting(object sender, System.EventArgs e)
     {
         isKnockUp = true;
-        basicSM.PhysicsMg.SetJump(knockUpPower);
-        basicSM.PhysicsMg.ResetFall();
+        basicMod.PhysicsMg.SetJump(knockUpPower);
+        basicMod.PhysicsMg.ResetFall();
         ChooseKnockUpSide();
     }
 
     private void KnockBack()
     {
-        if (basicSM.PhysicsMg.KeepJump())
+        if (basicMod.PhysicsMg.KeepJump())
         {
-            if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                basicSM.PhysicsMg.SetJump(0);
+                basicMod.PhysicsMg.SetJump(0);
             }
         }
         else
         {
-            basicSM.PhysicsMg.KeepFall();
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            basicMod.PhysicsMg.KeepFall();
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 isPanicRun = true;
                 StartPanicRun();
@@ -166,21 +170,21 @@ public class Bullied_Nor : StateBase
 
         if (knockUpRight)
         {
-            if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 knockUpRight = false;
             }
 
-            basicSM.PhysicsMg.MoveRight(knockBackPower);
+            basicMod.PhysicsMg.MoveRight(knockBackPower);
         }
         else
         {
-            if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
                 knockUpRight = true;
             }
 
-            basicSM.PhysicsMg.MoveLeft(knockBackPower);
+            basicMod.PhysicsMg.MoveLeft(knockBackPower);
         }
     }
     private void ChooseKnockUpSide()
@@ -188,12 +192,12 @@ public class Bullied_Nor : StateBase
         if (myInteractableMg.GetIsInteracterRight())
         {
             knockUpRight = false;
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
         else
         {
             knockUpRight = true;
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
     }
     private void StartPanicRun()
@@ -202,12 +206,12 @@ public class Bullied_Nor : StateBase
         if (myInteractableMg.GetIsInteracterRight())
         {
             panicRight = false;
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
         else
         {
             panicRight = true;
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
     }
     private void PanicRun()
@@ -217,26 +221,26 @@ public class Bullied_Nor : StateBase
             panicTimeNow = panicTimeNow - Time.deltaTime;
             if (panicRight)
             {
-                basicSM.PhysicsMg.MoveRightMultiply(panicSpeed);
-                if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+                basicMod.PhysicsMg.MoveRightMultiply(panicSpeed);
+                if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
                 {
-                    basicSM.FaceDirectionMg.SetFaceLeft();
+                    basicMod.FaceDirectionMg.SetFaceLeft();
                     panicRight = false;
                 }
             }
             else
             {
-                basicSM.PhysicsMg.MoveLeftMultiply(panicSpeed);
-                if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+                basicMod.PhysicsMg.MoveLeftMultiply(panicSpeed);
+                if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
                 {
-                    basicSM.FaceDirectionMg.SetFaceRight();
+                    basicMod.FaceDirectionMg.SetFaceRight();
                     panicRight = true;
                 }               
             }
         }
         else
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
     }
 }

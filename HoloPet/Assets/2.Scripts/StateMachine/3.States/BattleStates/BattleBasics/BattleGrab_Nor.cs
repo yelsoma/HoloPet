@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleGrab_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private BattleManager battleManager;
     [SerializeField] private float grabOffset = 0.5f;
 
@@ -17,10 +17,14 @@ public class BattleGrab_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         battleManager = GetComponentInParent<BattleManager>();
@@ -32,8 +36,8 @@ public class BattleGrab_Nor : StateBase
 
     public override void Enter()
     {
-        basicSM.ClickableMg.OnRelease += ClickableManager_OnRelease;
-        basicSM.ClickableMg.OnGrabMousePos += ClickableManager_OnGrabMousePos;
+        basicMod.ClickableMg.OnRelease += ClickableManager_OnRelease;
+        basicMod.ClickableMg.OnGrabMousePos += ClickableManager_OnGrabMousePos;
     }
 
     public override void StateUpdate()
@@ -42,13 +46,13 @@ public class BattleGrab_Nor : StateBase
 
     public override void StateLateUpdate()
     {
-        basicSM.BoundaryMg.CheckAllBouderyAndResetPos();
+        basicMod.BoundaryMg.CheckAllBouderyAndResetPos();
     }
 
     public override void Exit()
     {
-        basicSM.ClickableMg.OnRelease -= ClickableManager_OnRelease;
-        basicSM.ClickableMg.OnGrabMousePos -= ClickableManager_OnGrabMousePos;
+        basicMod.ClickableMg.OnRelease -= ClickableManager_OnRelease;
+        basicMod.ClickableMg.OnGrabMousePos -= ClickableManager_OnGrabMousePos;
     }
 
     private void ClickableManager_OnRelease(object sender, System.EventArgs e)
@@ -58,7 +62,7 @@ public class BattleGrab_Nor : StateBase
             stateMachine.ChangeState(battleManager.BattleStart);
             return;
         }
-        stateMachine.ChangeState(basicSM.StateReleased);
+        stateMachine.ChangeState(basicMod.StateReleased);
     }
 
     private void ClickableManager_OnGrabMousePos(object sender, ClickableManager.GrabEventArgs e)

@@ -6,8 +6,8 @@ using System;
 public class Drive_Cart : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IMountableSM mountableSM;
+    private BasicMod basicMod;
+    private MountableMod mountableMod;
     private IDriveSM driveSM;
 
     [SerializeField] private float speedMax;
@@ -24,16 +24,24 @@ public class Drive_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-
-        mountableSM = GetComponentInParent<IMountableSM>();
-        if (mountableSM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
+            basicMod = ibasicMod.BasicMod;
+        }
+
+        IMountableMod imountableMod = GetComponentInParent<IMountableMod>();
+        if (imountableMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no mountableMod  found in parent.");
+        }
+        else
+        {
+            mountableMod = imountableMod.MountableMod;
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
@@ -46,9 +54,9 @@ public class Drive_Cart : StateBase
     public override void Enter()
     {
         speedNow = 0f;
-        isMounted = mountableSM.MountableMg.GetIsMounted();
-        mountableSM.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
-        mountableSM.MountableMg.GetIsMountable();
+        isMounted = mountableMod.MountableMg.GetIsMounted();
+        mountableMod.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        mountableMod.MountableMg.GetIsMountable();
     }
 
     public override void StateUpdate()
@@ -64,7 +72,7 @@ public class Drive_Cart : StateBase
 
         if(speedNow <= 0)
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
 
         if(speedNow >= speedMax)
@@ -72,20 +80,20 @@ public class Drive_Cart : StateBase
             stateMachine.ChangeState(driveSM.StateDirveMax);
         }
 
-        if (basicSM.FaceDirectionMg.GetIsFaceRight())
+        if (basicMod.FaceDirectionMg.GetIsFaceRight())
         {
-            basicSM.PhysicsMg.MoveRight(speedNow);
-            if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+            basicMod.PhysicsMg.MoveRight(speedNow);
+            if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
         }
         else
         {
-            basicSM.PhysicsMg.MoveLeft(speedNow);
-            if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+            basicMod.PhysicsMg.MoveLeft(speedNow);
+            if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
         }
         CartFxTest.DriveParticalSmokeSpeed(speedNow);
@@ -97,11 +105,11 @@ public class Drive_Cart : StateBase
 
     public override void Exit()
     {
-        mountableSM.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
+        mountableMod.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
     }
 
     private void MountableMg_OnChangeMounted(object sender, EventArgs e)
     {
-        isMounted = mountableSM.MountableMg.GetIsMounted();
+        isMounted = mountableMod.MountableMg.GetIsMounted();
     }
 }

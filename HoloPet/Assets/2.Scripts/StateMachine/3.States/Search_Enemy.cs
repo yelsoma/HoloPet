@@ -5,7 +5,7 @@ using UnityEngine;
 public class Search_Enemy : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackAbilitySM attackAbilitySM;
     [SerializeField] private float searchDistance;
     [SerializeField] private float StartAttackDistance;
@@ -21,10 +21,14 @@ public class Search_Enemy : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
@@ -46,23 +50,23 @@ public class Search_Enemy : StateBase
         {
             if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
                 if (attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= StartAttackDistance)
                 {
                     stateMachine.ChangeState(attackAbilitySM.StateBasicAttack);
                     return;
                 }
-                basicSM.PhysicsMg.MoveRightMultiply(moveSpeed);
+                basicMod.PhysicsMg.MoveRightMultiply(moveSpeed);
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
                 if (attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= StartAttackDistance)
                 {
                     stateMachine.ChangeState(attackAbilitySM.StateBasicAttack);
                     return;
                 }
-                basicSM.PhysicsMg.MoveLeftMultiply(moveSpeed);
+                basicMod.PhysicsMg.MoveLeftMultiply(moveSpeed);
             }
         }        
     }

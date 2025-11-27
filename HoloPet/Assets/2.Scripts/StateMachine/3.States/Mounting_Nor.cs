@@ -5,8 +5,8 @@ using UnityEngine;
 public class Mounting_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IMountingAbilitySM mountingAbilitySM;
+    private BasicMod basicMod;
+    private MountingAbilityMod mountingAbilityMod;
 
     #region AutoSetRef
     private void Awake()
@@ -17,16 +17,24 @@ public class Mounting_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-
-        mountingAbilitySM = GetComponentInParent<IMountingAbilitySM>();
-        if(mountingAbilitySM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no IMountingAbilitySM found in parent.");
+            basicMod = ibasicMod.BasicMod;
+        }
+
+        IMountingAbilityMod iMountingAbilityMod = GetComponentInParent<IMountingAbilityMod>();
+        if (iMountingAbilityMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no imountingAbilityMod found in parent.");
+        }
+        else
+        {
+            mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
         }
     }
     #endregion
@@ -34,13 +42,13 @@ public class Mounting_Nor : StateBase
     #region StateBase
     public override void Enter()
     {
-        mountingAbilitySM.MountingAbilityMg.EnterMount();
+        mountingAbilityMod.MountingAbilityMg.EnterMount();
     }
     public override void StateUpdate()
     {    
-        if(mountingAbilitySM.MountingAbilityMg.GetMount().GetIsMountableState() == false)
+        if(mountingAbilityMod.MountingAbilityMg.GetMount().GetIsMountableState() == false)
         {
-            stateMachine.ChangeState(basicSM.StateClicked);
+            stateMachine.ChangeState(basicMod.StateClicked);
         }
     }
     public override void StateLateUpdate()
@@ -48,7 +56,7 @@ public class Mounting_Nor : StateBase
     }
     public override void Exit()
     {
-        mountingAbilitySM.MountingAbilityMg.ExitMount();
+        mountingAbilityMod.MountingAbilityMg.ExitMount();
     }
     #endregion
 }

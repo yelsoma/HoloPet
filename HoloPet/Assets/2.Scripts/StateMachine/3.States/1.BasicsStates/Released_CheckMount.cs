@@ -5,8 +5,8 @@ using UnityEngine;
 public class Released_CheckMount : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IMountingAbilitySM mountingAbilitySM;
+    private BasicMod basicMod;
+    private MountingAbilityMod mountingAbilityMod;
     [SerializeField] private float checkDistanceDown; 
 
     private void Awake()
@@ -17,16 +17,24 @@ public class Released_CheckMount : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-
-        mountingAbilitySM = GetComponentInParent<IMountingAbilitySM>();
-        if(mountingAbilitySM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no mountingAbilitySM found in parent.");
+            basicMod = ibasicMod.BasicMod;
+        }
+
+        IMountingAbilityMod iMountingAbilityMod = GetComponentInParent<IMountingAbilityMod>();
+        if(iMountingAbilityMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no imountingAbilityMod found in parent.");
+        }
+        else
+        {
+            mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
         }
     }
 
@@ -36,18 +44,18 @@ public class Released_CheckMount : StateBase
 
     public override void StateUpdate()
     {
-        if (mountingAbilitySM.MountingAbilityMg.TrySetMountWithRaycast(Vector2.down, checkDistanceDown))
+        if (mountingAbilityMod.MountingAbilityMg.TrySetMountWithRaycast(Vector2.down, checkDistanceDown))
         {     
-            stateMachine.ChangeState(mountingAbilitySM.StateMounting);
+            stateMachine.ChangeState(mountingAbilityMod.StateMounting);
             return;
         }
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
         else
         {
-            stateMachine.ChangeState(basicSM.StateInAir);
+            stateMachine.ChangeState(basicMod.StateInAir);
         }
     }
 

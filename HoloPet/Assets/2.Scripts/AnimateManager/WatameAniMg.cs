@@ -5,8 +5,8 @@ using UnityEngine;
 public class WatameAniMg : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    private IBasicSM basicSM;
-    private IMountingAbilitySM mountingAbilitySM;
+    private BasicMod basicMod;
+    private MountingAbilityMod mountingAbilityMod;
     private IInteractAbilitySM interactAbilitySM;
     private IAttackableSM attackableSM;
     private ICreatureSM creatureSM;
@@ -17,12 +17,12 @@ public class WatameAniMg : MonoBehaviour
 
     private void Awake()
     {
-        basicSM = GetComponent<IBasicSM>();
-        basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
-        basicSM.StateInAir.OnEnterState += InAir_OnEnterState;
-        basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
-        basicSM.StateClicked.OnTriggerAni1 += Clicked_OnKnockUpFall;
-        basicSM.StateClicked.OnEnterState += Clicked_OnEnterState;
+        basicMod = GetComponent<IBasicMod>().BasicMod;
+        basicMod.StateIdle.OnEnterState += Idle_OnEnterState;
+        basicMod.StateInAir.OnEnterState += InAir_OnEnterState;
+        basicMod.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
+        basicMod.StateClicked.OnTriggerAni1 += Clicked_OnKnockUpFall;
+        basicMod.StateClicked.OnEnterState += Clicked_OnEnterState;
         attackableSM = GetComponent<IAttackableSM>();
         attackableSM.StateKnockBack.OnEnterState += AttackedKnockBack_OnEnterState;
         attackableSM.StateKnockBack.OnTriggerAni1 += AttackedKnockBack_OnKnockUpFall;
@@ -30,9 +30,9 @@ public class WatameAniMg : MonoBehaviour
         attackableSM.StateHpZero.OnExitState += StateHpZero_OnExitState;
         creatureSM = GetComponent<ICreatureSM>();
         creatureSM.StateWander.OnEnterState += Wander_OnEnterState;
-        mountingAbilitySM = GetComponent<IMountingAbilitySM>();
-        mountingAbilitySM.StateMounting.OnEnterState += Mounting_OnEnterState;
-        mountingAbilitySM.StateMounting.OnExitState += Mounting_OnExitState;
+        mountingAbilityMod = GetComponent<IMountingAbilityMod>().MountingAbilityMod;
+        mountingAbilityMod.StateMounting.OnEnterState += Mounting_OnEnterState;
+        mountingAbilityMod.StateMounting.OnExitState += Mounting_OnExitState;
         interactAbilitySM = GetComponent<IInteractAbilitySM>();
         interactAbilitySM.StateInteractFollowX.OnEnterState += FollowInteractX_OnEnterState;
         interactAbilitySM.StateInteractFollowY.OnEnterState += InteractFollowY_OnEnterState;

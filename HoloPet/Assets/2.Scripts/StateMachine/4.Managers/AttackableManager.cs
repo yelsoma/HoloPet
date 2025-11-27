@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackableManager : MonoBehaviour
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackableSM attackableSM;
 
     [SerializeField] private StateBase[] unAttackableState;
@@ -28,10 +28,14 @@ public class AttackableManager : MonoBehaviour
             Debug.Log(transform.name + "no stateMachine in parant");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
-            Debug.Log(transform.name + "no IBasicSM in parant");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
@@ -63,7 +67,7 @@ public class AttackableManager : MonoBehaviour
     {
         if(StatePanic!= null)
         {
-            if(stateMachine.GetStateNow() == basicSM.StateIdle)
+            if(stateMachine.GetStateNow() == basicMod.StateIdle)
             {
                 stateMachine.ChangeState(StatePanic);
             }          
@@ -71,7 +75,7 @@ public class AttackableManager : MonoBehaviour
     }
     public void AttackHP(int damage)
     {
-        basicSM.ObjectStatMg.HpModify(- damage);
+        basicMod.ObjectStatMg.HpModify(- damage);
     }
 
     public float GetKnockBackPower()

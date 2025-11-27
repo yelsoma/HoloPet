@@ -34,6 +34,11 @@ public class StateMachineBase : MonoBehaviour
     {
         currentState.Exit();
         currentState.ExitStateEvent();
+        if(newState == null)
+        {
+            Debug.LogError($"StatePassInIsNull | Called by: { transform.root.name + currentState?.GetType().Name}");
+            return;
+        }
         currentState = newState;
         currentState.Enter();
         currentState.EnterStateEvent();

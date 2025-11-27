@@ -17,8 +17,7 @@ public class InteractableManager : MonoBehaviour
     }
     public event EventHandler<ChangeLayerEventArgs> OnEnterInteractedChangeLayer;
     public event EventHandler OnExitInteracted;
-    [SerializeField] private StateMachineBase stateMachine;
-    [SerializeField] private Transform transformForIcon;
+    private StateMachineBase stateMachine;
     [SerializeField] private List<InteractedOption> interactedOptions;   
     private InteractAbilityManager interacterMg;
     private bool isInteractable = true;
@@ -105,15 +104,14 @@ public class InteractableManager : MonoBehaviour
         }
         return false;
     }
-    public IBasicSM GetTargetIBasicSM()
+    public BasicMod GetTargetBasicMod()
     {
-        if(stateMachine.GetComponent<IBasicSM>()!= null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
-            return stateMachine.GetComponent<IBasicSM>();
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+            return null;
         }
-        else
-        {
-            return transformForIcon.GetComponent<IBasicSM>();
-        }
+        return ibasicMod.BasicMod;
     }
 }

@@ -7,7 +7,7 @@ using System;
 public class AttackedKnockBack_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackableSM attackableSM;
     [SerializeField] private float knockUpPower;
     private float knockBackPower;
@@ -21,10 +21,14 @@ public class AttackedKnockBack_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackableSM = GetComponentInParent<IAttackableSM>();
@@ -38,19 +42,19 @@ public class AttackedKnockBack_Nor : StateBase
     {
         if (!attackableSM.AttackableMg.GetIsKnockable())
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
             return;
         }
-        basicSM.PhysicsMg.SetJump(knockUpPower);
-        basicSM.PhysicsMg.ResetFall();      
+        basicMod.PhysicsMg.SetJump(knockUpPower);
+        basicMod.PhysicsMg.ResetFall();      
         knockBackRight = attackableSM.AttackableMg.GetIsKnockRight();
         if (knockBackRight)
         {
-            basicSM.FaceDirectionMg.SetFaceLeft();
+            basicMod.FaceDirectionMg.SetFaceLeft();
         }
         else
         {
-            basicSM.FaceDirectionMg.SetFaceRight();
+            basicMod.FaceDirectionMg.SetFaceRight();
         }
         knockBackPower = attackableSM.AttackableMg.GetKnockBackPower();
         attackableSM.AttackableMg.SetIsKnockable(false);
@@ -59,11 +63,11 @@ public class AttackedKnockBack_Nor : StateBase
 
     public override void StateUpdate()
     {
-        if (basicSM.PhysicsMg.KeepJump())
+        if (basicMod.PhysicsMg.KeepJump())
         {
-            if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsTopBounderyAndResetPos())
             {
-                basicSM.PhysicsMg.SetJump(0);
+                basicMod.PhysicsMg.SetJump(0);
             }
         }
         else
@@ -73,29 +77,29 @@ public class AttackedKnockBack_Nor : StateBase
                 TriggerAni1();// fall ani
                 FallEventTriggered = true;
             }
-            basicSM.PhysicsMg.KeepFall();
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            basicMod.PhysicsMg.KeepFall();
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
                 return;
             }
         }
         if (knockBackRight)
         {
-            basicSM.PhysicsMg.MoveRight(knockBackPower);
-            if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+            basicMod.PhysicsMg.MoveRight(knockBackPower);
+            if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
             {
                 knockBackRight = false;
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
         }
         else
         {
-            basicSM.PhysicsMg.MoveLeft(knockBackPower);
-            if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+            basicMod.PhysicsMg.MoveLeft(knockBackPower);
+            if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
             {
                 knockBackRight = true;
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
         }
     }

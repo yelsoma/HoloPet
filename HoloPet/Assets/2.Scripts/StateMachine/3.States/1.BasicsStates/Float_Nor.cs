@@ -5,7 +5,7 @@ using UnityEngine;
 public class Float_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
 
     [SerializeField] private float floatSpeed;
     [SerializeField] private float SpeedMax;
@@ -20,10 +20,14 @@ public class Float_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
     }
 
@@ -39,12 +43,12 @@ public class Float_Nor : StateBase
             speedNow += floatSpeed * Time.deltaTime;
         }
         //fall
-        basicSM.PhysicsMg.MoveUp(speedNow);
+        basicMod.PhysicsMg.MoveUp(speedNow);
 
-        if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsTopBounderyAndResetPos())
         {
             //exit to idle
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
     }
 

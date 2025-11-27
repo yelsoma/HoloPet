@@ -6,7 +6,7 @@ using UnityEngine;
 public class BasicAttack_Slime : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackAbilitySM attackAbilitySM;
     LayerMask playerLayerMask;
     [SerializeField] private float jumpUpPower;
@@ -25,10 +25,14 @@ public class BasicAttack_Slime : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
@@ -43,8 +47,8 @@ public class BasicAttack_Slime : StateBase
     public override void Enter()
     {
         playerLayerMask = LayerMask.GetMask("Player");
-        basicSM.PhysicsMg.ResetFall();
-        basicSM.PhysicsMg.SetJump(jumpUpPower);
+        basicMod.PhysicsMg.ResetFall();
+        basicMod.PhysicsMg.SetJump(jumpUpPower);
         hit = false;
         startAttackjump = false;
     }
@@ -52,31 +56,31 @@ public class BasicAttack_Slime : StateBase
     {
         if (startAttackjump)
         {
-            if (basicSM.PhysicsMg.KeepJump())
+            if (basicMod.PhysicsMg.KeepJump())
             {
-                if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+                if (basicMod.BoundaryMg.CheckIsTopBounderyAndResetPos())
                 {
-                    basicSM.PhysicsMg.SetJump(0);
+                    basicMod.PhysicsMg.SetJump(0);
                 }
             }
             else
             {
-                basicSM.PhysicsMg.KeepFall();
-                if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+                basicMod.PhysicsMg.KeepFall();
+                if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
                 {
-                    stateMachine.ChangeState(basicSM.StateIdle);
+                    stateMachine.ChangeState(basicMod.StateIdle);
                 }
             }
 
             if (hit == false)
             {
-                if (basicSM.FaceDirectionMg.GetIsFaceRight())
+                if (basicMod.FaceDirectionMg.GetIsFaceRight())
                 {
-                    basicSM.PhysicsMg.MoveRight(jumpFrontPower);
+                    basicMod.PhysicsMg.MoveRight(jumpFrontPower);
                 }
                 else
                 {
-                    basicSM.PhysicsMg.MoveLeft(jumpFrontPower);
+                    basicMod.PhysicsMg.MoveLeft(jumpFrontPower);
                 }
 
                 //if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackableHorizontal(-0.3f, hitDistance, playerLayerMask))
@@ -90,13 +94,13 @@ public class BasicAttack_Slime : StateBase
             }
             else
             {
-                if (basicSM.FaceDirectionMg.GetIsFaceRight())
+                if (basicMod.FaceDirectionMg.GetIsFaceRight())
                 {
-                    basicSM.PhysicsMg.MoveLeft(jumpFrontPower * hitBackSpeedMultiply);
+                    basicMod.PhysicsMg.MoveLeft(jumpFrontPower * hitBackSpeedMultiply);
                 }
                 else
                 {
-                    basicSM.PhysicsMg.MoveRight(jumpFrontPower * hitBackSpeedMultiply);
+                    basicMod.PhysicsMg.MoveRight(jumpFrontPower * hitBackSpeedMultiply);
                 }
             }
         }      

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Search_JumpEnemy : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IAttackAbilitySM attackAbilitySM;
     [SerializeField] private float searchDistance;
     [SerializeField] private float StartAttackDistance;
@@ -25,10 +25,14 @@ public class Search_JumpEnemy : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
@@ -45,7 +49,7 @@ public class Search_JumpEnemy : StateBase
         playerLayerMask = LayerMask.GetMask("Player");
         keepSearch = true;
         startJump = false;
-        basicSM.PhysicsMg.ResetFall();
+        basicMod.PhysicsMg.ResetFall();
     }
     public override void StateUpdate()
     {
@@ -57,39 +61,39 @@ public class Search_JumpEnemy : StateBase
         {
             if (startJump)
             {
-                if (basicSM.FaceDirectionMg.GetIsFaceRight())
+                if (basicMod.FaceDirectionMg.GetIsFaceRight())
                 {
-                    basicSM.PhysicsMg.MoveRightMultiply(speedMultiply);
-                    if (basicSM.BoundaryMg.CheckIsRightBounderyAndResetPos())
+                    basicMod.PhysicsMg.MoveRightMultiply(speedMultiply);
+                    if (basicMod.BoundaryMg.CheckIsRightBounderyAndResetPos())
                     {
-                        basicSM.FaceDirectionMg.SetFaceLeft();
+                        basicMod.FaceDirectionMg.SetFaceLeft();
                     }
                 }
                 else
                 {
-                    basicSM.PhysicsMg.MoveLeftMultiply(speedMultiply);
-                    if (basicSM.BoundaryMg.CheckIsLeftBounderyAndResetPos())
+                    basicMod.PhysicsMg.MoveLeftMultiply(speedMultiply);
+                    if (basicMod.BoundaryMg.CheckIsLeftBounderyAndResetPos())
                     {
-                        basicSM.FaceDirectionMg.SetFaceRight();
+                        basicMod.FaceDirectionMg.SetFaceRight();
                     }
                 }
-                if (basicSM.PhysicsMg.KeepJump())
+                if (basicMod.PhysicsMg.KeepJump())
                 {
-                    if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+                    if (basicMod.BoundaryMg.CheckIsTopBounderyAndResetPos())
                     {
-                        basicSM.PhysicsMg.SetJump(0);
-                        basicSM.PhysicsMg.ResetFall();
+                        basicMod.PhysicsMg.SetJump(0);
+                        basicMod.PhysicsMg.ResetFall();
                     }
 
                 }
                 else
                 {
-                    basicSM.PhysicsMg.KeepFall();
-                    if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+                    basicMod.PhysicsMg.KeepFall();
+                    if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
                     {
                         startJump = false;
                         keepSearch = true;
-                        basicSM.PhysicsMg.ResetFall();
+                        basicMod.PhysicsMg.ResetFall();
                         TriggerAni2();//play idle Ani
                     }
                 }
@@ -109,15 +113,15 @@ public class Search_JumpEnemy : StateBase
         {
             TriggerAni1();//start jump ani
             keepSearch = false;
-            basicSM.PhysicsMg.SetJump(jumpPower);
+            basicMod.PhysicsMg.SetJump(jumpPower);
             if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
             {
 
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
                 
             }
             if (attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= StartAttackDistance)

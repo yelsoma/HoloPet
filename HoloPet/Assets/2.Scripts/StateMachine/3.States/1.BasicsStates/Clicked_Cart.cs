@@ -5,8 +5,8 @@ using UnityEngine;
 public class Clicked_Cart : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
-    private IMountableSM mountableSM;
+    private BasicMod basicMod;
+    private MountableMod mountableMod;
     private IDriveSM driveSM;
 
     private void Awake()
@@ -17,16 +17,24 @@ public class Clicked_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-
-        mountableSM = GetComponentInParent<IMountableSM>();
-        if (mountableSM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no mountableSM found in parent.");
+            basicMod = ibasicMod.BasicMod;
+        }
+
+        IMountableMod imountableMod = GetComponentInParent<IMountableMod>();
+        if (imountableMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no mountableMod  found in parent.");
+        }
+        else
+        {
+            mountableMod = imountableMod.MountableMod;
         }
 
         driveSM = GetComponentInParent<IDriveSM>();
@@ -38,7 +46,7 @@ public class Clicked_Cart : StateBase
 
     public override void Enter()
     {
-        if (mountableSM.MountableMg.GetIsMounted())
+        if (mountableMod.MountableMg.GetIsMounted())
         {
             stateMachine.ChangeState(driveSM.StateDirveJump);
         }

@@ -7,21 +7,25 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
 {
     [Header("SpriteLayers")]
     [SerializeField] private SpriteLayer mainLayer;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private Transform stateMachineTransform;
 
     private void Awake()
     {
-        stateMachineTransform = transform.root;
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        stateMachineTransform = GetComponentInParent<StateMachineBase>().transform;
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
-            Debug.Log(transform + "no IBasicSM for BasicLayerManager");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }
-        basicSM.StateClicked.OnEnterState += StateClicked_OnEnterState;
-        basicSM.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
-        basicSM.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
-        basicSM.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
+        }
+        basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
+        basicMod.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
+        basicMod.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
+        basicMod.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
     }
 
     private void StateDeSpawn_OnEnterState(object sender, System.EventArgs e)

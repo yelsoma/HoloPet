@@ -5,7 +5,7 @@ using UnityEngine;
 public class HoldItem_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private IBasicMod basicMod;
     private IItemSM itemHoldSM;
 
     #region AutoSetRef
@@ -17,8 +17,8 @@ public class HoldItem_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        basicMod = GetComponentInParent<IBasicMod>();
+        if (basicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
         }

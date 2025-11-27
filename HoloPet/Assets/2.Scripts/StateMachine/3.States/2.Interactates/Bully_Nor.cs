@@ -6,7 +6,7 @@ using System;
 public class Bully_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractAbilitySM interactAbilitySM;
     private InteractAbilityManager myInteractAbilityMg;
     private InteractableManager interactTargetMg;
@@ -24,10 +24,14 @@ public class Bully_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
@@ -47,11 +51,11 @@ public class Bully_Nor : StateBase
         {
             if (myInteractAbilityMg.GetIsTargetRight())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
             interactTargetMg.OnExitInteracted += HoloMem_Bully_OnExitInteracted;
             punchCountDownNow = 0.15f;
@@ -70,14 +74,14 @@ public class Bully_Nor : StateBase
     {
         if (exitToIdle)
         {
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
                 return;
             }
             else
             {
-                stateMachine.ChangeState(basicSM.StateInAir);
+                stateMachine.ChangeState(basicMod.StateInAir);
                 return;
             }
         }
@@ -91,12 +95,12 @@ public class Bully_Nor : StateBase
         {
             fallSpeedNow = fallSpeedNow + fallSpeedIncrease * Time.deltaTime;
         }
-        basicSM.PhysicsMg.MoveDown(fallSpeedNow);
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        basicMod.PhysicsMg.MoveDown(fallSpeedNow);
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             if(punchCountDownNow <= -0.5)
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
             }
         }
     }
@@ -113,10 +117,10 @@ public class Bully_Nor : StateBase
 
     private void HoloMem_Bully_OnExitInteracted(object sender, System.EventArgs e)
     {
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
-        stateMachine.ChangeState(basicSM.StateInAir);
+        stateMachine.ChangeState(basicMod.StateInAir);
     }
 }

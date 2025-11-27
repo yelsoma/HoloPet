@@ -5,10 +5,10 @@ using UnityEngine;
 public class InteractMounted_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractableSM interactableSM;
     private InteractableManager myInteractableMg;
-    private IMountableSM mountableSM;
+    private MountableMod mountableMod;
     #region AutoSetRef
     private void Awake()
     {
@@ -18,10 +18,14 @@ public class InteractMounted_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactableSM = GetComponentInParent<IInteractableSM>();
@@ -30,10 +34,14 @@ public class InteractMounted_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
         }
 
-        mountableSM = GetComponentInParent < IMountableSM>();
-        if(mountableSM == null)
+        IMountableMod imountableMod = GetComponentInParent<IMountableMod>();
+        if (imountableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no mountableSM  found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no mountableMod  found in parent.");
+        }
+        else
+        {
+            mountableMod = imountableMod.MountableMod;
         }
     }
     #endregion
@@ -47,16 +55,16 @@ public class InteractMounted_Nor : StateBase
         myInteractableMg = interactableSM.InteractableMg;
         Transform interacterTransform = myInteractableMg.GetInteracterManager().GetStateMachineTransform();
         StateMachineBase interacterSM = interacterTransform.GetComponent<StateMachineBase>();
-        if (interacterTransform.TryGetComponent<IMountingAbilitySM>(out IMountingAbilitySM MounterMountingAbilitySM) && MounterMountingAbilitySM.MountingAbilityMg.TrySetMount(mountableSM.MountableMg))
+        if (interacterTransform.TryGetComponent<IMountingAbilityMod>(out IMountingAbilityMod iMounterMountingAbilityMod) && iMounterMountingAbilityMod.MountingAbilityMod.MountingAbilityMg.TrySetMount(mountableMod.MountableMg))
         {
             //sucsses set mounter
-            interacterSM.ChangeState(MounterMountingAbilitySM.StateMounting);
+            interacterSM.ChangeState(iMounterMountingAbilityMod.MountingAbilityMod.StateMounting);
         }
-        if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
-            stateMachine.ChangeState(basicSM.StateIdle);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
-        stateMachine.ChangeState(basicSM.StateInAir);
+        stateMachine.ChangeState(basicMod.StateInAir);
     }
     public override void StateLateUpdate()
     {

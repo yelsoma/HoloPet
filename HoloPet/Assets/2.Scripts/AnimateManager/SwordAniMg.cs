@@ -7,14 +7,14 @@ public class SwordAniMg : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private StateBase swing;
     [SerializeField] private StateBase hold;
-    [SerializeField] private IBasicSM basicSM;
+    [SerializeField] private BasicMod basicMod;
     private void Awake()
     {
-        basicSM= GetComponent<IBasicSM>();
-        basicSM.StateIdle.OnEnterState += Idle_OnEnterState;
-        basicSM.StateInAir.OnEnterState += InAir_OnEnterState;
-        basicSM.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
-        basicSM.StateClicked.OnEnterState += Clicked_OnEnterState;
+        basicMod= GetComponent<IBasicMod>().BasicMod;
+        basicMod.StateIdle.OnEnterState += Idle_OnEnterState;
+        basicMod.StateInAir.OnEnterState += InAir_OnEnterState;
+        basicMod.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
+        basicMod.StateClicked.OnEnterState += Clicked_OnEnterState;
         swing.OnTriggerAni1 += Swing_OnSwingAni;
         hold.OnTriggerAni1 += Hold_OnTriggerAni1;
 

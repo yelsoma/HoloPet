@@ -8,8 +8,8 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
     [SerializeField] private SpriteLayer bodyLayer;
     [SerializeField] private SpriteLayer backHandLayer;
 
-    private IBasicSM basicSM;
-    private IMountingAbilitySM mountingAbilitySM;
+    private BasicMod basicMod;
+    private MountingAbilityMod mountingAbilityMod;
     private Transform stateMachineTransform;
     private IInteractableSM interactableManager;
     private IAttackableSM attackableSM;
@@ -24,18 +24,27 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
         {
             Debug.LogError(stateMachineTransform + " backHandLayer is missing on HumanoidLayerManager");
         }
-       
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
-            Debug.LogError($"{name} ¡X IBasicSM not found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
-        mountingAbilitySM = GetComponentInParent<IMountingAbilitySM>();
-        if (mountingAbilitySM == null)
+        IMountingAbilityMod iMountingAbilityMod = GetComponentInParent<IMountingAbilityMod>();
+        if (iMountingAbilityMod == null)
         {
-            Debug.LogError($"{name} ¡X IMountingAbilitySM not found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no imountingAbilityMod found in parent.");
         }
+        else
+        {
+            mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
+        }
+
         interactableManager = GetComponentInParent<IInteractableSM>();
         if (interactableManager == null)
         {
@@ -47,14 +56,14 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
             Debug.LogError($"{name} ¡X attackableSM not found in parent.");
         }
 
-        basicSM.StateClicked.OnEnterState += StateClicked_OnEnterState;
-        basicSM.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
-        mountingAbilitySM.StateMounting.OnEnterState += StateMounting_OnEnterState;
-        basicSM.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
-        basicSM.StateGrabbed.OnExitState += StateGrabbed_OnExitState;
+        basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
+        basicMod.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
+        mountingAbilityMod.StateMounting.OnEnterState += StateMounting_OnEnterState;
+        basicMod.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
+        basicMod.StateGrabbed.OnExitState += StateGrabbed_OnExitState;
         interactableManager.InteractableMg.OnEnterInteractedChangeLayer += InteractableMg_OnEnterInteractedChangeLayer;
         attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
-        basicSM.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
+        basicMod.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
     }
 
     private void StateDeSpawn_OnEnterState(object sender, System.EventArgs e)

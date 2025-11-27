@@ -5,7 +5,7 @@ using UnityEngine;
 public class HappyChat_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicSM basicSM;
+    private BasicMod basicMod;
     private IInteractAbilitySM interactAbilitySM;
     [SerializeField] private float jumpUpPower;
     [SerializeField] private int jumpCount;
@@ -21,10 +21,14 @@ public class HappyChat_Nor : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicSM = GetComponentInParent<IBasicSM>();
-        if (basicSM == null)
+        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
+        if (ibasicMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+        }
+        else
+        {
+            basicMod = ibasicMod.BasicMod;
         }
 
         interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
@@ -44,11 +48,11 @@ public class HappyChat_Nor : StateBase
         {          
             if (interactAbilitySM.InteractAbilityMg.GetIsTargetRight())
             {
-                basicSM.FaceDirectionMg.SetFaceRight();
+                basicMod.FaceDirectionMg.SetFaceRight();
             }
             else
             {
-                basicSM.FaceDirectionMg.SetFaceLeft();
+                basicMod.FaceDirectionMg.SetFaceLeft();
             }
             //start jump
             jumpCoroutine = StartCoroutine(CoStartJump());
@@ -64,14 +68,14 @@ public class HappyChat_Nor : StateBase
     {
         if (exitToIdle)
         {
-            if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+            if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
-                stateMachine.ChangeState(basicSM.StateIdle);
+                stateMachine.ChangeState(basicMod.StateIdle);
                 return;
             }
             else
             {
-                stateMachine.ChangeState(basicSM.StateInAir);
+                stateMachine.ChangeState(basicMod.StateInAir);
                 return;
             }
         }
@@ -89,31 +93,31 @@ public class HappyChat_Nor : StateBase
 
     private void InteractTarget_OnExitInteract(object sender, System.EventArgs e)
     {
-        stateMachine.ChangeState(basicSM.StateInAir);
+        stateMachine.ChangeState(basicMod.StateInAir);
     }
 
     private IEnumerator CoStartJump()
     {
         jumpCountLeft = jumpCount;
-        basicSM.PhysicsMg.SetJump(jumpUpPower);
-        basicSM.PhysicsMg.ResetFall();
+        basicMod.PhysicsMg.SetJump(jumpUpPower);
+        basicMod.PhysicsMg.ResetFall();
         while (jumpCountLeft > 0)
         {
-            if (basicSM.PhysicsMg.KeepJump())
+            if (basicMod.PhysicsMg.KeepJump())
             {
-                if (basicSM.BoundaryMg.CheckIsTopBounderyAndResetPos())
+                if (basicMod.BoundaryMg.CheckIsTopBounderyAndResetPos())
                 {
-                    basicSM.PhysicsMg.SetJump(0);
+                    basicMod.PhysicsMg.SetJump(0);
                 }
             }
             else
             {
-                basicSM.PhysicsMg.KeepFall();
-                if (basicSM.BoundaryMg.CheckIsBotBounderyAndResetPos())
+                basicMod.PhysicsMg.KeepFall();
+                if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
                 {
                     jumpCountLeft--;
-                    basicSM.PhysicsMg.SetJump(jumpUpPower);
-                    basicSM.PhysicsMg.ResetFall();
+                    basicMod.PhysicsMg.SetJump(jumpUpPower);
+                    basicMod.PhysicsMg.ResetFall();
                 }
             }
             yield return null;
