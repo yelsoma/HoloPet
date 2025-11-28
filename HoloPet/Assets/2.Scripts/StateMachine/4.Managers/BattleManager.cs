@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleManager : MonoBehaviour
+public class BattleMod : MonoBehaviour
 {
     [SerializeField] private StateBase battleFall;
     [SerializeField] private StateBase battleStart;

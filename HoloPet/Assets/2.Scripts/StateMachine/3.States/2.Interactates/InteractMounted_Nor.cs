@@ -6,7 +6,7 @@ public class InteractMounted_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IInteractableSM interactableSM;
+    private InteractableMod interactableMod;
     private InteractableManager myInteractableMg;
     private MountableMod mountableMod;
     #region AutoSetRef
@@ -28,10 +28,14 @@ public class InteractMounted_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        interactableSM = GetComponentInParent<IInteractableSM>();
-        if (interactableSM == null)
+        IInteractableMod iInteractableMod = GetComponentInParent<IInteractableMod>();
+        if (iInteractableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractableMod found in parent.");
+        }
+        else
+        {
+            interactableMod = iInteractableMod.InteractableMod;
         }
 
         IMountableMod imountableMod = GetComponentInParent<IMountableMod>();
@@ -52,7 +56,7 @@ public class InteractMounted_Nor : StateBase
     }
     public override void StateUpdate()
     {
-        myInteractableMg = interactableSM.InteractableMg;
+        myInteractableMg = interactableMod.InteractableMg;
         Transform interacterTransform = myInteractableMg.GetInteracterManager().GetStateMachineTransform();
         StateMachineBase interacterSM = interacterTransform.GetComponent<StateMachineBase>();
         if (interacterTransform.TryGetComponent<IMountingAbilityMod>(out IMountingAbilityMod iMounterMountingAbilityMod) && iMounterMountingAbilityMod.MountingAbilityMod.MountingAbilityMg.TrySetMount(mountableMod.MountableMg))

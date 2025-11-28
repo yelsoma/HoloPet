@@ -5,8 +5,7 @@ using UnityEngine;
 public class HoldItem_Nor : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicMod basicMod;
-    private IItemSM itemHoldSM;
+    private ItemMod itemMod;
 
     #region AutoSetRef
     private void Awake()
@@ -16,17 +15,14 @@ public class HoldItem_Nor : StateBase
         {
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
-
-        basicMod = GetComponentInParent<IBasicMod>();
-        if (basicMod == null)
+        IItemMod iItemMod = GetComponentInParent<IItemMod>();
+        if (iItemMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iItemMod found in parent.");
         }
-
-        itemHoldSM = GetComponentInParent<IItemSM>();
-        if (itemHoldSM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no itemHoldSM found in parent.");
+            itemMod = iItemMod.ItemMod;
         }
     }
     #endregion
@@ -34,7 +30,7 @@ public class HoldItem_Nor : StateBase
     #region StateBase
     public override void Enter()
     {
-        itemHoldSM.ItemMg.EnterHold();
+        itemMod.ItemMg.EnterHold();
         TriggerAni1();
     }
     public override void StateUpdate()

@@ -11,18 +11,18 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
     private BasicMod basicMod;
     private MountingAbilityMod mountingAbilityMod;
     private Transform stateMachineTransform;
-    private IInteractableSM interactableManager;
-    private IAttackableSM attackableSM;
+    private InteractableMod interactableMod;
+    private AttackableMod attackableMod;
     private void Awake()
     {
         stateMachineTransform = transform.root;
         if (bodyLayer == null)
         {
-            Debug.LogError(stateMachineTransform + " mainLayer is missing on HumanoidLayerManager");
+            Debug.LogError($"{transform.root.name} ¡X no BasicLayerSet In LayerManager");
         }
         if (backHandLayer == null)
         {
-            Debug.LogError(stateMachineTransform + " backHandLayer is missing on HumanoidLayerManager");
+            Debug.LogError($"{transform.root.name} ¡X no BackhandLayerSet In LayerManager");
         }
 
         IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
@@ -45,15 +45,24 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
             mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
         }
 
-        interactableManager = GetComponentInParent<IInteractableSM>();
-        if (interactableManager == null)
+        IInteractableMod iInteractableMod = GetComponentInParent<IInteractableMod>();
+        if (iInteractableMod == null)
         {
-            Debug.LogError($"{name} ¡X IInteractableSM not found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractableMod found in parent.");
         }
-        attackableSM = GetComponentInParent<IAttackableSM>();
-        if (attackableSM == null)
+        else
         {
-            Debug.LogError($"{name} ¡X attackableSM not found in parent.");
+            interactableMod = iInteractableMod.InteractableMod;
+        }
+
+        IAttackableMod iAttackableMod = GetComponentInParent<IAttackableMod>();
+        if (iAttackableMod == null)
+        {
+            Debug.LogError($"{name} ¡X iAttackableMod not found in parent.");
+        }
+        else
+        {
+            attackableMod = iAttackableMod.AttackableMod;
         }
 
         basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
@@ -61,8 +70,8 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
         mountingAbilityMod.StateMounting.OnEnterState += StateMounting_OnEnterState;
         basicMod.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
         basicMod.StateGrabbed.OnExitState += StateGrabbed_OnExitState;
-        interactableManager.InteractableMg.OnEnterInteractedChangeLayer += InteractableMg_OnEnterInteractedChangeLayer;
-        attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
+        interactableMod.InteractableMg.OnEnterInteractedChangeLayer += InteractableMg_OnEnterInteractedChangeLayer;
+        attackableMod.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
         basicMod.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
     }
 

@@ -6,7 +6,7 @@ public class AttackableManager : MonoBehaviour
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackableSM attackableSM;
+    private AttackableMod attackableMod;
 
     [SerializeField] private StateBase[] unAttackableState;
     private bool isAttckable;
@@ -16,12 +16,6 @@ public class AttackableManager : MonoBehaviour
     [SerializeField] private StateBase StatePanic;
     private void Awake()
     {
-        attackableSM = GetComponentInParent<IAttackableSM>();
-        if(attackableSM == null)
-        {
-            Debug.Log(transform.name + "no IAttackableSM in parant");
-        }
-
         stateMachine = GetComponentInParent<StateMachineBase>();
         if(stateMachine == null)
         {
@@ -36,6 +30,16 @@ public class AttackableManager : MonoBehaviour
         else
         {
             basicMod = ibasicMod.BasicMod;
+        }
+
+        IAttackableMod iAttackableMod = GetComponentInParent<IAttackableMod>();
+        if (iAttackableMod == null)
+        {
+            Debug.LogError($"{name} ¡X iAttackableMod not found in parent.");
+        }
+        else
+        {
+            attackableMod = iAttackableMod.AttackableMod;
         }
     }
 
@@ -61,7 +65,7 @@ public class AttackableManager : MonoBehaviour
     {
         this.knockBackPower = knockBackPower;
         this.isknockRight = knockRight;
-        stateMachine.ChangeState(attackableSM.StateKnockBack);
+        stateMachine.ChangeState(attackableMod.StateKnockBack);
     }
     public void AttackPanic()
     {
@@ -75,7 +79,7 @@ public class AttackableManager : MonoBehaviour
     }
     public void AttackHP(int damage)
     {
-        basicMod.ObjectStatMg.HpModify(- damage);
+        Debug.Log("nothing happens");
     }
 
     public float GetKnockBackPower()

@@ -6,8 +6,8 @@ public class Search_Human : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackAbilitySM attackAbilitySM;
-    private IItemHolderSM itemHolderSM;
+    private AttackAbilityMod attackAbilityMod;
+    private ItemHolderMod itemHolderMod;
     [SerializeField] private float searchDistance;
     [SerializeField] private float moveSpeedMultiply;
     [SerializeField] LayerMask targetLayerMask;
@@ -34,25 +34,33 @@ public class Search_Human : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
-        if (attackAbilitySM == null)
+        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
+        if (iAttackAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no attackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
         }
 
-        itemHolderSM = GetComponentInParent<IItemHolderSM>();
-        if (itemHolderSM == null)
+        IItemHolderMod iItemHolderMod = GetComponentInParent<IItemHolderMod>();
+        if (iItemHolderMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no itemHolderSM found in parent.");
+        }
+        else
+        {
+            itemHolderMod = iItemHolderMod.ItemHolderMod;
         }
     }
     #endregion
     #region StateBase
     public override void Enter()
     {
-        if (itemHolderSM.ItemHolderMg.GetIsHolding())
+        if (itemHolderMod.ItemHolderMg.GetIsHolding())
         {
-            atkDistance = itemHolderSM.ItemHolderMg.GetItem().GetAttackDistance();
+            atkDistance = itemHolderMod.ItemHolderMg.GetItem().GetAttackDistance();
             isHolding = true;
         }
         else
@@ -72,13 +80,13 @@ public class Search_Human : StateBase
 
         if (targetSet == false)
         {
-            if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, targetLayerMask))
+            if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, targetLayerMask))
             {
                 targetSet = true;
             }
         }
 
-        if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
+        if (attackAbilityMod.AttackAbilityMg.GetIsTargetRight())
         {
             basicMod.FaceDirectionMg.SetFaceRight();
             basicMod.PhysicsMg.MoveRightMultiply(moveSpeedMultiply);
@@ -109,12 +117,12 @@ public class Search_Human : StateBase
     {
         if (isHolding)
         {
-            stateMachine.ChangeState(itemHolderSM.StateItemAttack);
+            stateMachine.ChangeState(itemHolderMod.StateItemAttack);
             return;
         }
         else
         {
-            stateMachine.ChangeState(attackAbilitySM.StateBasicAttack);
+            stateMachine.ChangeState(attackAbilityMod.StateBasicAttack);
             return;
         }
     }

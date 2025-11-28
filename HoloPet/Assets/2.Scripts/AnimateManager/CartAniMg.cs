@@ -8,7 +8,7 @@ public class CartAniMg : MonoBehaviour
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private IDriveSM driveSM;
-    private IAttackableSM attackableSM;
+    private AttackableMod attackableMod;
     private MountableMod mountableMod;
     private void Awake()
     {
@@ -21,9 +21,9 @@ public class CartAniMg : MonoBehaviour
         driveSM.StateDirveJump.OnEnterState += DirveJump_OnEnterState;
         driveSM.StateDirveMax.OnEnterState += DirveMax_OnEnterState;
         driveSM.StateDrive.OnEnterState += Drive_OnEnterState;
-        attackableSM = GetComponent<IAttackableSM>();
-        attackableSM.StateKnockBack.OnEnterState += StateKnockBack_OnEnterState;
-        attackableSM.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
+        attackableMod = GetComponent<IAttackableMod>().AttackableMod;
+        attackableMod.StateKnockBack.OnEnterState += StateKnockBack_OnEnterState;
+        attackableMod.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
         //mounted change
         stateMachine = GetComponent<StateMachineBase>();
         mountableMod = GetComponent<IMountableMod>().MountableMod;

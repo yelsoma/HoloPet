@@ -8,7 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 public class TextLogManager : MonoBehaviour
 {
     [SerializeField] private Transform iconBubbleTransform;
-    [SerializeField] private Transform headTransform;
+    [SerializeField] private Transform textLogTransform;
     private float popDuration = 0.25f;
     private float targetScale = 1f;
     [SerializeField] private Image iconImage;
@@ -21,7 +21,7 @@ public class TextLogManager : MonoBehaviour
 
     private void Awake()
     {
-        if(headTransform == null)
+        if(textLogTransform == null)
         {
             Debug.LogError(transform.root.name + " you forgot to add head Transform on TextLogMg");
         }
@@ -90,7 +90,7 @@ public class TextLogManager : MonoBehaviour
         float timer = 0f;
         while (timer < popDuration)
         {
-            transform.position = headTransform.position;
+            transform.position = textLogTransform.position;
             timer += Time.deltaTime;
             float t = timer / popDuration;
             float scale = Mathf.Sin(t * Mathf.PI * 0.5f);
@@ -107,7 +107,7 @@ public class TextLogManager : MonoBehaviour
 
         while (timer < duration)
         {
-            transform.position = headTransform.position;
+            transform.position = textLogTransform.position;
             timer += Time.deltaTime;
             float pulse = Mathf.Sin(timer * pulseSpeed * Mathf.PI * 2f) * pulseAmplitude;
             iconImage.transform.localScale = iconOriginalScale * (1f + pulse);
@@ -119,7 +119,7 @@ public class TextLogManager : MonoBehaviour
         timer = 0f;
         while (timer < popDuration)
         {
-            transform.position = headTransform.position;
+            transform.position = textLogTransform.position;
             timer += Time.deltaTime;
             float t = timer / popDuration;
             float scale = Mathf.Sin(t * Mathf.PI * 0.5f);

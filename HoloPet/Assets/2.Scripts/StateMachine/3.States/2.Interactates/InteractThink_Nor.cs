@@ -6,7 +6,7 @@ public class InteractThink_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IInteractAbilitySM interactAbilitySM;
+    private InteractAbilityMod interactAbilityMod;
     [SerializeField] private float serchDistance;
     [SerializeField] private float interactDistance;
     private InteractAbilityManager myInteractMg;
@@ -37,10 +37,14 @@ public class InteractThink_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
-        if (interactAbilitySM == null)
+        IInteractAbilityMod iInteractAbilityMod = GetComponentInParent<IInteractAbilityMod>();
+        if (iInteractAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iInteractAbilityMod found in parent.");
+        }
+        else
+        {
+            interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
         }
     }
     #endregion
@@ -48,23 +52,23 @@ public class InteractThink_Nor : StateBase
     #region StateBase
     public override void Enter()
     {
-        haveATarget = interactAbilitySM.InteractAbilityMg.GetIsTargetLocked();
+        haveATarget = interactAbilityMod.InteractAbilityMg.GetIsTargetLocked();
         if (!haveATarget)
         {
-            if (!interactAbilitySM.InteractAbilityMg.TrySetTargetBothSide(serchDistance))
+            if (!interactAbilityMod.InteractAbilityMg.TrySetTargetBothSide(serchDistance))
             {
                 //no Interactable
                 exitToIdle = true;
                 return;
             }
-            interactAbilitySM.InteractAbilityMg.SetTargetLocked(true);
+            interactAbilityMod.InteractAbilityMg.SetTargetLocked(true);
         }       
-        myInteractMg = interactAbilitySM.InteractAbilityMg;
+        myInteractMg = interactAbilityMod.InteractAbilityMg;
         targetInteractMg = myInteractMg.GetTargetInteractableMg();
         targetIsFarX = myInteractMg.GetIsTargetFarX(interactDistance);
         targetIsFarY = myInteractMg.GetIsTargetFarY(interactDistance);
         BasicMod targetBasicSM = targetInteractMg.GetTargetBasicMod();
-        interactAbilitySM.TextLogMg.PopUpTargetIcon(targetBasicSM.BaseDataMg.GetIconSprite(), bubbleTime);
+        //interactAbilityMod.TextLogMg.PopUpTargetIcon(targetBasicSM.BaseDataMg.GetIconSprite(), bubbleTime);
         waitTimeNow = waitTime;
         exitToIdle = false;
     }
@@ -91,11 +95,11 @@ public class InteractThink_Nor : StateBase
         {
             if (targetIsFarX == false && targetIsFarY == true)
             {
-                stateMachine.ChangeState(interactAbilitySM.StateInteractFollowY);
+                stateMachine.ChangeState(interactAbilityMod.StateInteractFollowY);
             }
             else
             {
-                stateMachine.ChangeState(interactAbilitySM.StateInteractFollowX);
+                stateMachine.ChangeState(interactAbilityMod.StateInteractFollowX);
             }
         }
     }

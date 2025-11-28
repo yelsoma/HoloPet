@@ -6,8 +6,8 @@ public class BattleItemAttack_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private BattleManager battleManager;
-    private IItemHolderSM itemHolderSM;
+    private BattleMod battleMod;
+    private ItemHolderMod itemHolderMod;
     private float attackSpeedWait;
 
     private void Awake()
@@ -28,30 +28,39 @@ public class BattleItemAttack_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        itemHolderSM = GetComponentInParent<IItemHolderSM>();
-        if (itemHolderSM == null)
+        IItemHolderMod iItemHolderMod = GetComponentInParent<IItemHolderMod>();
+        if (iItemHolderMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IItemHolderSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no itemHolderSM found in parent.");
+        }
+        else
+        {
+            itemHolderMod = iItemHolderMod.ItemHolderMod;
         }
 
-        battleManager = GetComponentInParent<BattleManager>();
-        if (battleManager == null)
+        IBattleMod iBattleMod = GetComponentInParent<IBattleMod>();
+        if (iBattleMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no battleManager found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no battleMod found in parent.");
+        }
+        else
+        {
+            battleMod = iBattleMod.BattleMod;
         }
     }
 
     public override void Enter()
     {
-        attackSpeedWait = basicMod.ObjectStatMg.GetAtkSpeed();
-        itemHolderSM.ItemHolderMg.GetItem().ChangeToItemUse();
+        attackSpeedWait = 1;
+        Debug.Log("attackSpeedNotSetYet");
+        itemHolderMod.ItemHolderMg.GetItem().ChangeToItemUse();
     }
 
     public override void StateUpdate()
     {
-        if (!itemHolderSM.ItemHolderMg.GetIsHolding())
+        if (!itemHolderMod.ItemHolderMg.GetIsHolding())
         {
-            stateMachine.ChangeState(battleManager.BattleStart);
+            stateMachine.ChangeState(battleMod.BattleStart);
             return;
         }
         if(attackSpeedWait >= 0f)
@@ -59,7 +68,7 @@ public class BattleItemAttack_Nor : StateBase
             attackSpeedWait -= Time.deltaTime;
             return;
         }
-        stateMachine.ChangeState(battleManager.BattleStart);
+        stateMachine.ChangeState(battleMod.BattleStart);
     }
 
     public override void StateLateUpdate()

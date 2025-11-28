@@ -6,8 +6,8 @@ public class InteractFollowY_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IInteractAbilitySM interactAbilitySM;
-    private IHoloMemFXSM holoMemFXSM;
+    private InteractAbilityMod interactAbilityMod;
+    private HoloMemFXMod holoMemFXMod;
     [SerializeField] private float interactDistance;
     private InteractAbilityManager myInteractMg;
     private InteractableManager targetInteractMg;
@@ -38,16 +38,24 @@ public class InteractFollowY_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
-        if (interactAbilitySM == null)
+        IInteractAbilityMod iInteractAbilityMod = GetComponentInParent<IInteractAbilityMod>();
+        if (iInteractAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iInteractAbilityMod found in parent.");
+        }
+        else
+        {
+            interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
         }
 
-        holoMemFXSM = GetComponentInParent<IHoloMemFXSM>();
-        if (holoMemFXSM == null)
+        IHoloMemFXMod iHoloMemFXMod = GetComponentInParent<IHoloMemFXMod>();
+        if(iHoloMemFXMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no holoMemFXSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no holoMemFXMod found in parent.");
+        }
+        else
+        {
+            holoMemFXMod = iHoloMemFXMod.HoloMemFXMod;
         }
     }
     #endregion
@@ -55,7 +63,7 @@ public class InteractFollowY_Nor : StateBase
     #region StateBase
     public override void Enter()
     {
-        myInteractMg = interactAbilitySM.InteractAbilityMg;
+        myInteractMg = interactAbilityMod.InteractAbilityMg;
         targetInteractMg = myInteractMg.GetTargetInteractableMg();
         keepJump = true;
         basicMod.PhysicsMg.SetJump(jumpUpPower);
@@ -108,7 +116,7 @@ public class InteractFollowY_Nor : StateBase
                 }
                 else
                 {
-                    stateMachine.ChangeState(interactAbilitySM.StateInteractFollowX);
+                    stateMachine.ChangeState(interactAbilityMod.StateInteractFollowX);
                 }
             }
         }
@@ -125,7 +133,7 @@ public class InteractFollowY_Nor : StateBase
     {
         if (targetInteractMg.GetIsInteractable())
         {
-            holoMemFXSM.HoloMemFXMg.StartHeartPartical();
+            holoMemFXMod.HoloMemFX.StartHeartPartical();
             myInteractMg.SetTargetLocked(false);
             targetInteractMg.SetInteracter(myInteractMg);
             targetInteractMg.GoToChoosenInteracedState();
@@ -137,7 +145,7 @@ public class InteractFollowY_Nor : StateBase
         else
         {
             //exit to idle
-            stateMachine.ChangeState(interactAbilitySM.StateInteractFailed);
+            stateMachine.ChangeState(interactAbilityMod.StateInteractFailed);
         }
     }
 }

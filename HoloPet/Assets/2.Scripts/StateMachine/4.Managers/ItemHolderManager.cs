@@ -20,7 +20,7 @@ public class ItemHolderManager : StateBase
     {
         if (HoldPoint == null)
         {
-            Debug.LogError("forget to set MeleeholdPoint in " + transform.root.name);
+            Debug.LogError("forget to set ItemHoldPoint in " + transform.root.name);
         }
     }
     public ItemManager GetItem()

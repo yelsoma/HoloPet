@@ -7,7 +7,7 @@ public class Bully_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IInteractAbilitySM interactAbilitySM;
+    private InteractAbilityMod interactAbilityMod;
     private InteractAbilityManager myInteractAbilityMg;
     private InteractableManager interactTargetMg;
     private float punchCountDownNow;
@@ -34,10 +34,14 @@ public class Bully_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
-        if (interactAbilitySM == null)
+        IInteractAbilityMod iInteractAbilityMod = GetComponentInParent<IInteractAbilityMod>();
+        if (iInteractAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iInteractAbilityMod found in parent.");
+        }
+        else
+        {
+            interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
         }
     }
     #endregion
@@ -45,7 +49,7 @@ public class Bully_Nor : StateBase
     #region StateBase
     public override void Enter()
     {
-        myInteractAbilityMg = interactAbilitySM.InteractAbilityMg;
+        myInteractAbilityMg = interactAbilityMod.InteractAbilityMg;
         interactTargetMg = myInteractAbilityMg.GetTargetInteractableMg();
         if (interactTargetMg != null)
         {

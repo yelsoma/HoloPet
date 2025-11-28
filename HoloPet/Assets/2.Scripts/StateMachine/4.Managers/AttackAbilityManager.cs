@@ -138,11 +138,11 @@ public class AttackAbilityManager : MonoBehaviour
         targetAttackable = closest.atk.AttackableMg;
         return true;
     }
-    private IAttackableSM GetValidAttackable(RaycastHit2D hit, ObjectGangEnum? gangFilter)
+    private AttackableMod GetValidAttackable(RaycastHit2D hit, ObjectGangEnum? gangFilter)
     {
         if (hit.collider == null) return null;
 
-        IAttackableSM attackable = hit.transform.GetComponent<IAttackableSM>();
+        AttackableMod attackable = hit.transform.GetComponent<IAttackableMod>().AttackableMod;
         IBasicMod ibasicMod = hit.transform.GetComponent<IBasicMod>();
 
         if (attackable != null && ibasicMod != null &&

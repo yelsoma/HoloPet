@@ -8,7 +8,7 @@ public class Idle_Cart : StateBase
     private BasicMod basicMod;
     private MountableMod mountableMod;
     private IDriveSM driveSM;
-    private IInteractableSM interactableSM;
+    private InteractableMod interactableMod;
 
     private void Awake()
     {
@@ -45,10 +45,14 @@ public class Idle_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no IDriveSM found in parent.");
         }
 
-        interactableSM = GetComponentInParent<IInteractableSM>();
-        if (interactableSM == null)
+        IInteractableMod iInteractableMod = GetComponentInParent<IInteractableMod>();
+        if (iInteractableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractableMod found in parent.");
+        }
+        else
+        {
+            interactableMod = iInteractableMod.InteractableMod;
         }
     }
 
@@ -57,7 +61,7 @@ public class Idle_Cart : StateBase
         mountableMod.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
         if (mountableMod.MountableMg.GetIsMounted())
         {
-            interactableSM.InteractableMg.SetIsInteractable(false);
+            interactableMod.InteractableMg.SetIsInteractable(false);
             if (mountableMod.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicMod>(out IBasicMod ibasicSM))
             {
                 if (ibasicSM.BasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
@@ -69,7 +73,7 @@ public class Idle_Cart : StateBase
         }
         else
         {
-            interactableSM.InteractableMg.SetIsInteractable(true);
+            interactableMod.InteractableMg.SetIsInteractable(true);
         }        
     }    
 
@@ -83,7 +87,7 @@ public class Idle_Cart : StateBase
 
     public override void Exit()
     {
-        interactableSM.InteractableMg.SetIsInteractable(true);
+        interactableMod.InteractableMg.SetIsInteractable(true);
         mountableMod.MountableMg.OnChangeMounted -= MountableMg_OnChangeMounted;
     }
 
@@ -91,7 +95,7 @@ public class Idle_Cart : StateBase
     {
         if (mountableMod.MountableMg.GetIsMounted())
         {
-            interactableSM.InteractableMg.SetIsInteractable(false);
+            interactableMod.InteractableMg.SetIsInteractable(false);
             if (mountableMod.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicMod>(out IBasicMod ibasicSM))
             {
                 if (ibasicSM.BasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
@@ -103,7 +107,7 @@ public class Idle_Cart : StateBase
         }
         else
         {
-            interactableSM.InteractableMg.SetIsInteractable(true);
+            interactableMod.InteractableMg.SetIsInteractable(true);
         }       
     }
 }

@@ -14,7 +14,6 @@ public class ChairSM : StateMachineBase
     [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
-    [SerializeField] private ObjectStatManager objectStatMg;
 
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
@@ -23,7 +22,6 @@ public class ChairSM : StateMachineBase
     public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
-    public ObjectStatManager ObjectStatMg => objectStatMg;
     #endregion
     #region Mountable Manager
     [SerializeField] private MountableManager mountableMg;

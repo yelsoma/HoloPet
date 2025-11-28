@@ -27,7 +27,6 @@ public class BasicMod : MonoBehaviour
     [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
     [SerializeField] private BaseDataManager baseDataMg;
-    [SerializeField] private ObjectStatManager objectStatMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
 
@@ -36,7 +35,6 @@ public class BasicMod : MonoBehaviour
     public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
     public BaseDataManager BaseDataMg => baseDataMg;
-    public ObjectStatManager ObjectStatMg => objectStatMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
 
@@ -90,11 +88,7 @@ public class BasicMod : MonoBehaviour
         if (baseDataMg == null)
         {
             Debug.LogError(transform.root.name + "forget to add  baseDataMg in BasicMod ");
-        }
-        if (objectStatMg == null)
-        {
-            Debug.LogError(transform.root.name + "forget to add  objectStatMg in BasicMod ");
-        }
+        }        
         if (clickableMg == null)
         {
             Debug.LogError(transform.root.name + "forget to add  clickableMg in BasicMod ");

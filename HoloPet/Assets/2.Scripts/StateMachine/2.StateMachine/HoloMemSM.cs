@@ -17,7 +17,6 @@ public class HoloMemSM : StateMachineBase
     [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
-    [SerializeField] private ObjectStatManager objectStatMg;
 
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
@@ -26,7 +25,6 @@ public class HoloMemSM : StateMachineBase
     public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
-    public ObjectStatManager ObjectStatMg => objectStatMg;
     #endregion
     #region RandomMove Manager
     [SerializeField] private RandomMoveManager randomMoveMg;

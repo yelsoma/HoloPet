@@ -6,7 +6,7 @@ public class Melee_Human : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackAbilitySM attackAbilitySM;
+    private AttackAbilityMod attackAbilityMod;
     //private IHoloMemAttackAbilitySM humanAttackSM;
 
     [SerializeField] private LayerMask targetLayerMask;
@@ -34,10 +34,14 @@ public class Melee_Human : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
-        if (attackAbilitySM == null)
+        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
+        if (iAttackAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IAttackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
         }
 
         //humanAttackSM = GetComponentInParent<IHoloMemAttackAbilitySM>();
@@ -70,9 +74,9 @@ public class Melee_Human : StateBase
         }
 
         // Normal attack logic
-        if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackableHorizontal(3f, targetLayerMask))
+        if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackableHorizontal(3f, targetLayerMask))
         {
-            if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
+            if (attackAbilityMod.AttackAbilityMg.GetIsTargetRight())
             {
                 basicMod.FaceDirectionMg.SetFaceRight();
             }
@@ -81,7 +85,7 @@ public class Melee_Human : StateBase
                 basicMod.FaceDirectionMg.SetFaceLeft();
             }
 
-            if (attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= 3f)
+            if (attackAbilityMod.AttackAbilityMg.GetTargetDistance() <= 3f)
             {
                 TriggerAni1();
                 //attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);

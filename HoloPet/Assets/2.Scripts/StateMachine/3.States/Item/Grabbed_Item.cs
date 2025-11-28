@@ -6,7 +6,7 @@ public class Grabbed_Item : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IItemSM itemSM;
+    private ItemMod itemMod;
     [SerializeField] private float grabOffset = -0.5f;
 
     private void Awake()
@@ -27,10 +27,14 @@ public class Grabbed_Item : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        itemSM = GetComponentInParent<ItemSM>();
-        if(itemSM == null)
+        IItemMod iItemMod = GetComponentInParent<IItemMod>();
+        if(iItemMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no itemSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iItemMod found in parent.");
+        }
+        else
+        {
+            itemMod = iItemMod.ItemMod;
         }
     }
 
@@ -38,9 +42,9 @@ public class Grabbed_Item : StateBase
     {
         basicMod.ClickableMg.OnRelease += ClickableManager_OnRelease;
         basicMod.ClickableMg.OnGrabMousePos += ClickableManager_OnGrabMousePos;
-        if (itemSM.ItemMg.GetIsHold())
+        if (itemMod.ItemMg.GetIsHold())
         {
-            itemSM.ItemMg.ExitHold();
+            itemMod.ItemMg.ExitHold();
         }      
     }
 

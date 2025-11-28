@@ -10,8 +10,8 @@ public class ItemManager : MonoBehaviour
     private BasicMod basicMod;
     private bool isHolded;
     private ItemHolderManager holderMg;
-    private IItemSM itemSM;
-    [SerializeField]private LayerMask targetLayer;
+    private ItemMod itemMod;
+    [SerializeField] private LayerMask targetLayer;
     [SerializeField] private ItemHitDetect itemHitDetect;
 
     private void Awake()
@@ -21,6 +21,7 @@ public class ItemManager : MonoBehaviour
         {
             Debug.LogError("no statemachinebase in " + transform.root.name);
         }
+
         IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
         if (ibasicMod == null)
         {
@@ -30,16 +31,21 @@ public class ItemManager : MonoBehaviour
         {
             basicMod = ibasicMod.BasicMod;
         }
-        itemSM = GetComponentInParent<IItemSM>();
-        if (itemSM == null)
+
+        IItemMod iItemMod = GetComponentInParent<IItemMod>();
+        if (iItemMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no itemHoldSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iItemMod found in parent.");
         }
+        else
+        {
+            itemMod = iItemMod.ItemMod;
+        }
+
         if (itemHitDetect == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no itemHitDetect found in parent.");
         }
-        Debug.Log(targetLayer.value + "start");
     }   
 
     private void Start()
@@ -65,10 +71,10 @@ public class ItemManager : MonoBehaviour
         {
             foreach(RaycastHit2D hit in hits)
             {
-                IItemHolderSM itemHolderSM = hit.transform.GetComponent<IItemHolderSM>();
-                if(itemHolderSM != null)
+                IItemHolderMod iItemHolderMod = hit.transform.GetComponent<IItemHolderMod>();
+                if(iItemHolderMod != null)
                 {
-                    holderMg = itemHolderSM.ItemHolderMg;
+                    holderMg = iItemHolderMod.ItemHolderMod.ItemHolderMg;
                     if (!holderMg.GetIsHolding())
                     {
                         return true;
@@ -84,7 +90,7 @@ public class ItemManager : MonoBehaviour
         holderMg.SetIsHolding(true);
         stateMachine.transform.SetParent(holderMg.GetHoldPoint());
         stateMachine.transform.position = holderMg.GetHoldPoint().position;
-        holderMg.SetItemHold(itemSM.ItemMg);
+        holderMg.SetItemHold(itemMod.ItemMg);
         IBasicMod holderIBasicMod = holderMg.GetComponentInParent<IBasicMod>();
         if(holderIBasicMod != null)
         {
@@ -112,7 +118,7 @@ public class ItemManager : MonoBehaviour
     public ItemHolderManager GetItemHolder() => holderMg;
     public void ChangeToItemUse()
     {
-        stateMachine.ChangeState(itemSM.StateItemUse);
+        stateMachine.ChangeState(itemMod.StateItemUse);
     }
 
     public void SetColliderActive(bool active)

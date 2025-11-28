@@ -6,7 +6,7 @@ public class Shield_Human : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackAbilitySM attackAbilitySM;
+    private AttackAbilityMod attackAbilityMod;
    // private IHoloMemAttackAbilitySM humanAttackSM;
 
     [SerializeField] private LayerMask targetLayerMask;
@@ -33,10 +33,14 @@ public class Shield_Human : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
-        if (attackAbilitySM == null)
+        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
+        if (iAttackAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IAttackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
         }
 
         //humanAttackSM = GetComponentInParent<IHoloMemAttackAbilitySM>();
@@ -50,7 +54,7 @@ public class Shield_Human : StateBase
     #region StateBase
     public override void Enter()
     {
-        waitTimer = basicMod.ObjectStatMg.GetAtkSpeed();
+        //waitTimer = basicMod.ObjectStatMg.GetAtkSpeed();
     }
 
     public override void StateUpdate()
@@ -62,9 +66,9 @@ public class Shield_Human : StateBase
         //}
 
         // Normal attack logic
-        if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackableHorizontal(1f, targetLayerMask))
+        if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackableHorizontal(1f, targetLayerMask))
         {
-            if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
+            if (attackAbilityMod.AttackAbilityMg.GetIsTargetRight())
             {
                 basicMod.FaceDirectionMg.SetFaceRight();
             }

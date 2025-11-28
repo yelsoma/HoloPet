@@ -26,6 +26,10 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
         basicMod.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
         basicMod.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
         basicMod.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
+        if(mainLayer == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no BasicLayerSet In LayerManager");
+        }
     }
 
     private void StateDeSpawn_OnEnterState(object sender, System.EventArgs e)

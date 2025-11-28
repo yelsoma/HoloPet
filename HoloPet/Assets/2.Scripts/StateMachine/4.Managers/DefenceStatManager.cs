@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectStatManager : MonoBehaviour
+public class DefenceStatManager : MonoBehaviour
 {
     private StateMachineBase stateMachine;
-    private IAttackableSM attackableSM;
+    private AttackableMod attackableMod;
 
     [Header("Set this in Inspector")]
     [SerializeField] private int level = 1;
@@ -19,10 +21,14 @@ public class ObjectStatManager : MonoBehaviour
 
     private void Awake()
     {
-        attackableSM = GetComponentInParent<IAttackableSM>();
-        if (attackableSM == null)
+        IAttackableMod iAttackableMod = GetComponentInParent<IAttackableMod>();
+        if (iAttackableMod == null)
         {
-            Debug.Log(transform.name + "no IAttackableSM in parant");
+            Debug.LogError($"{name} ¡X iAttackableMod not found in parent.");
+        }
+        else
+        {
+            attackableMod = iAttackableMod.AttackableMod;
         }
 
         stateMachine = GetComponentInParent<StateMachineBase>();
@@ -38,8 +44,8 @@ public class ObjectStatManager : MonoBehaviour
 
     private void OnValidate()
     {
-        hpMax = baseHP * Mathf.Pow(1.07f, level - 1); 
-        atk = baseATK * Mathf.Pow(1.05f, level - 1); 
+        hpMax = baseHP * Mathf.Pow(1.07f, level - 1);
+        atk = baseATK * Mathf.Pow(1.05f, level - 1);
     }
 
     public float GetHP() => hpNow;
@@ -54,13 +60,13 @@ public class ObjectStatManager : MonoBehaviour
     public void HpModify(int hpPlus)
     {
         hpNow += hpPlus;
-        if(hpNow > hpMax)
+        if (hpNow > hpMax)
         {
             hpNow = hpMax;
         }
-        if(hpNow <= 0)
+        if (hpNow <= 0)
         {
-            stateMachine.ChangeState(attackableSM.StateHpZero);
+            stateMachine.ChangeState(attackableMod.StateHpZero);
         }
         Debug.Log("hpNow" + hpNow);
     }

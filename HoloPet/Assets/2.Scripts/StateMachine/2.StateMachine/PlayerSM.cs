@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSM : StateMachineBase ,IBasicMod
+public class PlayerSM : StateMachineBase, IBasicMod, IMountableMod, IMountingAbilityMod, IRandomMoveMod, IInteractableMod, IInteractAbilityMod, IAttackableMod, IAttackAbilityMod ,IHoloMemFXMod ,IItemHolderMod ,IBattleMod
 {
     [SerializeField] private BasicMod basicMod;
     public BasicMod BasicMod => basicMod;
@@ -27,6 +27,15 @@ public class PlayerSM : StateMachineBase ,IBasicMod
 
     [SerializeField] private AttackAbilityMod attackAbilityMod;
     public AttackAbilityMod AttackAbilityMod => attackAbilityMod;
+
+    [SerializeField] private HoloMemFXMod holoMemFXMod;
+    public HoloMemFXMod HoloMemFXMod => holoMemFXMod;
+
+    [SerializeField] private ItemHolderMod itemHolderMod;
+    public ItemHolderMod ItemHolderMod => itemHolderMod;
+
+    [SerializeField] private BattleMod battleMod;
+    public BattleMod BattleMod => battleMod;
 
     protected override StateBase SetFirstState()
     {

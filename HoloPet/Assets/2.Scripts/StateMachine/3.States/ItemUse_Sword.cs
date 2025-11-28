@@ -5,8 +5,7 @@ using UnityEngine;
 public class ItemUse_Sword : StateBase
 {
     private StateMachineBase stateMachine;
-    private IBasicMod basicMod;
-    private IItemSM itemSM;
+    private ItemMod itemMod;
     private LayerMask targetLayerMask;
 
     #region AutoSetRef
@@ -18,18 +17,16 @@ public class ItemUse_Sword : StateBase
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
         }
 
-        basicMod = GetComponentInParent<IBasicMod>();
-        if (basicMod == null)
+        IItemMod iItemMod = GetComponentInParent<IItemMod>();
+        if (iItemMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iItemMod found in parent.");
         }
-
-        itemSM = GetComponentInParent<IItemSM>();
-        if (itemSM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no itemHoldSM found in parent.");
+            itemMod = iItemMod.ItemMod;
         }
-        itemSM.ItemMg.GetColliderScript().OnTriggerHitBox += ItemUse_Sword_OnTriggerHitBox;
+        itemMod.ItemMg.GetColliderScript().OnTriggerHitBox += ItemUse_Sword_OnTriggerHitBox;
     }
 
 
@@ -39,8 +36,8 @@ public class ItemUse_Sword : StateBase
     public override void Enter()
     {
         TriggerAni1();
-        itemSM.ItemMg.SetColliderActive(true);
-        targetLayerMask = itemSM.ItemMg.GetTargetLayerMask();
+        itemMod.ItemMg.SetColliderActive(true);
+        targetLayerMask = itemMod.ItemMg.GetTargetLayerMask();
     }
     public override void StateUpdate()
     {
@@ -50,7 +47,7 @@ public class ItemUse_Sword : StateBase
     }
     public override void Exit()
     {
-        itemSM.ItemMg.SetColliderActive(false);
+        itemMod.ItemMg.SetColliderActive(false);
     }
     #endregion
 
@@ -60,10 +57,10 @@ public class ItemUse_Sword : StateBase
         if (((1 << e.collider.gameObject.layer) & targetLayerMask.value) != 0)
         {
             // Layer is in the mask
-            if (e.collider.transform.TryGetComponent<IAttackableSM>(out IAttackableSM attackableSM) &&
-                attackableSM.AttackableMg.GetIsAttackable())
+            if (e.collider.transform.TryGetComponent<IAttackableMod>(out IAttackableMod attackableMod) &&
+                attackableMod.AttackableMod.AttackableMg.GetIsAttackable())
             {
-                attackableSM.AttackableMg.AttackHP(10);
+                attackableMod.AttackableMod.AttackableMg.AttackHP(10);
             }
         }
     }

@@ -7,7 +7,7 @@ public class PanicForV : StateBase
 
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackableSM attackableSM;
+    private AttackableMod attackableMod;
     private bool runRight;
     [SerializeField]private float speed;
     private void Awake()
@@ -28,10 +28,14 @@ public class PanicForV : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackableSM = GetComponentInParent<IAttackableSM>();
-        if (attackableSM == null)
+        IAttackableMod iAttackableMod = GetComponentInParent<IAttackableMod>();
+        if (iAttackableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no attackableSM found in parent.");
+            Debug.LogError($"{name} ¡X iAttackableMod not found in parent.");
+        }
+        else
+        {
+            attackableMod = iAttackableMod.AttackableMod;
         }
     }
 

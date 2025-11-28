@@ -8,7 +8,7 @@ public class DriveMax_Cart : StateBase
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private MountableMod mountableMod;
-    private IAttackAbilitySM attackAbilitySM;
+    private AttackAbilityMod attackAbilityMod;
     private IDriveSM driveSM;
     [SerializeField] private float speedMax;
     [SerializeField] private float speedPlus;
@@ -55,10 +55,14 @@ public class DriveMax_Cart : StateBase
             Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
         }
 
-        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
-        if (attackAbilitySM == null)
+        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
+        if (iAttackAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no attackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
         }
     }
 
@@ -143,12 +147,12 @@ public class DriveMax_Cart : StateBase
             isKnockRight = false;
         }
 
-        if (attackAbilitySM.AttackAbilityMg.TrySetAttackableAll(hitDirection, HitDistance))
+        if (attackAbilityMod.AttackAbilityMg.TrySetAttackableAll(hitDirection, HitDistance))
         {
             CartFxTest.HitExplode();
-            if (attackAbilitySM.AttackAbilityMg.GetTarget().GetIsKnockable())
+            if (attackAbilityMod.AttackAbilityMg.GetTarget().GetIsKnockable())
             {
-                attackAbilitySM.AttackAbilityMg.GetTarget().SetAttackKnockBack(knockBackPower,isKnockRight);
+                attackAbilityMod.AttackAbilityMg.GetTarget().SetAttackKnockBack(knockBackPower,isKnockRight);
             }            
         }        
     }

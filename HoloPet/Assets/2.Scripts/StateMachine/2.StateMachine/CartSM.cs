@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartSM : StateMachineBase,  IAttackAbilitySM,IAttackableSM,IDriveSM,IInteractableSM
+public class CartSM : StateMachineBase
 {
     [Header(" Managers")]
     #region Basic Manager
@@ -14,7 +14,6 @@ public class CartSM : StateMachineBase,  IAttackAbilitySM,IAttackableSM,IDriveSM
     [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
-    [SerializeField] private ObjectStatManager objectStatMg;
 
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
@@ -23,7 +22,6 @@ public class CartSM : StateMachineBase,  IAttackAbilitySM,IAttackableSM,IDriveSM
     public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
-    public ObjectStatManager ObjectStatMg => objectStatMg;
     #endregion
     #region Mountable Manager
     [SerializeField] private MountableManager mountableMg;

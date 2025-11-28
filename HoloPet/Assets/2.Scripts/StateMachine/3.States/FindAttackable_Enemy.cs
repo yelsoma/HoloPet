@@ -7,7 +7,7 @@ public class FindAttackable_Enemy : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackAbilitySM attackAbilitySM;
+    private AttackAbilityMod attackAbilityMod;
     [SerializeField] private float searchDistance;
     LayerMask playerLayerMask;
     [SerializeField] private float AttackDistance;
@@ -36,10 +36,14 @@ public class FindAttackable_Enemy : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
-        if(attackAbilitySM == null)
+        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
+        if (iAttackAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IAttackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
         }
     }
     #endregion
@@ -54,9 +58,9 @@ public class FindAttackable_Enemy : StateBase
     }
     public override void StateUpdate()
     {
-        if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, playerLayerMask))
+        if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, playerLayerMask))
         {
-            if(attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= AttackDistance)
+            if(attackAbilityMod.AttackAbilityMg.GetTargetDistance() <= AttackDistance)
             {
                 if(attackAfterNow <= 0)
                 {
@@ -84,7 +88,7 @@ public class FindAttackable_Enemy : StateBase
                 else
                 {
                     TriggerAni2();
-                    if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
+                    if (attackAbilityMod.AttackAbilityMg.GetIsTargetRight())
                     {
                         basicMod.FaceDirectionMg.SetFaceRight();
                         basicMod.PhysicsMg.MoveRight(moveSpeed);

@@ -7,7 +7,7 @@ public class HappyChatted_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IInteractableSM interactableSM;
+    private InteractableMod interactableMod;
     [SerializeField] private float jumpUpPower;
     [SerializeField] private int jumpCount;
     private float jumpCountLeft;
@@ -34,10 +34,14 @@ public class HappyChatted_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        interactableSM = GetComponentInParent<IInteractableSM>();
-        if (interactableSM == null)
+        IInteractableMod iInteractableMod = GetComponentInParent<IInteractableMod>();
+        if (iInteractableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractableMod found in parent.");
+        }
+        else
+        {
+            interactableMod = iInteractableMod.InteractableMod;
         }
     }
     #endregion
@@ -45,10 +49,10 @@ public class HappyChatted_Nor : StateBase
     #region StateBase
     public override void Enter()
     {
-        interactableSM.InteractableMg.GetInteracterManager().OnExitInteracting += Interacter_OnExitInteract;
-        if (interactableSM.InteractableMg.GetInteracterManager() != null)
+        interactableMod.InteractableMg.GetInteracterManager().OnExitInteracting += Interacter_OnExitInteract;
+        if (interactableMod.InteractableMg.GetInteracterManager() != null)
         {
-            if (interactableSM.InteractableMg.GetIsInteracterRight())
+            if (interactableMod.InteractableMg.GetIsInteracterRight())
             {
                 basicMod.FaceDirectionMg.SetFaceRight();
             }
@@ -88,8 +92,8 @@ public class HappyChatted_Nor : StateBase
     public override void Exit()
     {
         StopCoroutine(jumpCoroutine);
-        interactableSM.InteractableMg.GetInteracterManager().OnExitInteracting -= Interacter_OnExitInteract;
-        interactableSM.InteractableMg.ExitInteractedEvent();
+        interactableMod.InteractableMg.GetInteracterManager().OnExitInteracting -= Interacter_OnExitInteract;
+        interactableMod.InteractableMg.ExitInteractedEvent();
     }
     #endregion
 

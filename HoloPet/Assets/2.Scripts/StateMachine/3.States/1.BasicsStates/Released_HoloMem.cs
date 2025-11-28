@@ -7,8 +7,8 @@ public class Released_HoloMem : StateBase
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private MountingAbilityMod mountingAbilityMod;
-    private IInteractAbilitySM interactAbilitySM;
-    private IHoloMemFXSM holoMemFXSM;
+    private InteractAbilityMod interactAbilityMod;
+    private HoloMemFXMod holoMemFXMod;
     [SerializeField] private float checkDistanceDown;
 
     private void Awake()
@@ -39,19 +39,27 @@ public class Released_HoloMem : StateBase
             mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
         }
 
-        interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
-        if (interactAbilitySM == null)
+        IInteractAbilityMod iInteractAbilityMod = GetComponentInParent<IInteractAbilityMod>();
+        if (iInteractAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no interactAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iInteractAbilityMod found in parent.");
+        }
+        else
+        {
+            interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
         }
 
-        holoMemFXSM = GetComponentInParent<IHoloMemFXSM>();
-        if (holoMemFXSM == null)
+        IHoloMemFXMod iHoloMemFXMod = GetComponentInParent<IHoloMemFXMod>();
+        if (iHoloMemFXMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no holoMemFXSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no holoMemFXMod found in parent.");
+        }
+        else
+        {
+            holoMemFXMod = iHoloMemFXMod.HoloMemFXMod;
         }
 
-        
+
     }
 
     public override void Enter()
@@ -61,15 +69,15 @@ public class Released_HoloMem : StateBase
     public override void StateUpdate()
     {
         //raycast down
-        if (interactAbilitySM.InteractAbilityMg.GetIsTargetLocked())
+        if (interactAbilityMod.InteractAbilityMg.GetIsTargetLocked())
         {
-            InteractAbilityManager myInteractMg = interactAbilitySM.InteractAbilityMg;
+            InteractAbilityManager myInteractMg = interactAbilityMod.InteractAbilityMg;
             InteractableManager targetInteractMg = myInteractMg.GetTargetInteractableMg();
-            if (interactAbilitySM.InteractAbilityMg.CheckIsTargetHit(Vector2.down, 1f))
+            if (interactAbilityMod.InteractAbilityMg.CheckIsTargetHit(Vector2.down, 1f))
             {
                 if (targetInteractMg.GetIsInteractable())
                 {
-                    holoMemFXSM.HoloMemFXMg.StartHeartPartical();
+                    holoMemFXMod.HoloMemFX.StartHeartPartical();
                     myInteractMg.SetTargetLocked(false);
                     targetInteractMg.SetInteracter(myInteractMg);
                     targetInteractMg.GoToChoosenInteracedState();

@@ -6,7 +6,7 @@ public class InteractMounted_Cart : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IInteractableSM interactableSM;
+    private InteractableMod interactableMod;
     private InteractableManager myInteractableMg;
     private MountableMod mountableMod;
     private IDriveSM driveSM;
@@ -33,10 +33,14 @@ public class InteractMounted_Cart : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        interactableSM = GetComponentInParent<IInteractableSM>();
-        if (interactableSM == null)
+        IInteractableMod iInteractableMod = GetComponentInParent<IInteractableMod>();
+        if(iInteractableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractableSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no IInteractableMod found in parent.");
+        }
+        else
+        {
+            interactableMod = iInteractableMod.InteractableMod;
         }
 
         IMountableMod imountableMod = GetComponentInParent < IMountableMod>();
@@ -64,7 +68,7 @@ public class InteractMounted_Cart : StateBase
     }
     public override void StateUpdate()
     {
-        myInteractableMg = interactableSM.InteractableMg;
+        myInteractableMg = interactableMod.InteractableMg;
         Transform interacterTransform = myInteractableMg.GetInteracterManager().GetStateMachineTransform();
         StateMachineBase interacterSM = interacterTransform.GetComponent<StateMachineBase>();
         BasicMod interacterBasicMod = interacterTransform.GetComponent<IBasicMod>().BasicMod;

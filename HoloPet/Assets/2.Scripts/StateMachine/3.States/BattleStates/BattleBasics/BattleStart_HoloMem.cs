@@ -6,8 +6,8 @@ public class BattleStart_HoloMem : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private BattleManager battleManager;
-    private IItemHolderSM itemHolderSM;
+    private BattleMod battleMod;
+    private ItemHolderMod itemHolderMod;
 
     private void Awake()
     {
@@ -27,22 +27,30 @@ public class BattleStart_HoloMem : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        itemHolderSM = GetComponentInParent<IItemHolderSM>();
-        if(itemHolderSM == null)
+        IItemHolderMod iItemHolderMod = GetComponentInParent<IItemHolderMod>();
+        if (iItemHolderMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IItemHolderSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no itemHolderSM found in parent.");
+        }
+        else
+        {
+            itemHolderMod = iItemHolderMod.ItemHolderMod;
         }
 
-        battleManager = GetComponentInParent<BattleManager>();
-        if (battleManager == null)
+        IBattleMod iBattleMod = GetComponentInParent<IBattleMod>();
+        if (iBattleMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no battleManager found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no battleMod found in parent.");
+        }
+        else
+        {
+            battleMod = iBattleMod.BattleMod;
         }
     }
 
     public override void Enter()
     {
-        if (!battleManager.GetIsInbattle())
+        if (!battleMod.GetIsInbattle())
         {
             stateMachine.ChangeState(basicMod.StateIdle);
             return;
@@ -51,14 +59,14 @@ public class BattleStart_HoloMem : StateBase
         if (!basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
         {
             //exit to idle
-            stateMachine.ChangeState(battleManager.BattleFall);
+            stateMachine.ChangeState(battleMod.BattleFall);
             return;
         }
-        if (!itemHolderSM.ItemHolderMg.GetIsHolding())
+        if (!itemHolderMod.ItemHolderMg.GetIsHolding())
         {
             //find item
         }
-        stateMachine.ChangeState(battleManager.BattleSearch);
+        stateMachine.ChangeState(battleMod.BattleSearch);
         return;
     }
 

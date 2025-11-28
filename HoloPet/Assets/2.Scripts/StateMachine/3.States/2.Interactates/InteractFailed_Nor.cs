@@ -6,8 +6,7 @@ public class InteractFailed_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IInteractAbilitySM interactAbilitySM;
-    private ICreatureSM creatureSM;
+    private InteractAbilityMod interactAbilityMod;
     [SerializeField] private float failTime;
     private float sadTimeNow;
     [SerializeField] private float sadBubbleTime;
@@ -34,16 +33,14 @@ public class InteractFailed_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        interactAbilitySM = GetComponentInParent<IInteractAbilitySM>();
-        if (interactAbilitySM == null)
+        IInteractAbilityMod iInteractAbilityMod = GetComponentInParent<IInteractAbilityMod>();
+        if (iInteractAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IInteractAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iInteractAbilityMod found in parent.");
         }
-
-        creatureSM = GetComponentInParent<ICreatureSM>();
-        if (creatureSM == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no creatureSM found in parent.");
+            interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
         }
     }
     #endregion
@@ -52,8 +49,8 @@ public class InteractFailed_Nor : StateBase
     public override void Enter()
     {
         sadTimeNow = failTime;
-        interactAbilitySM.TextLogMg.PopUpSadEmoji(sadBubbleTime);
-        if (interactAbilitySM.InteractAbilityMg.GetIsTargetRight())
+        interactAbilityMod.TextLogMg.PopUpSadEmoji(sadBubbleTime);
+        if (interactAbilityMod.InteractAbilityMg.GetIsTargetRight())
         {
             basicMod.FaceDirectionMg.SetFaceRight();
         }
@@ -78,7 +75,7 @@ public class InteractFailed_Nor : StateBase
         }
         else
         {
-            stateMachine.ChangeState(creatureSM.StateWander);
+            stateMachine.ChangeState(basicMod.StateIdle);
         }
     }
     public override void StateLateUpdate()

@@ -6,9 +6,9 @@ public class BattleSearch_Human : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackAbilitySM attackAbilitySM;
-    private IItemHolderSM itemHolderSM;
-    private BattleManager battleManager;
+    private AttackAbilityMod attackAbilityMod;
+    private ItemHolderMod itemHolderMod;
+    private BattleMod battleMod;
     [SerializeField] private float searchDistance;
     [SerializeField] private float moveSpeedMultiply;
     [SerializeField] LayerMask targetLayerMask;
@@ -34,31 +34,43 @@ public class BattleSearch_Human : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
-        if (attackAbilitySM == null)
+        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
+        if(iAttackAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no attackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
         }
 
-        itemHolderSM = GetComponentInParent<IItemHolderSM>();
-        if (itemHolderSM == null)
+        IItemHolderMod iItemHolderMod = GetComponentInParent<IItemHolderMod>();
+        if (iItemHolderMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no itemHolderSM found in parent.");
         }
-
-        battleManager = GetComponentInParent<BattleManager>();
-        if (battleManager == null)
+        else
         {
-            Debug.LogError($"{transform.root.name} ¡X no battleManager found in parent.");
+            itemHolderMod = iItemHolderMod.ItemHolderMod;
+        }
+
+        IBattleMod iBattleMod = GetComponentInParent<IBattleMod>();
+        if (iBattleMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no battleMod found in parent.");
+        }
+        else
+        {
+            battleMod = iBattleMod.BattleMod;
         }
     }
     #endregion
     #region StateBase
     public override void Enter()
     {
-        if (itemHolderSM.ItemHolderMg.GetIsHolding())
+        if (itemHolderMod.ItemHolderMg.GetIsHolding())
         {
-            atkDistance = itemHolderSM.ItemHolderMg.GetItem().GetAttackDistance();
+            atkDistance = itemHolderMod.ItemHolderMg.GetItem().GetAttackDistance();
             isHolding = true;
         }
         else
@@ -73,7 +85,7 @@ public class BattleSearch_Human : StateBase
     {
         if (targetSet == false)
         {
-            if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, targetLayerMask))
+            if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, targetLayerMask))
             {
                 Debug.Log("shit");
                 targetSet = true;
@@ -81,13 +93,13 @@ public class BattleSearch_Human : StateBase
             }
             return;
         }
-        if (!attackAbilitySM.AttackAbilityMg.GetIsTargetAttackableSet()|| !attackAbilitySM.AttackAbilityMg.GetTarget().GetIsAttackable())
+        if (!attackAbilityMod.AttackAbilityMg.GetIsTargetAttackableSet()|| !attackAbilityMod.AttackAbilityMg.GetTarget().GetIsAttackable())
         {
             Debug.Log("hi");
             targetSet = false;
             return;
         }
-        if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
+        if (attackAbilityMod.AttackAbilityMg.GetIsTargetRight())
         {
             basicMod.FaceDirectionMg.SetFaceRight();           
             if (basicMod.RaycastMg.GetFirstHit(stateMachine.transform.position, Vector2.right, atkDistance, targetLayerMask))
@@ -118,12 +130,12 @@ public class BattleSearch_Human : StateBase
     {
         if (isHolding)
         {
-            stateMachine.ChangeState(battleManager.BattleItemAttack);
+            stateMachine.ChangeState(battleMod.BattleItemAttack);
             return;
         }
         else
         {
-            stateMachine.ChangeState(battleManager.BattleBasicAttack);
+            stateMachine.ChangeState(battleMod.BattleBasicAttack);
             return;
         }
     }

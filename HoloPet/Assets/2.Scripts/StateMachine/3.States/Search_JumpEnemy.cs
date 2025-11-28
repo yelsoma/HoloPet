@@ -6,7 +6,7 @@ public class Search_JumpEnemy : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackAbilitySM attackAbilitySM;
+    private AttackAbilityMod attackAbilityMod;
     [SerializeField] private float searchDistance;
     [SerializeField] private float StartAttackDistance;
     [SerializeField] private float speedMultiply;
@@ -35,10 +35,14 @@ public class Search_JumpEnemy : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackAbilitySM = GetComponentInParent<IAttackAbilitySM>();
-        if (attackAbilitySM == null)
+        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
+        if (iAttackAbilityMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IAttackAbilitySM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
         }
     }
     #endregion
@@ -109,12 +113,12 @@ public class Search_JumpEnemy : StateBase
     #endregion
     private void SetTarget()
     {
-        if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, playerLayerMask))
+        if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, playerLayerMask))
         {
             TriggerAni1();//start jump ani
             keepSearch = false;
             basicMod.PhysicsMg.SetJump(jumpPower);
-            if (attackAbilitySM.AttackAbilityMg.GetIsTargetRight())
+            if (attackAbilityMod.AttackAbilityMg.GetIsTargetRight())
             {
 
                 basicMod.FaceDirectionMg.SetFaceRight();
@@ -124,9 +128,9 @@ public class Search_JumpEnemy : StateBase
                 basicMod.FaceDirectionMg.SetFaceLeft();
                 
             }
-            if (attackAbilitySM.AttackAbilityMg.GetTargetDistance() <= StartAttackDistance)
+            if (attackAbilityMod.AttackAbilityMg.GetTargetDistance() <= StartAttackDistance)
             {
-                stateMachine.ChangeState(attackAbilitySM.StateBasicAttack);
+                stateMachine.ChangeState(attackAbilityMod.StateBasicAttack);
                 return;
             }
         }

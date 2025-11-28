@@ -8,7 +8,7 @@ public class AttackedKnockBack_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IAttackableSM attackableSM;
+    private AttackableMod attackableMod;
     [SerializeField] private float knockUpPower;
     private float knockBackPower;
     private bool FallEventTriggered;
@@ -31,23 +31,27 @@ public class AttackedKnockBack_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        attackableSM = GetComponentInParent<IAttackableSM>();
-        if (attackableSM == null)
+        IAttackableMod iAttackableMod = GetComponentInParent<IAttackableMod>();
+        if (iAttackableMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no attackableSM found in parent.");
+            Debug.LogError($"{name} ¡X iAttackableMod not found in parent.");
+        }
+        else
+        {
+            attackableMod = iAttackableMod.AttackableMod;
         }
     }
 
     public override void Enter()
     {
-        if (!attackableSM.AttackableMg.GetIsKnockable())
+        if (!attackableMod.AttackableMg.GetIsKnockable())
         {
             stateMachine.ChangeState(basicMod.StateIdle);
             return;
         }
         basicMod.PhysicsMg.SetJump(knockUpPower);
         basicMod.PhysicsMg.ResetFall();      
-        knockBackRight = attackableSM.AttackableMg.GetIsKnockRight();
+        knockBackRight = attackableMod.AttackableMg.GetIsKnockRight();
         if (knockBackRight)
         {
             basicMod.FaceDirectionMg.SetFaceLeft();
@@ -56,8 +60,8 @@ public class AttackedKnockBack_Nor : StateBase
         {
             basicMod.FaceDirectionMg.SetFaceRight();
         }
-        knockBackPower = attackableSM.AttackableMg.GetKnockBackPower();
-        attackableSM.AttackableMg.SetIsKnockable(false);
+        knockBackPower = attackableMod.AttackableMg.GetKnockBackPower();
+        attackableMod.AttackableMg.SetIsKnockable(false);
         FallEventTriggered = false;
     }
 
@@ -110,6 +114,6 @@ public class AttackedKnockBack_Nor : StateBase
 
     public override void Exit()
     {
-        attackableSM.AttackableMg.SetIsKnockable(true);
+        attackableMod.AttackableMg.SetIsKnockable(true);
     }
 }

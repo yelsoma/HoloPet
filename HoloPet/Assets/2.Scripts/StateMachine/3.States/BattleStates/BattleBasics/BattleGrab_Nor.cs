@@ -6,7 +6,7 @@ public class BattleGrab_Nor : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private BattleManager battleManager;
+    private BattleMod battleMod;
     [SerializeField] private float grabOffset = 0.5f;
 
     private void Awake()
@@ -27,10 +27,14 @@ public class BattleGrab_Nor : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        battleManager = GetComponentInParent<BattleManager>();
-        if (battleManager == null)
+        IBattleMod iBattleMod = GetComponentInParent<IBattleMod>();
+        if(iBattleMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no battleManager found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no battleMod found in parent.");
+        }
+        else
+        {
+            battleMod = iBattleMod.BattleMod;
         }
     }
 
@@ -57,9 +61,9 @@ public class BattleGrab_Nor : StateBase
 
     private void ClickableManager_OnRelease(object sender, System.EventArgs e)
     {
-        if (battleManager.GetIsInbattle())
+        if (battleMod.GetIsInbattle())
         {
-            stateMachine.ChangeState(battleManager.BattleStart);
+            stateMachine.ChangeState(battleMod.BattleStart);
             return;
         }
         stateMachine.ChangeState(basicMod.StateReleased);

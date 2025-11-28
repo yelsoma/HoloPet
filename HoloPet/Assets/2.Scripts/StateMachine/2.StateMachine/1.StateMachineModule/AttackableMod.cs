@@ -7,6 +7,8 @@ public class AttackableMod : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private AttackableManager attackableMg;
     public AttackableManager AttackableMg => attackableMg;
+    [SerializeField] private DefenceStatManager defenceStatMg;
+    public DefenceStatManager DefenceStatMg => defenceStatMg;
 
     [Header("States")]
     [SerializeField] private StateBase stateHpZero;
@@ -27,6 +29,10 @@ public class AttackableMod : MonoBehaviour
         if (stateKnockBack == null)
         {
             Debug.LogError(transform.root.name + "forget to add stateKnockBack in AttackableMod");
+        }
+        if (defenceStatMg == null)
+        {
+            Debug.LogError(transform.root.name + "forget to add defenceStatMg in AttackableMod");
         }
     }
 }

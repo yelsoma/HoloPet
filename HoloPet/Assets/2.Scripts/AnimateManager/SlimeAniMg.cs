@@ -6,7 +6,7 @@ public class SlimeAniMg : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     private BasicMod basicMod;
-    private IAttackAbilitySM attackAbilitySM;
+    private AttackAbilityMod attackAbilityMod;
     [SerializeField] private BasicAttack_Slime slimeAttack;
     [SerializeField] private Search_JumpEnemy searchJump;
 
@@ -16,10 +16,10 @@ public class SlimeAniMg : MonoBehaviour
         basicMod.StateIdle.OnEnterState += StateIdle_OnEnterState;
         basicMod.StateInAir.OnEnterState += StateInAir_OnEnterState;
         basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
-        attackAbilitySM = GetComponent<IAttackAbilitySM>();
-        attackAbilitySM.StateSearch.OnEnterState += StateSearch_OnEnterState;
-        attackAbilitySM.StateBasicAttack.OnEnterState += StateBasicAttack_OnEnterState;
-        attackAbilitySM.StateBasicAttack.OnTriggerAni1 += StateBasicAttack_OnTriggerAni1;
+        attackAbilityMod = GetComponent<IAttackAbilityMod>().AttackAbilityMod;
+        attackAbilityMod.StateSearch.OnEnterState += StateSearch_OnEnterState;
+        attackAbilityMod.StateBasicAttack.OnEnterState += StateBasicAttack_OnEnterState;
+        attackAbilityMod.StateBasicAttack.OnTriggerAni1 += StateBasicAttack_OnTriggerAni1;
         searchJump.OnTriggerAni1 += SearchJump_OnTriggerAni1;// startJump ani
         searchJump.OnTriggerAni2 += SearchJump_OnTriggerAni2;// seach no one idle ani
     }

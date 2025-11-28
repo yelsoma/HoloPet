@@ -6,7 +6,7 @@ public class Release_Item : StateBase
 {
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IItemSM itemHoldSM;
+    private ItemMod itemMod;
     [SerializeField] private float checkDistanceDown;
 
     private void Awake()
@@ -27,10 +27,14 @@ public class Release_Item : StateBase
             basicMod = ibasicMod.BasicMod;
         }
 
-        itemHoldSM = GetComponentInParent<IItemSM>();
-        if (itemHoldSM == null)
+        IItemMod iItemMod = GetComponentInParent<IItemMod>();
+        if (iItemMod == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no itemHoldSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no iItemMod found in parent.");
+        }
+        else
+        {
+            itemMod = iItemMod.ItemMod;
         }
     }
     public override void Enter()
@@ -39,9 +43,9 @@ public class Release_Item : StateBase
 
     public override void StateUpdate()
     {
-        if (itemHoldSM.ItemMg.TrySetHolderRayCast(checkDistanceDown))
+        if (itemMod.ItemMg.TrySetHolderRayCast(checkDistanceDown))
         {
-            stateMachine.ChangeState(itemHoldSM.StateHold);
+            stateMachine.ChangeState(itemMod.StateHold);
             return;
         }
         if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())

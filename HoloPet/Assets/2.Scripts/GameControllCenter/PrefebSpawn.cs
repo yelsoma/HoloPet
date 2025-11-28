@@ -25,7 +25,7 @@ public class PrefebSpawn : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.I))
             {
-                BattleManager battleMg = PressI.GetComponentInChildren<BattleManager>();
+                BattleMod battleMg = PressI.GetComponentInChildren<BattleMod>();
                 battleMg.SetIsInBattle(true);
             }
         }

@@ -53,9 +53,9 @@ public class InteractAbilityManager : MonoBehaviour
 
         foreach (RaycastHit2D hit in hitsAll)
         {
-            if (hit.transform.TryGetComponent<IInteractableSM>(out var interactableSM))
+            if (hit.transform.TryGetComponent<IInteractableMod>(out var iInteractableMod))
             {
-                if (interactableSM.InteractableMg == target)
+                if (iInteractableMod.InteractableMod.InteractableMg == target)
                     return true;
             }
         }
@@ -74,9 +74,9 @@ public class InteractAbilityManager : MonoBehaviour
             .ToList();
         foreach (var hit in hitsAll)
         {
-            if (hit.transform.TryGetComponent(out IInteractableSM interactableSM))
+            if (hit.transform.TryGetComponent(out IInteractableMod iInteractableMod))
             {
-                InteractableManager candidate = interactableSM.InteractableMg;
+                InteractableManager candidate = iInteractableMod.InteractableMod.InteractableMg;
                 target = candidate;
                 if (TryMatchOptionsWithTarget())
                 {
