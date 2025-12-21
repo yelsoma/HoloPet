@@ -10,7 +10,6 @@ public class AttackedKnockBack_Battle : StateBase
     private BasicMod basicMod;
     private AttackableMod attackableMod;
     private BattleMod battleMod;
-    [SerializeField] private float knockUpPower;
     private float knockBackPower;
     private bool FallEventTriggered;
     private bool knockBackRight;
@@ -55,7 +54,7 @@ public class AttackedKnockBack_Battle : StateBase
             stateMachine.ChangeState(basicMod.StateIdle);
             return;
         }
-        basicMod.PhysicsMg.SetJump(knockUpPower);
+        basicMod.PhysicsMg.SetJump(attackableMod.AttackableMg.GetKnockUpPower());
         basicMod.PhysicsMg.ResetFall();      
         knockBackRight = attackableMod.AttackableMg.GetIsKnockRight();
         if (knockBackRight)

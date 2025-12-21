@@ -11,6 +11,7 @@ public class AttackableManager : MonoBehaviour
     [SerializeField] private StateBase[] unAttackableState;
     private bool isAttckable;
     private float knockBackPower;
+    private float knockUpPower;
     private bool isKnockable;
     private bool isknockRight;
     [SerializeField] private StateBase StatePanic;
@@ -51,9 +52,10 @@ public class AttackableManager : MonoBehaviour
     {
         this.isKnockable = isKnockable;
     }
-    public void SetAttackKnockBack(float knockBackPower , bool knockRight)
+    public void SetAttackKnockBack(float knockBackPower ,float knockUpPower, bool knockRight)
     {
         this.knockBackPower = knockBackPower;
+        this.knockUpPower = knockUpPower;
         this.isknockRight = knockRight;
         stateMachine.ChangeState(attackableMod.StateKnockBack);
     }
@@ -72,14 +74,10 @@ public class AttackableManager : MonoBehaviour
         attackableMod.DefenceStatMg.HpModify(-damage);
     }
 
-    public float GetKnockBackPower()
-    {
-        return knockBackPower;
-    }
-    public bool GetIsAttackable()
-    {
-        return isAttckable;
-    }
+    public float GetKnockBackPower() => knockBackPower;
+    public float GetKnockUpPower() => knockUpPower;
+    public bool GetIsAttackable() => isAttckable;
+
     public void SetIsAttackable(bool isAttckable)
     {
         this.isAttckable = isAttckable;

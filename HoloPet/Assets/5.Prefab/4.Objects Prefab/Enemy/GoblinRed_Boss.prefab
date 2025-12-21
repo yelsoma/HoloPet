@@ -78,6 +78,7 @@ Transform:
   m_Children:
   - {fileID: 1131084353568156428}
   - {fileID: 3377037209850901561}
+  - {fileID: 133990837260213469}
   - {fileID: 141687787012316461}
   m_Father: {fileID: 8952654016315158437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -406,7 +407,7 @@ GameObject:
   - component: {fileID: 7493337427727730773}
   - component: {fileID: 5397247094931744491}
   m_Layer: 3
-  m_Name: Boss_GoblinR
+  m_Name: GoblinRed_Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -577,13 +578,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateIdle: {fileID: 3351522201676214624}
-  stateInAir: {fileID: 0}
+  stateInAir: {fileID: 6311707353614432258}
   stateGrabbed: {fileID: 622748712875257320}
   stateClicked: {fileID: 4819367899672451977}
-  stateReleased: {fileID: 0}
-  stateSpawn: {fileID: 3351522201676214624}
+  stateReleased: {fileID: 468424451882843472}
+  stateSpawn: {fileID: 468424451882843472}
   stateDestroy: {fileID: 7795930809268533216}
-  objectDefinition: {fileID: 11400000, guid: fd7fd1d592b4b614b9ac1cc292ab374f, type: 2}
+  objectDefinition: {fileID: 11400000, guid: 6315ca721f00f7441a7a28cc957d7c77, type: 2}
   boundaryMg: {fileID: 4774706881016572190}
   faceDirectionMg: {fileID: 4446794865801151326}
   physicsMg: {fileID: 5864414684338102796}
@@ -634,7 +635,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14018c42e53c2046a1e1e35176a3232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockUpPower: 7
 --- !u!1 &1794898000499456528
 GameObject:
   m_ObjectHideFlags: 0
@@ -7005,7 +7005,7 @@ MonoBehaviour:
   level: 1
   baseATK: 5
   atkSpeed: 1.8
-  damageMultiplier: 2.5
+  damageMultiplier: 4
   basicAtkDistance: 0.4
   levelMultiplier: 0
   atk: 5
@@ -7272,6 +7272,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyLayer: {fileID: 2737843523485313079}
   backHandLayer: {fileID: 582281660456662147}
+--- !u!1 &6694662285086351678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 133990837260213469}
+  - component: {fileID: 6311707353614432258}
+  m_Layer: 0
+  m_Name: Fall_Nor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &133990837260213469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694662285086351678}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 874367528142900051}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6311707353614432258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694662285086351678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e1b294bd12302e4a8502afdc56e956b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6973729171238913362
 GameObject:
   m_ObjectHideFlags: 0
@@ -7680,8 +7724,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 1
-  baseHP: 50
-  hpMax: 50
+  baseHP: 80
+  hpMax: 80
   hpNow: 0
 --- !u!1 &7913000624940425922
 GameObject:
@@ -8317,13 +8361,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8112c4c99d14984abd3c272dd5177fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleSpawn: {fileID: 0}
-  battleFall: {fileID: 0}
+  battleSpawn: {fileID: 468424451882843472}
+  battleFall: {fileID: 6311707353614432258}
   battleStart: {fileID: 642306827251231973}
   battleGrab: {fileID: 622748712875257320}
   battleKnockBack: {fileID: 1798223903036798750}
   battleClicked: {fileID: 4819367899672451977}
-  battleRelease: {fileID: 0}
+  battleRelease: {fileID: 6311707353614432258}
   battleSearch: {fileID: 3818613311317169718}
   battleBasicAttack: {fileID: 8740065424978508143}
   battleItemAttack: {fileID: 3424009664724173325}

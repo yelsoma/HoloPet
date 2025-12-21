@@ -9,7 +9,8 @@ public enum ObjectCategoryEnum
     Furniture,
     Item,
     Item_Temp,
-    Home
+    Home,
+    Boss
 }
 public enum ObjectGangEnum
 {

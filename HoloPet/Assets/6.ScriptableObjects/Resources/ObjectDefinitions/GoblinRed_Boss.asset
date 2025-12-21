@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77b81f2930b21a8488ad4592c3e3e789, type: 3}
-  m_Name: GoldDagger_Temp
+  m_Name: GoblinRed_Boss
   m_EditorClassIdentifier: 
-  ObjectID: GoldDagger_Temp001
-  ObjectName: GoldDagger_Temp
-  ObjectIcon: {fileID: 4713710051714268625, guid: 3f57e2d9a85350240ba6d5ecd66bf683, type: 3}
-  ObjectPrefab: {fileID: 3757860807140355923, guid: 045084eb523297547b5f97bd0b511fe0, type: 3}
-  ObjectCategory: 3
-  ObjectGangEnum: 2
+  ObjectID: GoblinRed_Boss001
+  ObjectName: GoblinRed_Boss
+  ObjectIcon: {fileID: 1506071320842962281, guid: 90729068194c54948a95089a39950ea5, type: 3}
+  ObjectPrefab: {fileID: 1364374592728565829, guid: cc771cf2bd09c464a8d29491ffd628e1, type: 3}
+  ObjectCategory: 5
+  ObjectGangEnum: 1

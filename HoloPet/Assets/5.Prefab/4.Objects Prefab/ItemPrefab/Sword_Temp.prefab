@@ -1552,7 +1552,7 @@ MonoBehaviour:
   itemType: 0
   atkDistance: 1
   atkPerSec: 4
-  atkDamage: 15
+  atkDamage: 20
   handBack: {fileID: 4644617334520199485}
   handFront: {fileID: 2827909374106271743}
   unHoldStates:

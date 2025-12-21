@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 7493337427727730773}
   - component: {fileID: 5397247094931744491}
   m_Layer: 3
-  m_Name: Goblin_Red
+  m_Name: GoblinRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,7 +583,7 @@ MonoBehaviour:
   stateReleased: {fileID: 605531830167027670}
   stateSpawn: {fileID: 3351522201676214624}
   stateDestroy: {fileID: 7795930809268533216}
-  objectDefinition: {fileID: 11400000, guid: fd7fd1d592b4b614b9ac1cc292ab374f, type: 2}
+  objectDefinition: {fileID: 11400000, guid: b502944f7361b214282f026ef9f589c9, type: 2}
   boundaryMg: {fileID: 4774706881016572190}
   faceDirectionMg: {fileID: 4446794865801151326}
   physicsMg: {fileID: 5864414684338102796}

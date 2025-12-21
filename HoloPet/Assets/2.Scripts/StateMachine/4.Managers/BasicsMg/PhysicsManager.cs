@@ -84,20 +84,20 @@ public class PhysicsManager : MonoBehaviour
             selfTransform.position = new Vector2(transform.position.x, transform.position.y - maxFallSpeed * Time.deltaTime);
         }
     }
-    public float GetGravity()
+    public void KeepFall(float multiply)
     {
-        return gravity;
-    }
-    public void KeepFall(float gravityMultiply)
-    {
-        if (fallSpeed <= maxFallSpeed*gravityMultiply)
+        if (fallSpeed <= maxFallSpeed)
         {
             selfTransform.position = new Vector2(transform.position.x, transform.position.y - fallSpeed * Time.deltaTime);
-            fallSpeed += gravity * gravityMultiply * Time.deltaTime;
+            fallSpeed += gravity * multiply* Time.deltaTime;
         }
         else
         {
-            selfTransform.position = new Vector2(transform.position.x, transform.position.y - maxFallSpeed * gravityMultiply * Time.deltaTime);
+            selfTransform.position = new Vector2(transform.position.x, transform.position.y - maxFallSpeed * Time.deltaTime);
         }
+    }
+    public float GetGravity()
+    {
+        return gravity;
     }
 }
