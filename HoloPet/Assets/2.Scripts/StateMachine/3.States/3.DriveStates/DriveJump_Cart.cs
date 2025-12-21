@@ -8,7 +8,7 @@ public class DriveJump_Cart : StateBase
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private MountableMod mountableMod;
-    private IDriveSM driveSM;
+    private DriveMod driveMod;
     [SerializeField] private float jumpPower;
     [SerializeField] private float jumpForward;
     private bool jumpRight;
@@ -42,10 +42,14 @@ public class DriveJump_Cart : StateBase
             mountableMod = imountableMod.MountableMod;
         }
 
-        driveSM = GetComponentInParent<IDriveSM>();
-        if (driveSM == null)
+        IDriveMod iDriveSM = GetComponentInParent<IDriveMod>();
+        if (iDriveSM == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
+        }
+        else
+        {
+            driveMod = iDriveSM.DriveMod;
         }
     }
 
@@ -81,7 +85,7 @@ public class DriveJump_Cart : StateBase
             {
                 if (isMounted)
                 {
-                    stateMachine.ChangeState(driveSM.StateDirveMax);
+                    stateMachine.ChangeState(driveMod.StateDirveMax);
                     return;
                 }
                 else

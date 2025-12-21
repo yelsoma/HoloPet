@@ -8,7 +8,7 @@ public class SlimeAniMg : MonoBehaviour
     private BasicMod basicMod;
     private AttackAbilityMod attackAbilityMod;
     [SerializeField] private BasicAttack_Slime slimeAttack;
-    [SerializeField] private Search_JumpEnemy searchJump;
+    //[SerializeField] private Search_JumpEnemy searchJump;
 
     private void Awake()
     {
@@ -17,11 +17,11 @@ public class SlimeAniMg : MonoBehaviour
         basicMod.StateInAir.OnEnterState += StateInAir_OnEnterState;
         basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
         attackAbilityMod = GetComponent<IAttackAbilityMod>().AttackAbilityMod;
-        attackAbilityMod.StateSearch.OnEnterState += StateSearch_OnEnterState;
+        //attackAbilityMod.StateSearch.OnEnterState += StateSearch_OnEnterState;
         attackAbilityMod.StateBasicAttack.OnEnterState += StateBasicAttack_OnEnterState;
         attackAbilityMod.StateBasicAttack.OnTriggerAni1 += StateBasicAttack_OnTriggerAni1;
-        searchJump.OnTriggerAni1 += SearchJump_OnTriggerAni1;// startJump ani
-        searchJump.OnTriggerAni2 += SearchJump_OnTriggerAni2;// seach no one idle ani
+        //searchJump.OnTriggerAni1 += SearchJump_OnTriggerAni1;// startJump ani
+        //searchJump.OnTriggerAni2 += SearchJump_OnTriggerAni2;// seach no one idle ani
     }
 
     private void SearchJump_OnTriggerAni2(object sender, System.EventArgs e)
@@ -80,8 +80,8 @@ public class SlimeAniMg : MonoBehaviour
         slimeAttack.StartAttackJump();
     }
 
-    public void StartSearchJump()
-    {
-        searchJump.SearchJumpStart();
-    }
+    //public void StartSearchJump()
+    //{
+    //    searchJump.SearchJumpStart();
+    //}
 }

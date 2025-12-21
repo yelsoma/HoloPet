@@ -11,19 +11,13 @@ public class Idle_Nor : StateBase
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
-        }
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
+        IBasicMod iBasicMod = stateMachine.transform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
     }
 
     public override void Enter()

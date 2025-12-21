@@ -20,19 +20,13 @@ public class ClickableManager : MonoBehaviour
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
-        }
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
+        IBasicMod iBasicMod = stateMachine.transform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
     }
 
     private void Start()
@@ -41,6 +35,8 @@ public class ClickableManager : MonoBehaviour
     }
     public void Click()
     {
+        if (!isClickable)
+            return;
         // go to state Clicked
         stateMachine.ChangeState(basicMod.StateClicked);
     }
@@ -48,6 +44,8 @@ public class ClickableManager : MonoBehaviour
     public void Grab()
     {
         // go to state Grabbed
+        if (!isClickable)
+            return;
         stateMachine.ChangeState(basicMod.StateGrabbed);
     }
 
@@ -58,6 +56,8 @@ public class ClickableManager : MonoBehaviour
 
     public void Release()
     {
+        if (!isClickable)
+            return;
         OnRelease?.Invoke(this, EventArgs.Empty);
     }
 

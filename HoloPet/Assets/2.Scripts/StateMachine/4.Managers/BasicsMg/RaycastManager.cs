@@ -3,32 +3,13 @@ using UnityEngine;
 
 public class RaycastManager : MonoBehaviour
 {
-    Transform rootTransform;
     private StateMachineBase stateMachine;
 
     private void Awake()
     {
-        rootTransform = transform.root;
         stateMachine = GetComponentInParent<StateMachineBase>();
-    }
-
-    public RaycastHit2D GetFirstHit(Vector2 startPoint, Vector2 direction, float raycastDistance, LayerMask mask)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(
-            startPoint,
-            direction,
-            raycastDistance,
-            mask
-        );
-        if (hit.collider != null)
-        {
-            if (hit.transform == rootTransform || hit.transform.IsChildOf(rootTransform))
-            {
-                return default; // return an "empty" RaycastHit2D
-            }
-        }
-
-        return hit;
+        if (stateMachine == null)
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
     }
 
     public RaycastHit2D[] GetAllHits(Vector2 direction, float raycastDistance, LayerMask mask = default)
@@ -47,7 +28,7 @@ public class RaycastManager : MonoBehaviour
         foreach (var hit in allHits)
         {
             if (hit.transform == null) continue;
-            if (hit.transform == rootTransform || hit.transform.IsChildOf(rootTransform))
+            if (hit.transform == stateMachine.transform || hit.transform.IsChildOf(stateMachine.transform))
                 continue;
 
             filteredHits.Add(hit);

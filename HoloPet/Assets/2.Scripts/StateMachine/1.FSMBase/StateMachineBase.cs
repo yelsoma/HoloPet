@@ -8,12 +8,21 @@ public class StateMachineBase : MonoBehaviour
  
     private StateBase currentState;
     private void Start()
-    {       
-        currentState = SetFirstState();
-        if (currentState != null)
+    {
+        GameController.Instance.StateMachineListMg.AddObjectTolist(this);
+        StartCoroutine(InitStateNextFrame());
+    }
+    private IEnumerator InitStateNextFrame()
+    {
+        yield return null; // wait one frame
+        if (currentState == null)
         {
-            currentState.Enter();
-            currentState.EnterStateEvent();
+            currentState = StateOverride(SetFirstState());
+            if (currentState != null)
+            {
+                currentState.Enter();
+                currentState.EnterStateEvent();
+            }
         }
     }
     private void Update()
@@ -32,14 +41,20 @@ public class StateMachineBase : MonoBehaviour
     }
     public void ChangeState(StateBase newState)
     {
-        currentState.Exit();
-        currentState.ExitStateEvent();
-        if(newState == null)
+        newState = StateOverride(newState);
+        if (newState == null)
         {
-            Debug.LogError($"StatePassInIsNull | Called by: { transform.root.name + currentState?.GetType().Name}");
+            Debug.LogError($"StatePassInIsNull | Called by: {transform.root.name}.");
             return;
         }
+        if (currentState != null)
+        {
+            currentState.Exit();
+            currentState.ExitStateEvent();
+        }
+
         currentState = newState;
+
         currentState.Enter();
         currentState.EnterStateEvent();
     }
@@ -61,5 +76,9 @@ public class StateMachineBase : MonoBehaviour
         {
             return false;
         }
+    }
+    protected virtual StateBase StateOverride(StateBase requested)
+    {
+        return requested; // default: do nothing
     }
 }

@@ -58,8 +58,6 @@ public class WatameAniMg : MonoBehaviour
 
     private void StateHpZero_OnEnterState(object sender, System.EventArgs e)
     {
-        animator.Play(AniEnum.Humanoid.Main.Dead.ToString(), layer: 0);
-        animator.Play(AniEnum.Humanoid.Face.FaceDead.ToString(), layer: 1);
         animator.Play(AniEnum.Humanoid.Hand.NoHand.ToString(), layer: 2);
         animator.Play(AniEnum.Humanoid.Fx.DeadFlash.ToString(), layer: 3);
     }

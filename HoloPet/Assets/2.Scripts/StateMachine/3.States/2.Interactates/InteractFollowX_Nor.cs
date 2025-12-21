@@ -7,7 +7,7 @@ public class InteractFollowX_Nor : StateBase
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private InteractAbilityMod interactAbilityMod;
-    private HoloMemFXMod holoMemFXMod;
+    private FXMod fXMod;
     [SerializeField] private float interactDistance;
     private float followSpeed = 2f;
     private InteractAbilityManager myInteractMg;
@@ -44,14 +44,14 @@ public class InteractFollowX_Nor : StateBase
             interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
         }
 
-        IHoloMemFXMod iHoloMemFXMod = GetComponentInParent<IHoloMemFXMod>();
+        IFXMod iHoloMemFXMod = GetComponentInParent<IFXMod>();
         if (iHoloMemFXMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no holoMemFXMod found in parent.");
         }
         else
         {
-            holoMemFXMod = iHoloMemFXMod.HoloMemFXMod;
+            fXMod = iHoloMemFXMod.FXMod;
         }
     }
     #endregion
@@ -157,7 +157,7 @@ public class InteractFollowX_Nor : StateBase
     {
         if (targetInteractMg.GetIsInteractable())
         {
-            holoMemFXMod.HoloMemFX.StartHeartPartical();
+            fXMod.HeartFX.StartHeartPartical();
             myInteractMg.SetTargetLocked(false);
             targetInteractMg.SetInteracter(myInteractMg);
             targetInteractMg.GoToChoosenInteracedState();

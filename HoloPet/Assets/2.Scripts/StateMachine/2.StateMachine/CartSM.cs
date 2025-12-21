@@ -2,89 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartSM : StateMachineBase
+public class CartSM : StateMachineBase ,IBasicMod,IMountableMod,IAttackAbilityMod,IAttackableMod,IInteractableMod,IDriveMod
 {
-    [Header(" Managers")]
-    #region Basic Manager
-    [Header("Basic Managers")]
-    [SerializeField] private BoundaryManager boundaryMg;
-    [SerializeField] private FaceDirectionManager faceDirectionMg;
-    [SerializeField] private PhysicsManager physicsMg;
-    [SerializeField] private RaycastManager raycastMg;
-    [SerializeField] private BaseDataManager baseDataMg;
-    [SerializeField] private ClickableManager clickableMg;
-    [SerializeField] private MonoBehaviour layerMg;
-
-    public BoundaryManager BoundaryMg => boundaryMg;
-    public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
-    public PhysicsManager PhysicsMg => physicsMg;
-    public RaycastManager RaycastMg => raycastMg;
-    public BaseDataManager BaseDataMg => baseDataMg;
-    public ClickableManager ClickableMg => clickableMg;
-    public ILayerManager LayerMg => layerMg as ILayerManager;
+    #region Basic
+    [SerializeField] private BasicMod basicMod;
+    public BasicMod BasicMod => basicMod;
     #endregion
-    #region Mountable Manager
-    [SerializeField] private MountableManager mountableMg;
-    public MountableManager MountableMg => mountableMg;
+    #region Mountable
+    [SerializeField] private MountableMod mountableMod;
+    public MountableMod MountableMod => mountableMod;
     #endregion
-    #region Attackable Manager 
-    [SerializeField] private AttackableManager attackableMg;
-    public AttackableManager AttackableMg => attackableMg;
+    #region Attackable
+    [SerializeField] private AttackableMod attackableMod;
+    public AttackableMod AttackableMod => attackableMod;
     #endregion
-    #region AttackAbility Manager 
-    [SerializeField] private AttackAbilityManager attackAbilityMg;
-    public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
+    #region AttackAbility
+    [SerializeField] private AttackAbilityMod attackAbilityMod;
+    public AttackAbilityMod AttackAbilityMod => attackAbilityMod;
     #endregion
-    #region Interactable Manager
-    [SerializeField] private InteractableManager interactableMg;
-    public InteractableManager InteractableMg => interactableMg;
+    #region Interactable
+    [SerializeField] private InteractableMod interactableMod;
+    public InteractableMod InteractableMod => interactableMod;
     #endregion
-
-    [Header(" States")]
-    #region Basic State
-    [SerializeField] private StateBase stateIdle;
-    [SerializeField] private StateBase stateInAir;
-    [SerializeField] private StateBase stateGrabbed;
-    [SerializeField] private StateBase stateClicked;
-    [SerializeField] private StateBase stateReleased;
-    [SerializeField] private StateBase stateSpawn;
-    [SerializeField] private StateBase stateDestroy;
-
-
-    public StateBase StateIdle => stateIdle;
-    public StateBase StateInAir => stateInAir;
-    public StateBase StateGrabbed => stateGrabbed;
-    public StateBase StateClicked => stateClicked;
-    public StateBase StateReleased => stateReleased;
-    public StateBase StateSpawn => stateSpawn;
-    public StateBase StateDestroy => stateDestroy;
+    #region Drive
+    [SerializeField] private DriveMod driveMod;
+    public DriveMod DriveMod => driveMod;
     #endregion
-    #region Drive State
-    [SerializeField] private StateBase stateDrive;
-    [SerializeField] private StateBase stateDirveMax;
-    [SerializeField] private StateBase stateDirveJump;
-    [SerializeField] private StateBase stateClickedNor;
-
-    public StateBase StateDrive => stateDrive;
-    public StateBase StateDirveMax => stateDirveMax;
-    public StateBase StateDirveJump => stateDirveJump;
-    public StateBase StateClickedNor => stateClickedNor;
-    #endregion
-    #region Attackable State 
-    [SerializeField] private StateBase stateHpZero;
-    [SerializeField] private StateBase stateKnockBack;
-    public StateBase StateHpZero => stateHpZero;
-    public StateBase StateKnockBack => stateKnockBack;
-    #endregion
-    #region AttackAbility State
-    [SerializeField] private StateBase stateSearch;
-    [SerializeField] private StateBase stateBasicAttack;
-    public StateBase StateSearch => stateSearch;
-    public StateBase StateBasicAttack => stateBasicAttack;
-    #endregion
-
     protected override StateBase SetFirstState()
     {
-        return stateSpawn;
+        return basicMod.StateSpawn;
     }
 }

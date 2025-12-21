@@ -5,7 +5,7 @@ using UnityEngine;
 public class PhysicsManager : MonoBehaviour
 {
     private Transform selfTransform;
-    [SerializeField]private float gravity;
+    [SerializeField] private float gravity;
     [SerializeField] private float speed;
     [SerializeField] private float jumpGravity;
     private float upPower;
@@ -14,7 +14,10 @@ public class PhysicsManager : MonoBehaviour
 
     private void Awake()
     {
-        selfTransform = GetComponentInParent<StateMachineBase>().transform;
+        StateMachineBase stateMachine = GetComponentInParent<StateMachineBase>();
+        if (stateMachine == null)
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
+        selfTransform = stateMachine.transform;
     } 
     public void MoveUp(float speed)
     {
@@ -79,6 +82,22 @@ public class PhysicsManager : MonoBehaviour
         else
         {
             selfTransform.position = new Vector2(transform.position.x, transform.position.y - maxFallSpeed * Time.deltaTime);
+        }
+    }
+    public float GetGravity()
+    {
+        return gravity;
+    }
+    public void KeepFall(float gravityMultiply)
+    {
+        if (fallSpeed <= maxFallSpeed*gravityMultiply)
+        {
+            selfTransform.position = new Vector2(transform.position.x, transform.position.y - fallSpeed * Time.deltaTime);
+            fallSpeed += gravity * gravityMultiply * Time.deltaTime;
+        }
+        else
+        {
+            selfTransform.position = new Vector2(transform.position.x, transform.position.y - maxFallSpeed * gravityMultiply * Time.deltaTime);
         }
     }
 }

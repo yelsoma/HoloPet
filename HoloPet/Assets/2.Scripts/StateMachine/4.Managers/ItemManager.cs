@@ -6,51 +6,50 @@ public class ItemManager : MonoBehaviour
 {
     private StateMachineBase stateMachine;
     [SerializeField] private ItemType itemType;
-    [SerializeField] private float attackDistance;
+    [SerializeField] private float atkDistance;
+    [SerializeField] private float atkPerSec;
+    [SerializeField] private float atkDamage;
+    private float atkPerSecThisTime;
     private BasicMod basicMod;
     private bool isHolded;
     private ItemHolderManager holderMg;
     private ItemMod itemMod;
-    [SerializeField] private LayerMask targetLayer;
-    [SerializeField] private ItemHitDetect itemHitDetect;
+    private ObjectGangEnum targetGang;
+    [SerializeField] private SpriteRenderer handBack;
+    [SerializeField] private SpriteRenderer handFront;
+    [SerializeField] private StateBase[] unHoldStates;
 
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
-        if(stateMachine == null)
-        {
+        if (stateMachine == null)
             Debug.LogError("no statemachinebase in " + transform.root.name);
-        }
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
+        IBasicMod iBasicMod = stateMachine.transform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
 
-        IItemMod iItemMod = GetComponentInParent<IItemMod>();
+        IItemMod iItemMod = stateMachine.transform.GetComponent<IItemMod>();
         if (iItemMod == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no iItemMod found in parent.");
-        }
         else
-        {
             itemMod = iItemMod.ItemMod;
-        }
 
-        if (itemHitDetect == null)
+        if (handFront == null || handBack == null)
+            Debug.LogError($"{transform.root.name} ¡X no hand spriteRenderer set in item Mg.");
+
+        if (atkDistance == 0f || atkPerSec == 0f)
+            Debug.LogError($"{transform.root.name} ¡X item Mg stat not set have 0.");
+
+        if (unHoldStates.Length > 0)
         {
-            Debug.LogError($"{transform.root.name} ¡X no itemHitDetect found in parent.");
+            foreach (StateBase unHoldableState in unHoldStates)
+            {
+                unHoldableState.OnEnterState += UnHoldableState_OnEnterState;
+            }
         }
-    }   
-
-    private void Start()
-    {
-        isHolded = false;
     }
     public void SetIsHold(bool isHold)
     {
@@ -66,8 +65,8 @@ public class ItemManager : MonoBehaviour
     }
     public bool TrySetHolderRayCast(float distance)
     {
-        RaycastHit2D[] hits =  basicMod.RaycastMg.GetAllHits(Vector2.down, distance);
-        if(hits.Length >= 0)
+        RaycastHit2D[] hits =  basicMod.RaycastMg.GetAllHits(Vector2.up, distance);
+        if (hits.Length >= 0)
         {
             foreach(RaycastHit2D hit in hits)
             {
@@ -75,7 +74,7 @@ public class ItemManager : MonoBehaviour
                 if(iItemHolderMod != null)
                 {
                     holderMg = iItemHolderMod.ItemHolderMod.ItemHolderMg;
-                    if (!holderMg.GetIsHolding())
+                    if (!holderMg.GetIsHolding() && holderMg.GetIsCanHoldState())
                     {
                         return true;
                     }                  
@@ -84,10 +83,13 @@ public class ItemManager : MonoBehaviour
         }
         return false;
     }
+    public void SetHolderMg(ItemHolderManager itemHolderManager)
+    {
+        holderMg = itemHolderManager;
+    }
     public void EnterHold()
     {
         isHolded = true;
-        holderMg.SetIsHolding(true);
         stateMachine.transform.SetParent(holderMg.GetHoldPoint());
         stateMachine.transform.position = holderMg.GetHoldPoint().position;
         holderMg.SetItemHold(itemMod.ItemMg);
@@ -103,6 +105,9 @@ public class ItemManager : MonoBehaviour
                 basicMod.FaceDirectionMg.SetFaceLeft();
             }
         }
+        handFront.sprite = holderMg.GetHandFront();
+        handBack.sprite = holderMg.GetHandBack();
+        holderMg.SetIsHolding(true);
     }
     public void ExitHold()
     {
@@ -110,41 +115,47 @@ public class ItemManager : MonoBehaviour
         holderMg.SetIsHolding(false);
         stateMachine.transform.SetParent(null);
         holderMg.RemoveItem();
+        handFront.sprite = null;
+        handBack.sprite=null;
     } 
     public float GetAttackDistance()
     {
-        return attackDistance;
+        return atkDistance;
+    }
+    public float GetAtkPerSec()
+    {
+        return atkPerSec;
+    }
+    public float GetAtkDamage()
+    {
+        return atkDamage;
+    }
+    public float GetAtkPerSecThisTime()
+    {
+        return atkPerSecThisTime;
     }
     public ItemHolderManager GetItemHolder() => holderMg;
-    public void ChangeToItemUse()
+    public void ChangeToItemUse(float attackPerSec , ObjectGangEnum targetGangEnum)
     {
+        atkPerSecThisTime = attackPerSec;
+        targetGang = targetGangEnum;
         stateMachine.ChangeState(itemMod.StateItemUse);
     }
-
-    public void SetColliderActive(bool active)
+    public void ChangeToHold()
     {
-        if (active)
+        stateMachine.ChangeState(itemMod.StateHold);
+    }
+    public StateMachineBase GetStateMachine() => stateMachine;
+    public ObjectGangEnum GetTargetGang()
+    {
+        return targetGang;
+    }
+    //event
+    private void UnHoldableState_OnEnterState(object sender, System.EventArgs e)
+    {
+        if(holderMg != null)
         {
-            itemHitDetect.transform.gameObject.SetActive(true);
+            ExitHold();
         }
-        else
-        {
-            itemHitDetect.transform.gameObject.SetActive(false);
-        }
-    }
-
-    public ItemHitDetect GetColliderScript()
-    {
-        return itemHitDetect;
-    }
-
-    public void SetTargetLayerMask(LayerMask layerMask )
-    {
-        targetLayer = layerMask;
-    }
-
-    public LayerMask GetTargetLayerMask()
-    {
-        return targetLayer;
     }
 }

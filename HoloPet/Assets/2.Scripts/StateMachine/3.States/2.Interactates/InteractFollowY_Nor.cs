@@ -7,7 +7,7 @@ public class InteractFollowY_Nor : StateBase
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private InteractAbilityMod interactAbilityMod;
-    private HoloMemFXMod holoMemFXMod;
+    private FXMod holoMemFXMod;
     [SerializeField] private float interactDistance;
     private InteractAbilityManager myInteractMg;
     private InteractableManager targetInteractMg;
@@ -48,14 +48,14 @@ public class InteractFollowY_Nor : StateBase
             interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
         }
 
-        IHoloMemFXMod iHoloMemFXMod = GetComponentInParent<IHoloMemFXMod>();
+        IFXMod iHoloMemFXMod = GetComponentInParent<IFXMod>();
         if(iHoloMemFXMod == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no holoMemFXMod found in parent.");
         }
         else
         {
-            holoMemFXMod = iHoloMemFXMod.HoloMemFXMod;
+            holoMemFXMod = iHoloMemFXMod.FXMod;
         }
     }
     #endregion
@@ -133,7 +133,7 @@ public class InteractFollowY_Nor : StateBase
     {
         if (targetInteractMg.GetIsInteractable())
         {
-            holoMemFXMod.HoloMemFX.StartHeartPartical();
+            holoMemFXMod.HeartFX.StartHeartPartical();
             myInteractMg.SetTargetLocked(false);
             targetInteractMg.SetInteracter(myInteractMg);
             targetInteractMg.GoToChoosenInteracedState();

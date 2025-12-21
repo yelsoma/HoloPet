@@ -7,8 +7,6 @@ public class ItemMod : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private ItemManager itemMg;
     public ItemManager ItemMg => itemMg;
-    [SerializeField] private ItemStatManager itemStatMg;
-    public ItemStatManager ItemStatMg => itemStatMg;
 
     [Header("States")]
     [SerializeField] private StateBase stateItemUse;
@@ -31,11 +29,6 @@ public class ItemMod : MonoBehaviour
         if (stateHold == null)
         {
             Debug.LogError(transform.root.name + "forget to add stateHold in ItemHolderMod");
-        }
-
-        if (itemStatMg == null)
-        {
-            Debug.LogError(transform.root.name + "forget to add  itemStatMg in BasicMod ");
         }
     }
 }

@@ -54,12 +54,12 @@ public class Mounting_Botan : StateBase
         }
         if (mountMg.GetStateMachineTransform().TryGetComponent<CartSM>(out CartSM cartSM))
         {
-            if (cartSM.GetStateNow() == cartSM.StateDrive)
+            if (cartSM.GetStateNow() == cartSM.DriveMod.StateDrive)
             {
                 TriggerAni1();
                 return;
             }
-            if (cartSM.GetStateNow() == cartSM.StateDirveMax)
+            if (cartSM.GetStateNow() == cartSM.DriveMod.StateDirveMax)
             {
                 TriggerAni2();
                 return;

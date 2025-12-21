@@ -12,7 +12,6 @@ public partial class StateMachineMaker : MonoBehaviour
         TrySetManagerField<FaceDirectionManager>("FaceDirectionMg", targetType, "faceDirectionMg");
         TrySetManagerField<PhysicsManager>("PhysicsMg", targetType, "physicsMg");
         TrySetManagerField<RaycastManager>("RaycastMg", targetType, "raycastMg");
-        TrySetManagerField<BaseDataManager>("BaseDataMg", targetType, "baseDataMg");
         TrySetManagerField<ClickableManager>("ClickableMg", targetType, "clickableMg");
         TrySetManagerField<RandomMoveManager>("RandomMoveMg", targetType, "randomMoveMg");
         TrySetManagerField<MountableManager>("MountableMg", targetType, "mountableMg");

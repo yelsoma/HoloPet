@@ -15,64 +15,51 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
     private AttackableMod attackableMod;
     private void Awake()
     {
-        stateMachineTransform = transform.root;
+        StateMachineBase stateMachineBase = GetComponentInParent<StateMachineBase>();
+        if (stateMachineBase == null)
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
+
+        stateMachineTransform = stateMachineBase.transform;
+
         if (bodyLayer == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no BasicLayerSet In LayerManager");
-        }
+
         if (backHandLayer == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no BackhandLayerSet In LayerManager");
-        }
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
+        IBasicMod iBasicMod = stateMachineTransform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
 
-        IMountingAbilityMod iMountingAbilityMod = GetComponentInParent<IMountingAbilityMod>();
-        if (iMountingAbilityMod == null)
-        {
+        IMountingAbilityMod iMountingMod = stateMachineTransform.GetComponent<IMountingAbilityMod>();
+        if (iMountingMod == null)
             Debug.LogError($"{transform.root.name} ¡X no imountingAbilityMod found in parent.");
-        }
         else
-        {
-            mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
-        }
+            mountingAbilityMod = iMountingMod.MountingAbilityMod;
 
-        IInteractableMod iInteractableMod = GetComponentInParent<IInteractableMod>();
-        if (iInteractableMod == null)
-        {
+        IInteractableMod iInteractMod = stateMachineTransform.GetComponent<IInteractableMod>();
+        if (iInteractMod == null)
             Debug.LogError($"{transform.root.name} ¡X no IInteractableMod found in parent.");
-        }
         else
-        {
-            interactableMod = iInteractableMod.InteractableMod;
-        }
+            interactableMod = iInteractMod.InteractableMod;
 
-        IAttackableMod iAttackableMod = GetComponentInParent<IAttackableMod>();
-        if (iAttackableMod == null)
-        {
+        IAttackableMod iAttackMod = stateMachineTransform.GetComponent<IAttackableMod>();
+        if (iAttackMod == null)
             Debug.LogError($"{name} ¡X iAttackableMod not found in parent.");
-        }
         else
-        {
-            attackableMod = iAttackableMod.AttackableMod;
-        }
+            attackableMod = iAttackMod.AttackableMod;
 
         basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
         basicMod.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
         mountingAbilityMod.StateMounting.OnEnterState += StateMounting_OnEnterState;
-        basicMod.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
         basicMod.StateGrabbed.OnExitState += StateGrabbed_OnExitState;
         interactableMod.InteractableMg.OnEnterInteractedChangeLayer += InteractableMg_OnEnterInteractedChangeLayer;
         attackableMod.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
         basicMod.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
+
+        SpriteLayerCenter.AddNewLayers(stateMachineTransform);
     }
 
     private void StateDeSpawn_OnEnterState(object sender, System.EventArgs e)
@@ -93,11 +80,6 @@ public class HumanoidLayerManager : MonoBehaviour ,ILayerManager
     private void StateGrabbed_OnExitState(object sender, System.EventArgs e)
     {
         backHandLayer.SortingOrderPlus(-2);
-    }
-
-    private void StateSpawn_OnEnterState(object sender, System.EventArgs e)
-    {
-        SpriteLayerCenter.AddNewLayers(stateMachineTransform);
     }
 
     private void StateMounting_OnEnterState(object sender, System.EventArgs e)

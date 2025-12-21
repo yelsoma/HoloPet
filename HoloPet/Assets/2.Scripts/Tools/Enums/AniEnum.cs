@@ -27,7 +27,7 @@ public class AniEnum
             Sleepy,
             Walk,
             Punch,
-            Dead
+            Jump
         }
         public enum Face
         {
@@ -41,8 +41,7 @@ public class AniEnum
             FaceShock,
             FaceSleepy,
             FaceTired,
-            FaceSmile,
-            FaceDead
+            FaceSmile
         }
         public enum Hand
         {

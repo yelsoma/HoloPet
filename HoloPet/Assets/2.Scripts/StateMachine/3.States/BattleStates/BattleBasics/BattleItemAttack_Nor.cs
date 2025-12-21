@@ -8,8 +8,11 @@ public class BattleItemAttack_Nor : StateBase
     private BasicMod basicMod;
     private BattleMod battleMod;
     private ItemHolderMod itemHolderMod;
-    private float attackSpeedWait;
-
+    private AttackAbilityMod attackAbilityMod;
+    private float atkPerSec;
+    private float faceRoarTime;
+    private bool isFaceAniPlay;
+    private ObjectGangEnum targetGang;
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
@@ -47,13 +50,33 @@ public class BattleItemAttack_Nor : StateBase
         {
             battleMod = iBattleMod.BattleMod;
         }
+
+        IAttackAbilityMod iAttackAbilityMod= GetComponentInParent<IAttackAbilityMod>();
+        if (iAttackAbilityMod == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no iAttackAbilityMod found in parent.");
+        }
+        else
+        {
+            attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
+        }     
+        if(basicMod.ObjectDefinition.ObjectGangEnum == ObjectGangEnum.Enemy)
+        {
+            targetGang = ObjectGangEnum.Player;
+        }
+        else
+        {
+            targetGang = ObjectGangEnum.Enemy;
+        }
+       
     }
 
     public override void Enter()
     {
-        attackSpeedWait = 1;
-        Debug.Log("attackSpeedNotSetYet");
-        itemHolderMod.ItemHolderMg.GetItem().ChangeToItemUse();
+        atkPerSec = itemHolderMod.ItemHolderMg.GetItem().GetAtkPerSec()/attackAbilityMod.OffenceStatMg.GetAtkSpeed();
+        itemHolderMod.ItemHolderMg.GetItem().ChangeToItemUse(atkPerSec,targetGang);
+        faceRoarTime = atkPerSec * 0.5f;
+        isFaceAniPlay = false;
     }
 
     public override void StateUpdate()
@@ -63,9 +86,14 @@ public class BattleItemAttack_Nor : StateBase
             stateMachine.ChangeState(battleMod.BattleStart);
             return;
         }
-        if(attackSpeedWait >= 0f)
+        if(atkPerSec >= 0f)
         {
-            attackSpeedWait -= Time.deltaTime;
+            if (!isFaceAniPlay && atkPerSec < faceRoarTime)
+            {
+                TriggerAni1();
+                isFaceAniPlay = true;
+            }
+            atkPerSec -= Time.deltaTime;
             return;
         }
         stateMachine.ChangeState(battleMod.BattleStart);
@@ -77,5 +105,9 @@ public class BattleItemAttack_Nor : StateBase
 
     public override void Exit()
     {
+        if (itemHolderMod.ItemHolderMg.GetIsHolding())
+        {
+            itemHolderMod.ItemHolderMg.GetItem().ChangeToHold();
+        }
     }
 }

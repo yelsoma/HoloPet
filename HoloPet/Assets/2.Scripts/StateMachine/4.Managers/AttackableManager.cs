@@ -17,30 +17,20 @@ public class AttackableManager : MonoBehaviour
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
-        if(stateMachine == null)
-        {
-            Debug.Log(transform.name + "no stateMachine in parant");
-        }
+        if (stateMachine == null)
+            Debug.LogError($"{transform.root.name} ¡X no StateMachine found in parent.");
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
+        IBasicMod iBasicMod = stateMachine.transform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
 
-        IAttackableMod iAttackableMod = GetComponentInParent<IAttackableMod>();
-        if (iAttackableMod == null)
-        {
+        IAttackableMod iAttackMod = stateMachine.transform.GetComponent<IAttackableMod>();
+        if (iAttackMod == null)
             Debug.LogError($"{name} ¡X iAttackableMod not found in parent.");
-        }
         else
-        {
-            attackableMod = iAttackableMod.AttackableMod;
-        }
+            attackableMod = iAttackMod.AttackableMod;
     }
 
     private void Start()
@@ -77,9 +67,9 @@ public class AttackableManager : MonoBehaviour
             }          
         }
     }
-    public void AttackHP(int damage)
+    public void AttackHP(float damage)
     {
-        Debug.Log("nothing happens");
+        attackableMod.DefenceStatMg.HpModify(-damage);
     }
 
     public float GetKnockBackPower()

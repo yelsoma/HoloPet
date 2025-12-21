@@ -14,7 +14,6 @@ public class HoloMemSM : StateMachineBase
     [SerializeField] private FaceDirectionManager faceDirectionMg;
     [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
-    [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
 
@@ -22,7 +21,6 @@ public class HoloMemSM : StateMachineBase
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
     public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
-    public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
     #endregion
@@ -58,8 +56,8 @@ public class HoloMemSM : StateMachineBase
     public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
     #endregion
     #region AttackAbility Manager 
-    [SerializeField] private HoloMemFX holoMemFXMg;
-    public HoloMemFX HoloMemFXMg => holoMemFXMg;
+    [SerializeField] private HeartFX holoMemFXMg;
+    public HeartFX HoloMemFXMg => holoMemFXMg;
     #endregion
     #region ItemHolder Manager 
     [SerializeField] private ItemHolderManager itemHolderMg;

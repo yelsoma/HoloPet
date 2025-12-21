@@ -11,9 +11,15 @@ public class BoundaryManager : MonoBehaviour
     private float rightObjectBoundery;
     private float botObjectBoundery;
     private float topObjectBoundery;
+    private float botOutOfScreen;
     private void Awake()
     {
-        objectTransform = transform.root;
+        StateMachineBase stateMachineBase = GetComponentInParent<StateMachineBase>();
+        if(stateMachineBase == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
+        }
+        objectTransform = stateMachineBase.transform;      
     }
     private void Start()
     {
@@ -25,6 +31,7 @@ public class BoundaryManager : MonoBehaviour
         rightObjectBoundery = MainBoundary.GetRightBounderyVectorX() - objectWidth;
         botObjectBoundery = MainBoundary.GetBotBounderyVectorY();
         topObjectBoundery = MainBoundary.GetTopBounderyVectorY() - objectHight;
+        botOutOfScreen = MainBoundary.GetBottBotBounderyYWithOutTaskBar() - objectHight;
     }
     public void CheckAllBouderyAndResetPos()
     {
@@ -114,5 +121,19 @@ public class BoundaryManager : MonoBehaviour
     public float GetWidth()
     {
         return objectWidth;
+    }
+
+    public float GetBotBoundary()
+    {
+        return botObjectBoundery;
+    }
+
+    public bool CheckIsOutOfBot()
+    {
+        if (objectTransform.position.y <= botOutOfScreen)
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -7,12 +7,12 @@ public class AttackAbilityMod : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private AttackAbilityManager attackAbilityMg;
     public AttackAbilityManager AttackAbilityMg => attackAbilityMg;
+    [SerializeField] private OffenceStatManager offenceStatMg;
+    public OffenceStatManager OffenceStatMg => offenceStatMg;
 
     [Header("States")]
-    [SerializeField] private StateBase stateSearch;
     [SerializeField] private StateBase stateBasicAttack;
 
-    public StateBase StateSearch => stateSearch;
     public StateBase StateBasicAttack => stateBasicAttack;
 
     private void Awake()
@@ -21,13 +21,13 @@ public class AttackAbilityMod : MonoBehaviour
         {
             Debug.LogError(transform.root.name + "forget to add attackAbilityMg in AttackAbilityMod");
         }
-        if (stateSearch == null)
-        {
-            Debug.LogError(transform.root.name + "forget to add stateSearch in AttackAbilityMod");
-        }
         if (stateBasicAttack == null)
         {
             Debug.LogError(transform.root.name + "forget to add stateBasicAttack in AttackAbilityMod");
+        }
+        if(offenceStatMg == null)
+        {
+            Debug.LogError(transform.root.name + "forget to add offenceStatMg in AttackAbilityMod");
         }
     }
 }

@@ -15,27 +15,20 @@ public class RandomMoveManager : MonoBehaviour
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
-        }
-       
+
         if (randomMoveChanceStructs.Length == 0)
-        {
             Debug.LogError($"{stateMachine?.name}'s RandomMoveManager: randomMoveChanceStructs not set!");
-        }
-    }
-    private void Start()
-    {
+
         if (startState != null)
         {
             startState.OnEnterState += StartState_OnEnterState;
             startState.OnExitState += StartState_OnExitState;
         }
         else
-        {
             Debug.LogError($"{stateMachine?.name}'s RandomMoveManager: startState not set!");
-        }
     }
+
     private void Update()
     {
         if(startCountDown)

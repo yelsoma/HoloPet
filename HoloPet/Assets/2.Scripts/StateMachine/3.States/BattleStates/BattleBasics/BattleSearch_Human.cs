@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,64 +10,149 @@ public class BattleSearch_Human : StateBase
     private AttackAbilityMod attackAbilityMod;
     private ItemHolderMod itemHolderMod;
     private BattleMod battleMod;
-    [SerializeField] private float searchDistance;
     [SerializeField] private float moveSpeedMultiply;
-    [SerializeField] LayerMask targetLayerMask;
+
+    private ObjectGangEnum targetGang;
+    private AttackableManager targetAttackable;
     private bool isHolding;
     private float atkDistance;
     private bool targetSet;
+
     #region AutoSetRef
     private void Awake()
     {
+        // StateMachine ---------------------------------------------------------
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
+            return;
         }
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
-            Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
+        // IBasicMod ------------------------------------------------------------
+        if (stateMachine.TryGetComponent<IBasicMod>(out var iBasicMod))
+            basicMod = iBasicMod.BasicMod;
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            Debug.LogError($"{transform.root.name} ¡X no IBasicMod found on StateMachine.");
 
-        IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
-        if(iAttackAbilityMod == null)
-        {
-            Debug.LogError($"{transform.root.name} ¡X no attackAbilityMod found in parent.");
-        }
-        else
-        {
+        // IAttackAbilityMod ----------------------------------------------------
+        if (stateMachine.TryGetComponent<IAttackAbilityMod>(out var iAttackAbilityMod))
             attackAbilityMod = iAttackAbilityMod.AttackAbilityMod;
-        }
-
-        IItemHolderMod iItemHolderMod = GetComponentInParent<IItemHolderMod>();
-        if (iItemHolderMod == null)
-        {
-            Debug.LogError($"{transform.root.name} ¡X no itemHolderSM found in parent.");
-        }
         else
+            Debug.LogError($"{transform.root.name} ¡X no IAttackAbilityMod found on StateMachine.");
+
+        // IItemHolderMod -------------------------------------------------------
+        if (stateMachine.TryGetComponent<IItemHolderMod>(out var iItemHolderMod))
         {
             itemHolderMod = iItemHolderMod.ItemHolderMod;
-        }
-
-        IBattleMod iBattleMod = GetComponentInParent<IBattleMod>();
-        if (iBattleMod == null)
-        {
-            Debug.LogError($"{transform.root.name} ¡X no battleMod found in parent.");
+            itemHolderMod.ItemHolderMg.OnChangeHold += ItemHolderMg_OnChangeHold;
         }
         else
         {
+            Debug.LogError($"{transform.root.name} ¡X no IItemHolderMod found on StateMachine.");
+        }
+
+        // IBattleMod -----------------------------------------------------------
+        if (stateMachine.TryGetComponent<IBattleMod>(out var iBattleMod))
             battleMod = iBattleMod.BattleMod;
+        else
+            Debug.LogError($"{transform.root.name} ¡X no IBattleMod found on StateMachine.");
+    }
+    #endregion
+
+
+    #region StateBase
+    public override void Enter()
+    {
+        // Set attack distance depending on holding item ------------------------
+        if (itemHolderMod.ItemHolderMg.GetIsHolding())
+        {
+            atkDistance = itemHolderMod.ItemHolderMg.GetItem().GetAttackDistance();
+            isHolding = true;
+        }
+        else
+        {
+            atkDistance = attackAbilityMod.OffenceStatMg.GetBaseAtkDistance();
+            isHolding = false;
+        }
+
+        targetSet = false;
+        basicMod.BoundaryMg.SetToBotBoundary();
+        if(basicMod.ObjectDefinition.ObjectGangEnum == ObjectGangEnum.Enemy)
+        {
+            targetGang = ObjectGangEnum.Player;
+        }
+        else
+        {
+            targetGang = ObjectGangEnum.Enemy;
+        }
+    }
+
+    public override void StateUpdate()
+    {
+        if (!targetSet)
+        {
+            targetAttackable = attackAbilityMod.AttackAbilityMg.TryGetTargetHorizantal(targetGang);
+            if (targetAttackable != null)
+            {
+                targetSet = true;
+                TriggerAni1();// start Search
+            }          
+            return;
+        }     
+        if(targetAttackable == null || targetAttackable.GetIsAttackable() == false)
+        {
+            targetSet = false;
+            return;
+        }
+        bool targetIsRight = targetAttackable.GetStateMachine().transform.position.x >= stateMachine.transform.position.x;
+        if (targetIsRight)
+        {
+            basicMod.FaceDirectionMg.SetFaceRight();
+            if (attackAbilityMod.AttackAbilityMg.TryGetAttackableFront(targetGang, atkDistance, Vector2.right))
+            {
+                ChangeToAttack();
+                return;
+            }
+            basicMod.PhysicsMg.MoveRightMultiply(moveSpeedMultiply);
+        }
+        else
+        {
+            basicMod.FaceDirectionMg.SetFaceLeft();
+
+            if (attackAbilityMod.AttackAbilityMg.TryGetAttackableFront(targetGang, atkDistance, Vector2.left))
+            {
+                ChangeToAttack();
+                return;
+            }
+
+            basicMod.PhysicsMg.MoveLeftMultiply(moveSpeedMultiply);
+        }
+    }
+
+    public override void Exit()
+    {
+    }
+    #endregion
+
+
+    #region Helpers
+    public void ChangeToAttack()
+    {
+        if (isHolding)
+        {
+            stateMachine.ChangeState(battleMod.BattleItemAttack);
+        }
+        else
+        {
+            stateMachine.ChangeState(battleMod.BattleBasicAttack);
         }
     }
     #endregion
-    #region StateBase
-    public override void Enter()
+
+
+    #region Event
+    private void ItemHolderMg_OnChangeHold(object sender, EventArgs e)
     {
         if (itemHolderMod.ItemHolderMg.GetIsHolding())
         {
@@ -75,68 +161,9 @@ public class BattleSearch_Human : StateBase
         }
         else
         {
-            atkDistance = 0.5f;
+            atkDistance = attackAbilityMod.OffenceStatMg.GetBaseAtkDistance();
             isHolding = false;
         }
-        targetSet = false;
-        basicMod.BoundaryMg.SetToBotBoundary();
-    }
-    public override void StateUpdate()
-    {
-        if (targetSet == false)
-        {
-            if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackableHorizontal(searchDistance, targetLayerMask))
-            {
-                Debug.Log("shit");
-                targetSet = true;
-                return;
-            }
-            return;
-        }
-        if (!attackAbilityMod.AttackAbilityMg.GetIsTargetAttackableSet()|| !attackAbilityMod.AttackAbilityMg.GetTarget().GetIsAttackable())
-        {
-            Debug.Log("hi");
-            targetSet = false;
-            return;
-        }
-        if (attackAbilityMod.AttackAbilityMg.GetIsTargetRight())
-        {
-            basicMod.FaceDirectionMg.SetFaceRight();           
-            if (basicMod.RaycastMg.GetFirstHit(stateMachine.transform.position, Vector2.right, atkDistance, targetLayerMask))
-            {
-                ChangeToAttack();
-            }
-            basicMod.PhysicsMg.MoveRightMultiply(moveSpeedMultiply);
-        }
-        else
-        {
-            basicMod.FaceDirectionMg.SetFaceLeft();         
-            if (basicMod.RaycastMg.GetFirstHit(stateMachine.transform.position, Vector2.left, atkDistance, targetLayerMask))
-            {
-                ChangeToAttack();
-            }
-            basicMod.PhysicsMg.MoveLeftMultiply(moveSpeedMultiply);
-        }
-    }
-    public override void StateLateUpdate()
-    {
-    }
-    public override void Exit()
-    {
     }
     #endregion
-    //pack metheod
-    public void ChangeToAttack()
-    {
-        if (isHolding)
-        {
-            stateMachine.ChangeState(battleMod.BattleItemAttack);
-            return;
-        }
-        else
-        {
-            stateMachine.ChangeState(battleMod.BattleBasicAttack);
-            return;
-        }
-    }
 }

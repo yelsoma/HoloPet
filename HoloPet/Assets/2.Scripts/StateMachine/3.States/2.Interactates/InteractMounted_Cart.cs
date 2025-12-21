@@ -9,7 +9,8 @@ public class InteractMounted_Cart : StateBase
     private InteractableMod interactableMod;
     private InteractableManager myInteractableMg;
     private MountableMod mountableMod;
-    private IDriveSM driveSM;
+    private DriveMod driveMod;
+    [SerializeField] ObjectDefinition botanDef;
 
     private float fallSpeedIncreese = 6.5f;
     private float fallSpeedMax = 9f;
@@ -53,10 +54,14 @@ public class InteractMounted_Cart : StateBase
             mountableMod = imountableMod.MountableMod;
         }
 
-        driveSM = GetComponentInParent<IDriveSM>();
-        if (driveSM == null)
+        IDriveMod iDriveSM = GetComponentInParent<IDriveMod>();
+        if (iDriveSM == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no driveSM   found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
+        }
+        else
+        {
+            driveMod = iDriveSM.DriveMod;
         }
     }
     #endregion
@@ -80,9 +85,9 @@ public class InteractMounted_Cart : StateBase
             if (basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
             {
                 //check is it batan
-                if (interacterBasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+                if (interacterBasicMod.ObjectDefinition == botanDef)
                 {
-                    stateMachine.ChangeState(driveSM.StateDrive);
+                    stateMachine.ChangeState(driveMod.StateDrive);
                     return;
                 }
             }

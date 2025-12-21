@@ -22,19 +22,19 @@ public class BasicMod : MonoBehaviour
     public StateBase StateDestroy => stateDestroy;
 
     [Header("Managers")]
+    [SerializeField] private ObjectDefinition objectDefinition;
     [SerializeField] private BoundaryManager boundaryMg;
     [SerializeField] private FaceDirectionManager faceDirectionMg;
     [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
-    [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
 
+    public ObjectDefinition ObjectDefinition => objectDefinition;
     public BoundaryManager BoundaryMg => boundaryMg;
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
     public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
-    public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
 
@@ -69,6 +69,10 @@ public class BasicMod : MonoBehaviour
             Debug.LogError(transform.root.name + "forget to add   stateDestroy in BasicMod ");
         }
 
+        if (objectDefinition == null)
+        {
+            Debug.LogError(transform.root.name + "forget to add  objectDefinition in BasicMod ");
+        }
         if (boundaryMg == null)
         {
             Debug.LogError(transform.root.name + "forget to add  boundaryMg in BasicMod ");
@@ -84,18 +88,14 @@ public class BasicMod : MonoBehaviour
         if (raycastMg == null)
         {
             Debug.LogError(transform.root.name + "forget to add  raycastMg in BasicMod ");
-        }
-        if (baseDataMg == null)
-        {
-            Debug.LogError(transform.root.name + "forget to add  baseDataMg in BasicMod ");
-        }        
+        }                
         if (clickableMg == null)
         {
             Debug.LogError(transform.root.name + "forget to add  clickableMg in BasicMod ");
         }
-        if (layerMg == null)
+        if (LayerMg == null)
         {
-            Debug.LogError(transform.root.name + "forget to add  layerMg in BasicMod ");
+            Debug.LogError(transform.root.name + "forget to add  layerMg in BasicMod or Its not a ILayerMg ");
         }
     }
 }

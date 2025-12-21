@@ -12,7 +12,12 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
 
     private void Awake()
     {
-        stateMachineTransform = GetComponentInParent<StateMachineBase>().transform;
+        StateMachineBase stateMachineBase = GetComponentInParent<StateMachineBase>();
+        if (stateMachineBase == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
+        }
+        stateMachineTransform = stateMachineBase.transform;
         IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
         if (ibasicMod == null)
         {
@@ -24,21 +29,17 @@ public class BasicLayerManager : MonoBehaviour ,ILayerManager
         }
         basicMod.StateClicked.OnEnterState += StateClicked_OnEnterState;
         basicMod.StateGrabbed.OnEnterState += StateGrabbed_OnEnterState;
-        basicMod.StateSpawn.OnEnterState += StateSpawn_OnEnterState;
         basicMod.StateDestroy.OnEnterState += StateDeSpawn_OnEnterState;
         if(mainLayer == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no BasicLayerSet In LayerManager");
         }
+        SpriteLayerCenter.AddNewLayers(stateMachineTransform);
     }
 
     private void StateDeSpawn_OnEnterState(object sender, System.EventArgs e)
     {
         SpriteLayerCenter.RemoveLayers(stateMachineTransform);
-    }
-    private void StateSpawn_OnEnterState(object sender, System.EventArgs e)
-    {
-        SpriteLayerCenter.AddNewLayers(stateMachineTransform);
     }
 
     private void StateGrabbed_OnEnterState(object sender, System.EventArgs e)

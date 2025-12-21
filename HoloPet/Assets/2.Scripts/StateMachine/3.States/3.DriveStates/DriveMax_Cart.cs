@@ -9,7 +9,7 @@ public class DriveMax_Cart : StateBase
     private BasicMod basicMod;
     private MountableMod mountableMod;
     private AttackAbilityMod attackAbilityMod;
-    private IDriveSM driveSM;
+    private DriveMod driveMod;
     [SerializeField] private float speedMax;
     [SerializeField] private float speedPlus;
     private float speedNow;
@@ -49,10 +49,14 @@ public class DriveMax_Cart : StateBase
             mountableMod = imountableMod.MountableMod;
         }
 
-        driveSM = GetComponentInParent<IDriveSM>();
-        if (driveSM == null)
+        IDriveMod iDriveSM = GetComponentInParent<IDriveMod>();
+        if (iDriveSM == null)
         {
             Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
+        }
+        else
+        {
+            driveMod = iDriveSM.DriveMod;
         }
 
         IAttackAbilityMod iAttackAbilityMod = GetComponentInParent<IAttackAbilityMod>();
@@ -104,8 +108,8 @@ public class DriveMax_Cart : StateBase
             }
             else
             {
-                SetHitAttackableKnockBack(hitDirection);
-                SetAttackablePanic(hitDirection);
+                //SetHitAttackableKnockBack(hitDirection);
+                //SetAttackablePanic(hitDirection);
                 speedNow = speedMax;
             }
         }
@@ -147,24 +151,24 @@ public class DriveMax_Cart : StateBase
             isKnockRight = false;
         }
 
-        if (attackAbilityMod.AttackAbilityMg.TrySetAttackableAll(hitDirection, HitDistance))
-        {
-            CartFxTest.HitExplode();
-            if (attackAbilityMod.AttackAbilityMg.GetTarget().GetIsKnockable())
-            {
-                attackAbilityMod.AttackAbilityMg.GetTarget().SetAttackKnockBack(knockBackPower,isKnockRight);
-            }            
-        }        
-    }
-    private void SetAttackablePanic(Vector2 hitDirection)
-    {
-        //if (attackAbilitySM.AttackAbilityMg.TrySetClosestAttackable(stateMachine.transform.position, hitDirection, panicDistance))
+        //if (attackAbilityMod.AttackAbilityMg.TrySetAttackableAll(hitDirection, HitDistance))
         //{
         //    CartFxTest.HitExplode();
-        //    attackAbilitySM.AttackAbilityMg.GetTarget().SetAttacker(attackAbilitySM.AttackAbilityMg);
-        //    attackAbilitySM.AttackAbilityMg.GetTarget().AttackPanic();
-        //}
+        //    if (attackAbilityMod.AttackAbilityMg.GetTarget().GetIsKnockable())
+        //    {
+        //        attackAbilityMod.AttackAbilityMg.GetTarget().SetAttackKnockBack(knockBackPower,isKnockRight);
+        //    }            
+        //}        
     }
+    //private void SetAttackablePanic(Vector2 hitDirection)
+    //{
+    //    if (attackAbilityMod.AttackAbilityMg.TrySetClosestAttackable(stateMachine.transform.position, hitDirection, panicDistance))
+    //    {
+    //        CartFxTest.HitExplode();
+    //        attackAbilityMod.AttackAbilityMg.GetTarget().SetAttacker(attackAbilityMod.AttackAbilityMg);
+    //        attackAbilityMod.AttackAbilityMg.GetTarget().AttackPanic();
+    //    }
+    //}
 
     private void MountableMg_OnChangeMounted(object sender, EventArgs e)
     {

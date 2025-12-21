@@ -13,43 +13,38 @@ public class Mounting_Nor : StateBase
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
-        }
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
+        IBasicMod iBasicMod = stateMachine.transform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
 
-        IMountingAbilityMod iMountingAbilityMod = GetComponentInParent<IMountingAbilityMod>();
+        IMountingAbilityMod iMountingAbilityMod = stateMachine.transform.GetComponent<IMountingAbilityMod>();
         if (iMountingAbilityMod == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no imountingAbilityMod found in parent.");
-        }
         else
-        {
             mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
-        }
     }
+
     #endregion
 
     #region StateBase
     public override void Enter()
     {
         mountingAbilityMod.MountingAbilityMg.EnterMount();
+        mountingAbilityMod.MountingAbilityMg.GetMount().OnEnterUnMountableState += Mounting_Nor_OnEnterUnMountableState;
     }
+
+    private void Mounting_Nor_OnEnterUnMountableState(object sender, System.EventArgs e)
+    {
+        stateMachine.ChangeState(basicMod.StateClicked);
+        return;
+    }
+
     public override void StateUpdate()
-    {    
-        if(mountingAbilityMod.MountingAbilityMg.GetMount().GetIsMountableState() == false)
-        {
-            stateMachine.ChangeState(basicMod.StateClicked);
-        }
+    {
     }
     public override void StateLateUpdate()
     {
@@ -57,6 +52,7 @@ public class Mounting_Nor : StateBase
     public override void Exit()
     {
         mountingAbilityMod.MountingAbilityMg.ExitMount();
+        mountingAbilityMod.MountingAbilityMg.GetMount().OnEnterUnMountableState -= Mounting_Nor_OnEnterUnMountableState;
     }
     #endregion
 }

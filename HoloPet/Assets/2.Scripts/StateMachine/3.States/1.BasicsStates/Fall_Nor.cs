@@ -39,7 +39,7 @@ public class Fall_Nor : StateBase
     }
 
     public override void StateLateUpdate()
-    {
+    {     
     }
 
     public override void Exit()

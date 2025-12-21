@@ -7,17 +7,16 @@ public class PrefebSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject PressF;
     [SerializeField] private GameObject PressB;
-    [SerializeField] private GameObject PressC;
+    [SerializeField] private AFKManager PressC;
     [SerializeField] private GameObject PressA;
     [SerializeField] private GameObject PressM;
     [SerializeField] private GameObject PressW;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Object PortalPrefab;
-    private List<GameObject> slimeList = new List<GameObject>();
     [SerializeField] private TextMeshProUGUI slimeCountText;
-    private List<GameObject> botanList = new List<GameObject>();
     [SerializeField] private TextMeshProUGUI botanCountText;
     [SerializeField] private GameObject PressI;
+    [SerializeField] private GameObject PressI2;
 
     void Update()
     {
@@ -29,6 +28,14 @@ public class PrefebSpawn : MonoBehaviour
                 battleMg.SetIsInBattle(true);
             }
         }
+        if (PressI2 != null)
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                BattleMod battleMg = PressI2.GetComponentInChildren<BattleMod>();
+                battleMg.SetIsInBattle(true);
+            }
+        }
 
         if (PressF != null)
         {
@@ -36,8 +43,6 @@ public class PrefebSpawn : MonoBehaviour
             {
                 Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
                 GameObject newObj = Instantiate(PressF, new Vector3(mousePos.x, mousePos.y, 0), Quaternion.identity);
-                slimeList.Add(newObj);
-                slimeCountText.text = "Slime Now: " + slimeList.Count;
             }
         }
 
@@ -47,16 +52,13 @@ public class PrefebSpawn : MonoBehaviour
             {
                 Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
                 GameObject newObj = Instantiate(PressB, new Vector3(mousePos.x, mousePos.y, 0), Quaternion.identity);
-                botanList.Add(newObj);
-                botanCountText.text = "Player Now: " + botanList.Count;
             }
         }
         if (PressC != null)
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-                Instantiate(PressC, new Vector3(mousePos.x, mousePos.y, 0), Quaternion.identity);
+                PressC.AddCoin(PressC.GetAfkCoinGain()* 600);
             }
         }
         if (PressA != null)

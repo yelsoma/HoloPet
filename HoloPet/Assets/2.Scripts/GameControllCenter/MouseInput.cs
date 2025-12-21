@@ -93,7 +93,13 @@ public class MouseInput : MonoBehaviour
                 if (clickable != null && clickable.GetIsClickable())
                 {
                     // Get ILayerManager in children and compare layers
-                    ILayerManager layerManager = collider2D.transform.GetComponentInParent<IBasicMod>().BasicMod.LayerMg;
+                    IBasicMod iBasicMod = collider2D.GetComponentInParent<IBasicMod>();
+                    ILayerManager layerManager = iBasicMod.BasicMod.LayerMg;
+                    if (iBasicMod.BasicMod.ObjectDefinition.ObjectCategory == ObjectCategoryEnum.Home)
+                    {
+                        selectedClickable = clickable;
+                        return;
+                    }
                     if (layerManager != null && layerManager.GetObjectMainLayer() >= layerNow)
                     {
                         layerNow = layerManager.GetObjectMainLayer();

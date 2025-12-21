@@ -7,8 +7,9 @@ public class Idle_Cart : StateBase
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private MountableMod mountableMod;
-    private IDriveSM driveSM;
+    private DriveMod driveMod;
     private InteractableMod interactableMod;
+    [SerializeField] private ObjectDefinition botanDef;
 
     private void Awake()
     {
@@ -39,10 +40,14 @@ public class Idle_Cart : StateBase
             mountableMod = imountableMod.MountableMod;
         }
 
-        driveSM = GetComponentInParent<IDriveSM>();
-        if (driveSM == null)
+        IDriveMod iDriveSM = GetComponentInParent<IDriveMod>();
+        if (iDriveSM == null)
         {
-            Debug.LogError($"{transform.root.name} ¡X no IDriveSM found in parent.");
+            Debug.LogError($"{transform.root.name} ¡X no cartSM found in parent.");
+        }
+        else
+        {
+            driveMod = iDriveSM.DriveMod;
         }
 
         IInteractableMod iInteractableMod = GetComponentInParent<IInteractableMod>();
@@ -59,14 +64,18 @@ public class Idle_Cart : StateBase
     public override void Enter()
     {
         mountableMod.MountableMg.OnChangeMounted += MountableMg_OnChangeMounted;
+        if (!basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        {
+            stateMachine.ChangeState(basicMod.StateInAir);
+        }
         if (mountableMod.MountableMg.GetIsMounted())
         {
             interactableMod.InteractableMg.SetIsInteractable(false);
             if (mountableMod.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicMod>(out IBasicMod ibasicSM))
             {
-                if (ibasicSM.BasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+                if (ibasicSM.BasicMod.ObjectDefinition == botanDef )
                 {
-                    stateMachine.ChangeState(driveSM.StateDrive);
+                    stateMachine.ChangeState(driveMod.StateDrive);
                     return;
                 }
             }
@@ -98,9 +107,9 @@ public class Idle_Cart : StateBase
             interactableMod.InteractableMg.SetIsInteractable(false);
             if (mountableMod.MountableMg.GetMounterMountAbilityMg().GetStateMachineTransform().TryGetComponent<IBasicMod>(out IBasicMod ibasicSM))
             {
-                if (ibasicSM.BasicMod.BaseDataMg.GetObjectName() == ObjectNameEnum.Botan)
+                if (ibasicSM.BasicMod.ObjectDefinition == botanDef)
                 {
-                    stateMachine.ChangeState(driveSM.StateDrive);
+                    stateMachine.ChangeState(driveMod.StateDrive);
                     return;
                 }
             }

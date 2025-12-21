@@ -7,7 +7,7 @@ public class CartAniMg : MonoBehaviour
     [SerializeField] private Animator animator;
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private IDriveSM driveSM;
+    private DriveMod driveMod;
     private AttackableMod attackableMod;
     private MountableMod mountableMod;
     private void Awake()
@@ -16,11 +16,11 @@ public class CartAniMg : MonoBehaviour
         basicMod.StateIdle.OnEnterState += Idle_OnEnterState;
         basicMod.StateGrabbed.OnEnterState += Grabbed_OnEnterState;
         basicMod.StateInAir.OnEnterState += StateInAir_OnEnterState;
-        driveSM = GetComponent<IDriveSM>();
-        driveSM.StateClickedNor.OnEnterState += ClickedNor_OnEnterState;
-        driveSM.StateDirveJump.OnEnterState += DirveJump_OnEnterState;
-        driveSM.StateDirveMax.OnEnterState += DirveMax_OnEnterState;
-        driveSM.StateDrive.OnEnterState += Drive_OnEnterState;
+        driveMod = GetComponent<IDriveMod>().DriveMod;
+        driveMod.StateClickedNor.OnEnterState += ClickedNor_OnEnterState;
+        driveMod.StateDirveJump.OnEnterState += DirveJump_OnEnterState;
+        driveMod.StateDirveMax.OnEnterState += DirveMax_OnEnterState;
+        driveMod.StateDrive.OnEnterState += Drive_OnEnterState;
         attackableMod = GetComponent<IAttackableMod>().AttackableMod;
         attackableMod.StateKnockBack.OnEnterState += StateKnockBack_OnEnterState;
         attackableMod.StateHpZero.OnEnterState += StateHpZero_OnEnterState;
@@ -65,7 +65,7 @@ public class CartAniMg : MonoBehaviour
     private void MountableMg_OnChangeMounted(object sender, System.EventArgs e)
     {
         bool isMounted = mountableMod.MountableMg.GetIsMounted();
-        if (stateMachine.GetStateNow() == driveSM.StateDrive)
+        if (stateMachine.GetStateNow() == driveMod.StateDrive)
         {
             if (isMounted)
             {
@@ -78,7 +78,7 @@ public class CartAniMg : MonoBehaviour
                 return;
             }
         }
-        if (stateMachine.GetStateNow() == driveSM.StateDirveMax)
+        if (stateMachine.GetStateNow() == driveMod.StateDirveMax)
         {
             if (isMounted)
             {

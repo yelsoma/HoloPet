@@ -8,66 +8,51 @@ public class Released_HoloMem : StateBase
     private BasicMod basicMod;
     private MountingAbilityMod mountingAbilityMod;
     private InteractAbilityMod interactAbilityMod;
-    private HoloMemFXMod holoMemFXMod;
-    [SerializeField] private float checkDistanceDown;
+    private FXMod fXMod;
+    [SerializeField] private float checkDistanceUp;
+    private ObjectGangEnum excludeGang;
 
     private void Awake()
     {
         stateMachine = GetComponentInParent<StateMachineBase>();
         if (stateMachine == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
-        }
 
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
-        {
+        IBasicMod iBasicMod = stateMachine.transform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
 
-        IMountingAbilityMod iMountingAbilityMod = GetComponentInParent<IMountingAbilityMod>();
+        IMountingAbilityMod iMountingAbilityMod = stateMachine.transform.GetComponent<IMountingAbilityMod>();
         if (iMountingAbilityMod == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no imountingAbilityMod found in parent.");
-        }
         else
-        {
             mountingAbilityMod = iMountingAbilityMod.MountingAbilityMod;
-        }
 
-        IInteractAbilityMod iInteractAbilityMod = GetComponentInParent<IInteractAbilityMod>();
+        IInteractAbilityMod iInteractAbilityMod = stateMachine.transform.GetComponent<IInteractAbilityMod>();
         if (iInteractAbilityMod == null)
-        {
             Debug.LogError($"{transform.root.name} ¡X no iInteractAbilityMod found in parent.");
-        }
         else
-        {
             interactAbilityMod = iInteractAbilityMod.InteractAbilityMod;
-        }
 
-        IHoloMemFXMod iHoloMemFXMod = GetComponentInParent<IHoloMemFXMod>();
-        if (iHoloMemFXMod == null)
-        {
+        IFXMod iFXMod = stateMachine.transform.GetComponent<IFXMod>();
+        if (iFXMod == null)
             Debug.LogError($"{transform.root.name} ¡X no holoMemFXMod found in parent.");
-        }
         else
-        {
-            holoMemFXMod = iHoloMemFXMod.HoloMemFXMod;
-        }
-
-
+            fXMod = iFXMod.FXMod;
     }
 
     public override void Enter()
     {
-    }
-
-    public override void StateUpdate()
-    {
+        if (basicMod.ObjectDefinition.ObjectGangEnum == ObjectGangEnum.Enemy)
+        {
+            excludeGang = ObjectGangEnum.Player;
+        }
+        else
+        {
+            excludeGang = ObjectGangEnum.Enemy;
+        }
         //raycast down
         if (interactAbilityMod.InteractAbilityMg.GetIsTargetLocked())
         {
@@ -77,7 +62,7 @@ public class Released_HoloMem : StateBase
             {
                 if (targetInteractMg.GetIsInteractable())
                 {
-                    holoMemFXMod.HoloMemFX.StartHeartPartical();
+                    fXMod.HeartFX.StartHeartPartical();
                     myInteractMg.SetTargetLocked(false);
                     targetInteractMg.SetInteracter(myInteractMg);
                     targetInteractMg.GoToChoosenInteracedState();
@@ -86,10 +71,10 @@ public class Released_HoloMem : StateBase
                         stateMachine.ChangeState(myInteractMg.GetBothInteractOption().GetInteracterOption().GetOptionState);
                     }
                     return;
-                }               
+                }
             }
         }
-        if (mountingAbilityMod.MountingAbilityMg.TrySetMountWithRaycast(Vector2.down, checkDistanceDown))
+        if (mountingAbilityMod.MountingAbilityMg.TrySetMountWithRaycast(Vector2.up, checkDistanceUp, excludeGang))
         {
             stateMachine.ChangeState(mountingAbilityMod.StateMounting);
             return;
@@ -102,6 +87,10 @@ public class Released_HoloMem : StateBase
         {
             stateMachine.ChangeState(basicMod.StateInAir);
         }
+    }
+
+    public override void StateUpdate()
+    {       
     }
 
     public override void StateLateUpdate()

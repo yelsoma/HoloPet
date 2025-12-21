@@ -9,6 +9,8 @@ public class AttackableMod : MonoBehaviour
     public AttackableManager AttackableMg => attackableMg;
     [SerializeField] private DefenceStatManager defenceStatMg;
     public DefenceStatManager DefenceStatMg => defenceStatMg;
+    [SerializeField] private HealthBarManager heathBarMg;
+    public HealthBarManager HeathBarMg => heathBarMg;
 
     [Header("States")]
     [SerializeField] private StateBase stateHpZero;
@@ -33,6 +35,10 @@ public class AttackableMod : MonoBehaviour
         if (defenceStatMg == null)
         {
             Debug.LogError(transform.root.name + "forget to add defenceStatMg in AttackableMod");
+        }
+        if (heathBarMg == null)
+        {
+            Debug.LogError(transform.root.name + "forget to add heathBarMg in AttackableMod");
         }
     }
 }

@@ -12,11 +12,17 @@ public class MountableManager : MonoBehaviour
     [SerializeField] StateBase[] unMountableStates;
     private Transform stateMachineTransform;
     public event EventHandler OnChangeMounted;
+    public event EventHandler OnEnterUnMountableState;
 
     private void Awake()
     {
-        stateMachineTransform = transform.root;
-        if(unMountableStates.Length > 0)
+        StateMachineBase stateMachineBase = GetComponentInParent<StateMachineBase>();
+        if (stateMachineBase == null)
+        {
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
+        }
+        stateMachineTransform = stateMachineBase.transform;
+        if (unMountableStates.Length > 0)
         {
             foreach (StateBase unmountableState in unMountableStates)
             {
@@ -37,6 +43,7 @@ public class MountableManager : MonoBehaviour
     private void UnmountableState_OnEnterState(object sender, System.EventArgs e)
     {
         isMountableState = false;
+        OnEnterUnMountableState?.Invoke(this, EventArgs.Empty);
     }
 
     private void UnmountableState_OnExitState(object sender, System.EventArgs e)
@@ -80,6 +87,10 @@ public class MountableManager : MonoBehaviour
     public void SetIsMountableState(bool isMountableState)
     {
         this.isMountableState = isMountableState;
+        if (!isMountableState)
+        {
+            OnEnterUnMountableState?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public Transform GetMountPointTansform()

@@ -9,10 +9,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Enemy
+  - StateMachine
   - Water
   - UI
-  - Player
+  - 
   - 
   - 
   - 
@@ -44,4 +44,7 @@ TagManager:
     locked: 0
   - name: TextUI
     uniqueID: 1713014639
+    locked: 0
+  - name: Home
+    uniqueID: 3109886629
     locked: 0

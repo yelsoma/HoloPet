@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b81f2930b21a8488ad4592c3e3e789, type: 3}
+  m_Name: Spear_Temp
+  m_EditorClassIdentifier: 
+  ObjectID: SpearTemp001
+  ObjectName: SpearTemp
+  ObjectIcon: {fileID: -2313266835999037447, guid: 74249ecf6dcc7c14abaa9fc73c303b97, type: 3}
+  ObjectPrefab: {fileID: 6268876226620378724, guid: b03afcf1f37bde54199f9a07a1a5163c, type: 3}
+  ObjectCategory: 3
+  ObjectGangEnum: 2

@@ -34,9 +34,9 @@ public interface IAttackAbilityMod
 {
     public AttackAbilityMod AttackAbilityMod { get; }
 }
-public interface IHoloMemFXMod
+public interface IFXMod
 {
-    public HoloMemFXMod HoloMemFXMod { get; }
+    public FXMod FXMod { get; }
 }
 public interface IItemHolderMod
 {
@@ -49,4 +49,8 @@ public interface IItemMod
 public interface IBattleMod
 {
     public BattleMod BattleMod { get; }
+}
+public interface IDriveMod
+{
+    public DriveMod DriveMod { get; }
 }

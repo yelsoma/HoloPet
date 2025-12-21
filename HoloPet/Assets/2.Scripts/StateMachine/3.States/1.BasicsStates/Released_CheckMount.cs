@@ -7,7 +7,7 @@ public class Released_CheckMount : StateBase
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
     private MountingAbilityMod mountingAbilityMod;
-    [SerializeField] private float checkDistanceDown; 
+    [SerializeField] private float checkDistanceUp;
 
     private void Awake()
     {
@@ -39,13 +39,9 @@ public class Released_CheckMount : StateBase
     }
 
     public override void Enter()
-    {        
-    }
-
-    public override void StateUpdate()
     {
-        if (mountingAbilityMod.MountingAbilityMg.TrySetMountWithRaycast(Vector2.down, checkDistanceDown))
-        {     
+        if (mountingAbilityMod.MountingAbilityMg.TrySetMountWithRaycast(Vector2.up, checkDistanceUp))
+        {
             stateMachine.ChangeState(mountingAbilityMod.StateMounting);
             return;
         }
@@ -56,7 +52,11 @@ public class Released_CheckMount : StateBase
         else
         {
             stateMachine.ChangeState(basicMod.StateInAir);
-        }
+        }       
+    }
+
+    public override void StateUpdate()
+    {     
     }
 
     public override void StateLateUpdate()

@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Melee_Sword
+  m_Controller: {fileID: 9100000, guid: 98344cfd3c52e534c96a32584cd9d778, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: a0402518c7a87d34396ee7da0e949404, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 47996bab7eb67874ba41ddcd037edbee, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c1a8e00bc255d834bbeb3e141f6d315f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d17aec84d50f71641a18d1f09fcabd11, type: 2}

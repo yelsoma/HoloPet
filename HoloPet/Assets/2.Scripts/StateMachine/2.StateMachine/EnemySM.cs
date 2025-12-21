@@ -11,7 +11,6 @@ public class EnemySM : StateMachineBase
     [SerializeField] private FaceDirectionManager faceDirectionMg;
     [SerializeField] private PhysicsManager physicsMg;
     [SerializeField] private RaycastManager raycastMg;
-    [SerializeField] private BaseDataManager baseDataMg;
     [SerializeField] private ClickableManager clickableMg;
     [SerializeField] private MonoBehaviour layerMg;
 
@@ -19,7 +18,6 @@ public class EnemySM : StateMachineBase
     public FaceDirectionManager FaceDirectionMg => faceDirectionMg;
     public PhysicsManager PhysicsMg => physicsMg;
     public RaycastManager RaycastMg => raycastMg;
-    public BaseDataManager BaseDataMg => baseDataMg;
     public ClickableManager ClickableMg => clickableMg;
     public ILayerManager LayerMg => layerMg as ILayerManager;
     #endregion

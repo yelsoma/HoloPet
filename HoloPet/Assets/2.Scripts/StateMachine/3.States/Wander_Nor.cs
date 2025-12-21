@@ -11,7 +11,6 @@ public class Wander_Nor : StateBase
     private bool wanderRight;
     private StateMachineBase stateMachine;
     private BasicMod basicMod;
-    private RandomMoveMod randomMoveMod;
 
     #region AutoSetRef
     private void Awake()
@@ -31,16 +30,6 @@ public class Wander_Nor : StateBase
         {
             basicMod = ibasicMod.BasicMod;
         }
-
-        IRandomMoveMod iRandomMoveMod = GetComponentInParent<IRandomMoveMod>();
-        if (iRandomMoveMod == null)
-        {
-            Debug.LogError($"{transform.root.name} ¡X no IRandomMoveMod found in parent.");
-        }
-        else
-        {
-            randomMoveMod = iRandomMoveMod.RandomMoveMod;
-        }
     }
     #endregion
 
@@ -58,6 +47,10 @@ public class Wander_Nor : StateBase
         {
             wanderRight = false;
             basicMod.FaceDirectionMg.SetFaceLeft();
+        }
+        if (!basicMod.BoundaryMg.CheckIsBotBounderyAndResetPos())
+        {
+            stateMachine.ChangeState(basicMod.StateInAir);
         }
     }
 

@@ -13,16 +13,19 @@ public class MountingAbilityManager : MonoBehaviour
 
     private void Awake()
     {
-        stateMachineTransform = GetComponentInParent<StateMachineBase>().transform;
-        IBasicMod ibasicMod = GetComponentInParent<IBasicMod>();
-        if (ibasicMod == null)
+        StateMachineBase stateMachineBase = GetComponentInParent<StateMachineBase>();
+        if (stateMachineBase == null)
         {
+            Debug.LogError($"{transform.root.name} ¡X no StateMachineBase found in parent.");
+        }
+        stateMachineTransform = stateMachineBase.transform;
+
+        IBasicMod iBasicMod = stateMachineTransform.GetComponent<IBasicMod>();
+        if (iBasicMod == null)
             Debug.LogError($"{transform.root.name} ¡X no basicSM found in parent.");
-        }
         else
-        {
-            basicMod = ibasicMod.BasicMod;
-        }
+            basicMod = iBasicMod.BasicMod;
+
         raycastManager = basicMod.RaycastMg;
     }
 
@@ -78,10 +81,47 @@ public class MountingAbilityManager : MonoBehaviour
 
         return false;
     }
+    public bool TrySetMountWithRaycast( Vector2 direction,float distance, ObjectGangEnum excludeGang)
+    {
+        RaycastHit2D[] hits = raycastManager.GetAllHits(direction, distance);
+        if (hits.Length == 0)
+            return false;
+
+        IMountableMod closestMountable = null;
+        float closestDistance = float.MaxValue;
+        foreach (RaycastHit2D hit in hits)
+        {
+            Transform t = hit.transform;
+
+            if (t.TryGetComponent<IBasicMod>(out var ibasicMod) &&
+                ibasicMod.BasicMod.ObjectDefinition.ObjectGangEnum == excludeGang)
+                continue;
+
+            if (!t.TryGetComponent<IMountableMod>(out var iMountableMod))
+                continue;
+
+            if (!iMountableMod.MountableMod.MountableMg.GetIsMountable())
+                continue;
+
+            if (hit.distance < closestDistance)
+            {
+                closestDistance = hit.distance;
+                closestMountable = iMountableMod;
+            }
+        }
+
+        if (closestMountable != null)
+        {
+            myMount = closestMountable.MountableMod.MountableMg;
+            return true;
+        }
+
+        return false;
+    }
     public void EnterMount()
     {
         stateMachineTransform.SetParent(myMount.GetMountPointTansform());
-        if (transform.root.GetComponent<IBasicMod>().BasicMod.FaceDirectionMg.GetIsFaceRight())
+        if (myMount.GetComponentInParent<IBasicMod>().BasicMod.FaceDirectionMg.GetIsFaceRight())
         {
             stateMachineTransform.GetComponent<IBasicMod>().BasicMod.FaceDirectionMg.SetFaceRight();
         }

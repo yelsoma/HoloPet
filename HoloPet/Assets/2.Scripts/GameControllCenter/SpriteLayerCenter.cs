@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public struct SpriteLayerCenter 
+public static class SpriteLayerCenter 
 {
     private static List<SpriteLayer> spriteLayerList = new List<SpriteLayer>();
 
     public static void AddNewLayers(Transform selfTransform)
     {
-        spriteLayerList.AddRange(SpriteLayersInChildren(selfTransform));
+        SpriteLayer[] layers = SpriteLayersInChildren(selfTransform);
+
+        foreach (var layer in layers)
+        {
+            if (!spriteLayerList.Contains(layer))   // <¡X prevents duplicates
+                spriteLayerList.Add(layer);
+        }
+
         UpdateLayer();
     }
     public static void RemoveLayers(Transform selfTransform)
